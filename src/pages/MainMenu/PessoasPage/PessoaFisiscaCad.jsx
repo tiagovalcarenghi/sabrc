@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import CadastroPF from "../../../components/MainMenu/PessoasPage/CadastroPessoaFisica";
 import { initialValuesPF } from "../../../util/MainMenu/PessoasPage/constants";
 
-const PessoaFisiscaCad = () => {
+const PessoaJuridicaHome = () => {
   const [pessoaFisicaEmEdicao, setPessoaFisicaEmEdicao] =
     useState(initialValuesPF);
   const location = useLocation();
@@ -68,4 +68,4 @@ const PessoaFisiscaCad = () => {
   );
 };
 
-export default PessoaFisiscaCad;
+export default PessoaJuridicaHome;

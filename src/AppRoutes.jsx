@@ -5,11 +5,11 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import CadastroPF from "./components/MainMenu/PessoasPage/CadastroPessoaFisica";
 import { AuthProvider, AuthContext } from "./contexts/auth";
-import LoginPage from "./pages/LoginPage";
 import AppMenu from "./pages/AppNavBar/AppMenu";
-import PessoasPage from "./pages/MainMenu/Cadastros/PessoasPage";
-import PessoaFisiscaCad from "./pages/MainMenu/PessoasPage/PessoaFisiscaCad";
+import LoginPage from "./pages/LoginPage";
+import PessoasPage from "./pages/MainMenu/PessoasPage";
 
 const AppRoutes = () => {
   const Private = ({ children }) => {
@@ -54,7 +54,7 @@ const AppRoutes = () => {
             path="/cadastro/pessoas/pf"
             element={
               <Private>
-                <PessoaFisiscaCad />
+                <CadastroPF />
               </Private>
             }
           />

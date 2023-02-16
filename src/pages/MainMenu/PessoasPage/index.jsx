@@ -3,9 +3,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import CadastroPF from "../../../../../components/cadastro-pessoas/pessoa-fisica/CadastroPF";
-import CadastroPJ from "../../../../../components/cadastro-pessoas/pessoa-juridica/CadastroPJ";
 import PropTypes from "prop-types";
+import PessoaFisicaHome from "./PessoaFisicaHome";
+import PessoaJuridicaHome from "./PessoaFisiscaCad";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,7 +40,7 @@ function a11yProps(index) {
   };
 }
 
-function PessoasPage() {
+const PessoasPage = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -67,5 +67,5 @@ function PessoasPage() {
       </TabPanel>
     </Box>
   );
-}
+};
 export default PessoasPage;

@@ -14,8 +14,7 @@ import {
   cadSuccess,
   cadUserSuccess,
   erroValidateEmail,
-  passwordEqualError,
-} from "../../util/applicationresources";
+} from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import { initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
 
