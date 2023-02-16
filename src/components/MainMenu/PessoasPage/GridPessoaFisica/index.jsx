@@ -26,18 +26,13 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 
 const GridPessoaFisica = (props) => {
-  const {
-    pessoafisica_db,
-    deletePessoaFisica,
-    filter,
-    disableDelete,
-    disableEdit,
-  } = props;
+  const { pessoafisica_db, deletepf, filter, disableDelete, disableEdit } =
+    props;
 
   const [filterNomeCompleto, setFilterNomeCompleto] = useState("");
 
   const handleExcluir = (user) => {
-    deletePessoaFisica(user);
+    deletepf(user);
   };
 
   const validaExclusao = () => {
@@ -71,59 +66,65 @@ const GridPessoaFisica = (props) => {
         style={{ minHeight: "30vh", margin: "5px 0px 0px 0px" }}
       >
         <Grid item xs={11}>
-          <form>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                margin: "0px 0px 5px 0px",
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              margin: "0px 0px 5px 0px",
+            }}
+          >
+            <Button
+              color="info"
+              variant="outlined"
+              onClick={() => {
+                navigateToComponent(null);
               }}
+              startIcon={<AddBoxRoundedIcon />}
             >
-              <IconButton
-                color="info"
-                onClick={() => {
-                  navigateToComponent(null);
-                }}
-              >
-                <AddBoxRoundedIcon></AddBoxRoundedIcon>
-              </IconButton>
-            </Box>
+              NOVO
+            </Button>
+          </Box>
 
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                margin: "0px 0px 10px 0px",
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              margin: "0px 0px 10px 0px",
+            }}
+          >
+            <TextField
+              size="small"
+              label="Nome Completo"
+              type="text"
+              value={filterNomeCompleto}
+              required={false}
+              onChange={(e) => setFilterNomeCompleto(e.target.value)}
+            />
+
+            <Button
+              color="info"
+              variant="outlined"
+              onClick={() => {
+                handleFilter();
               }}
+              startIcon={<SearchIcon />}
             >
-              <TextField
-                size="small"
-                label="Nome Completo"
-                type="text"
-                value={filterNomeCompleto}
-                required={false}
-                onChange={(e) => setFilterNomeCompleto(e.target.value)}
-              />
+              PESQUISAR
+            </Button>
 
-              <IconButton
-                onClick={() => {
-                  handleFilter();
-                }}
-              >
-                <SearchIcon></SearchIcon>
-              </IconButton>
-
-              <IconButton
-                onClick={() => {
-                  handleFilter(1);
-                }}
-              >
-                <RefreshIcon></RefreshIcon>
-              </IconButton>
-            </Box>
-          </form>
+            <Button
+              color="warning"
+              variant="outlined"
+              onClick={() => {
+                handleFilter(1);
+              }}
+              startIcon={<RefreshIcon />}
+            >
+              LIMPAR
+            </Button>
+          </Box>
 
           <TableContainer>
             <Table size="small">
@@ -176,7 +177,7 @@ const GridPessoaFisica = (props) => {
                                 cancelButtonText: "Não",
                               }).then((result) => {
                                 if (result.isConfirmed) {
-                                  if (validaExclusao()) {
+                                  if (!validaExclusao()) {
                                     Swal.fire(atencao, excludeUserError);
                                   } else {
                                     Swal.fire(atencao, successExcludeUser);

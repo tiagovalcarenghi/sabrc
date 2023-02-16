@@ -6,6 +6,8 @@ import {
   Button,
   Grid,
   TextField,
+  Typography,
+  Paper,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,6 +19,11 @@ import {
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import { initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import SaveIcon from "@mui/icons-material/Save";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const CadastroPF = (props) => {
   const { pessoafisica, salvar, limpar } = props;
@@ -72,14 +79,14 @@ const CadastroPF = (props) => {
           margin: "10px 10px 10px 10px",
         }}
       >
-        <Grid
-          style={{
-            display: "grid",
-            gridRowGap: "20px",
-          }}
-        >
+        <Stack direction="row" spacing={1}>
+          <Chip label="Cadastro Pessoa Física" />
+          {/* <Chip label="Chip Outlined" variant="outlined" /> */}
+        </Stack>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={4}>
             <TextField
+              size="small"
               fullWidth
               name="nomeCompleto"
               label="Nome Completo"
@@ -91,6 +98,7 @@ const CadastroPF = (props) => {
 
           <Grid item xs={4}>
             <TextField
+              size="small"
               fullWidth
               name="email"
               label="Email"
@@ -116,56 +124,45 @@ const CadastroPF = (props) => {
                 <MenuItem value={"USER"}>USER</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
-
-          <Grid item xs={4}>
-            <TextField
-              fullWidth
-              name="password"
-              label="Senha"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              required
-              type="password"
-            />
-          </Grid>
-
-          <Grid item xs={4}>
-            <TextField
-              fullWidth
-              name="confirmNewPassword"
-              label="Confirma Senha"
-              value={formik.values.confirmNewPassword}
-              onChange={formik.handleChange}
-              required
-              type="password"
-            />
           </Grid>*/}
         </Grid>
 
         <Grid container spacing={2} justifyContent="flex-start">
           <Grid item>
-            <Button variant="contained" color="success" type="submit">
-              Salvar
+            <Button
+              color="success"
+              variant="outlined"
+              type="submit"
+              startIcon={<SaveIcon />}
+            >
+              LIMPAR
             </Button>
           </Grid>
 
           <Grid item>
             <Button
+              color="info"
+              variant="outlined"
               onClick={(e) => {
                 e.preventDefault();
                 formik.resetForm();
                 limpar();
               }}
-              variant={"outlined"}
+              startIcon={<RefreshIcon />}
             >
-              Limpar Dados
+              LIMPAR
             </Button>
           </Grid>
 
           <Grid item>
-            <Button variant="contained" component={Link} to="/cadastro/pessoas">
-              Voltar
+            <Button
+              color="primary"
+              variant="outlined"
+              component={Link}
+              to="/cadastro/pessoas"
+              startIcon={<ArrowBackIcon />}
+            >
+              VOLTAR
             </Button>
           </Grid>
         </Grid>

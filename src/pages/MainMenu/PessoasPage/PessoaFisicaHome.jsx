@@ -62,7 +62,7 @@ const PessoaFisicaHome = () => {
     <>
       <GridPessoaFisica
         pessoafisica_db={pessoaFisiscaDb}
-        deleteuser={deletePessoaFisica}
+        deletepf={deletePessoaFisica}
         filter={filtraPessoaFisisca}
         disableDelete={disableDelete}
         disableEdit={disableEdit}
