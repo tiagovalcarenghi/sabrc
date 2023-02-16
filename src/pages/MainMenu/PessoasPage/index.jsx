@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import PessoaFisicaHome from "./PessoaFisicaHome";
 import PessoaJuridicaHome from "./PessoaFisiscaCad";
+import AppMenu from "../../AppNavBar/AppMenu";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,24 +49,26 @@ const PessoasPage = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Pessoa Física" {...a11yProps(0)} />
-          <Tab label="Pessoa Jurídica" {...a11yProps(1)} />
-        </Tabs>
+    <AppMenu>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Pessoa Física" {...a11yProps(0)} />
+            <Tab label="Pessoa Jurídica" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <PessoaFisicaHome />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <PessoaJuridicaHome />
+        </TabPanel>
       </Box>
-      <TabPanel value={value} index={0}>
-        <PessoaFisicaHome />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <PessoaJuridicaHome />
-      </TabPanel>
-    </Box>
+    </AppMenu>
   );
 };
 export default PessoasPage;

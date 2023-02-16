@@ -51,7 +51,7 @@ const GridPessoaFisica = (props) => {
       filter(null);
       setFilterNomeCompleto("");
     } else {
-      filter(nomeCompleto);
+      filter(filterNomeCompleto);
     }
   };
 
@@ -75,6 +75,7 @@ const GridPessoaFisica = (props) => {
             />
 
             <Button
+              variant="contained"
               color="primary"
               onClick={() => {
                 handleFilter();
@@ -84,7 +85,8 @@ const GridPessoaFisica = (props) => {
             </Button>
 
             <Button
-              color="primary"
+              variant="contained"
+              color="warning"
               onClick={() => {
                 handleFilter(1);
               }}
@@ -100,32 +102,30 @@ const GridPessoaFisica = (props) => {
                   <TableCell>Nome Completo</TableCell>
                   <TableCell>Telefone Principal</TableCell>
                   <TableCell>enderecoCompleto</TableCell>
-                  <TableCell align="center" colSpan={2}>
-                    Ações
-                  </TableCell>
+                  <TableCell align="center" colSpan={2}></TableCell>
                 </TableRow>
               </TableHead>
 
               <>
                 {pessoafisica_db && pessoafisica_db.length > 0 && (
                   <TableBody>
-                    {pessoafisica_db.map((pessoajuridica) => (
-                      <TableRow key={user.id}>
+                    {pessoafisica_db.map((pessoafisica) => (
+                      <TableRow key={pessoafisica.id}>
                         <TableCell width="25%">
-                          {pessoajuridica.nomeCompleto}
+                          {pessoafisica.nomeCompleto}
                         </TableCell>
                         <TableCell width="25%">
-                          {pessoajuridica.telefone}
+                          {pessoafisica.telefone}
                         </TableCell>
                         <TableCell width="25%">
-                          {pessoajuridica.enderecoCompleto}
+                          {pessoafisica.enderecoCompleto}
                         </TableCell>
                         <TableCell width="5%" align="center">
                           <Button
                             disabled={disableEdit}
                             color="primary"
                             onClick={() => {
-                              navigateToComponent(pessoajuridica.id);
+                              navigateToComponent(pessoafisica.id);
                             }}
                           >
                             Editar
@@ -150,7 +150,7 @@ const GridPessoaFisica = (props) => {
                                     Swal.fire(atencao, excludeUserError);
                                   } else {
                                     Swal.fire(atencao, successExcludeUser);
-                                    handleExcluir(user);
+                                    handleExcluir(pessoafisica);
                                   }
                                 }
                               });
