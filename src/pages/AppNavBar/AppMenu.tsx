@@ -1,5 +1,5 @@
-import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import React, { useContext } from "react";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,6 +14,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AppMenuItem from "./AppMenuItem";
 import { appMenuItems } from "./AppMenuItens";
+import { AuthContext } from "../../contexts/auth";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 
 const drawerWidth = 380;
 
@@ -68,9 +71,23 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
+const DrawerLeft = styled("div")(({ theme }) => ({
+  display: "flex",
+  marginRight: "auto",
+}));
+
 const AppMenu = (props: any) => {
-  const theme = useTheme();
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "rgb(255, 152, 0)",
+      },
+    },
+  });
+
+  // const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const { logout } = useContext(AuthContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -112,6 +129,12 @@ const AppMenu = (props: any) => {
         open={open}
       >
         <DrawerHeader>
+          <DrawerLeft>
+            <IconButton color="error" onClick={logout}>
+              <ExitToAppRoundedIcon></ExitToAppRoundedIcon>
+            </IconButton>
+          </DrawerLeft>
+
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -136,7 +159,7 @@ const AppMenu = (props: any) => {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {props.children}
+        <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
       </Main>
     </Box>
   );

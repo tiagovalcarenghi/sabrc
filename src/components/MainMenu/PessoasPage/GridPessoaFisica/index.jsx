@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Box,
   Grid,
   Table,
   TableBody,
@@ -17,6 +18,10 @@ import {
   excludeUserError,
   successExcludeUser,
 } from "../../../../util/applicationresources";
+import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import EditIcon from "@mui/icons-material/Edit";
 
 const GridPessoaFisica = (props) => {
   const {
@@ -61,38 +66,60 @@ const GridPessoaFisica = (props) => {
         container
         spacing={0}
         justifyContent="center"
-        style={{ minHeight: "30vh", margin: "15px 0px 0px 0px" }}
+        style={{ minHeight: "30vh", margin: "5px 0px 0px 0px" }}
       >
         <Grid item xs={11}>
           <form>
-            <TextField
-              size="small"
-              label="Pesquisa por nome"
-              type="text"
-              value={filterNomeCompleto}
-              required={false}
-              onChange={(e) => setFilterNomeCompleto(e.target.value)}
-            />
-
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                handleFilter();
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                margin: "0px 0px 5px 0px",
               }}
             >
-              Procurar
-            </Button>
+              <IconButton
+                onClick={() => {
+                  navigateToComponent(null);
+                }}
+              >
+                <SearchIcon></SearchIcon>
+              </IconButton>
+            </Box>
 
-            <Button
-              variant="contained"
-              color="warning"
-              onClick={() => {
-                handleFilter(1);
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                margin: "0px 0px 10px 0px",
               }}
             >
-              Limpar
-            </Button>
+              <TextField
+                size="small"
+                label="Nome Completo"
+                type="text"
+                value={filterNomeCompleto}
+                required={false}
+                onChange={(e) => setFilterNomeCompleto(e.target.value)}
+              />
+
+              <IconButton
+                onClick={() => {
+                  handleFilter();
+                }}
+              >
+                <SearchIcon></SearchIcon>
+              </IconButton>
+
+              <IconButton
+                onClick={() => {
+                  handleFilter(1);
+                }}
+              >
+                <RefreshIcon></RefreshIcon>
+              </IconButton>
+            </Box>
           </form>
 
           <TableContainer>
@@ -101,7 +128,7 @@ const GridPessoaFisica = (props) => {
                 <TableRow>
                   <TableCell>Nome Completo</TableCell>
                   <TableCell>Telefone Principal</TableCell>
-                  <TableCell>enderecoCompleto</TableCell>
+                  <TableCell>Endereço Completo</TableCell>
                   <TableCell align="center" colSpan={2}></TableCell>
                 </TableRow>
               </TableHead>
@@ -111,25 +138,25 @@ const GridPessoaFisica = (props) => {
                   <TableBody>
                     {pessoafisica_db.map((pessoafisica) => (
                       <TableRow key={pessoafisica.id}>
-                        <TableCell width="25%">
+                        <TableCell width="22%">
                           {pessoafisica.nomeCompleto}
                         </TableCell>
-                        <TableCell width="25%">
+                        <TableCell width="15%">
                           {pessoafisica.telefone}
                         </TableCell>
-                        <TableCell width="25%">
+                        <TableCell width="38%">
                           {pessoafisica.enderecoCompleto}
                         </TableCell>
                         <TableCell width="5%" align="center">
-                          <Button
+                          <IconButton
                             disabled={disableEdit}
                             color="primary"
                             onClick={() => {
                               navigateToComponent(pessoafisica.id);
                             }}
                           >
-                            Editar
-                          </Button>
+                            <EditIcon></EditIcon>
+                          </IconButton>
                         </TableCell>
                         <TableCell width="5%" align="center">
                           <Button

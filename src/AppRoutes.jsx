@@ -10,6 +10,7 @@ import { AuthProvider, AuthContext } from "./contexts/auth";
 import AppMenu from "./pages/AppNavBar/AppMenu";
 import LoginPage from "./pages/LoginPage";
 import PessoasPage from "./pages/MainMenu/PessoasPage";
+import PessoaFisiscaCad from "./pages/MainMenu/PessoasPage/PessoaFisiscaCad";
 
 const AppRoutes = () => {
   const Private = ({ children }) => {
@@ -54,7 +55,7 @@ const AppRoutes = () => {
             path="/cadastro/pessoas/pf"
             element={
               <Private>
-                <CadastroPF />
+                <PessoaFisiscaCad />
               </Private>
             }
           />

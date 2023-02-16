@@ -164,7 +164,7 @@ const CadastroPF = (props) => {
           </Grid>
 
           <Grid item>
-            <Button variant="contained" component={Link} to="/">
+            <Button variant="contained" component={Link} to="/cadastro/pessoas">
               Voltar
             </Button>
           </Grid>

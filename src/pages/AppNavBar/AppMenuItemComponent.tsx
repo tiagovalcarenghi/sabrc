@@ -1,9 +1,7 @@
 import ListItemButton from "@mui/material/ListItemButton";
-import React, { useContext } from "react";
+import React from "react";
 import { SxProps, Theme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
-import { AuthContext } from "../../contexts/auth";
 
 interface AppMenuItemComponentProps {
   link?: string | null; // because the InferProps props allows alows null value
@@ -15,23 +13,9 @@ interface AppMenuItemComponentProps {
 const AppMenuItemComponent = (props: AppMenuItemComponentProps) => {
   const { sx, onClick, link, children } = props;
 
-  const { logout } = useContext(AuthContext);
-
   // If link is not set return the orinary ListItem
   if (!link || typeof link !== "string") {
-    return (
-      <>
-        <ListItemButton sx={sx} children={children} onClick={onClick} />
-        <Button
-          onClick={(e) => {
-            logout();
-          }}
-          variant={"outlined"}
-        >
-          Logout
-        </Button>
-      </>
-    );
+    return <ListItemButton sx={sx} children={children} onClick={onClick} />;
   }
 
   //React.forwardRef((props, ref) => <NavLink innerRef={ref} {...props} />)
