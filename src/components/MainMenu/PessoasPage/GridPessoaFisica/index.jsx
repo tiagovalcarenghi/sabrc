@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Box,
   Grid,
   Table,
   TableBody,
@@ -17,20 +18,21 @@ import {
   excludeUserError,
   successExcludeUser,
 } from "../../../../util/applicationresources";
+import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 
 const GridPessoaFisica = (props) => {
-  const {
-    pessoafisica_db,
-    deletePessoaFisica,
-    filter,
-    disableDelete,
-    disableEdit,
-  } = props;
+  const { pessoafisica_db, deletepf, filter, disableDelete, disableEdit } =
+    props;
 
   const [filterNomeCompleto, setFilterNomeCompleto] = useState("");
 
   const handleExcluir = (user) => {
-    deletePessoaFisica(user);
+    deletepf(user);
   };
 
   const validaExclusao = () => {
@@ -51,7 +53,7 @@ const GridPessoaFisica = (props) => {
       filter(null);
       setFilterNomeCompleto("");
     } else {
-      filter(nomeCompleto);
+      filter(filterNomeCompleto);
     }
   };
 
@@ -61,13 +63,40 @@ const GridPessoaFisica = (props) => {
         container
         spacing={0}
         justifyContent="center"
-        style={{ minHeight: "30vh", margin: "15px 0px 0px 0px" }}
+        style={{ minHeight: "30vh", margin: "5px 0px 0px 0px" }}
       >
         <Grid item xs={11}>
-          <form>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              margin: "0px 0px 5px 0px",
+            }}
+          >
+            <Button
+              color="info"
+              variant="outlined"
+              onClick={() => {
+                navigateToComponent(null);
+              }}
+              startIcon={<AddBoxRoundedIcon />}
+            >
+              NOVO
+            </Button>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              margin: "0px 0px 10px 0px",
+            }}
+          >
             <TextField
               size="small"
-              label="Pesquisa por nome"
+              label="Nome Completo"
               type="text"
               value={filterNomeCompleto}
               required={false}
@@ -75,23 +104,27 @@ const GridPessoaFisica = (props) => {
             />
 
             <Button
-              color="primary"
+              color="info"
+              variant="outlined"
               onClick={() => {
                 handleFilter();
               }}
+              startIcon={<SearchIcon />}
             >
-              Procurar
+              PESQUISAR
             </Button>
 
             <Button
-              color="primary"
+              color="warning"
+              variant="outlined"
               onClick={() => {
                 handleFilter(1);
               }}
+              startIcon={<RefreshIcon />}
             >
-              Limpar
+              LIMPAR
             </Button>
-          </form>
+          </Box>
 
           <TableContainer>
             <Table size="small">
@@ -99,40 +132,38 @@ const GridPessoaFisica = (props) => {
                 <TableRow>
                   <TableCell>Nome Completo</TableCell>
                   <TableCell>Telefone Principal</TableCell>
-                  <TableCell>enderecoCompleto</TableCell>
-                  <TableCell align="center" colSpan={2}>
-                    Ações
-                  </TableCell>
+                  <TableCell>Endereço Completo</TableCell>
+                  <TableCell align="center" colSpan={2}></TableCell>
                 </TableRow>
               </TableHead>
 
               <>
                 {pessoafisica_db && pessoafisica_db.length > 0 && (
                   <TableBody>
-                    {pessoafisica_db.map((pessoajuridica) => (
-                      <TableRow key={user.id}>
-                        <TableCell width="25%">
-                          {pessoajuridica.nomeCompleto}
+                    {pessoafisica_db.map((pessoafisica) => (
+                      <TableRow key={pessoafisica.id}>
+                        <TableCell width="22%">
+                          {pessoafisica.nomeCompleto}
                         </TableCell>
-                        <TableCell width="25%">
-                          {pessoajuridica.telefone}
+                        <TableCell width="15%">
+                          {pessoafisica.telefone}
                         </TableCell>
-                        <TableCell width="25%">
-                          {pessoajuridica.enderecoCompleto}
+                        <TableCell width="38%">
+                          {pessoafisica.enderecoCompleto}
                         </TableCell>
                         <TableCell width="5%" align="center">
-                          <Button
+                          <IconButton
                             disabled={disableEdit}
                             color="primary"
                             onClick={() => {
-                              navigateToComponent(pessoajuridica.id);
+                              navigateToComponent(pessoafisica.id);
                             }}
                           >
-                            Editar
-                          </Button>
+                            <EditIcon></EditIcon>
+                          </IconButton>
                         </TableCell>
                         <TableCell width="5%" align="center">
-                          <Button
+                          <IconButton
                             disabled={disableDelete}
                             color="primary"
                             onClick={() => {
@@ -146,18 +177,18 @@ const GridPessoaFisica = (props) => {
                                 cancelButtonText: "Não",
                               }).then((result) => {
                                 if (result.isConfirmed) {
-                                  if (validaExclusao()) {
+                                  if (!validaExclusao()) {
                                     Swal.fire(atencao, excludeUserError);
                                   } else {
                                     Swal.fire(atencao, successExcludeUser);
-                                    handleExcluir(user);
+                                    handleExcluir(pessoafisica);
                                   }
                                 }
                               });
                             }}
                           >
-                            Deletar
-                          </Button>
+                            <DeleteRoundedIcon></DeleteRoundedIcon>
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     ))}

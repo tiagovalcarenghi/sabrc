@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("pessoafisica_db", JSON.stringify(createPessoaFisica));
   };
 
-  const login = (email, password) => {
+  const login = (nameUser, password) => {
     const usersStorage = JSON.parse(localStorage.getItem("users_db"));
 
     const hasUser = usersStorage?.filter((user) => user.nameUser === nameUser);

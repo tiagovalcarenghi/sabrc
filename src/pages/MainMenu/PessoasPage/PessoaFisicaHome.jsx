@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AppMenu from "../../AppNavBar/AppMenu";
 import GridPessoaFisica from "../../../components/MainMenu/PessoasPage/GridPessoaFisica";
 
 const PessoaFisicaHome = () => {
@@ -8,10 +7,8 @@ const PessoaFisicaHome = () => {
   const [disableEdit, setDisableEdit] = useState(true);
 
   useEffect(() => {
-    verificaUser();
-  }, []);
+    setPessoaFisiscaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
 
-  const verificaUser = () => {
     const usuario = JSON.parse(localStorage.getItem("user_storage"));
     if (usuario) {
       usuario.tipoUser === "ADMIN"
@@ -20,21 +17,21 @@ const PessoaFisicaHome = () => {
         ? disables(2)
         : disables(0);
     }
-  };
+  }, []);
 
   const disables = (data) => {
     switch (data) {
       case 1:
-        setDisableDelete(true);
-        setDisableEdit(true);
-        break;
-      case 2:
-        setDisableDelete(false);
-        setDisableEdit(true);
-        break;
-      default:
         setDisableDelete(false);
         setDisableEdit(false);
+        break;
+      case 2:
+        setDisableDelete(true);
+        setDisableEdit(false);
+        break;
+      default:
+        setDisableDelete(true);
+        setDisableEdit(true);
     }
   };
 
@@ -63,15 +60,13 @@ const PessoaFisicaHome = () => {
 
   return (
     <>
-      <AppMenu>
-        <GridPessoaFisica
-          pessoafisica_db={pessoaFisiscaDb}
-          deleteuser={deletePessoaFisica}
-          filter={filtraPessoaFisisca}
-          disableDelete={disableDelete}
-          disableEdit={disableEdit}
-        />
-      </AppMenu>
+      <GridPessoaFisica
+        pessoafisica_db={pessoaFisiscaDb}
+        deletepf={deletePessoaFisica}
+        filter={filtraPessoaFisisca}
+        disableDelete={disableDelete}
+        disableEdit={disableEdit}
+      />
     </>
   );
 };

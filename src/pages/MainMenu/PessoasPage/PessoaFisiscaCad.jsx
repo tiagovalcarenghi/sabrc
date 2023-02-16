@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroPF from "../../../components/MainMenu/PessoasPage/CadastroPessoaFisica";
 import { initialValuesPF } from "../../../util/MainMenu/PessoasPage/constants";
+import AppMenu from "../../AppNavBar/AppMenu";
 
 const PessoaFisiscaCad = () => {
   const [pessoaFisicaEmEdicao, setPessoaFisicaEmEdicao] =
@@ -58,13 +59,13 @@ const PessoaFisiscaCad = () => {
   };
 
   return (
-    <>
+    <AppMenu>
       <CadastroPF
         pessoafisica={pessoaFisicaEmEdicao}
         salvar={salvarPessoaFisica}
         limpar={limparPessoaFisiscaEmEdicao}
       />
-    </>
+    </AppMenu>
   );
 };
 
