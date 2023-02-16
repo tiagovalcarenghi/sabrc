@@ -22,6 +22,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 
 const GridPessoaFisica = (props) => {
   const {
@@ -79,11 +81,12 @@ const GridPessoaFisica = (props) => {
               }}
             >
               <IconButton
+                color="info"
                 onClick={() => {
                   navigateToComponent(null);
                 }}
               >
-                <SearchIcon></SearchIcon>
+                <AddBoxRoundedIcon></AddBoxRoundedIcon>
               </IconButton>
             </Box>
 
@@ -159,7 +162,7 @@ const GridPessoaFisica = (props) => {
                           </IconButton>
                         </TableCell>
                         <TableCell width="5%" align="center">
-                          <Button
+                          <IconButton
                             disabled={disableDelete}
                             color="primary"
                             onClick={() => {
@@ -183,8 +186,8 @@ const GridPessoaFisica = (props) => {
                               });
                             }}
                           >
-                            Deletar
-                          </Button>
+                            <DeleteRoundedIcon></DeleteRoundedIcon>
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     ))}
