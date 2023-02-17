@@ -15,7 +15,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TableHead, TextField } from "@mui/material";
+import { Button, Grid, TableHead, TextField, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import {
   atencao,
@@ -108,6 +108,8 @@ const GridPessoaFisica = (props) => {
     props;
 
   const [filterNomeCompleto, setFilterNomeCompleto] = useState("");
+  const [filterTelefonePrincipal, setFilterTelefonePrincipal] = useState("");
+  const [filterEnderecoCompleto, setFilterEnderecoCompleto] = useState("");
 
   const handleExcluir = (user) => {
     deletepf(user);
@@ -130,8 +132,14 @@ const GridPessoaFisica = (props) => {
     if (f) {
       filter(null);
       setFilterNomeCompleto("");
+      setFilterTelefonePrincipal("");
+      setFilterEnderecoCompleto("");
     } else {
-      filter(filterNomeCompleto);
+      filter(
+        filterNomeCompleto,
+        filterTelefonePrincipal,
+        filterEnderecoCompleto
+      );
     }
   };
 
@@ -164,67 +172,91 @@ const GridPessoaFisica = (props) => {
       <Grid
         container
         spacing={0}
-        justifyContent="center"
-        style={{ minHeight: "30vh", margin: "5px 0px 0px 0px" }}
+        justifyContent="left"
+        style={{ minHeight: "30vh" }}
       >
-        <Grid item xs={11}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              margin: "0px 0px 5px 0px",
-            }}
-          >
-            <Button
-              color="info"
-              variant="outlined"
-              onClick={() => {
-                navigateToComponent(null);
-              }}
-              startIcon={<AddBoxRoundedIcon />}
-            >
-              NOVO
-            </Button>
-          </Box>
+        <Grid item xs={12}>
+          <Typography>Pesquisar Dados:</Typography>
 
-          <Box
+          <Grid
+            container
+            rowSpacing={1}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
               margin: "0px 0px 10px 0px",
             }}
           >
-            <TextField
-              size="small"
-              label="Nome Completo"
-              type="text"
-              value={filterNomeCompleto}
-              required={false}
-              onChange={(e) => setFilterNomeCompleto(e.target.value)}
-            />
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Nome"
+                type="text"
+                value={filterNomeCompleto}
+                required={false}
+                onChange={(e) => setFilterNomeCompleto(e.target.value)}
+              />
+            </Grid>
 
-            <IconButton
-              color="info"
-              variant="outlined"
-              onClick={() => {
-                handleFilter();
-              }}
-            >
-              <SearchIcon></SearchIcon>
-            </IconButton>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Telefone"
+                type="text"
+                value={filterTelefonePrincipal}
+                required={false}
+                onChange={(e) => setFilterTelefonePrincipal(e.target.value)}
+              />
+            </Grid>
 
-            <IconButton
-              color="secondary"
-              variant="outlined"
-              onClick={() => {
-                handleFilter(1);
-              }}
-            >
-              <RefreshIcon></RefreshIcon>
-            </IconButton>
-          </Box>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Endereço"
+                type="text"
+                value={filterEnderecoCompleto}
+                required={false}
+                onChange={(e) => setFilterEnderecoCompleto(e.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={2}>
+              <IconButton
+                color="info"
+                variant="outlined"
+                onClick={() => {
+                  handleFilter();
+                }}
+              >
+                <SearchIcon></SearchIcon>
+              </IconButton>
+
+              <IconButton
+                color="secondary"
+                variant="outlined"
+                onClick={() => {
+                  handleFilter(1);
+                }}
+              >
+                <RefreshIcon></RefreshIcon>
+              </IconButton>
+            </Grid>
+
+            <Grid item xs={1}>
+              <Button
+                color="info"
+                variant="outlined"
+                onClick={() => {
+                  navigateToComponent(null);
+                }}
+                startIcon={<AddBoxRoundedIcon />}
+              >
+                NOVO
+              </Button>
+            </Grid>
+          </Grid>
 
           <TableContainer component={Paper}>
             <Table
