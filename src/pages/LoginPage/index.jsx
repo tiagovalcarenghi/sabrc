@@ -8,6 +8,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "../../assets/login/css/login.css";
 import { useNavigate } from "react-router-dom";
+import { ptBR } from "@mui/material/locale";
 
 //Banner SAB:
 import BannerSab from "../../assets/login/images/banner-SAB.png"; // Import using relative path
@@ -23,6 +24,7 @@ const theme = createTheme({
       main: "rgb(255, 152, 0)",
     },
   },
+  ptBR,
 });
 
 const LoginPage = () => {

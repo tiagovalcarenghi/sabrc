@@ -17,6 +17,7 @@ import { appMenuItems } from "./AppMenuItens";
 import { AuthContext } from "../../contexts/auth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
+import { ptBR } from "@mui/material/locale";
 
 const drawerWidth = 380;
 
@@ -77,13 +78,16 @@ const DrawerLeft = styled("div")(({ theme }) => ({
 }));
 
 const AppMenu = (props: any) => {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "rgb(255, 152, 0)",
+  const theme = createTheme(
+    {
+      palette: {
+        primary: {
+          main: "rgb(255, 152, 0)",
+        },
       },
     },
-  });
+    ptBR
+  );
 
   // const theme = useTheme();
   const [open, setOpen] = React.useState(true);

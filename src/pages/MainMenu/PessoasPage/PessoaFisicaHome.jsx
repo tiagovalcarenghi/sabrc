@@ -45,18 +45,35 @@ const PessoaFisicaHome = () => {
     setPessoaFisiscaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
   };
 
-  const filtraPessoaFisisca = (nomeCompleto) => {
-    if (!nomeCompleto) {
+  const filtraPessoaFisisca = (
+    nomeCompleto,
+    telefonePrincipal,
+    enderecoCompleto
+  ) => {
+    if (!nomeCompleto && !telefonePrincipal && !enderecoCompleto) {
       setPessoaFisiscaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
       return;
     }
 
     let items = JSON.parse(localStorage.getItem("pessoafisica_db"));
-    items = items?.filter((item) =>
-      item.nomeCompleto.toLowerCase().includes(nomeCompleto.toLowerCase())
-    );
+    items = filterer((x) =>
+      x.nomeCompleto.toLowerCase().includes(nomeCompleto.toLowerCase())
+    )((x) => x.telefone.includes(telefonePrincipal))((x) =>
+      x.enderecoCompleto.toLowerCase().includes(enderecoCompleto.toLowerCase())
+    )(run(items));
+
     setPessoaFisiscaDb(items);
   };
+
+  const run = (value = []) => ({ type: run, value: value });
+
+  const filterer = (f) => (g) =>
+    g && g.type === run
+      ? g.value.filter((x) => f(x))
+      : filterer((x) => f(x) && g(x));
+
+  // const search = (nomeCompleto, telefonePrincipal, items) =>
+  //   ;
 
   return (
     <>
