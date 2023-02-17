@@ -135,7 +135,7 @@ const CadastroPF = (props) => {
               type="submit"
               startIcon={<SaveIcon />}
             >
-              LIMPAR
+              SALVAR
             </Button>
           </Grid>
 

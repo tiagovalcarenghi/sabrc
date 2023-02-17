@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@material-ui/core";
+import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableFooter from "@mui/material/TableFooter";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
+import { Button, Grid, TableHead, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 import {
   atencao,
@@ -24,6 +29,79 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+
+///----------------- TABLE PAGINATION ACTIONS START-------------------/////
+
+export function TablePaginationActions(props) {
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="primeira mágina"
+      >
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="página anterior"
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="próxima página"
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="última página"
+      >
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+
+///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
 const GridPessoaFisica = (props) => {
   const { pessoafisica_db, deletepf, filter, disableDelete, disableEdit } =
@@ -56,6 +134,30 @@ const GridPessoaFisica = (props) => {
       filter(filterNomeCompleto);
     }
   };
+
+  const verificaNulo = () => {
+    return !!pessoafisica_db ? pessoafisica_db.length : 0;
+  };
+
+  //----------PAGINATION START--------////
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0
+      ? Math.max(0, (1 + page) * rowsPerPage - pessoafisica_db.length)
+      : 0;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  //----------PAGINATION END--------////
 
   return (
     <>
@@ -103,36 +205,38 @@ const GridPessoaFisica = (props) => {
               onChange={(e) => setFilterNomeCompleto(e.target.value)}
             />
 
-            <Button
+            <IconButton
               color="info"
               variant="outlined"
               onClick={() => {
                 handleFilter();
               }}
-              startIcon={<SearchIcon />}
             >
-              PESQUISAR
-            </Button>
+              <SearchIcon></SearchIcon>
+            </IconButton>
 
-            <Button
-              color="warning"
+            <IconButton
+              color="secondary"
               variant="outlined"
               onClick={() => {
                 handleFilter(1);
               }}
-              startIcon={<RefreshIcon />}
             >
-              LIMPAR
-            </Button>
+              <RefreshIcon></RefreshIcon>
+            </IconButton>
           </Box>
 
-          <TableContainer>
-            <Table size="small">
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ minWidth: 500 }}
+              size="small"
+              aria-label="custom pagination table"
+            >
               <TableHead>
                 <TableRow>
-                  <TableCell>Nome Completo</TableCell>
-                  <TableCell>Telefone Principal</TableCell>
-                  <TableCell>Endereço Completo</TableCell>
+                  <TableCell align="left">Nome Completo</TableCell>
+                  <TableCell align="left">Telefone Principal</TableCell>
+                  <TableCell align="left">Endereço Completo</TableCell>
                   <TableCell align="center" colSpan={2}></TableCell>
                 </TableRow>
               </TableHead>
@@ -140,15 +244,21 @@ const GridPessoaFisica = (props) => {
               <>
                 {pessoafisica_db && pessoafisica_db.length > 0 && (
                   <TableBody>
-                    {pessoafisica_db.map((pessoafisica) => (
+                    {(rowsPerPage > 0
+                      ? pessoafisica_db.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : pessoafisica_db
+                    ).map((pessoafisica) => (
                       <TableRow key={pessoafisica.id}>
-                        <TableCell width="22%">
+                        <TableCell align="left" width="27%">
                           {pessoafisica.nomeCompleto}
                         </TableCell>
-                        <TableCell width="15%">
+                        <TableCell align="left" width="20%">
                           {pessoafisica.telefone}
                         </TableCell>
-                        <TableCell width="38%">
+                        <TableCell align="left" width="43%">
                           {pessoafisica.enderecoCompleto}
                         </TableCell>
                         <TableCell width="5%" align="center">
@@ -195,6 +305,27 @@ const GridPessoaFisica = (props) => {
                   </TableBody>
                 )}
               </>
+
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    colSpan={5}
+                    count={verificaNulo()}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: {
+                        "aria-label": "Linhas por Página",
+                      },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
             </Table>
           </TableContainer>
         </Grid>
