@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import PessoaFisicaHome from "./PessoaFisicaHome";
-import PessoaJuridicaHome from "./PessoaFisiscaCad";
 import AppMenu from "../../AppNavBar/AppMenu";
+import PessoaJuridicaHome from "./PessoaJuridicaHome";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,6 +43,36 @@ function a11yProps(index) {
 
 const PessoasPage = () => {
   const [value, setValue] = React.useState(0);
+  const [disableDelete, setDisableDelete] = useState(true);
+  const [disableEdit, setDisableEdit] = useState(true);
+  
+  useEffect(() => {
+    const usuario = JSON.parse(localStorage.getItem("user_storage"));
+    if (usuario) {
+      usuario.tipoUser === "ADMIN"
+        ? disables(1)
+        : usuario.tipoUser === "MASTER"
+        ? disables(2)
+        : disables(0);
+    }
+  }, []);
+
+  const disables = (data) => {
+    switch (data) {
+      case 1:
+        setDisableDelete(false);
+        setDisableEdit(false);
+        break;
+      case 2:
+        setDisableDelete(true);
+        setDisableEdit(false);
+        break;
+      default:
+        setDisableDelete(true);
+        setDisableEdit(true);
+    }
+  };
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -62,10 +92,10 @@ const PessoasPage = () => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <PessoaFisicaHome />
+          <PessoaFisicaHome disableDelete={disableDelete} disableEdit={disableEdit} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <PessoaJuridicaHome />
+          <PessoaJuridicaHome disableDelete={disableDelete} disableEdit={disableEdit} />
         </TabPanel>
       </Box>
     </AppMenu>

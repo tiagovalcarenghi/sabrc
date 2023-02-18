@@ -5,12 +5,12 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import CadastroPF from "./components/MainMenu/PessoasPage/CadastroPessoaFisica";
 import { AuthProvider, AuthContext } from "./contexts/auth";
 import AppMenu from "./pages/AppNavBar/AppMenu";
 import LoginPage from "./pages/LoginPage";
 import PessoasPage from "./pages/MainMenu/PessoasPage";
-import PessoaFisiscaCad from "./pages/MainMenu/PessoasPage/PessoaFisiscaCad";
+import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
+import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
 
 const AppRoutes = () => {
   const Private = ({ children }) => {
@@ -55,171 +55,21 @@ const AppRoutes = () => {
             path="/cadastro/pessoas/pf"
             element={
               <Private>
-                <PessoaFisiscaCad />
-              </Private>
-            }
-          />
-          {/* <Route
-            path="cadastro/usuarios"
-            element={
-              <Private>
-                <UsuariosPage />
+                <PessoaFisicaCad />
               </Private>
             }
           />
           <Route
-            path="cadastro/contas-contabeis/contas"
+            exact
+            path="/cadastro/pessoas/pj"
             element={
               <Private>
-                <ContasPage />
+                <PessoaJuridicaCad />
               </Private>
             }
           />
-          <Route
-            path="cadastro/contas-contabeis/contascomplement"
-            element={
-              <Private>
-                <ContasComplementarPage />
-              </Private>
-            }
-          />
-          <Route
-            path="cadastro/contas-contabeis/cdc"
-            element={
-              <Private>
-                <CentrodeCustoPage />
-              </Private>
-            }
-          />
-          <Route
-            path="cadastro/minutas-padrao/minutacontratoprestserv"
-            element={
-              <Private>
-                <MinutaContratoPrestServPage />
-              </Private>
-            }
-          />
-          <Route
-            path="cadastro/minutas-padrao/minutapadraocv"
-            element={
-              <Private>
-                <MinutaPadraoCVPage />
-              </Private>
-            }
-          />
-          <Route
-            path="cadastro/minutas-padrao/minutapadraolocacao"
-            element={
-              <Private>
-                <MinutaPadraoLocacaoPage />
-              </Private>
-            }
-          />
-          <Route
-            path="cadastro/enderecos"
-            element={
-              <Private>
-                <EnderecosPage />
-              </Private>
-            }
-          />
-          <Route
-            path="operacoes/contrato-locacao"
-            element={
-              <Private>
-                <ContratoLocacaoPage />
-              </Private>
-            }
-          />
-          <Route
-            path="operacoes/contratocv"
-            element={
-              <Private>
-                <ContratoCeVPage />
-              </Private>
-            }
-          />
-          <Route
-            path="operacoes/cadcontratocv"
-            element={
-              <Private>
-                <CadastroCeVPage />
-              </Private>
-            }
-          />
-          <Route
-            path="operacoes/lancamento-bancos"
-            element={
-              <Private>
-                <LancamentoBancosPage />
-              </Private>
-            }
-          />
-          <Route
-            path="operacoes/lancamento-contabil"
-            element={
-              <Private>
-                <LancamentoContabilPage />
-              </Private>
-            }
-          />
-          <Route
-            path="operacoes/ordem-de-servico"
-            element={
-              <Private>
-                <OrdemDeServicoPage />
-              </Private>
-            }
-          />
-          <Route
-            path="operacoes/are"
-            element={
-              <Private>
-                <ArePage />
-              </Private>
-            }
-          />
-          <Route
-            path="relatorios/balancete"
-            element={
-              <Private>
-                <BalancetePage />
-              </Private>
-            }
-          />
-          <Route
-            path="relatorios/dre"
-            element={
-              <Private>
-                <DrePage />
-              </Private>
-            }
-          />
-          <Route
-            path="relatorios/lancamento"
-            element={
-              <Private>
-                <LancamentoPage />
-              </Private>
-            }
-          />
-          <Route
-            path="relatorios/livro-razao"
-            element={
-              <Private>
-                <LivroRazaoPage />
-              </Private>
-            }
-          />
-          <Route
-            path="relatorios/pesquisa-por-campo"
-            element={
-              <Private>
-                <PesquisaPorCampoPage />
-              </Private>
-            }
-          /> */}
-        </Routes>
+        
+        </Routes>       
       </AuthProvider>
     </Router>
   );

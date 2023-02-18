@@ -12,22 +12,22 @@ import {
   erroValidateEmail,
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
-import { initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
+import { initialValuesPJ } from "../../../../util/MainMenu/PessoasPage/constants";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const CadastroPF = (props) => {
-  const { pessoafisica, salvar, limpar } = props;
+const CadastroPJ = (props) => {
+  const { pessoajuridica, salvar, limpar } = props;
   const navigate = useNavigate();
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: pessoafisica || initialValuesPF,
+    initialValues: pessoajuridica || initialValuesPJ,
     onSubmit: (values) => {
-      if (!confirmaEmail(values.email)) {
+      if (!confirmaEmail(values.emailContato)) {
         Swal.fire({
           icon: "error",
           title: atencao,
@@ -54,9 +54,9 @@ const CadastroPF = (props) => {
     },
   });
 
-  const confirmaEmail = (email) => {
+  const confirmaEmail = (emailContato) => {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return mailformat.test(email);
+    return mailformat.test(emailContato);
   };
 
   //   const confimarPassEqual = (password, confirmNewPassword) => {
@@ -74,7 +74,7 @@ const CadastroPF = (props) => {
         }}
       >
         <Stack direction="row" spacing={1}>
-          <Chip label="Cadastro Pessoa Física" />
+          <Chip label="Cadastro Pessoa Jurídica" />
           {/* <Chip label="Chip Outlined" variant="outlined" /> */}
         </Stack>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -82,9 +82,9 @@ const CadastroPF = (props) => {
             <TextField
               size="small"
               fullWidth
-              name="nomeCompleto"
-              label="Nome Completo"
-              value={formik.values.nomeCompleto}
+              name="nomeEmpresarial"
+              label="Nome Empresarial"
+              value={formik.values.nomeEmpresarial}
               onChange={formik.handleChange}
               required
             />
@@ -94,31 +94,16 @@ const CadastroPF = (props) => {
             <TextField
               size="small"
               fullWidth
-              name="email"
-              label="Email"
+              name="emailContato"
+              label="Email Contato"
               type="email"
-              value={formik.values.email}
+              value={formik.values.emailContato}
               onChange={formik.handleChange}
               required
             />
           </Grid>
 
-          {/* <Grid item xs={4}>
-            <FormControl fullWidth required>
-              <InputLabel id="select-label">Tipo de Usuário</InputLabel>
-              <Select
-                name="tipoUser"
-                label="Tipo de Usuário"
-                labelId="select-label-id"
-                id="select-label-id"
-                value={formik.values.tipoUser}
-                onChange={formik.handleChange}
-              >
-                <MenuItem value={"ADMIN"}>ADMIN</MenuItem>
-                <MenuItem value={"USER"}>USER</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>*/}
+     
         </Grid>
 
         <Grid container spacing={2} justifyContent="flex-start">
@@ -165,4 +150,4 @@ const CadastroPF = (props) => {
   );
 };
 
-export default CadastroPF;
+export default CadastroPJ;
