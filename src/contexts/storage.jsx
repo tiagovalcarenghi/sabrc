@@ -112,6 +112,7 @@ export const createPessoaJuridica = [
     complemento: "",
     uf: "SC",
     localidade: "Florianópolis",
+    enderecoCompleto: "Rua 1, 456 Vila Teste - Florianopolis-SC",
     representantesLegais: [
       {
         id: 1,
@@ -138,6 +139,7 @@ export const createPessoaJuridica = [
     complemento: "",
     uf: "PR",
     localidade: "Toledo",
+    enderecoCompleto: "Rua 2, 1025 Vila Teste 2 - Toledo-PR",
     representantesLegais: [
       {
         id: 1,
@@ -147,6 +149,26 @@ export const createPessoaJuridica = [
     ],
   },
 ];
+
+
+export const createRepresentantesLegaisOptions = [
+  {
+    id: 1,
+    cdPessoaFisica: 1,
+    nomeRepresentante: "Tiago Amaral Valcarenghi",
+  },
+  {
+    id: 2,
+    cdPessoaFisica: 2,
+    nomeRepresentante: "Elvis Sandro Valcarenghi",
+  },
+  {
+    id: 3,
+    cdPessoaFisica: 3,
+    nomeRepresentante: "John Connor"
+  },
+]
+
 
 //-------------------------------------------------
 

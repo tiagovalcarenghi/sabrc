@@ -46,6 +46,7 @@ const PessoaFisiscaCad = () => {
 
     var getId = JSON.parse(localStorage.getItem("pessoafisica_db"));
     pf.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    pf.cdPessoaFisica = pf.id;
     const newPessoaFisica =
       getId === null
         ? [pf]

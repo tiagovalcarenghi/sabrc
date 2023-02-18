@@ -110,6 +110,7 @@ const CadastroPF = (props) => {
               <InputLabel id="demo-controlled-open-select-label">Estado Civil</InputLabel>
               <Select
                 fullWidth
+                size="small"
                 name="cdEstadoCivil"
                 label="Estado Civil"
                 labelId="select-label-id"

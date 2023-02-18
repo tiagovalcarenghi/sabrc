@@ -46,6 +46,7 @@ const PessoaJuridicaCad = () => {
 
     var getId = JSON.parse(localStorage.getItem("pessoajuridica_db"));
     pj.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    pj.cdPessoaJuridica = pj.id;
     const newPessoaJuridica =
       getId === null
         ? [pj]
@@ -58,12 +59,36 @@ const PessoaJuridicaCad = () => {
     setPessoaJuridicaEmEdicao(initialValuesPJ);
   };
 
+  const deleteRepresentanteLegal = (data) => {
+
+    let items = JSON.parse(localStorage.getItem("pessoajuridica_db"));
+    // items = items.filter((item) => item.representantesLegais.id === data.id);
+
+    console.log(items);
+
+    // let items = JSON.parse(localStorage.getItem("pessoajuridica_db"));
+    // items = items.filter((item) => item.id !== data.id);
+    // localStorage.setItem("pessoajuridica_db", JSON.stringify(items));
+    // if (items.length === 0) {
+    //   localStorage.removeItem("pessoajuridica_db");
+    // }
+    // setPessoaJuridicaDb(JSON.parse(localStorage.getItem("pessoajuridica_db")));
+  };
+
+  const addRepresentanteLegal = (data) => {
+
+    alert(data.nomeRepresentante);
+
+  };
+
   return (
     <AppMenu>
       <CadastroPJ
         pessoajuridica={pessoaJuridicaEmEdicao}
         salvar={salvarPessoaJuridica}
         limpar={limparPessoaJuridicaEmEdicao}
+        deleterl={deleteRepresentanteLegal}
+        addrl={addRepresentanteLegal}
       />
     </AppMenu>
   );
