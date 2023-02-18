@@ -1,39 +1,15 @@
 import { useEffect, useState } from "react";
 import GridPessoaFisica from "../../../components/MainMenu/PessoasPage/GridPessoaFisica";
 
-const PessoaFisicaHome = () => {
-  const [pessoaFisiscaDb, setPessoaFisiscaDb] = useState([]);
-  const [disableDelete, setDisableDelete] = useState(true);
-  const [disableEdit, setDisableEdit] = useState(true);
+const PessoaFisicaHome = (props) => {
+  const {disableDelete, disableEdit } = props;
+  const [pessoaFisicaDb, setpessoaFisicaDb] = useState([]);
+  
 
   useEffect(() => {
-    setPessoaFisiscaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
-
-    const usuario = JSON.parse(localStorage.getItem("user_storage"));
-    if (usuario) {
-      usuario.tipoUser === "ADMIN"
-        ? disables(1)
-        : usuario.tipoUser === "MASTER"
-        ? disables(2)
-        : disables(0);
-    }
+    setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
   }, []);
 
-  const disables = (data) => {
-    switch (data) {
-      case 1:
-        setDisableDelete(false);
-        setDisableEdit(false);
-        break;
-      case 2:
-        setDisableDelete(true);
-        setDisableEdit(false);
-        break;
-      default:
-        setDisableDelete(true);
-        setDisableEdit(true);
-    }
-  };
 
   const deletePessoaFisica = (data) => {
     let items = JSON.parse(localStorage.getItem("pessoafisica_db"));
@@ -42,7 +18,7 @@ const PessoaFisicaHome = () => {
     if (items.length === 0) {
       localStorage.removeItem("pessoafisica_db");
     }
-    setPessoaFisiscaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
+    setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
   };
 
   const filtraPessoaFisisca = (
@@ -51,7 +27,7 @@ const PessoaFisicaHome = () => {
     enderecoCompleto
   ) => {
     if (!nomeCompleto && !telefonePrincipal && !enderecoCompleto) {
-      setPessoaFisiscaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
+      setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
       return;
     }
 
@@ -62,7 +38,7 @@ const PessoaFisicaHome = () => {
       x.enderecoCompleto.toLowerCase().includes(enderecoCompleto.toLowerCase())
     )(run(items));
 
-    setPessoaFisiscaDb(items);
+    setpessoaFisicaDb(items);
   };
 
   const run = (value = []) => ({ type: run, value: value });
@@ -72,13 +48,11 @@ const PessoaFisicaHome = () => {
       ? g.value.filter((x) => f(x))
       : filterer((x) => f(x) && g(x));
 
-  // const search = (nomeCompleto, telefonePrincipal, items) =>
-  //   ;
 
   return (
     <>
       <GridPessoaFisica
-        pessoafisica_db={pessoaFisiscaDb}
+        pessoafisica_db={pessoaFisicaDb}
         deletepf={deletePessoaFisica}
         filter={filtraPessoaFisisca}
         disableDelete={disableDelete}

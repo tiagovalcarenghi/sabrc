@@ -4,7 +4,11 @@ import {
   usuarioIncorreto,
   usuarioInvalido,
 } from "../util/applicationresources";
-import { createContratoCeV, createPessoaFisica, createUsers } from "./storage";
+import {
+  createPessoaFisica,
+  createPessoaJuridica,
+  createUsers,
+} from "./storage";
 
 export const AuthContext = createContext();
 
@@ -32,8 +36,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const carregarStorage = async () => {
-    localStorage.setItem("contratocev_db", JSON.stringify(createContratoCeV));
     localStorage.setItem("pessoafisica_db", JSON.stringify(createPessoaFisica));
+    localStorage.setItem("pessoajuridica_db",JSON.stringify(createPessoaJuridica));
   };
 
   const login = (nameUser, password) => {

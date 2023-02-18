@@ -17,7 +17,9 @@ import { appMenuItems } from "./AppMenuItens";
 import { AuthContext } from "../../contexts/auth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { ptBR } from "@mui/material/locale";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 380;
 
@@ -93,6 +95,12 @@ const AppMenu = (props: any) => {
   const [open, setOpen] = React.useState(true);
   const { logout } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
+  const navigateToComponent = () => {
+    navigate("/perfil");
+  };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -136,6 +144,15 @@ const AppMenu = (props: any) => {
           <DrawerLeft>
             <IconButton color="error" onClick={logout}>
               <ExitToAppRoundedIcon></ExitToAppRoundedIcon>
+            </IconButton>
+
+            <IconButton
+              color="info"
+              onClick={() => {
+                navigateToComponent();
+              }}
+            >
+              <AccountCircleIcon></AccountCircleIcon>
             </IconButton>
           </DrawerLeft>
 
