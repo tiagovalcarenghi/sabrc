@@ -1,7 +1,11 @@
 import {
   Button,
+  FormControl,
   Grid,
-  TextField,  
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,12 +16,13 @@ import {
   erroValidateEmail,
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
-import { initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
+import { estadoCivilOptions, initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 
 const CadastroPF = (props) => {
   const { pessoafisica, salvar, limpar } = props;
@@ -47,6 +52,7 @@ const CadastroPF = (props) => {
           title: cadSuccess,
           text: cadUserSuccess,
         });
+        values.enderecoCompleto = values.logradouro + values.numero;
         salvar(values);
         formik.resetForm();
         navigate("/cadastro/pessoas");
@@ -59,9 +65,6 @@ const CadastroPF = (props) => {
     return mailformat.test(email);
   };
 
-  //   const confimarPassEqual = (password, confirmNewPassword) => {
-  //     return password === confirmNewPassword;
-  //   };
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -99,27 +102,245 @@ const CadastroPF = (props) => {
               type="email"
               value={formik.values.email}
               onChange={formik.handleChange}
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <FormControl fullWidth size="small">
+              <InputLabel id="demo-controlled-open-select-label">Estado Civil</InputLabel>
+              <Select
+                fullWidth
+                name="cdEstadoCivil"
+                label="Estado Civil"
+                labelId="select-label-id"
+                id="select-label-id"
+                value={formik.values.cdEstadoCivil}
+                onChange={formik.handleChange}
+                required
+
+              >
+                {estadoCivilOptions.map((ec) => (
+                  <MenuItem
+                    key={ec.value}
+                    value={ec.value}
+
+                  >
+                    {ec.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+        </Grid>
+
+
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="profissao"
+              label="Profissão"
+              value={formik.values.profissao}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="nacionalidade"
+              label="Nacionalidade"
+              value={formik.values.nacionalidade}
+              onChange={formik.handleChange}
               required
             />
           </Grid>
 
-          {/* <Grid item xs={4}>
-            <FormControl fullWidth required>
-              <InputLabel id="select-label">Tipo de Usuário</InputLabel>
-              <Select
-                name="tipoUser"
-                label="Tipo de Usuário"
-                labelId="select-label-id"
-                id="select-label-id"
-                value={formik.values.tipoUser}
-                onChange={formik.handleChange}
-              >
-                <MenuItem value={"ADMIN"}>ADMIN</MenuItem>
-                <MenuItem value={"USER"}>USER</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>*/}
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="ci"
+              label="RG"
+              value={formik.values.ci}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+
         </Grid>
+
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="cnh"
+              label="CNH"
+              value={formik.values.cnh}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="docExtra"
+              label="Documento Extra"
+              value={formik.values.docExtra}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="cpf"
+              label="CPF"
+              value={formik.values.cpf}
+              onChange={formik.handleChange}
+              required
+            />
+          </Grid>
+
+
+        </Grid>
+
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="telefone"
+              label="Telefone Principal"
+              value={formik.values.telefone}
+              onChange={formik.handleChange}
+              required
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="telefoneAdicional"
+              label="Telefone Principal"
+              value={formik.values.telefoneAdicional}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+
+        </Grid>
+
+
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+          <Grid item xs={4}>
+            <TextField
+              size="small"
+              fullWidth
+              name="logradouro"
+              label="Logradouro"
+              value={formik.values.logradouro}
+              onChange={formik.handleChange}
+              required
+            />
+          </Grid>
+
+
+          <Grid item xs={2}>
+            <TextField
+              size="small"
+              fullWidth
+              name="cep"
+              label="CEP"
+              value={formik.values.cep}
+              onChange={formik.handleChange}
+              required
+            />
+          </Grid>
+
+
+          <Grid item xs={2}>
+            <TextField
+              size="small"
+              fullWidth
+              name="bairro"
+              label="Bairro"
+              value={formik.values.bairro}
+              onChange={formik.handleChange}
+              required
+            />
+          </Grid>
+
+
+          <Grid item xs={2}>
+            <TextField
+              size="small"
+              fullWidth
+              name="numero"
+              label="Número"
+              value={formik.values.numero}
+              onChange={formik.handleChange}
+              required
+            />
+          </Grid>
+
+
+          <Grid item xs={2}>
+            <TextField
+              size="small"
+              fullWidth
+              name="complemento"
+              label="Complemento"
+              value={formik.values.complemento}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+
+        </Grid>
+
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+
+          <Grid item xs={2}>
+            <TextField
+              size="small"
+              fullWidth
+              name="localidade"
+              label="Localidade"
+              value={formik.values.localidade}
+              onChange={formik.handleChange}
+              required
+            />
+
+          </Grid>
+
+          <Grid item xs={2}>
+            <TextField
+              size="small"
+              fullWidth
+              name="uf"
+              label="UF"
+              value={formik.values.uf}
+              onChange={formik.handleChange}
+              required
+            />
+
+          </Grid>
+
+        </Grid>
+
+
+
 
         <Grid container spacing={2} justifyContent="flex-start">
           <Grid item>

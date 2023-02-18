@@ -32,7 +32,7 @@ export const createPessoaFisica = [
     cdEstadoCivil: 1,
     profissao: "Desenvolvedor",
     nacionalidade: "Brasileiro",
-    ci: "",
+    ci: "2100511134",
     cnh: "321654621",
     docExtra: "",
     cpf: "01698308027",
@@ -118,9 +118,10 @@ export const createPessoaJuridica = [
         cdPessoaFisica: 2,
         nomeRepresentante: "Elvis Sandro Valcarenghi",
       },
-      { id: 2, 
-        cdPessoaFisica: 3, 
-        nomeRepresentante: "John Connor" 
+      {
+        id: 2,
+        cdPessoaFisica: 3,
+        nomeRepresentante: "John Connor"
       },
     ],
   },
