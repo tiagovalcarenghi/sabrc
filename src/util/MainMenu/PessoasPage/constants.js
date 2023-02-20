@@ -50,3 +50,11 @@ export const initialValuesPJ = {
   representantesLegais: [''],
   cnpjFiltro: '',
 }
+
+
+export const initialValuesRL = {
+  id: '',
+  cdPessoaJuridica: '',
+  cdPessoaFisica: '',
+  nomeRepresentante: '',
+}

@@ -18,10 +18,10 @@ import { useNavigate } from "react-router-dom";
 import { Button, Grid, TableHead, TextField, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import {
-  atencao,
-  excludeUser,
-  excludeUserError,
-  successExcludeUser,
+  msgAtencao,
+  msgExcludePessoaError,
+  msgExcludeUser,
+  msgSuccessExcludePessoa,
 } from "../../../../util/applicationresources";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
@@ -278,9 +278,9 @@ const GridPessoaFisica = (props) => {
                   <TableBody>
                     {(rowsPerPage > 0
                       ? pessoafisica_db.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
                       : pessoafisica_db
                     ).map((pessoafisica) => (
                       <TableRow key={pessoafisica.id}>
@@ -307,10 +307,10 @@ const GridPessoaFisica = (props) => {
                         <TableCell width="5%" align="center">
                           <IconButton
                             disabled={disableDelete}
-                            color="primary"
+                            color="error"
                             onClick={() => {
                               Swal.fire({
-                                title: excludeUser,
+                                title: msgExcludeUser,
                                 icon: "warning",
                                 showCancelButton: true,
                                 confirmButtonColor: "#3085d6",
@@ -320,9 +320,9 @@ const GridPessoaFisica = (props) => {
                               }).then((result) => {
                                 if (result.isConfirmed) {
                                   if (!validaExclusao()) {
-                                    Swal.fire(atencao, excludeUserError);
+                                    Swal.fire(msgAtencao, msgExcludePessoaError);
                                   } else {
-                                    Swal.fire(atencao, successExcludeUser);
+                                    Swal.fire(msgAtencao, msgSuccessExcludePessoa);
                                     handleExcluir(pessoafisica);
                                   }
                                 }

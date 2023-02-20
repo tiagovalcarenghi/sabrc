@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import GridPessoaJuridica from "../../../components/MainMenu/PessoasPage/GridPessoaJuridica";
 
 const PessoaJuridicaHome = (props) => {
-  
-  const {disableDelete, disableEdit } = props;
-  const [pessoaJuridicaDb, setPessoaJuridicaDb] = useState([]);
-  
 
-  useEffect(() => {    
+  const { disableDelete, disableEdit } = props;
+  const [pessoaJuridicaDb, setPessoaJuridicaDb] = useState([]);
+
+
+  useEffect(() => {
     setPessoaJuridicaDb(JSON.parse(localStorage.getItem("pessoajuridica_db")));
-}, []);
+  }, []);
 
 
   const deletePessoaJuridica = (data) => {
@@ -19,7 +19,17 @@ const PessoaJuridicaHome = (props) => {
     if (items.length === 0) {
       localStorage.removeItem("pessoajuridica_db");
     }
+    deleteRepresentanteLegal(data);
     setPessoaJuridicaDb(JSON.parse(localStorage.getItem("pessoajuridica_db")));
+  };
+
+  const deleteRepresentanteLegal = (data) => {
+    let items = JSON.parse(localStorage.getItem("representanteslegais_db"));
+    items = items.filter((item) => item.cdPessoaJuridica !== data.cdPessoaJuridica);
+    localStorage.setItem("representanteslegais_db", JSON.stringify(items));
+    if (items.length === 0) {
+      localStorage.removeItem("representanteslegais_db");
+    }
   };
 
   const filtraPessoaJuridica = (
@@ -27,15 +37,15 @@ const PessoaJuridicaHome = (props) => {
     cnpj
   ) => {
     if (!nomeEmpresarial && !cnpj) {
-       setPessoaJuridicaDb(JSON.parse(localStorage.getItem("pessoajuridica_db")));
+      setPessoaJuridicaDb(JSON.parse(localStorage.getItem("pessoajuridica_db")));
       return;
     }
 
     let items = JSON.parse(localStorage.getItem("pessoajuridica_db"));
     items = filterer
-    ((x) =>x.nomeEmpresarial.toLowerCase().includes(nomeEmpresarial.toLowerCase()))
-    ((x) => x.cnpj.includes(cnpj))    
-    (run(items));
+      ((x) => x.nomeEmpresarial.toLowerCase().includes(nomeEmpresarial.toLowerCase()))
+      ((x) => x.cnpj.includes(cnpj))
+      (run(items));
 
     setPessoaJuridicaDb(items);
   };
@@ -47,7 +57,7 @@ const PessoaJuridicaHome = (props) => {
       ? g.value.filter((x) => f(x))
       : filterer((x) => f(x) && g(x));
 
-  
+
 
   return (
     <>
