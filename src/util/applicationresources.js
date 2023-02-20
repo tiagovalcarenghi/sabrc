@@ -15,3 +15,5 @@ export const msgExcludeUserError = "Você não pode excluir o seu próprio usuá
 export const msgCadPessoaSuccess = "Cadastro efetuado com Sucesso."
 export const msgSuccessExcludePessoa = "O cadastro foi excluído."
 export const msgExcludePessoaError = "Erro ao excluir Cadastro. Verifique."
+export const msgExcludeRepresentanteLegal = "Tem certeza que deseja remover este representante legal?"
+export const msgSuccessExcludeRepresentanteLegal = "O representante legal foi removido da lista."

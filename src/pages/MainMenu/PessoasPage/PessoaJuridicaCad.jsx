@@ -53,6 +53,7 @@ const PessoaJuridicaCad = () => {
 
   const limparPessoaJuridicaEmEdicao = () => {
     setPessoaJuridicaEmEdicao(initialValuesPJ);
+    setrepresentanteLegalEmEdicao(initialValuesRL);
   };
 
   const deleteRepresentanteLegal = (data) => {

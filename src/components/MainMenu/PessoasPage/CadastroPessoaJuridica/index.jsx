@@ -9,14 +9,15 @@ import {
   TableHead
 } from "@mui/material";
 import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
 import {
   msgAtencao,
   msgCadPessoaSuccess,
   msgCadSuccess,
   msgErroValidateEmail,
+  msgExcludeRepresentanteLegal,
   msgExcludeUser,
-  msgSuccessExcludePessoa
+  msgSuccessExcludePessoa,
+  msgSuccessExcludeRepresentanteLegal
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import { initialValuesPJ } from "../../../../util/MainMenu/PessoasPage/constants";
@@ -36,10 +37,15 @@ import Paper from "@mui/material/Paper";
 import React, { useState } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
 const CadastroPJ = (props) => {
   const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl } = props;
   const navigate = useNavigate();
+
+  const navigateToComponent = () => {
+    navigate("/cadastro/pessoas", { state: { value: 1 } });
+  };
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -60,7 +66,7 @@ const CadastroPJ = (props) => {
         values.enderecoCompleto = values.logradouro + values.numero;
         salvar(values);
         formik.resetForm();
-        navigate("/cadastro/pessoas");
+        navigate("/cadastro/pessoas", { state: { value: 1 } });
       }
     },
   });
@@ -335,7 +341,7 @@ const CadastroPJ = (props) => {
                               color="error"
                               onClick={() => {
                                 Swal.fire({
-                                  title: msgExcludeUser,
+                                  title: msgExcludeRepresentanteLegal,
                                   icon: "warning",
                                   showCancelButton: true,
                                   confirmButtonColor: "#3085d6",
@@ -344,7 +350,7 @@ const CadastroPJ = (props) => {
                                   cancelButtonText: "Não",
                                 }).then((result) => {
                                   if (result.isConfirmed) {
-                                    Swal.fire(msgAtencao, msgSuccessExcludePessoa);
+                                    Swal.fire(msgAtencao, msgSuccessExcludeRepresentanteLegal);
                                     handleExcluirRL(rl);
                                   }
                                 });
@@ -406,8 +412,9 @@ const CadastroPJ = (props) => {
             <Button
               color="primary"
               variant="outlined"
-              component={Link}
-              to="/cadastro/pessoas"
+              onClick={() => {
+                navigateToComponent();
+              }}
               startIcon={<ArrowBackIcon />}
             >
               VOLTAR
