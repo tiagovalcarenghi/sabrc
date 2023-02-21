@@ -10,6 +10,7 @@ import AppMenu from "./pages/AppNavBar/AppMenu";
 import LoginPage from "./pages/LoginPage";
 import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
 import ContasHome from "./pages/MainMenu/ContasContabeis/Contas/ContasHome";
+import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
 import PessoasPage from "./pages/MainMenu/PessoasPage";
 import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
 import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
@@ -88,6 +89,17 @@ const AppRoutes = () => {
               </Private>
             }
           />
+
+          <Route
+            exact
+            path="/cadastro/minutaspadrao/compraevenda"
+            element={
+              <Private>
+                <MinutaPadraoCompraeVendaHome />
+              </Private>
+            }
+          />
+
 
         </Routes>
       </AuthProvider>

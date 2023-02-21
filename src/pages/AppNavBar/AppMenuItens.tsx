@@ -50,7 +50,7 @@ export const appMenuItems = [
           {
             name: "Minuta Padrão Compra e Venda",
             sx: { pl: 6 },
-            link: `/cadastro/minutas-padrao/minutapadraocv`,
+            link: `/cadastro/minutaspadrao/compraevenda`,
             Icon: CreateNewFolderIcon,
           },
           {

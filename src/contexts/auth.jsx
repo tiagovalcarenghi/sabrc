@@ -6,6 +6,7 @@ import {
 } from "../util/applicationresources";
 import {
   createContasContabeis,
+  createMinutasPadraoCeV,
   createPessoaFisica,
   createPessoaJuridica,
   createRepresentantesLegaisBase,
@@ -42,6 +43,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("pessoajuridica_db", JSON.stringify(createPessoaJuridica));
     localStorage.setItem("representanteslegais_db", JSON.stringify(createRepresentantesLegaisBase));
     localStorage.setItem("contascontabeis_db", JSON.stringify(createContasContabeis));
+    localStorage.setItem("minutaspadraocev_db", JSON.stringify(createMinutasPadraoCeV));
+
+
   };
 
   const login = (nameUser, password) => {

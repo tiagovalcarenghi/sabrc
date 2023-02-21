@@ -19,4 +19,5 @@ export const msgSuccessExcludeRepresentanteLegal = "O representante legal foi re
 export const msgExcludeConta = "Tem certeza que deseja excluir esta conta?"
 export const msgExcludeContaError = "Erro ao excluir Conta. Verifique."
 export const msgSuccessExcludeConta = "A conta foi excluída."
+export const msgCadMinutaPadraoSuccess = "Minuta Padrão cadastrada com Sucesso."
 
