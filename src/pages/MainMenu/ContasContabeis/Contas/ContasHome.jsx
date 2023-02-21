@@ -3,7 +3,7 @@ import GridContas from "../../../../components/MainMenu/ContasContabeis/Contas/G
 import AppMenu from "../../../AppNavBar/AppMenu";
 
 
-const ContasHome = (props) => {
+const ContasHome = () => {
     const [disableDelete, setDisableDelete] = useState(true);
     const [disableEdit, setDisableEdit] = useState(true);
     const [contasDb, setContasDb] = useState([]);
