@@ -7,6 +7,8 @@ import {
 import {
   createContasContabeis,
   createMinutasPadraoCeV,
+  createMinutasPadraoLocacao,
+  createMinutasPadraoOrdemServico,
   createPessoaFisica,
   createPessoaJuridica,
   createRepresentantesLegaisBase,
@@ -44,6 +46,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("representanteslegais_db", JSON.stringify(createRepresentantesLegaisBase));
     localStorage.setItem("contascontabeis_db", JSON.stringify(createContasContabeis));
     localStorage.setItem("minutaspadraocev_db", JSON.stringify(createMinutasPadraoCeV));
+    localStorage.setItem("minutaspadraolocacao_db", JSON.stringify(createMinutasPadraoLocacao));
+    localStorage.setItem("minutaspadraoos_db", JSON.stringify(createMinutasPadraoOrdemServico));
 
 
   };

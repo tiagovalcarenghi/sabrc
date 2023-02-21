@@ -8,16 +8,17 @@ import Swal from "sweetalert2";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
-import { initialValuesMinutasPadraoCeV } from "../../../../util/MainMenu/MinutasPadrao/ContratoCompraeVenda/constants";
 import { msgCadMinutaPadraoSuccess, msgCadSuccess } from "../../../../util/applicationresources";
+import { initialValuesMinutasPadraoOS } from "../../../../util/MainMenu/MinutasPadrao/ContratoOS/constants";
 
 
-const CadastroMinutasPadraoCompraeVenda = (props) => {
-    const { minutaspadraocev_db, salvar, disableEdit } = props;
+const CadastroMinutasOS = (props) => {
+    const { minutaspadraoos_db, salvar, disableEdit } = props;
+
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: minutaspadraocev_db || initialValuesMinutasPadraoCeV,
+        initialValues: minutaspadraoos_db || initialValuesMinutasPadraoOS,
         onSubmit: (values) => {
             Swal.fire({
                 icon: "success",
@@ -43,7 +44,7 @@ const CadastroMinutasPadraoCompraeVenda = (props) => {
                 }}
             >
                 <Stack direction="row" spacing={1}>
-                    <Chip label="Cadastro Minuta Padrão Contrato de Compra & Venda" />
+                    <Chip label="Cadastro Minuta Padrão de Ordem de Serviço" />
                 </Stack>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid item xs={12}>
@@ -85,4 +86,4 @@ const CadastroMinutasPadraoCompraeVenda = (props) => {
     );
 };
 
-export default CadastroMinutasPadraoCompraeVenda;
+export default CadastroMinutasOS;

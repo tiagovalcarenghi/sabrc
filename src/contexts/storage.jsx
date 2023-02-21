@@ -214,3 +214,12 @@ export const createContasContabeis = [
 export const createMinutasPadraoCeV = null;
 
 
+//-------------------------------------------------
+
+export const createMinutasPadraoLocacao = null;
+
+//-------------------------------------------------
+
+export const createMinutasPadraoOrdemServico = null;
+
+

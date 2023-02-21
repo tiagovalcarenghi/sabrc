@@ -11,6 +11,8 @@ import LoginPage from "./pages/LoginPage";
 import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
 import ContasHome from "./pages/MainMenu/ContasContabeis/Contas/ContasHome";
 import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
+import MinutaPadraoLocacaoHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoContratodeLocacao";
+import MinutaPadraoOSHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoOS";
 import PessoasPage from "./pages/MainMenu/PessoasPage";
 import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
 import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
@@ -96,6 +98,27 @@ const AppRoutes = () => {
             element={
               <Private>
                 <MinutaPadraoCompraeVendaHome />
+              </Private>
+            }
+          />
+
+
+          <Route
+            exact
+            path="/cadastro/minutaspadrao/locacao"
+            element={
+              <Private>
+                <MinutaPadraoLocacaoHome />
+              </Private>
+            }
+          />
+
+          <Route
+            exact
+            path="/cadastro/minutaspadrao/os"
+            element={
+              <Private>
+                <MinutaPadraoOSHome />
               </Private>
             }
           />

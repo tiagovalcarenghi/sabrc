@@ -56,13 +56,13 @@ export const appMenuItems = [
           {
             name: "Minuta Padrão Contrato de Locação",
             sx: { pl: 6 },
-            link: `/cadastro/minutas-padrao/minutapadraolocacao`,
+            link: `/cadastro/minutaspadrao/locacao`,
             Icon: CreateNewFolderIcon,
           },
           {
             name: "Minuta de Contrato de  Prestação de Serviços",
             sx: { pl: 6 },
-            link: `/cadastro/minutas-padrao/minutacontratoprestserv`,
+            link: `/cadastro/minutaspadrao/os`,
             Icon: CreateNewFolderIcon,
           },
         ],

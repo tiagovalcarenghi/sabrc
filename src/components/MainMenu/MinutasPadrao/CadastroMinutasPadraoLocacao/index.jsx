@@ -8,16 +8,16 @@ import Swal from "sweetalert2";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
-import { initialValuesMinutasPadraoCeV } from "../../../../util/MainMenu/MinutasPadrao/ContratoCompraeVenda/constants";
 import { msgCadMinutaPadraoSuccess, msgCadSuccess } from "../../../../util/applicationresources";
+import { initialValuesMinutasPadraoLocacao } from "../../../../util/MainMenu/MinutasPadrao/ContratoLocacao/constants";
 
 
-const CadastroMinutasPadraoCompraeVenda = (props) => {
-    const { minutaspadraocev_db, salvar, disableEdit } = props;
+const CadastroMinutasLocacao = (props) => {
+    const { minutaspadraolocacao_db, salvar, disableEdit } = props;
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: minutaspadraocev_db || initialValuesMinutasPadraoCeV,
+        initialValues: minutaspadraolocacao_db || initialValuesMinutasPadraoLocacao,
         onSubmit: (values) => {
             Swal.fire({
                 icon: "success",
@@ -28,7 +28,6 @@ const CadastroMinutasPadraoCompraeVenda = (props) => {
 
             salvar(values);
             formik.resetForm();
-
         },
     });
 
@@ -43,7 +42,7 @@ const CadastroMinutasPadraoCompraeVenda = (props) => {
                 }}
             >
                 <Stack direction="row" spacing={1}>
-                    <Chip label="Cadastro Minuta Padrão Contrato de Compra & Venda" />
+                    <Chip label="Cadastro Minuta Padrão Locação" />
                 </Stack>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid item xs={12}>
@@ -85,4 +84,4 @@ const CadastroMinutasPadraoCompraeVenda = (props) => {
     );
 };
 
-export default CadastroMinutasPadraoCompraeVenda;
+export default CadastroMinutasLocacao;
