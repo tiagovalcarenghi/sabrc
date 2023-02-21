@@ -8,6 +8,8 @@ import {
 import { AuthProvider, AuthContext } from "./contexts/auth";
 import AppMenu from "./pages/AppNavBar/AppMenu";
 import LoginPage from "./pages/LoginPage";
+import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
+import ContasHome from "./pages/MainMenu/ContasContabeis/Contas/ContasHome";
 import PessoasPage from "./pages/MainMenu/PessoasPage";
 import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
 import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
@@ -68,8 +70,26 @@ const AppRoutes = () => {
               </Private>
             }
           />
-        
-        </Routes>       
+          <Route
+            exact
+            path="/cadastro/contascontabeis/contas"
+            element={
+              <Private>
+                <ContasHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/contascontabeis/cadcontas"
+            element={
+              <Private>
+                <ContasCad />
+              </Private>
+            }
+          />
+
+        </Routes>
       </AuthProvider>
     </Router>
   );

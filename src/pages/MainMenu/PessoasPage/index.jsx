@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import PessoaFisicaHome from "./PessoaFisicaHome";
 import AppMenu from "../../AppNavBar/AppMenu";
 import PessoaJuridicaHome from "./PessoaJuridicaHome";
+import { useLocation } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,15 +46,26 @@ const PessoasPage = () => {
   const [value, setValue] = React.useState(0);
   const [disableDelete, setDisableDelete] = useState(true);
   const [disableEdit, setDisableEdit] = useState(true);
-  
+
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location.state);
+    if (!location.state || !location) {
+      setValue(0);
+      return;
+    }
+    setValue(location.state.value);
+  }, [location.state]);
+
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("user_storage"));
     if (usuario) {
       usuario.tipoUser === "ADMIN"
         ? disables(1)
         : usuario.tipoUser === "MASTER"
-        ? disables(2)
-        : disables(0);
+          ? disables(2)
+          : disables(0);
     }
   }, []);
 

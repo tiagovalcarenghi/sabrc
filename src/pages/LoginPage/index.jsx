@@ -16,7 +16,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { Container, Typography } from "@mui/material";
 import Swal from "sweetalert2";
-import { atencao, preencherCampos } from "../../util/applicationresources";
+import { msgAtencao, msgPreencherCampos } from "../../util/applicationresources";
 
 const theme = createTheme({
   palette: {
@@ -40,8 +40,8 @@ const LoginPage = () => {
     if (!usuario || !password) {
       Swal.fire({
         icon: "error",
-        title: atencao,
-        text: preencherCampos,
+        title: msgAtencao,
+        text: msgPreencherCampos,
       });
       return;
     }
@@ -51,7 +51,7 @@ const LoginPage = () => {
     if (res) {
       Swal.fire({
         icon: "error",
-        title: atencao,
+        title: msgAtencao,
         text: res,
       });
       return;

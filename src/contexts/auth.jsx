@@ -1,12 +1,14 @@
 import { useState, createContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  usuarioIncorreto,
-  usuarioInvalido,
+  msgUsuarioIncorreto,
+  msgUsuarioInvalido,
 } from "../util/applicationresources";
 import {
+  createContasContabeis,
   createPessoaFisica,
   createPessoaJuridica,
+  createRepresentantesLegaisBase,
   createUsers,
 } from "./storage";
 
@@ -37,7 +39,9 @@ export const AuthProvider = ({ children }) => {
 
   const carregarStorage = async () => {
     localStorage.setItem("pessoafisica_db", JSON.stringify(createPessoaFisica));
-    localStorage.setItem("pessoajuridica_db",JSON.stringify(createPessoaJuridica));
+    localStorage.setItem("pessoajuridica_db", JSON.stringify(createPessoaJuridica));
+    localStorage.setItem("representanteslegais_db", JSON.stringify(createRepresentantesLegaisBase));
+    localStorage.setItem("contascontabeis_db", JSON.stringify(createContasContabeis));
   };
 
   const login = (nameUser, password) => {
@@ -63,10 +67,10 @@ export const AuthProvider = ({ children }) => {
 
         return;
       } else {
-        return usuarioIncorreto;
+        return msgUsuarioIncorreto;
       }
     } else {
-      return usuarioInvalido;
+      return msgUsuarioInvalido;
     }
   };
 

@@ -5,8 +5,7 @@ import { initialValuesPF } from "../../../util/MainMenu/PessoasPage/constants";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 const PessoaFisiscaCad = () => {
-  const [pessoaFisicaEmEdicao, setPessoaFisicaEmEdicao] =
-    useState(initialValuesPF);
+  const [pessoaFisicaEmEdicao, setPessoaFisicaEmEdicao] = useState(initialValuesPF);
   const location = useLocation();
 
   useEffect(() => {

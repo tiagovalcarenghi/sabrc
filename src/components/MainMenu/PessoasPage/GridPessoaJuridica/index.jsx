@@ -18,10 +18,10 @@ import { useNavigate } from "react-router-dom";
 import { Button, Grid, TableHead, TextField, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import {
-  atencao,
-  excludeUser,
-  excludeUserError,
-  successExcludeUser,
+  msgAtencao,
+  msgExcludePessoaError,
+  msgExcludeUser,
+  msgSuccessExcludePessoa,
 } from "../../../../util/applicationresources";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
@@ -109,7 +109,7 @@ const GridPessoaJuridica = (props) => {
 
   const [filterNomeEmpresarial, setFilterNomeEmpresarial] = useState("");
   const [filterCnpj, setFilterCnpj] = useState("");
-  
+
   const handleExcluir = (user) => {
     deletepj(user);
   };
@@ -149,10 +149,10 @@ const GridPessoaJuridica = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0
-      ? Math.max(0, (1 + page) * rowsPerPage - pessoajuridica_db.length)
-      : 0;
+  // const emptyRows =
+  //   page > 0
+  //     ? Math.max(0, (1 + page) * rowsPerPage - pessoajuridica_db.length)
+  //     : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -263,9 +263,9 @@ const GridPessoaJuridica = (props) => {
                   <TableBody>
                     {(rowsPerPage > 0
                       ? pessoajuridica_db.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
                       : pessoajuridica_db
                     ).map((pessoajuridica) => (
                       <TableRow key={pessoajuridica.id}>
@@ -289,10 +289,10 @@ const GridPessoaJuridica = (props) => {
                         <TableCell width="5%" align="center">
                           <IconButton
                             disabled={disableDelete}
-                            color="primary"
+                            color="error"
                             onClick={() => {
                               Swal.fire({
-                                title: excludeUser,
+                                title: msgExcludeUser,
                                 icon: "warning",
                                 showCancelButton: true,
                                 confirmButtonColor: "#3085d6",
@@ -302,9 +302,9 @@ const GridPessoaJuridica = (props) => {
                               }).then((result) => {
                                 if (result.isConfirmed) {
                                   if (!validaExclusao()) {
-                                    Swal.fire(atencao, excludeUserError);
+                                    Swal.fire(msgAtencao, msgExcludePessoaError);
                                   } else {
-                                    Swal.fire(atencao, successExcludeUser);
+                                    Swal.fire(msgAtencao, msgSuccessExcludePessoa);
                                     handleExcluir(pessoajuridica);
                                   }
                                 }

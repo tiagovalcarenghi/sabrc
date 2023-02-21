@@ -5,17 +5,19 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  TableHead
 } from "@mui/material";
 import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
 import {
-  atencao,
-  cadSuccess,
-  cadUserSuccess,
-  erroValidateEmail,
-  excludeUser,
-  successExcludeUser,
+  msgAtencao,
+  msgCadPessoaSuccess,
+  msgCadSuccess,
+  msgErroValidateEmail,
+  msgExcludeRepresentanteLegal,
+  msgExcludeUser,
+  msgSuccessExcludePessoa,
+  msgSuccessExcludeRepresentanteLegal
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import { initialValuesPJ } from "../../../../util/MainMenu/PessoasPage/constants";
@@ -25,21 +27,25 @@ import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { createRepresentantesLegaisOptions } from "../../../../contexts/storage";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableBody from "@material-ui/core/TableBody/TableBody";
-import IconButton from "@material-ui/core/IconButton";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import React, { useState } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
 const CadastroPJ = (props) => {
-  const { pessoajuridica, salvar, limpar, deleterl, addrl } = props;
+  const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl } = props;
   const navigate = useNavigate();
+
+  const navigateToComponent = () => {
+    navigate("/cadastro/pessoas", { state: { value: 1 } });
+  };
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -48,27 +54,19 @@ const CadastroPJ = (props) => {
       if (!confirmaEmail(values.emailContato)) {
         Swal.fire({
           icon: "error",
-          title: atencao,
-          text: erroValidateEmail,
+          title: msgAtencao,
+          text: msgErroValidateEmail,
         });
-        // } else if (
-        //   !confimarPassEqual(values.password, values.confirmNewPassword)
-        // ) {
-        //   Swal.fire({
-        //     icon: "error",
-        //     title: atencao,
-        //     text: passwordEqualError,
-        //   });
       } else {
         Swal.fire({
           icon: "success",
-          title: cadSuccess,
-          text: cadUserSuccess,
+          title: msgCadSuccess,
+          text: msgCadPessoaSuccess,
         });
         values.enderecoCompleto = values.logradouro + values.numero;
         salvar(values);
         formik.resetForm();
-        navigate("/cadastro/pessoas");
+        navigate("/cadastro/pessoas", { state: { value: 1 } });
       }
     },
   });
@@ -78,17 +76,21 @@ const CadastroPJ = (props) => {
     return mailformat.test(emailContato);
   };
 
-  //   const confimarPassEqual = (password, confirmNewPassword) => {
-  //     return password === confirmNewPassword;
-  //   };
-
 
   const handleExcluirRL = (rl) => {
     deleterl(rl);
   };
 
-  const addRepresentanteLegal = (rl) => {
-    addrl(rl);
+  const addRepresentanteLegal = () => {
+    if (selectRepresentanteLegal.id != undefined) {
+      if (pessoajuridica) {
+        addrl(selectRepresentanteLegal, pessoajuridica.id);
+      } else {
+        addrl(selectRepresentanteLegal, null);
+      }
+    }
+
+
   };
 
 
@@ -323,23 +325,23 @@ const CadastroPJ = (props) => {
                 </TableHead>
 
                 <>
-                  {pessoajuridica.representantesLegais && pessoajuridica.representantesLegais.length > 0 && (
+                  {representanteslegais && representanteslegais.length > 0 && (
                     <TableBody>
-                      {pessoajuridica.representantesLegais.map((representantesLegais) => (
-                        <TableRow key={representantesLegais.id}>
+                      {representanteslegais.map((rl) => (
+                        <TableRow key={rl.id}>
                           <TableCell align="left" width="10%">
-                            {representantesLegais.id}
+                            {rl.id}
                           </TableCell>
                           <TableCell align="left" width="40%">
-                            {representantesLegais.nomeRepresentante}
+                            {rl.nomeRepresentante}
                           </TableCell>
 
                           <TableCell width="5%" align="center">
                             <IconButton
-                              color="primary"
+                              color="error"
                               onClick={() => {
                                 Swal.fire({
-                                  title: excludeUser,
+                                  title: msgExcludeRepresentanteLegal,
                                   icon: "warning",
                                   showCancelButton: true,
                                   confirmButtonColor: "#3085d6",
@@ -348,8 +350,8 @@ const CadastroPJ = (props) => {
                                   cancelButtonText: "Não",
                                 }).then((result) => {
                                   if (result.isConfirmed) {
-                                    Swal.fire(atencao, successExcludeUser);
-                                    handleExcluirRL(representantesLegais);
+                                    Swal.fire(msgAtencao, msgSuccessExcludeRepresentanteLegal);
+                                    handleExcluirRL(rl);
                                   }
                                 });
                               }}
@@ -410,8 +412,9 @@ const CadastroPJ = (props) => {
             <Button
               color="primary"
               variant="outlined"
-              component={Link}
-              to="/cadastro/pessoas"
+              onClick={() => {
+                navigateToComponent();
+              }}
               startIcon={<ArrowBackIcon />}
             >
               VOLTAR

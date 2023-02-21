@@ -10,10 +10,10 @@ import {
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  atencao,
-  cadSuccess,
-  cadUserSuccess,
-  erroValidateEmail,
+  msgAtencao,
+  msgCadPessoaSuccess,
+  msgCadSuccess,
+  msgErroValidateEmail,
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import { estadoCivilOptions, initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
@@ -35,22 +35,15 @@ const CadastroPF = (props) => {
       if (!confirmaEmail(values.email)) {
         Swal.fire({
           icon: "error",
-          title: atencao,
-          text: erroValidateEmail,
+          title: msgAtencao,
+          text: msgErroValidateEmail,
         });
-        // } else if (
-        //   !confimarPassEqual(values.password, values.confirmNewPassword)
-        // ) {
-        //   Swal.fire({
-        //     icon: "error",
-        //     title: atencao,
-        //     text: passwordEqualError,
-        //   });
+
       } else {
         Swal.fire({
           icon: "success",
-          title: cadSuccess,
-          text: cadUserSuccess,
+          title: msgCadSuccess,
+          text: msgCadPessoaSuccess,
         });
         values.enderecoCompleto = values.logradouro + values.numero;
         salvar(values);
