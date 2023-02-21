@@ -16,13 +16,7 @@ export const appMenuItems = [
         sx: { pl: 4 },
         Icon: BadgeIcon,
         link: `/cadastro/pessoas`,
-      },
-      {
-        name: "Usuários",
-        sx: { pl: 4 },
-        Icon: BadgeIcon,
-        link: `/cadastro/usuarios`,
-      },
+      },    
       {
         name: "Contas Contábeis",
         sx: { pl: 4 },

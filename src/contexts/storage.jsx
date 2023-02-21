@@ -174,6 +174,58 @@ export const createRepresentantesLegaisOptions = [
 
 //-------------------------------------------------
 
+export const createContasContabeis = [
+  {
+    id: 1,
+    cdContaContabil: 1,
+    desContaContabil: 'Conta Patrimonial 1',
+    cdTipoConta: 1,
+    descTipoConta: 'Patrimonial',
+    saldo: 7500.36,
+    cdTipoSaldo: 1,
+    descTipoSaldo: 'Crédito'
+  },
+  {
+    id: 2,
+    cdContaContabil: 2,
+    desContaContabil: 'Conta Resultado 1',
+    cdTipoConta: 2,
+    descTipoConta: 'Resultado',
+    saldo: 0,
+    cdTipoSaldo: 3,
+    descTipoSaldo: 'Zero'
+  },
+  {
+    id: 2,
+    cdContaContabil: 2,
+    desContaContabil: 'Conta Resultado 2',
+    cdTipoConta: 2,
+    descTipoConta: 'Resultado',
+    saldo: 890.00,
+    cdTipoSaldo: 2,
+    descTipoSaldo: 'Débito'
+  },
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // export const pessoaJuridicaOptions = [
 //   { value: 1, label: "Santander" },
 //   { value: 2, label: "Banco do Brasil" },

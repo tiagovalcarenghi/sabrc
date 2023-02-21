@@ -5,6 +5,7 @@ import {
   msgUsuarioInvalido,
 } from "../util/applicationresources";
 import {
+  createContasContabeis,
   createPessoaFisica,
   createPessoaJuridica,
   createRepresentantesLegaisBase,
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("pessoafisica_db", JSON.stringify(createPessoaFisica));
     localStorage.setItem("pessoajuridica_db", JSON.stringify(createPessoaJuridica));
     localStorage.setItem("representanteslegais_db", JSON.stringify(createRepresentantesLegaisBase));
+    localStorage.setItem("contascontabeis_db", JSON.stringify(createContasContabeis));
   };
 
   const login = (nameUser, password) => {

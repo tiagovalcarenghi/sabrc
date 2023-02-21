@@ -20,6 +20,7 @@ import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { ptBR } from "@mui/material/locale";
 import { useNavigate } from "react-router-dom";
+import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 
 const drawerWidth = 380;
 
@@ -97,8 +98,14 @@ const AppMenu = (props: any) => {
 
   const navigate = useNavigate();
 
-  const navigateToComponent = () => {
-    navigate("/perfil");
+  const navigateToComponent = (address:any) => {
+    switch(address){
+      case 'perfil': navigate("/editar/perfil");
+      break;
+      case 'usuarios': navigate("/cadastro/usuarios");
+      break;
+      
+    }
   };
 
   const handleDrawerOpen = () => {
@@ -149,10 +156,19 @@ const AppMenu = (props: any) => {
             <IconButton
               color="info"
               onClick={() => {
-                navigateToComponent();
+                navigateToComponent('perfil');
               }}
             >
               <AccountCircleIcon></AccountCircleIcon>
+            </IconButton>
+
+            <IconButton
+              color="warning"
+              onClick={() => {
+                navigateToComponent('usuarios');
+              }}
+            >
+              <PeopleAltRoundedIcon></PeopleAltRoundedIcon>
             </IconButton>
           </DrawerLeft>
 
