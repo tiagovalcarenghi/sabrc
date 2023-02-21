@@ -20,4 +20,7 @@ export const msgExcludeConta = "Tem certeza que deseja excluir esta conta?"
 export const msgExcludeContaError = "Erro ao excluir Conta. Verifique."
 export const msgSuccessExcludeConta = "A conta foi excluída."
 export const msgCadMinutaPadraoSuccess = "Minuta Padrão cadastrada com Sucesso."
+export const msgExcludeCdC = "Tem certeza que deseja excluir este Centro de Custo?"
+export const msgExcludeCdCError = "Erro ao excluir Centro de Custo. Verifique."
+export const msgSuccessExcludeCdC = "O Centro de Custo foi excluído."
 

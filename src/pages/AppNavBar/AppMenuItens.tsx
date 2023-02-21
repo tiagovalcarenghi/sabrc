@@ -37,7 +37,7 @@ export const appMenuItems = [
           {
             name: "Centro de Custo",
             sx: { pl: 6 },
-            link: `/cadastro/contas-contabeis/cdc`,
+            link: `/cadastro/contascontabeis/centrodecusto`,
             Icon: CreateNewFolderIcon,
           },
         ],
@@ -113,14 +113,7 @@ export const appMenuItems = [
         name: "ARE",
         sx: { pl: 4 },
         Icon: SummarizeIcon,
-        items: [
-          {
-            name: "Gerar",
-            sx: { pl: 6 },
-            link: `/operacoes/are`,
-            Icon: CreateNewFolderIcon,
-          },
-        ],
+        link: `/operacoes/are`,
       },
     ],
   },

@@ -10,8 +10,6 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AppMenuItem from "./AppMenuItem";
 import { appMenuItems } from "./AppMenuItens";
 import { AuthContext } from "../../contexts/auth";
@@ -111,9 +109,9 @@ const AppMenu = (props: any) => {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -172,13 +170,13 @@ const AppMenu = (props: any) => {
             </IconButton>
           </DrawerLeft>
 
-          <IconButton onClick={handleDrawerClose}>
+          {/* <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
             ) : (
               <ChevronRightIcon />
             )}
-          </IconButton>
+          </IconButton> */}
         </DrawerHeader>
 
         <Divider />
@@ -188,7 +186,6 @@ const AppMenu = (props: any) => {
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-          {/* <AppMenuItem {...appMenuItems[0]} /> */}
           {appMenuItems.map((item, index) => (
             <AppMenuItem {...item} key={index} />
           ))}
