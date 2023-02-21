@@ -4,7 +4,8 @@ import AppMenu from "../../../AppNavBar/AppMenu";
 
 
 const ContasHome = (props) => {
-    const { disableDelete, disableEdit } = props;
+    const [disableDelete, setDisableDelete] = useState(true);
+    const [disableEdit, setDisableEdit] = useState(true);
     const [contasDb, setContasDb] = useState([]);
 
 
@@ -12,6 +13,33 @@ const ContasHome = (props) => {
         setContasDb(JSON.parse(localStorage.getItem("contascontabeis_db")));
     }, []);
 
+
+    useEffect(() => {
+        const usuario = JSON.parse(localStorage.getItem("user_storage"));
+        if (usuario) {
+            usuario.tipoUser === "ADMIN"
+                ? disables(1)
+                : usuario.tipoUser === "MASTER"
+                    ? disables(2)
+                    : disables(0);
+        }
+    }, []);
+
+    const disables = (data) => {
+        switch (data) {
+            case 1:
+                setDisableDelete(false);
+                setDisableEdit(false);
+                break;
+            case 2:
+                setDisableDelete(true);
+                setDisableEdit(false);
+                break;
+            default:
+                setDisableDelete(true);
+                setDisableEdit(true);
+        }
+    };
 
     const deleteConta = (data) => {
         let items = JSON.parse(localStorage.getItem("contascontabeis_db"));

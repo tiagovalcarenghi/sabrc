@@ -30,7 +30,7 @@ import {
     MenuItem,
     Select,
 } from "@mui/material";
-import { msgAtencao, msgExcludeConta, msgExcludeContaError, msgExcludeUser, msgSuccessExcludeConta } from "../../../../../util/applicationresources";
+import { msgAtencao, msgExcludeConta, msgExcludeContaError, msgSuccessExcludeConta } from "../../../../../util/applicationresources";
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -106,8 +106,7 @@ TablePaginationActions.propTypes = {
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
 const GridContas = (props) => {
-    const { contascontabeis_db, deleteconta, filter, disableDelete, disableEdit } =
-        props;
+    const { contascontabeis_db, deleteconta, filter, disableDelete, disableEdit } = props;
 
     const [filterDesContaContabil, setfilterDesContaContabil] = useState("");
     const [filterCdTipoConta, setfilterCdTipoConta] = useState("");
@@ -154,10 +153,10 @@ const GridContas = (props) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0
-            ? Math.max(0, (1 + page) * rowsPerPage - contascontabeis_db.length)
-            : 0;
+    // const emptyRows =
+    //     page > 0
+    //         ? Math.max(0, (1 + page) * rowsPerPage - contascontabeis_db.length)
+    //         : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
