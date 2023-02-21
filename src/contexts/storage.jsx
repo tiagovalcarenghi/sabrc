@@ -223,3 +223,22 @@ export const createMinutasPadraoLocacao = null;
 export const createMinutasPadraoOrdemServico = null;
 
 
+//-------------------------------------------------
+
+export const createCentrodeCusto = [
+  {
+    id: 1,
+    cdCentrodeCusto: 1,
+    descCentrodeCusto: 'Intermediação'
+  },
+  {
+    id: 2,
+    cdCentrodeCusto: 2,
+    descCentrodeCusto: 'Locação'
+  },
+  {
+    id: 3,
+    cdCentrodeCusto: 3,
+    descCentrodeCusto: 'Prestação'
+  }
+]

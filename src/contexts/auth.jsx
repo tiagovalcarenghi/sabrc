@@ -5,6 +5,7 @@ import {
   msgUsuarioInvalido,
 } from "../util/applicationresources";
 import {
+  createCentrodeCusto,
   createContasContabeis,
   createMinutasPadraoCeV,
   createMinutasPadraoLocacao,
@@ -48,8 +49,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("minutaspadraocev_db", JSON.stringify(createMinutasPadraoCeV));
     localStorage.setItem("minutaspadraolocacao_db", JSON.stringify(createMinutasPadraoLocacao));
     localStorage.setItem("minutaspadraoos_db", JSON.stringify(createMinutasPadraoOrdemServico));
-
-
+    localStorage.setItem("centrodecusto_db", JSON.stringify(createCentrodeCusto));
   };
 
   const login = (nameUser, password) => {

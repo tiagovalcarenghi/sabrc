@@ -8,6 +8,8 @@ import {
 import { AuthProvider, AuthContext } from "./contexts/auth";
 import AppMenu from "./pages/AppNavBar/AppMenu";
 import LoginPage from "./pages/LoginPage";
+import CentrodeCustoCad from "./pages/MainMenu/ContasContabeis/CentrodeCusto/CentrodeCustoCad";
+import CentrodeCustoHome from "./pages/MainMenu/ContasContabeis/CentrodeCusto/CentrodeCustoHome";
 import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
 import ContasHome from "./pages/MainMenu/ContasContabeis/Contas/ContasHome";
 import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
@@ -88,6 +90,25 @@ const AppRoutes = () => {
             element={
               <Private>
                 <ContasCad />
+              </Private>
+            }
+          />
+
+          <Route
+            exact
+            path="/cadastro/contascontabeis/centrodecusto"
+            element={
+              <Private>
+                <CentrodeCustoHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/contascontabeis/cadcentrodecusto"
+            element={
+              <Private>
+                <CentrodeCustoCad />
               </Private>
             }
           />
