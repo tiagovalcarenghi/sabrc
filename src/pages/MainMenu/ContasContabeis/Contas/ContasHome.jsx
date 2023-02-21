@@ -23,24 +23,29 @@ const ContasHome = (props) => {
         setContasDb(JSON.parse(localStorage.getItem("contascontabeis_db")));
     };
 
-    const filtraConta = (
-        desContaContabil,
-        cdTipoConta,
-        cdTipoSaldo
-    ) => {
+    const filtraConta = (desContaContabil, cdTipoConta, cdTipoSaldo) => {
         if (!desContaContabil && !cdTipoConta && !cdTipoSaldo) {
             setContasDb(JSON.parse(localStorage.getItem("contascontabeis_db")));
             return;
         }
 
+        console.log(cdTipoConta);
+        console.log(cdTipoSaldo);
+
         let items = JSON.parse(localStorage.getItem("contascontabeis_db"));
-        items = filterer((x) => x.desContaContabil.toLowerCase().includes(desContaContabil.toLowerCase()))
-            ((x) => x.cdTipoConta.includes(cdTipoConta))
-            ((x) => x.cdTipoSaldo.includes(cdTipoSaldo))
-            (run(items));
+        items = filterer((x) => x.desContaContabil.toLowerCase().includes(desContaContabil.toLowerCase()))(run(items));
+        if (isEligible(cdTipoConta)) { items = filterer(((x) => x.cdTipoConta === cdTipoConta))(run(items)); }
+        if (isEligible(cdTipoSaldo)) { items = filterer(((x) => x.cdTipoSaldo === cdTipoSaldo))(run(items)); }
 
         setContasDb(items);
     };
+
+    function isEligible(value) {
+        if (value !== false || value !== null || value !== 0 || value !== "") {
+            return value;
+        }
+    }
+
 
     const run = (value = []) => ({ type: run, value: value });
 

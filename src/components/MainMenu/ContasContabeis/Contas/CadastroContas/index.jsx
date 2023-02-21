@@ -9,10 +9,6 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
-import {
-    msgCadPessoaSuccess,
-    msgCadSuccess,
-} from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
@@ -20,6 +16,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { initialValuesContasContabeis, tipoContaContabilOptions, tipoSaldoOptions } from "../../../../../util/MainMenu/ContasContabeis/Contas/contants";
+import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../../util/applicationresources";
 
 
 const CadastroContas = (props) => {
@@ -35,13 +32,23 @@ const CadastroContas = (props) => {
                 title: msgCadSuccess,
                 text: msgCadPessoaSuccess,
             });
+
+
+            let itemsTipoConta = tipoContaContabilOptions;
+            itemsTipoConta = itemsTipoConta?.filter((item) => item.cdTipoConta === values.cdTipoConta);
+            values.descTipoConta = itemsTipoConta[0].descTipoConta;
+
+            let itemsTipoSaldo = tipoSaldoOptions;
+            itemsTipoSaldo = itemsTipoSaldo?.filter((item) => item.cdTipoSaldo === values.cdTipoSaldo);
+            values.descTipoSaldo = itemsTipoSaldo[0].descTipoSaldo;
+
+
             salvar(values);
             formik.resetForm();
             navigate("/cadastro/contascontabeis/contas");
 
         },
     });
-
 
     return (
         <form onSubmit={formik.handleSubmit}>

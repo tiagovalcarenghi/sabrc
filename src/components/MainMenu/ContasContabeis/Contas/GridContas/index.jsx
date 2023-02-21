@@ -17,25 +17,20 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
 import { Button, Grid, TableHead, TextField, Typography } from "@mui/material";
 import Swal from "sweetalert2";
-import {
-    msgAtencao,
-    msgExcludePessoaError,
-    msgExcludeUser,
-    msgSuccessExcludePessoa,
-} from "../../../../util/applicationresources";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import { tipoContaContabilOptions } from "../../../../../util/MainMenu/ContasContabeis/Contas/contants";
+import { tipoContaContabilOptions, tipoSaldoOptions } from "../../../../../util/MainMenu/ContasContabeis/Contas/contants";
 import {
     FormControl,
     InputLabel,
     MenuItem,
     Select,
 } from "@mui/material";
+import { msgAtencao, msgExcludeConta, msgExcludeContaError, msgExcludeUser, msgSuccessExcludeConta } from "../../../../../util/applicationresources";
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -235,7 +230,30 @@ const GridContas = (props) => {
 
                         <Grid item xs={3}>
 
-                            {/* TIPO SALDO */}
+                            <FormControl fullWidth size="small">
+                                <InputLabel id="demo-controlled-open-select-label">Tipo Saldo</InputLabel>
+                                <Select
+                                    fullWidth
+                                    size="small"
+                                    name="filterCdTipoSaldo"
+                                    label="Tipo Conta"
+                                    labelId="select-label-id"
+                                    id="select-label-id"
+                                    value={filterCdTipoSaldo}
+                                    onChange={(e) => setfilterCdTipoSaldo(e.target.value)}
+
+                                >
+                                    {tipoSaldoOptions.map((ts) => (
+                                        <MenuItem
+                                            key={ts.id}
+                                            value={ts.cdTipoSaldo}
+
+                                        >
+                                            {ts.descTipoSaldo}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
 
                         </Grid>
 
@@ -331,7 +349,7 @@ const GridContas = (props) => {
                                                         color="error"
                                                         onClick={() => {
                                                             Swal.fire({
-                                                                title: msgExcludeUser,
+                                                                title: msgExcludeConta,
                                                                 icon: "warning",
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: "#3085d6",
@@ -341,9 +359,9 @@ const GridContas = (props) => {
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
                                                                     if (!validaExclusao()) {
-                                                                        Swal.fire(msgAtencao, msgExcludePessoaError);
+                                                                        Swal.fire(msgAtencao, msgExcludeContaError);
                                                                     } else {
-                                                                        Swal.fire(msgAtencao, msgSuccessExcludePessoa);
+                                                                        Swal.fire(msgAtencao, msgSuccessExcludeConta);
                                                                         handleExcluir(contacontabil);
                                                                     }
                                                                 }

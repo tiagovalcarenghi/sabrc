@@ -25,7 +25,7 @@ export const appMenuItems = [
           {
             name: "Contas",
             sx: { pl: 6 },
-            link: `/cadastro/contas-contabeis/contas`,
+            link: `/cadastro/contascontabeis/contas`,
             Icon: CreateNewFolderIcon,
           },
           {
