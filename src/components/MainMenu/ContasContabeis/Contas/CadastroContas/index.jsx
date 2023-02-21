@@ -10,53 +10,37 @@ import {
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import {
-    msgAtencao,
     msgCadPessoaSuccess,
     msgCadSuccess,
-    msgErroValidateEmail,
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
-import { estadoCivilOptions, initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { initialValuesContasContabeis, tipoContaContabilOptions, tipoSaldoOptions } from "../../../../../util/MainMenu/ContasContabeis/Contas/contants";
 
 
 const CadastroContas = (props) => {
-    const { pessoafisica, salvar, limpar } = props;
+    const { contacontabil, salvar, limpar } = props;
     const navigate = useNavigate();
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: pessoafisica || initialValuesPF,
+        initialValues: contacontabil || initialValuesContasContabeis,
         onSubmit: (values) => {
-            if (!confirmaEmail(values.email)) {
-                Swal.fire({
-                    icon: "error",
-                    title: msgAtencao,
-                    text: msgErroValidateEmail,
-                });
+            Swal.fire({
+                icon: "success",
+                title: msgCadSuccess,
+                text: msgCadPessoaSuccess,
+            });
+            salvar(values);
+            formik.resetForm();
+            navigate("/cadastro/contascontabeis/contas");
 
-            } else {
-                Swal.fire({
-                    icon: "success",
-                    title: msgCadSuccess,
-                    text: msgCadPessoaSuccess,
-                });
-                values.enderecoCompleto = values.logradouro + values.numero;
-                salvar(values);
-                formik.resetForm();
-                navigate("/cadastro/pessoas");
-            }
         },
     });
-
-    const confirmaEmail = (email) => {
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        return mailformat.test(email);
-    };
 
 
     return (
@@ -70,56 +54,43 @@ const CadastroContas = (props) => {
                 }}
             >
                 <Stack direction="row" spacing={1}>
-                    <Chip label="Cadastro Pessoa Física" />
-                    {/* <Chip label="Chip Outlined" variant="outlined" /> */}
+                    <Chip label="Cadastro Contas" />
                 </Stack>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid item xs={4}>
                         <TextField
                             size="small"
                             fullWidth
-                            name="nomeCompleto"
-                            label="Nome Completo"
-                            value={formik.values.nomeCompleto}
+                            name="desContaContabil"
+                            label="Nome Conta"
+                            value={formik.values.desContaContabil}
                             onChange={formik.handleChange}
                             required
                         />
                     </Grid>
 
                     <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="email"
-                            label="Email"
-                            type="email"
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                        />
-                    </Grid>
-
-                    <Grid item xs={4}>
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Estado Civil</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Tipo Conta</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="cdEstadoCivil"
-                                label="Estado Civil"
+                                name="cdTipoConta"
+                                label="Tipo Conta"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={formik.values.cdEstadoCivil}
+                                value={formik.values.cdTipoConta}
                                 onChange={formik.handleChange}
                                 required
 
                             >
-                                {estadoCivilOptions.map((ec) => (
+                                {tipoContaContabilOptions.map((tc) => (
                                     <MenuItem
-                                        key={ec.value}
-                                        value={ec.value}
+                                        key={tc.id}
+                                        value={tc.cdTipoConta}
 
                                     >
-                                        {ec.label}
+                                        {tc.descTipoConta}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -128,207 +99,46 @@ const CadastroContas = (props) => {
 
                 </Grid>
 
-
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={4}>
                         <TextField
                             size="small"
                             fullWidth
-                            name="profissao"
-                            label="Profissão"
-                            value={formik.values.profissao}
-                            onChange={formik.handleChange}
-                        />
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="nacionalidade"
-                            label="Nacionalidade"
-                            value={formik.values.nacionalidade}
+                            name="saldo"
+                            label="Saldo"
+                            value={formik.values.saldo}
                             onChange={formik.handleChange}
                             required
                         />
                     </Grid>
 
                     <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="ci"
-                            label="RG"
-                            value={formik.values.ci}
-                            onChange={formik.handleChange}
-                        />
-                    </Grid>
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="demo-controlled-open-select-label">Tipo Saldo</InputLabel>
+                            <Select
+                                fullWidth
+                                size="small"
+                                name="cdTipoSaldo"
+                                label="Tipo Saldo"
+                                labelId="select-label-id"
+                                id="select-label-id"
+                                value={formik.values.cdTipoSaldo}
+                                onChange={formik.handleChange}
+                                required
 
-                </Grid>
+                            >
+                                {tipoSaldoOptions.map((ts) => (
+                                    <MenuItem
+                                        key={ts.id}
+                                        value={ts.cdTipoSaldo}
 
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="cnh"
-                            label="CNH"
-                            value={formik.values.cnh}
-                            onChange={formik.handleChange}
-                        />
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="docExtra"
-                            label="Documento Extra"
-                            value={formik.values.docExtra}
-                            onChange={formik.handleChange}
-                        />
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="cpf"
-                            label="CPF"
-                            value={formik.values.cpf}
-                            onChange={formik.handleChange}
-                            required
-                        />
-                    </Grid>
-
-
-                </Grid>
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="telefone"
-                            label="Telefone Principal"
-                            value={formik.values.telefone}
-                            onChange={formik.handleChange}
-                            required
-                        />
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="telefoneAdicional"
-                            label="Telefone Principal"
-                            value={formik.values.telefoneAdicional}
-                            onChange={formik.handleChange}
-                        />
-                    </Grid>
-
-                </Grid>
-
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="logradouro"
-                            label="Logradouro"
-                            value={formik.values.logradouro}
-                            onChange={formik.handleChange}
-                            required
-                        />
-                    </Grid>
-
-
-                    <Grid item xs={2}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="cep"
-                            label="CEP"
-                            value={formik.values.cep}
-                            onChange={formik.handleChange}
-                            required
-                        />
-                    </Grid>
-
-
-                    <Grid item xs={2}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="bairro"
-                            label="Bairro"
-                            value={formik.values.bairro}
-                            onChange={formik.handleChange}
-                            required
-                        />
-                    </Grid>
-
-
-                    <Grid item xs={2}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="numero"
-                            label="Número"
-                            value={formik.values.numero}
-                            onChange={formik.handleChange}
-                            required
-                        />
-                    </Grid>
-
-
-                    <Grid item xs={2}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="complemento"
-                            label="Complemento"
-                            value={formik.values.complemento}
-                            onChange={formik.handleChange}
-                        />
-                    </Grid>
-
-                </Grid>
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-
-                    <Grid item xs={2}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="localidade"
-                            label="Localidade"
-                            value={formik.values.localidade}
-                            onChange={formik.handleChange}
-                            required
-                        />
-
-                    </Grid>
-
-                    <Grid item xs={2}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="uf"
-                            label="UF"
-                            value={formik.values.uf}
-                            onChange={formik.handleChange}
-                            required
-                        />
-
+                                    >
+                                        {ts.descTipoSaldo}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
 
                 </Grid>
@@ -368,7 +178,7 @@ const CadastroContas = (props) => {
                             color="primary"
                             variant="outlined"
                             component={Link}
-                            to="/cadastro/pessoas"
+                            to="/cadastro/contascontabeis/contas"
                             startIcon={<ArrowBackIcon />}
                         >
                             VOLTAR
