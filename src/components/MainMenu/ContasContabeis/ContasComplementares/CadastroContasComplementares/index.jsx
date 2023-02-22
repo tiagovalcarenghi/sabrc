@@ -1,6 +1,8 @@
 import {
     Button,
+    Checkbox,
     FormControl,
+    FormControlLabel,
     Grid,
     InputLabel,
     MenuItem,
@@ -16,62 +18,60 @@ import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { initialValuesContasComplementares } from "../../../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
+import { initialNomes, initialValuesContasComplementares } from "../../../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../../util/applicationresources";
 import { useState } from "react";
 
 const CadastroContasComplementares = (props) => {
-    const { contacomplementar, salvar, limpar, pessoafisicaoptions } = props;
+    const { contacomplementar, salvar, limpar, nomes_db } = props;
     const navigate = useNavigate();
 
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: contacomplementar || initialValuesContasComplementares,
         onSubmit: (values) => {
-            Swal.fire({
-                icon: "success",
-                title: msgCadSuccess,
-                text: msgCadPessoaSuccess,
-            });
 
-            values.desccContaComplementar = vefificaNome(selectTipoContaComplementar, selectContaComplementar);
-            values.cdTipoContaComplementar = selectTipoContaComplementar;
-            values.cdCadastro = verificarCdCadastro(selectTipoContaComplementar, selectContaComplementar);
-            values.isBanco = false;
+            if (selectContaComplementar) {
 
-            salvar(values);
-            formik.resetForm();
-            navigate("/cadastro/contascontabeis/contascomplementares");
+                Swal.fire({
+                    icon: "success",
+                    title: msgCadSuccess,
+                    text: msgCadPessoaSuccess,
+                });
+
+
+                let NomesStorage = JSON.parse(localStorage.getItem("nomes_db"));
+                var ContaComp = NomesStorage?.filter((item) => item.id === selectContaComplementar.id);
+                values.desccContaComplementar = ContaComp[0].nome;
+                values.cdTipoContaComplementar = ContaComp[0].cdTipoNome;
+                values.cdCadastro = ContaComp[0].cdCadastroNomes;
+                values.isBanco = checked;
+
+
+                salvar(values);
+                formik.resetForm();
+                navigate("/cadastro/contascontabeis/contascomplementares");
+
+            }
 
         },
     });
 
 
     const [selectContaComplementar, setContaComplementar] = useState({});
-    const [selectTipoContaComplementar, setTipoContaComplementar] = useState(0);
+    const [checked, setChecked] = useState(false);
 
-    const changeContaComplementar = (event, tipo) => {
+    const changeContaComplementar = (event) => {
         const {
             target: { value },
         } = event;
         setContaComplementar(value);
-        setTipoContaComplementar(tipo);
     };
 
-    const vefificaNome = (tipo, value) => {
-        switch (tipo) {
-            case 1:
-                return value.nomeCompleto;
-        }
-    }
+    const handleChangeCheck = (event) => {
+        setChecked(event.target.checked);
 
-    const verificarCdCadastro = (tipo, value) => {
-        switch (tipo) {
-            case 1:
-                return value.cdPessoaFisica;
-        }
-    }
-
+    };
 
 
 
@@ -90,39 +90,49 @@ const CadastroContasComplementares = (props) => {
                 </Stack>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-                    {/* <Grid item xs={4}>
+                    <Grid item xs={4}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-controlled-open-select-label">Pessoa Física</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="selectRepresentanteLegal"
+                                name="selectContaComplementar"
                                 label="Pessoa Física"
                                 labelId="select-label-id"
                                 id="select-label-id"
                                 value={selectContaComplementar}
-                                onChange={(e) => changeContaComplementar(e, 1)}
+                                onChange={changeContaComplementar}
                                 required
                             >
 
-                                {pessoafisicaoptions && pessoafisicaoptions.length > 0 && (
+                                {nomes_db.map((nome) => (
+                                    <MenuItem
+                                        key={nome.id}
+                                        value={nome}
 
-                                    pessoafisicaoptions.map((rl) => (
-                                        <MenuItem
-                                            key={rl.id}
-                                            value={rl}
-
-                                        >
-                                            {rl.nomeCompleto}
-                                        </MenuItem>
-                                    ))
-
-                                )}
+                                    >
+                                        {nome.nome}
+                                    </MenuItem>
+                                ))}
 
 
                             </Select>
                         </FormControl>
-                    </Grid> */}
+                    </Grid>
+
+                    <Grid item xs={2}>
+
+                        <FormControlLabel
+                            control={<Checkbox />}
+                            label="Banco?"
+                            size="small"
+                            type="text"
+                            checked={checked}
+                            value={checked}
+                            onChange={handleChangeCheck}
+                        />
+
+                    </Grid>
 
                 </Grid>
 

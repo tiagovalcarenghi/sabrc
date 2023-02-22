@@ -12,7 +12,7 @@ export const initialNomes = [
     {
         id: '',
         cdNomes: '',
-        Nome: '',
+        nome: '',
         cdTipoNome: '',
         cdCadastroNomes: '',
     }

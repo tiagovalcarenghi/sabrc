@@ -8,7 +8,7 @@ import AppMenu from "../../../AppNavBar/AppMenu";
 const ContasComplementaresCad = () => {
     const [contaComplementarEmEdicao, setContaComplementarEmEdicao] = useState(initialValuesContasComplementares);
     const location = useLocation();
-    const [pessoaFisicaDb, setpessoaFisicaDb] = useState([]);
+    const [nomesDb, setnomesDb] = useState([]);
 
     useEffect(() => {
         console.log(location.state);
@@ -18,7 +18,7 @@ const ContasComplementaresCad = () => {
             return;
         }
         carregarContaComplementar(location.state.id);
-        carregarPessoaFisicaOptions();
+        carregarNomes();
     }, [location.state]);
 
     const carregarContaComplementar = async (id) => {
@@ -27,26 +27,29 @@ const ContasComplementaresCad = () => {
         setContaComplementarEmEdicao(selectContaComplementar[0]);
     };
 
-    const carregarPessoaFisicaOptions = async () => {
-        setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
+    const carregarNomes = async () => {
+        setnomesDb(JSON.parse(localStorage.getItem("nomes_db")));
     }
 
     const salvarContaComplementar = (cc) => {
+        alert(cc.id);
+
         if (cc.id) {
-            var updateContaComplementar = JSON.parse(localStorage.getItem("contascomplementares_db"));
-            updateContaComplementar[updateContaComplementar.findIndex((x) => x.id === cc.id)] = cc;
-            localStorage.setItem("contascomplementares_db", JSON.stringify(updateContaComplementar));
+            var updateContaContabil = JSON.parse(localStorage.getItem("contascomplementares_db"));
+            updateContaContabil[updateContaContabil.findIndex((x) => x.id === cc.id)] = cc;
+            localStorage.setItem("contascomplementares_db", JSON.stringify(updateContaContabil));
             setContaComplementarEmEdicao(initialValuesContasComplementares);
             return;
         }
 
         var getId = JSON.parse(localStorage.getItem("contascomplementares_db"));
         cc.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
-        cc.cdContaComplementar = cc.id;
-        const newContaComplementar = getId === null ? [cc] : [...JSON.parse(localStorage.getItem("contascomplementares_db")), cc];
-        localStorage.setItem("contascomplementares_db", JSON.stringify(newContaComplementar));
+        cc.cdContaContabil = cc.id;
+        const newContaContabil = getId === null ? [cc] : [...JSON.parse(localStorage.getItem("contascomplementares_db")), cc];
+        localStorage.setItem("contascomplementares_db", JSON.stringify(newContaContabil));
         setContaComplementarEmEdicao(initialValuesContasComplementares);
     };
+
 
     const limparContaComplementarEmEdicao = () => {
         setContaComplementarEmEdicao(initialValuesContasComplementares);
@@ -58,7 +61,7 @@ const ContasComplementaresCad = () => {
                 contacomplementar={contaComplementarEmEdicao}
                 salvar={salvarContaComplementar}
                 limpar={limparContaComplementarEmEdicao}
-                pessoafisicaoptions={pessoaFisicaDb}
+                nomes_db={nomesDb}
             />
         </AppMenu>
     );

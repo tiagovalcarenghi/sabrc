@@ -76,9 +76,9 @@ const PessoaJuridicaCad = () => {
   const addRepresentanteLegal = (data, idPJ) => {
 
     var RepLegal = initialValuesRL;
+    var getId = JSON.parse(localStorage.getItem("representanteslegais_db"));
 
     if (idPJ) {
-      var getId = JSON.parse(localStorage.getItem("representanteslegais_db"));
       RepLegal.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
       RepLegal.cdPessoaJuridica = idPJ;
       RepLegal.cdPessoaFisica = data.cdPessoaFisica;
@@ -90,7 +90,7 @@ const PessoaJuridicaCad = () => {
     }
 
 
-    var getId = JSON.parse(localStorage.getItem("representanteslegais_db"));
+
     RepLegal.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
     var getId2 = JSON.parse(localStorage.getItem("pessoajuridica_db"));
     RepLegal.cdPessoaJuridica = getId2 === null ? 1 : getId2[getId2.length - 1].id + 1;
