@@ -4,7 +4,9 @@ import {
     Grid,
     InputLabel,
     MenuItem,
-    Select
+    Select,
+    TextField,
+    Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,8 +19,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { initialValuesContasComplementares } from "../../../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../../util/applicationresources";
 import { useState } from "react";
-
-
 
 const CadastroContasComplementares = (props) => {
     const { contacomplementar, salvar, limpar, pessoafisicaoptions } = props;
@@ -34,15 +34,10 @@ const CadastroContasComplementares = (props) => {
                 text: msgCadPessoaSuccess,
             });
 
-
-            // let itemsTipoConta = tipoContaContabilOptions;
-            // itemsTipoConta = itemsTipoConta?.filter((item) => item.cdTipoConta === values.cdTipoConta);
-            // values.descTipoConta = itemsTipoConta[0].descTipoConta;
-
-            // let itemsTipoSaldo = tipoSaldoOptions;
-            // itemsTipoSaldo = itemsTipoSaldo?.filter((item) => item.cdTipoSaldo === values.cdTipoSaldo);
-            // values.descTipoSaldo = itemsTipoSaldo[0].descTipoSaldo;
-
+            values.desccContaComplementar = vefificaNome(selectTipoContaComplementar, selectContaComplementar);
+            values.cdTipoContaComplementar = selectTipoContaComplementar;
+            values.cdCadastro = verificarCdCadastro(selectTipoContaComplementar, selectContaComplementar);
+            values.isBanco = false;
 
             salvar(values);
             formik.resetForm();
@@ -53,16 +48,29 @@ const CadastroContasComplementares = (props) => {
 
 
     const [selectContaComplementar, setContaComplementar] = useState({});
+    const [selectTipoContaComplementar, setTipoContaComplementar] = useState(0);
 
-    const changeContaComplementar = (event) => {
+    const changeContaComplementar = (event, tipo) => {
         const {
             target: { value },
         } = event;
         setContaComplementar(value);
-        // alert(value.nomeRepresentante);
+        setTipoContaComplementar(tipo);
     };
 
+    const vefificaNome = (tipo, value) => {
+        switch (tipo) {
+            case 1:
+                return value.nomeCompleto;
+        }
+    }
 
+    const verificarCdCadastro = (tipo, value) => {
+        switch (tipo) {
+            case 1:
+                return value.cdPessoaFisica;
+        }
+    }
 
 
 
@@ -82,10 +90,7 @@ const CadastroContasComplementares = (props) => {
                 </Stack>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-
-
-
-                    <Grid item xs={4}>
+                    {/* <Grid item xs={4}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-controlled-open-select-label">Pessoa Física</InputLabel>
                             <Select
@@ -96,7 +101,7 @@ const CadastroContasComplementares = (props) => {
                                 labelId="select-label-id"
                                 id="select-label-id"
                                 value={selectContaComplementar}
-                                onChange={changeContaComplementar}
+                                onChange={(e) => changeContaComplementar(e, 1)}
                                 required
                             >
 
@@ -115,38 +120,6 @@ const CadastroContasComplementares = (props) => {
                                 )}
 
 
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-                </Grid>
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    {/* <Grid item xs={4}>
-                        <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Tipo Saldo</InputLabel>
-                            <Select
-                                fullWidth
-                                size="small"
-                                name="cdTipoSaldo"
-                                label="Tipo Saldo"
-                                labelId="select-label-id"
-                                id="select-label-id"
-                                value={formik.values.cdTipoSaldo}
-                                onChange={formik.handleChange}
-                                required
-
-                            >
-                                {tipoSaldoOptions.map((ts) => (
-                                    <MenuItem
-                                        key={ts.id}
-                                        value={ts.cdTipoSaldo}
-
-                                    >
-                                        {ts.descTipoSaldo}
-                                    </MenuItem>
-                                ))}
                             </Select>
                         </FormControl>
                     </Grid> */}

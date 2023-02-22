@@ -367,19 +367,6 @@ const CadastroPJ = (props) => {
                     </TableBody>
                   )}
                 </></Table></TableContainer>
-
-
-
-
-
-
-
-
-
-
-
-
-
           </Grid>
 
         </Grid>

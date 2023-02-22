@@ -300,3 +300,63 @@ export const createContasComplementares = [
   },
 
 ]
+
+
+export const createNomes = [
+  {
+    id: 1,
+    cdNomes: 1,
+    Nome: 'Tiago Amaral Valcarenghi',
+    cdTipoNome: 1,
+    cdCadastroNomes: 1,
+  },
+  {
+    id: 2,
+    cdNomes: 2,
+    Nome: 'Elvis Sandro Valcarenghi',
+    cdTipoNome: 1,
+    cdCadastroNomes: 2,
+  },
+  {
+    id: 3,
+    cdNomes: 3,
+    Nome: 'John Connor',
+    cdTipoNome: 1,
+    cdCadastroNomes: 3,
+  },
+  {
+    id: 4,
+    cdNomes: 4,
+    Nome: 'SAB',
+    cdTipoNome: 2,
+    cdCadastroNomes: 1,
+  },
+  {
+    id: 5,
+    cdNomes: 5,
+    Nome: 'Lojas Quero-Quero',
+    cdTipoNome: 2,
+    cdCadastroNomes: 2,
+  },
+  {
+    id: 6,
+    cdNomes: 6,
+    Nome: 'Santander',
+    cdTipoNome: 2,
+    cdCadastroNomes: 3,
+  },
+  {
+    id: 7,
+    cdNomes: 7,
+    Nome: 'Rua Dona Cecília, 805',
+    cdTipoNome: 3,
+    cdCadastroNomes: 1,
+  },
+  {
+    id: 8,
+    cdNomes: 8,
+    Nome: 'Travessa Planalto, 56 Ap 520 Bloco 05',
+    cdTipoNome: 3,
+    cdCadastroNomes: 1,
+  },
+]
