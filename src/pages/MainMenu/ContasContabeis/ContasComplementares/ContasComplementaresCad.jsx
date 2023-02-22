@@ -8,6 +8,7 @@ import AppMenu from "../../../AppNavBar/AppMenu";
 const ContasComplementaresCad = () => {
     const [contaComplementarEmEdicao, setContaComplementarEmEdicao] = useState(initialValuesContasComplementares);
     const location = useLocation();
+    const [pessoaFisicaDb, setpessoaFisicaDb] = useState([]);
 
     useEffect(() => {
         console.log(location.state);
@@ -17,6 +18,7 @@ const ContasComplementaresCad = () => {
             return;
         }
         carregarContaComplementar(location.state.id);
+        carregarPessoaFisicaOptions();
     }, [location.state]);
 
     const carregarContaComplementar = async (id) => {
@@ -24,6 +26,10 @@ const ContasComplementaresCad = () => {
         const selectContaComplementar = contaComplementarStorage?.filter((cc) => cc.id === id);
         setContaComplementarEmEdicao(selectContaComplementar[0]);
     };
+
+    const carregarPessoaFisicaOptions = async () => {
+        setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
+    }
 
     const salvarContaComplementar = (cc) => {
         if (cc.id) {
@@ -52,6 +58,7 @@ const ContasComplementaresCad = () => {
                 contacomplementar={contaComplementarEmEdicao}
                 salvar={salvarContaComplementar}
                 limpar={limparContaComplementarEmEdicao}
+                pessoafisicaoptions={pessoaFisicaDb}
             />
         </AppMenu>
     );

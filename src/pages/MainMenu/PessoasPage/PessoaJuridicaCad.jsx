@@ -7,6 +7,7 @@ import AppMenu from "../../AppNavBar/AppMenu";
 const PessoaJuridicaCad = () => {
   const [pessoaJuridicaEmEdicao, setPessoaJuridicaEmEdicao] = useState(initialValuesPJ);
   const [representanteLegalEmEdicao, setrepresentanteLegalEmEdicao] = useState(initialValuesRL);
+  const [pessoaFisicaDb, setpessoaFisicaDb] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const PessoaJuridicaCad = () => {
     }
     carregarPessoaJuridica(location.state.id);
     carregaRepresentantesLegais(location.state.id);
+    carregarPessoaFisicaOptions();
   }, [location.state]);
 
   const carregarPessoaJuridica = async (id) => {
@@ -32,6 +34,10 @@ const PessoaJuridicaCad = () => {
     const selectRepresentantesLegais = pessoaRepresentantesLegaisStorage?.filter((rl) => rl.cdPessoaJuridica === id);
     setrepresentanteLegalEmEdicao(selectRepresentantesLegais);
 
+  }
+
+  const carregarPessoaFisicaOptions = async () => {
+    setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
   }
 
   const salvarPessoaJuridica = (pj) => {
@@ -69,11 +75,15 @@ const PessoaJuridicaCad = () => {
 
   const addRepresentanteLegal = (data, idPJ) => {
 
+    var RepLegal = initialValuesRL;
+
     if (idPJ) {
       var getId = JSON.parse(localStorage.getItem("representanteslegais_db"));
-      data.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
-      data.cdPessoaJuridica = idPJ;
-      const newRepresentanteLegal = getId === null ? [data] : [...JSON.parse(localStorage.getItem("representanteslegais_db")), data];
+      RepLegal.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+      RepLegal.cdPessoaJuridica = idPJ;
+      RepLegal.cdPessoaFisica = data.cdPessoaFisica;
+      RepLegal.nomeRepresentante = data.nomeCompleto;
+      const newRepresentanteLegal = getId === null ? [RepLegal] : [...JSON.parse(localStorage.getItem("representanteslegais_db")), RepLegal];
       localStorage.setItem("representanteslegais_db", JSON.stringify(newRepresentanteLegal));
       carregaRepresentantesLegais(idPJ);
       return;
@@ -81,12 +91,14 @@ const PessoaJuridicaCad = () => {
 
 
     var getId = JSON.parse(localStorage.getItem("representanteslegais_db"));
-    data.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    RepLegal.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
     var getId2 = JSON.parse(localStorage.getItem("pessoajuridica_db"));
-    data.cdPessoaJuridica = getId2 === null ? 1 : getId2[getId2.length - 1].id + 1;
-    const newRepresentanteLegal2 = getId === null ? [data] : [...JSON.parse(localStorage.getItem("representanteslegais_db")), data];
+    RepLegal.cdPessoaJuridica = getId2 === null ? 1 : getId2[getId2.length - 1].id + 1;
+    RepLegal.cdPessoaFisica = data.cdPessoaFisica;
+    RepLegal.nomeRepresentante = data.nomeCompleto;
+    const newRepresentanteLegal2 = getId === null ? [RepLegal] : [...JSON.parse(localStorage.getItem("representanteslegais_db")), RepLegal];
     localStorage.setItem("representanteslegais_db", JSON.stringify(newRepresentanteLegal2));
-    carregaRepresentantesLegais(data.cdPessoaJuridica);
+    carregaRepresentantesLegais(RepLegal.cdPessoaJuridica);
   };
 
   return (
@@ -98,6 +110,7 @@ const PessoaJuridicaCad = () => {
         limpar={limparPessoaJuridicaEmEdicao}
         deleterl={deleteRepresentanteLegal}
         addrl={addRepresentanteLegal}
+        representanteslegaisoptions={pessoaFisicaDb}
       />
     </AppMenu>
   );

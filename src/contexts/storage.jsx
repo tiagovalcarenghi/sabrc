@@ -168,24 +168,6 @@ export const createRepresentantesLegaisBase = [
   },
 ];
 
-export const createRepresentantesLegaisOptions = [
-  {
-    id: 1,
-    cdPessoaFisica: 1,
-    nomeRepresentante: "Tiago Amaral Valcarenghi",
-  },
-  {
-    id: 2,
-    cdPessoaFisica: 2,
-    nomeRepresentante: "Elvis Sandro Valcarenghi",
-  },
-  {
-    id: 3,
-    cdPessoaFisica: 3,
-    nomeRepresentante: "John Connor"
-  },
-]
-
 
 //-------------------------------------------------
 

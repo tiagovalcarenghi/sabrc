@@ -15,8 +15,6 @@ import {
   msgCadSuccess,
   msgErroValidateEmail,
   msgExcludeRepresentanteLegal,
-  msgExcludeUser,
-  msgSuccessExcludePessoa,
   msgSuccessExcludeRepresentanteLegal
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
@@ -26,7 +24,6 @@ import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { createRepresentantesLegaisOptions } from "../../../../contexts/storage";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -34,13 +31,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import React, { useState } from "react";
+import React from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 
 const CadastroPJ = (props) => {
-  const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl } = props;
+  const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl, representanteslegaisoptions } = props;
   const navigate = useNavigate();
 
   const navigateToComponent = () => {
@@ -270,17 +267,23 @@ const CadastroPJ = (props) => {
                 value={selectRepresentanteLegal}
                 onChange={changeRepresentante}
                 required
-
               >
-                {createRepresentantesLegaisOptions.map((rl) => (
-                  <MenuItem
-                    key={rl.id}
-                    value={rl}
 
-                  >
-                    {rl.nomeRepresentante}
-                  </MenuItem>
-                ))}
+                {representanteslegaisoptions && representanteslegaisoptions.length > 0 && (
+
+                  representanteslegaisoptions.map((rl) => (
+                    <MenuItem
+                      key={rl.id}
+                      value={rl}
+
+                    >
+                      {rl.nomeCompleto}
+                    </MenuItem>
+                  ))
+
+                )}
+
+
               </Select>
             </FormControl>
 

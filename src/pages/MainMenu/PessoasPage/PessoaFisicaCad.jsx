@@ -22,23 +22,15 @@ const PessoaFisiscaCad = () => {
     const pessoaFisicaStorage = JSON.parse(
       localStorage.getItem("pessoafisica_db")
     );
-    const selectPessoaFisica = pessoaFisicaStorage?.filter(
-      (pf) => pf.id === id
-    );
+    const selectPessoaFisica = pessoaFisicaStorage?.filter((pf) => pf.id === id);
     setPessoaFisicaEmEdicao(selectPessoaFisica[0]);
   };
 
   const salvarPessoaFisica = (pf) => {
     if (pf.id) {
-      var updatePessoaFisica = JSON.parse(
-        localStorage.getItem("pessoafisica_db")
-      );
-      updatePessoaFisica[updatePessoaFisica.findIndex((x) => x.id === pf.id)] =
-        pf;
-      localStorage.setItem(
-        "pessoafisica_db",
-        JSON.stringify(updatePessoaFisica)
-      );
+      var updatePessoaFisica = JSON.parse(localStorage.getItem("pessoafisica_db"));
+      updatePessoaFisica[updatePessoaFisica.findIndex((x) => x.id === pf.id)] = pf;
+      localStorage.setItem("pessoafisica_db", JSON.stringify(updatePessoaFisica));
       setPessoaFisicaEmEdicao(initialValuesPF);
       return;
     }
@@ -46,10 +38,7 @@ const PessoaFisiscaCad = () => {
     var getId = JSON.parse(localStorage.getItem("pessoafisica_db"));
     pf.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
     pf.cdPessoaFisica = pf.id;
-    const newPessoaFisica =
-      getId === null
-        ? [pf]
-        : [...JSON.parse(localStorage.getItem("pessoafisica_db")), pf];
+    const newPessoaFisica = getId === null ? [pf] : [...JSON.parse(localStorage.getItem("pessoafisica_db")), pf];
     localStorage.setItem("pessoafisica_db", JSON.stringify(newPessoaFisica));
     setPessoaFisicaEmEdicao(initialValuesPF);
   };

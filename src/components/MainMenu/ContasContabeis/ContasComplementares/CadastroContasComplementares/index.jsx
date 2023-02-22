@@ -4,8 +4,7 @@ import {
     Grid,
     InputLabel,
     MenuItem,
-    Select,
-    TextField,
+    Select
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,10 +16,12 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { initialValuesContasComplementares } from "../../../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../../util/applicationresources";
+import { useState } from "react";
+
 
 
 const CadastroContasComplementares = (props) => {
-    const { contacomplementar, salvar, limpar } = props;
+    const { contacomplementar, salvar, limpar, pessoafisicaoptions } = props;
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -50,6 +51,22 @@ const CadastroContasComplementares = (props) => {
         },
     });
 
+
+    const [selectContaComplementar, setContaComplementar] = useState({});
+
+    const changeContaComplementar = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setContaComplementar(value);
+        // alert(value.nomeRepresentante);
+    };
+
+
+
+
+
+
     return (
         <form onSubmit={formik.handleSubmit}>
             <Grid
@@ -66,33 +83,41 @@ const CadastroContasComplementares = (props) => {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
 
-                    {/* <Grid item xs={4}>
+
+
+                    <Grid item xs={4}>
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Tipo Conta</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Pessoa Física</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="cdTipoConta"
-                                label="Tipo Conta"
+                                name="selectRepresentanteLegal"
+                                label="Pessoa Física"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={formik.values.cdTipoConta}
-                                onChange={formik.handleChange}
+                                value={selectContaComplementar}
+                                onChange={changeContaComplementar}
                                 required
-
                             >
-                                {tipoContaContabilOptions.map((tc) => (
-                                    <MenuItem
-                                        key={tc.id}
-                                        value={tc.cdTipoConta}
 
-                                    >
-                                        {tc.descTipoConta}
-                                    </MenuItem>
-                                ))}
+                                {pessoafisicaoptions && pessoafisicaoptions.length > 0 && (
+
+                                    pessoafisicaoptions.map((rl) => (
+                                        <MenuItem
+                                            key={rl.id}
+                                            value={rl}
+
+                                        >
+                                            {rl.nomeCompleto}
+                                        </MenuItem>
+                                    ))
+
+                                )}
+
+
                             </Select>
                         </FormControl>
-                    </Grid> */}
+                    </Grid>
 
                 </Grid>
 

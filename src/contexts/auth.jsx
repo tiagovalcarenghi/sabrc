@@ -54,6 +54,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("centrodecusto_db", JSON.stringify(createCentrodeCusto));
     localStorage.setItem("enderecos_db", JSON.stringify(createEnderecos));
     localStorage.setItem("contascomplementares_db", JSON.stringify(createContasComplementares));
+
+
   };
 
   const login = (nameUser, password) => {
