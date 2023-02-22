@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import GridPessoaFisica from "../../../components/MainMenu/PessoasPage/GridPessoaFisica";
 
 const PessoaFisicaHome = (props) => {
-  const {disableDelete, disableEdit } = props;
+  const { disableDelete, disableEdit } = props;
   const [pessoaFisicaDb, setpessoaFisicaDb] = useState([]);
-  
+
 
   useEffect(() => {
     setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
@@ -32,11 +32,10 @@ const PessoaFisicaHome = (props) => {
     }
 
     let items = JSON.parse(localStorage.getItem("pessoafisica_db"));
-    items = filterer((x) =>
-      x.nomeCompleto.toLowerCase().includes(nomeCompleto.toLowerCase())
-    )((x) => x.telefone.includes(telefonePrincipal))((x) =>
-      x.enderecoCompleto.toLowerCase().includes(enderecoCompleto.toLowerCase())
-    )(run(items));
+    items = filterer((x) => x.nomeCompleto.toLowerCase().includes(nomeCompleto.toLowerCase()))
+      ((x) => x.telefone.includes(telefonePrincipal))
+      ((x) => x.enderecoCompleto.toLowerCase().includes(enderecoCompleto.toLowerCase()))
+      (run(items));
 
     setpessoaFisicaDb(items);
   };

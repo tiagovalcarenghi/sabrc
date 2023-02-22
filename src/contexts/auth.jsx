@@ -7,6 +7,7 @@ import {
 import {
   createCentrodeCusto,
   createContasContabeis,
+  createEnderecos,
   createMinutasPadraoCeV,
   createMinutasPadraoLocacao,
   createMinutasPadraoOrdemServico,
@@ -50,6 +51,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("minutaspadraolocacao_db", JSON.stringify(createMinutasPadraoLocacao));
     localStorage.setItem("minutaspadraoos_db", JSON.stringify(createMinutasPadraoOrdemServico));
     localStorage.setItem("centrodecusto_db", JSON.stringify(createCentrodeCusto));
+    localStorage.setItem("enderecos_db", JSON.stringify(createEnderecos));
   };
 
   const login = (nameUser, password) => {

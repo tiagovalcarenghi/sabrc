@@ -12,6 +12,8 @@ import CentrodeCustoCad from "./pages/MainMenu/ContasContabeis/CentrodeCusto/Cen
 import CentrodeCustoHome from "./pages/MainMenu/ContasContabeis/CentrodeCusto/CentrodeCustoHome";
 import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
 import ContasHome from "./pages/MainMenu/ContasContabeis/Contas/ContasHome";
+import EnderecoCad from "./pages/MainMenu/Enderecos/EnderecoCad";
+import EnderecoHome from "./pages/MainMenu/Enderecos/EnderecoHome";
 import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
 import MinutaPadraoLocacaoHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoContratodeLocacao";
 import MinutaPadraoOSHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoOS";
@@ -140,6 +142,26 @@ const AppRoutes = () => {
             element={
               <Private>
                 <MinutaPadraoOSHome />
+              </Private>
+            }
+          />
+
+
+          <Route
+            exact
+            path="/cadastro/enderecos"
+            element={
+              <Private>
+                <EnderecoHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/cadenderecos"
+            element={
+              <Private>
+                <EnderecoCad />
               </Private>
             }
           />

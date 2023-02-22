@@ -39,7 +39,7 @@ export const createPessoaFisica = [
     telefone: "51-984736159",
     telefoneAdicional: "",
     email: "tiago@teste.com.br",
-    enderecoCompleto: "Rua Dona Cecília, 603 Vila City - Cachoeirinha-RS",
+    enderecoCompleto: "Rua Dona Cecília, 603",
     logradouro: "Rua Dona Cecília",
     cep: "94935130",
     bairro: "Vila City",
@@ -62,7 +62,7 @@ export const createPessoaFisica = [
     telefone: "51-985855692",
     telefoneAdicional: "51-34412056",
     email: "esv@teste.com.br",
-    enderecoCompleto: "Travessa Planalto, 56 Ap 520 Bloco 05 Parque da Matriz - Cachoeirinha-RS ",
+    enderecoCompleto: "Travessa Planalto, 56 Ap 520 Bloco 05",
     logradouro: "Travessa Planalto",
     cep: "949385669",
     bairro: "Parque da Matriz",
@@ -85,7 +85,7 @@ export const createPessoaFisica = [
     telefone: "84-8885985265",
     telefoneAdicional: "",
     email: "johnconnor@teste.com.br",
-    enderecoCompleto: "Rua Dona Cecília, 805 Vila City - Cachoeirinha-RS",
+    enderecoCompleto: "Rua Dona Cecília, 805",
     logradouro: "Rua Dona Cecília",
     cep: "94935130",
     bairro: "Vila City",
@@ -112,7 +112,7 @@ export const createPessoaJuridica = [
     complemento: "",
     uf: "SC",
     localidade: "Florianópolis",
-    enderecoCompleto: "Rua 1, 456 Vila Teste - Florianopolis-SC"
+    enderecoCompleto: "Rua 1, 456"
   },
   {
     id: 2,
@@ -127,7 +127,7 @@ export const createPessoaJuridica = [
     complemento: "",
     uf: "PR",
     localidade: "Toledo",
-    enderecoCompleto: "Rua 2, 1025 Vila Teste 2 - Toledo-PR"
+    enderecoCompleto: "Rua 2, 1025"
   },
 ];
 
@@ -240,5 +240,35 @@ export const createCentrodeCusto = [
     id: 3,
     cdCentrodeCusto: 3,
     descCentrodeCusto: 'Prestação'
+  }
+]
+
+
+//-------------------------------------------------
+
+export const createEnderecos = [
+  {
+    id: 1,
+    cdEndereco: 1,
+    enderecoCompleto: "Rua Dona Cecília, 805",
+    logradouro: "Rua Dona Cecília",
+    cep: "94935130",
+    bairro: "Vila City",
+    numero: "805",
+    complemento: "",
+    localidade: "Cachoeirinha",
+    uf: "RS",
+  },
+  {
+    id: 2,
+    cdEndereco: 2,
+    enderecoCompleto: "Travessa Planalto, 56 Ap 520 Bloco 05",
+    logradouro: "Travessa Planalto",
+    cep: "949385669",
+    bairro: "Parque da Matriz",
+    numero: "56",
+    complemento: "Ap 520 Bloco 05",
+    localidade: "Cachoeirinha",
+    uf: "RS",
   }
 ]
