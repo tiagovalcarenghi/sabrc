@@ -12,6 +12,8 @@ import CentrodeCustoCad from "./pages/MainMenu/ContasContabeis/CentrodeCusto/Cen
 import CentrodeCustoHome from "./pages/MainMenu/ContasContabeis/CentrodeCusto/CentrodeCustoHome";
 import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
 import ContasHome from "./pages/MainMenu/ContasContabeis/Contas/ContasHome";
+import ContasComplementaresCad from "./pages/MainMenu/ContasContabeis/ContasComplementares/ContasComplementaresCad";
+import ContasComplementaresHome from "./pages/MainMenu/ContasContabeis/ContasComplementares/ContasComplementaresHome";
 import EnderecoCad from "./pages/MainMenu/Enderecos/EnderecoCad";
 import EnderecoHome from "./pages/MainMenu/Enderecos/EnderecoHome";
 import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
@@ -92,6 +94,25 @@ const AppRoutes = () => {
             element={
               <Private>
                 <ContasCad />
+              </Private>
+            }
+          />
+
+          <Route
+            exact
+            path="/cadastro/contascontabeis/contascomplementares"
+            element={
+              <Private>
+                <ContasComplementaresHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/contascontabeis/cadcontascomplementares"
+            element={
+              <Private>
+                <ContasComplementaresCad />
               </Private>
             }
           />

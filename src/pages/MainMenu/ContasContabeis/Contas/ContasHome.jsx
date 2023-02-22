@@ -57,9 +57,6 @@ const ContasHome = () => {
             return;
         }
 
-        console.log(cdTipoConta);
-        console.log(cdTipoSaldo);
-
         let items = JSON.parse(localStorage.getItem("contascontabeis_db"));
         items = filterer((x) => x.desContaContabil.toLowerCase().includes(desContaContabil.toLowerCase()))(run(items));
         if (isEligible(cdTipoConta)) { items = filterer(((x) => x.cdTipoConta === cdTipoConta))(run(items)); }

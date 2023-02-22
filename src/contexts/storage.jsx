@@ -129,6 +129,21 @@ export const createPessoaJuridica = [
     localidade: "Toledo",
     enderecoCompleto: "Rua 2, 1025"
   },
+  {
+    id: 3,
+    cdPessoaJuridica: 3,
+    nomeEmpresarial: "Santander",
+    emailContato: "santander@santander.com.br",
+    cnpj: "26550001065664",
+    cep: "94352002",
+    logradouro: "Rua 8",
+    bairro: "Vila Teste 8",
+    numero: "",
+    complemento: "",
+    uf: "SP",
+    localidade: "São Paulo",
+    enderecoCompleto: "Rua 8"
+  },
 ];
 
 
@@ -271,4 +286,35 @@ export const createEnderecos = [
     localidade: "Cachoeirinha",
     uf: "RS",
   }
+]
+
+
+//-------------------------------------------------
+
+export const createContasComplementares = [
+  {
+    id: 1,
+    cdContaComplementar: 1,
+    desccContaComplementar: 'Tiago Amaral Valcarenghi',
+    cdTipoContaComplementar: 1,
+    cdCadastro: 1,
+    isBanco: false,
+  },
+  {
+    id: 2,
+    cdContaComplementar: 2,
+    desccContaComplementar: 'Santander',
+    cdTipoContaComplementar: 2,
+    cdCadastro: 3,
+    isBanco: true,
+  },
+  {
+    id: 3,
+    cdContaComplementar: 3,
+    desccContaComplementar: 'Travessa Planalto, 56 Ap 520 Bloco 05',
+    cdTipoContaComplementar: 3,
+    cdCadastro: 2,
+    isBanco: false,
+  },
+
 ]

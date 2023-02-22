@@ -31,7 +31,7 @@ export const appMenuItems = [
           {
             name: "Contas Complementar",
             sx: { pl: 6 },
-            link: `/cadastro/contas-contabeis/contascomplement`,
+            link: `/cadastro/contascontabeis/contascomplementares`,
             Icon: CreateNewFolderIcon,
           },
           {
