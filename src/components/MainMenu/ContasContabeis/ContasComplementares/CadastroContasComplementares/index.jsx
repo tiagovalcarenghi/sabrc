@@ -23,7 +23,7 @@ import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../../util/applicat
 import { useState } from "react";
 
 const CadastroContasComplementares = (props) => {
-    const { contacomplementar, salvar, limpar, nomes_db } = props;
+    const { contacomplementar, salvar, nomes_db } = props;
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -92,12 +92,12 @@ const CadastroContasComplementares = (props) => {
 
                     <Grid item xs={4}>
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Pessoa Física</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Nova Conta Complementar</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
                                 name="selectContaComplementar"
-                                label="Pessoa Física"
+                                label="Nova Conta Complementar"
                                 labelId="select-label-id"
                                 id="select-label-id"
                                 value={selectContaComplementar}
@@ -124,7 +124,7 @@ const CadastroContasComplementares = (props) => {
 
                         <FormControlLabel
                             control={<Checkbox />}
-                            label="Banco?"
+                            label="Banco"
                             size="small"
                             type="text"
                             checked={checked}
@@ -158,7 +158,8 @@ const CadastroContasComplementares = (props) => {
                             onClick={(e) => {
                                 e.preventDefault();
                                 formik.resetForm();
-                                limpar();
+                                setContaComplementar({});
+                                setChecked(false);
                             }}
                             startIcon={<RefreshIcon />}
                         >

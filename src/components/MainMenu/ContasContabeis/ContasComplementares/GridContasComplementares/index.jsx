@@ -102,9 +102,7 @@ TablePaginationActions.propTypes = {
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
 const GridContasComplementares = (props) => {
-    const { contascomplementares_db, deletecontacomplementar, filter, disableDelete,
-        //  disableEdit
-    } = props;
+    const { contascomplementares_db, deletecontacomplementar, filter, disableDelete, } = props;
 
     const [filterDesContaComplementar, setFilterDesContaComplementar] = useState("");
     const [checked, setChecked] = React.useState(false);
@@ -148,12 +146,6 @@ const GridContasComplementares = (props) => {
     //----------PAGINATION START--------////
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    // const emptyRows =
-    //     page > 0
-    //         ? Math.max(0, (1 + page) * rowsPerPage - contascomplementares_db.length)
-    //         : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -286,17 +278,7 @@ const GridContasComplementares = (props) => {
                                                     {contacomplementar.isBanco === false ? "Não" : "Sim"}
                                                 </TableCell>
 
-                                                {/* <TableCell width="5%" align="center">
-                                                    <IconButton
-                                                        disabled={disableEdit}
-                                                        color="primary"
-                                                        onClick={() => {
-                                                            navigateToComponent(contacomplementar.id);
-                                                        }}
-                                                    >
-                                                        <EditIcon></EditIcon>
-                                                    </IconButton>
-                                                </TableCell> */}
+
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableDelete}
