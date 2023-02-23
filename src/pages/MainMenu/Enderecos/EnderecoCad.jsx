@@ -32,6 +32,7 @@ const EnderecoCad = () => {
             updateEndereco[updateEndereco.findIndex((x) => x.id === cc.id)] = cc;
             localStorage.setItem("enderecos_db", JSON.stringify(updateEndereco));
             setEnderecoEmEdicao(initialValuesEnderecos);
+            editCadNomes(cc);
             return;
         }
 
@@ -56,6 +57,26 @@ const EnderecoCad = () => {
         newNomeCad.cdCadastroNomes = cc.cdEndereco;
         const newNome = getId === null ? [newNomeCad] : [...JSON.parse(localStorage.getItem("nomes_db")), newNomeCad];
         localStorage.setItem("nomes_db", JSON.stringify(newNome));
+    }
+
+    const editCadNomes = (cc) => {
+
+        var numeroadress = isBlank(cc.numero) ? "" : ", " + cc.numero;
+
+        var newNomeCad = initialNomes;
+
+        let itemUpdate = JSON.parse(localStorage.getItem("nomes_db"));
+        const n = itemUpdate?.filter((obj) => obj.cdTipoNome === 3 && obj.cdCadastroNomes === cc.cdEndereco);
+        newNomeCad.id = n[0].id;
+        newNomeCad.cdNomes = n[0].cdNomes;
+        newNomeCad.nome = cc.logradouro + numeroadress;
+        newNomeCad.cdTipoNome = n[0].cdTipoNome;
+        newNomeCad.cdCadastroNomes = n[0].cdCadastroNomes;
+
+        var updateEndereco = JSON.parse(localStorage.getItem("nomes_db"));
+        updateEndereco[updateEndereco.findIndex((x) => x.id === newNomeCad.id)] = newNomeCad;
+        localStorage.setItem("nomes_db", JSON.stringify(updateEndereco));
+
     }
 
     function isBlank(str) {

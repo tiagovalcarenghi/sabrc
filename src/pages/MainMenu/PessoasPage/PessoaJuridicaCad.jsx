@@ -47,6 +47,7 @@ const PessoaJuridicaCad = () => {
       updatePessoaJuridica[updatePessoaJuridica.findIndex((x) => x.id === pj.id)] = pj;
       localStorage.setItem("pessoajuridica_db", JSON.stringify(updatePessoaJuridica));
       setPessoaJuridicaEmEdicao(initialValuesPJ);
+      editCadNomes(pj);
       return;
     }
 
@@ -69,6 +70,24 @@ const PessoaJuridicaCad = () => {
     newNomeCad.cdCadastroNomes = pj.cdPessoaJuridica;
     const newNome = getId === null ? [newNomeCad] : [...JSON.parse(localStorage.getItem("nomes_db")), newNomeCad];
     localStorage.setItem("nomes_db", JSON.stringify(newNome));
+  }
+
+  const editCadNomes = (pj) => {
+
+    var newNomeCad = initialNomes;
+
+    let itemUpdate = JSON.parse(localStorage.getItem("nomes_db"));
+    const n = itemUpdate?.filter((obj) => obj.cdTipoNome === 2 && obj.cdCadastroNomes === pj.cdPessoaJuridica);
+    newNomeCad.id = n[0].id;
+    newNomeCad.cdNomes = n[0].cdNomes;
+    newNomeCad.nome = pj.nomeEmpresarial;
+    newNomeCad.cdTipoNome = n[0].cdTipoNome;
+    newNomeCad.cdCadastroNomes = n[0].cdCadastroNomes;
+
+    var updateEndereco = JSON.parse(localStorage.getItem("nomes_db"));
+    updateEndereco[updateEndereco.findIndex((x) => x.id === newNomeCad.id)] = newNomeCad;
+    localStorage.setItem("nomes_db", JSON.stringify(updateEndereco));
+
   }
 
   const limparPessoaJuridicaEmEdicao = () => {

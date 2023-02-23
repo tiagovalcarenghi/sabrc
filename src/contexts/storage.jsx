@@ -357,6 +357,6 @@ export const createNomes = [
     cdNomes: 8,
     nome: 'Travessa Planalto, 56 Ap 520 Bloco 05',
     cdTipoNome: 3,
-    cdCadastroNomes: 1,
+    cdCadastroNomes: 2,
   },
 ]

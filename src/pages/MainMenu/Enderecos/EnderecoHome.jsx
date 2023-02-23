@@ -49,6 +49,22 @@ const EnderecoHome = () => {
             localStorage.removeItem("enderecos_db");
         }
         setEnderecoDb(JSON.parse(localStorage.getItem("enderecos_db")));
+        deleteName(data);
+    };
+
+
+    const deleteName = (data) => {
+
+        let itemDeletado = JSON.parse(localStorage.getItem("nomes_db"));
+        itemDeletado = itemDeletado?.filter((obj) => obj.cdTipoNome === 3 && obj.cdCadastroNomes === data.cdEndereco);
+
+        let items = JSON.parse(localStorage.getItem("nomes_db"));
+        items = items.filter((item) => item.id !== itemDeletado[0].id);
+
+        localStorage.setItem("nomes_db", JSON.stringify(items));
+        if (items.length === 0) {
+            localStorage.removeItem("nomes_db");
+        }
     };
 
     const filtraEndereco = (logradouro, cep, bairro, localidade, uf) => {
