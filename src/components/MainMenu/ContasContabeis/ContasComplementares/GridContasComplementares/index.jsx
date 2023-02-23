@@ -102,7 +102,9 @@ TablePaginationActions.propTypes = {
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
 const GridContasComplementares = (props) => {
-    const { contascomplementares_db, deletecontacomplementar, filter, disableDelete, disableEdit } = props;
+    const { contascomplementares_db, deletecontacomplementar, filter, disableDelete,
+        //  disableEdit
+    } = props;
 
     const [filterDesContaComplementar, setFilterDesContaComplementar] = useState("");
     const [checked, setChecked] = React.useState(false);
@@ -284,7 +286,7 @@ const GridContasComplementares = (props) => {
                                                     {contacomplementar.isBanco === false ? "Não" : "Sim"}
                                                 </TableCell>
 
-                                                <TableCell width="5%" align="center">
+                                                {/* <TableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableEdit}
                                                         color="primary"
@@ -294,7 +296,7 @@ const GridContasComplementares = (props) => {
                                                     >
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                </TableCell>
+                                                </TableCell> */}
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableDelete}

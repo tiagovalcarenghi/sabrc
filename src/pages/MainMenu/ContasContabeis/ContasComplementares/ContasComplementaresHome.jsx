@@ -5,7 +5,7 @@ import AppMenu from "../../../AppNavBar/AppMenu";
 
 const ContasComplementaresHome = () => {
     const [disableDelete, setDisableDelete] = useState(true);
-    const [disableEdit, setDisableEdit] = useState(true);
+    // const [disableEdit, setDisableEdit] = useState(true);
     const [contasComplementaresDb, setContasComplementaresDb] = useState([]);
 
 
@@ -29,15 +29,15 @@ const ContasComplementaresHome = () => {
         switch (data) {
             case 1:
                 setDisableDelete(false);
-                setDisableEdit(false);
+                // setDisableEdit(false);
                 break;
             case 2:
                 setDisableDelete(true);
-                setDisableEdit(false);
+                // setDisableEdit(false);
                 break;
             default:
                 setDisableDelete(true);
-                setDisableEdit(true);
+            // setDisableEdit(true);
         }
     };
 
@@ -83,7 +83,7 @@ const ContasComplementaresHome = () => {
                     deletecontacomplementar={deleteContaComplementar}
                     filter={filtraContaComplementar}
                     disableDelete={disableDelete}
-                    disableEdit={disableEdit}
+                // disableEdit={disableEdit}
                 />
             </AppMenu>
         </>

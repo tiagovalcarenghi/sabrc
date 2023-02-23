@@ -11,36 +11,32 @@ const ContasComplementaresCad = () => {
     const [nomesDb, setnomesDb] = useState([]);
 
     useEffect(() => {
-        console.log(location.state);
-
         if (!location.state) {
             setContaComplementarEmEdicao(initialValuesContasComplementares);
             return;
         }
-        carregarContaComplementar(location.state.id);
+        // carregarContaComplementar(location.state.id);
         carregarNomes();
     }, [location.state]);
 
-    const carregarContaComplementar = async (id) => {
-        const contaComplementarStorage = JSON.parse(localStorage.getItem("contascomplementares_db"));
-        const selectContaComplementar = contaComplementarStorage?.filter((cc) => cc.id === id);
-        setContaComplementarEmEdicao(selectContaComplementar[0]);
-    };
+    // const carregarContaComplementar = async (id) => {
+    //     const contaComplementarStorage = JSON.parse(localStorage.getItem("contascomplementares_db"));
+    //     const selectContaComplementar = contaComplementarStorage?.filter((cc) => cc.id === id);
+    //     setContaComplementarEmEdicao(selectContaComplementar[0]);
+    // };
 
     const carregarNomes = async () => {
         setnomesDb(JSON.parse(localStorage.getItem("nomes_db")));
     }
 
     const salvarContaComplementar = (cc) => {
-        alert(cc.id);
-
-        if (cc.id) {
-            var updateContaContabil = JSON.parse(localStorage.getItem("contascomplementares_db"));
-            updateContaContabil[updateContaContabil.findIndex((x) => x.id === cc.id)] = cc;
-            localStorage.setItem("contascomplementares_db", JSON.stringify(updateContaContabil));
-            setContaComplementarEmEdicao(initialValuesContasComplementares);
-            return;
-        }
+        // if (cc.id) {
+        //     var updateContaContabil = JSON.parse(localStorage.getItem("contascomplementares_db"));
+        //     updateContaContabil[updateContaContabil.findIndex((x) => x.id === cc.id)] = cc;
+        //     localStorage.setItem("contascomplementares_db", JSON.stringify(updateContaContabil));
+        //     setContaComplementarEmEdicao(initialValuesContasComplementares);
+        //     return;
+        // }
 
         var getId = JSON.parse(localStorage.getItem("contascomplementares_db"));
         cc.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
