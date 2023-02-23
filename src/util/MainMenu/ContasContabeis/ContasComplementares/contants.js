@@ -8,12 +8,10 @@ export const initialValuesContasComplementares = {
 }
 
 
-export const initialNomes = [
-    {
-        id: '',
-        cdNomes: '',
-        nome: '',
-        cdTipoNome: '',
-        cdCadastroNomes: '',
-    }
-]
+export const initialNomes = {
+    id: '',
+    cdNomes: '',
+    nome: '',
+    cdTipoNome: '',
+    cdCadastroNomes: '',
+}

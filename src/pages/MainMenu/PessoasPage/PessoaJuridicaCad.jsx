@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroPJ from "../../../components/MainMenu/PessoasPage/CadastroPessoaJuridica";
+import { initialNomes } from "../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { initialValuesPJ, initialValuesRL } from "../../../util/MainMenu/PessoasPage/constants";
 import AppMenu from "../../AppNavBar/AppMenu";
 
@@ -55,7 +56,20 @@ const PessoaJuridicaCad = () => {
     const newPessoaJuridica = getId === null ? [pj] : [...JSON.parse(localStorage.getItem("pessoajuridica_db")), pj];
     localStorage.setItem("pessoajuridica_db", JSON.stringify(newPessoaJuridica));
     setPessoaJuridicaEmEdicao(initialValuesPJ);
+    insertcadNomes(pj);
   };
+
+  const insertcadNomes = (pj) => {
+    var newNomeCad = initialNomes;
+    var getId = JSON.parse(localStorage.getItem("nomes_db"));
+    newNomeCad.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    newNomeCad.cdNomes = newNomeCad.id;
+    newNomeCad.nome = pj.nomeEmpresarial;
+    newNomeCad.cdTipoNome = 2;
+    newNomeCad.cdCadastroNomes = pj.cdPessoaJuridica;
+    const newNome = getId === null ? [newNomeCad] : [...JSON.parse(localStorage.getItem("nomes_db")), newNomeCad];
+    localStorage.setItem("nomes_db", JSON.stringify(newNome));
+  }
 
   const limparPessoaJuridicaEmEdicao = () => {
     setPessoaJuridicaEmEdicao(initialValuesPJ);

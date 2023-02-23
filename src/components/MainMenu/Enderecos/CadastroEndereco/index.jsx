@@ -104,7 +104,6 @@ const CadastroEndereco = (props) => {
                             label="Número"
                             value={formik.values.numero}
                             onChange={formik.handleChange}
-                            required
                         />
                     </Grid>
 

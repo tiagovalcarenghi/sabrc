@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroPF from "../../../components/MainMenu/PessoasPage/CadastroPessoaFisica";
+import { initialNomes } from "../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { initialValuesPF } from "../../../util/MainMenu/PessoasPage/constants";
 import AppMenu from "../../AppNavBar/AppMenu";
 
@@ -19,9 +20,7 @@ const PessoaFisiscaCad = () => {
   }, [location.state]);
 
   const carregarPessoaFisica = async (id) => {
-    const pessoaFisicaStorage = JSON.parse(
-      localStorage.getItem("pessoafisica_db")
-    );
+    const pessoaFisicaStorage = JSON.parse(localStorage.getItem("pessoafisica_db"));
     const selectPessoaFisica = pessoaFisicaStorage?.filter((pf) => pf.id === id);
     setPessoaFisicaEmEdicao(selectPessoaFisica[0]);
   };
@@ -41,7 +40,21 @@ const PessoaFisiscaCad = () => {
     const newPessoaFisica = getId === null ? [pf] : [...JSON.parse(localStorage.getItem("pessoafisica_db")), pf];
     localStorage.setItem("pessoafisica_db", JSON.stringify(newPessoaFisica));
     setPessoaFisicaEmEdicao(initialValuesPF);
+    insertcadNomes(pf);
   };
+
+  const insertcadNomes = (pf) => {
+    var newNomeCad = initialNomes;
+    var getId = JSON.parse(localStorage.getItem("nomes_db"));
+    newNomeCad.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    newNomeCad.cdNomes = newNomeCad.id;
+    newNomeCad.nome = pf.nomeCompleto;
+    newNomeCad.cdTipoNome = 1;
+    newNomeCad.cdCadastroNomes = pf.cdPessoaFisica;
+    const newNome = getId === null ? [newNomeCad] : [...JSON.parse(localStorage.getItem("nomes_db")), newNomeCad];
+    localStorage.setItem("nomes_db", JSON.stringify(newNome));
+
+  }
 
   const limparPessoaFisiscaEmEdicao = () => {
     setPessoaFisicaEmEdicao(initialValuesPF);

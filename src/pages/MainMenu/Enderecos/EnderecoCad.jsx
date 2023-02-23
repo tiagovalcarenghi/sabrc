@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroEndereco from "../../../components/MainMenu/Enderecos/CadastroEndereco";
+import { initialNomes } from "../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { initialValuesEnderecos } from "../../../util/MainMenu/Enderecos/constants";
 import AppMenu from "../../AppNavBar/AppMenu";
 
@@ -40,7 +41,27 @@ const EnderecoCad = () => {
         const newEndereco = getId === null ? [cc] : [...JSON.parse(localStorage.getItem("enderecos_db")), cc];
         localStorage.setItem("enderecos_db", JSON.stringify(newEndereco));
         setEnderecoEmEdicao(initialValuesEnderecos);
+        insertcadNomes(cc);
     };
+
+    const insertcadNomes = (cc) => {
+
+        var numeroadress = isBlank(cc.numero) ? "" : ", " + cc.numero;
+        var newNomeCad = initialNomes;
+        var getId = JSON.parse(localStorage.getItem("nomes_db"));
+        newNomeCad.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+        newNomeCad.cdNomes = newNomeCad.id;
+        newNomeCad.nome = cc.logradouro + numeroadress;
+        newNomeCad.cdTipoNome = 3;
+        newNomeCad.cdCadastroNomes = cc.cdEndereco;
+        const newNome = getId === null ? [newNomeCad] : [...JSON.parse(localStorage.getItem("nomes_db")), newNomeCad];
+        localStorage.setItem("nomes_db", JSON.stringify(newNome));
+    }
+
+    function isBlank(str) {
+        return (!str || /^\s*$/.test(str));
+    }
+
 
     const limparenderecoEmEdicao = () => {
         setEnderecoEmEdicao(initialValuesEnderecos);
