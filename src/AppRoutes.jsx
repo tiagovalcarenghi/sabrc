@@ -22,6 +22,7 @@ import MinutaPadraoOSHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoOS";
 import PessoasPage from "./pages/MainMenu/PessoasPage";
 import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
 import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
+import PerfilPage from "./pages/PerfilPage";
 
 const AppRoutes = () => {
   const Private = ({ children }) => {
@@ -58,6 +59,15 @@ const AppRoutes = () => {
             element={
               <Private>
                 <PessoasPage />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/editar/perfil"
+            element={
+              <Private>
+                <PerfilPage />
               </Private>
             }
           />

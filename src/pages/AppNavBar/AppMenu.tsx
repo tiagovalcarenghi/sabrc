@@ -19,6 +19,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { ptBR } from "@mui/material/locale";
 import { useNavigate } from "react-router-dom";
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
+import { Tooltip } from "@mui/material";
 
 const drawerWidth = 380;
 
@@ -90,43 +91,27 @@ const AppMenu = (props: any) => {
     ptBR
   );
 
-  // const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const { logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const navigateToComponent = (address:any) => {
-    switch(address){
+  const navigateToComponent = (address: any) => {
+    switch (address) {
       case 'perfil': navigate("/editar/perfil");
-      break;
+        break;
       case 'usuarios': navigate("/cadastro/usuarios");
-      break;
-      
+        break;
+
     }
   };
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" noWrap component="div">
             SAB - Sistema Administrativo Bomlar
           </Typography>
@@ -147,36 +132,38 @@ const AppMenu = (props: any) => {
       >
         <DrawerHeader>
           <DrawerLeft>
-            <IconButton color="error" onClick={logout}>
-              <ExitToAppRoundedIcon></ExitToAppRoundedIcon>
-            </IconButton>
 
-            <IconButton
-              color="info"
-              onClick={() => {
-                navigateToComponent('perfil');
-              }}
-            >
-              <AccountCircleIcon></AccountCircleIcon>
-            </IconButton>
+            <Tooltip title="Logout" >
+              <IconButton color="error" onClick={logout}>
+                <ExitToAppRoundedIcon></ExitToAppRoundedIcon>
+              </IconButton>
+            </Tooltip>
 
-            <IconButton
-              color="warning"
-              onClick={() => {
-                navigateToComponent('usuarios');
-              }}
-            >
-              <PeopleAltRoundedIcon></PeopleAltRoundedIcon>
-            </IconButton>
+
+            <Tooltip title="Perfil" >
+              <IconButton
+                color="info"
+                onClick={() => {
+                  navigateToComponent('perfil');
+                }}
+              >
+                <AccountCircleIcon></AccountCircleIcon>
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Usuários" >
+              <IconButton
+                color="warning"
+                onClick={() => {
+                  navigateToComponent('usuarios');
+                }}
+              >
+                <PeopleAltRoundedIcon></PeopleAltRoundedIcon>
+              </IconButton>
+            </Tooltip>
+
           </DrawerLeft>
 
-          {/* <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton> */}
         </DrawerHeader>
 
         <Divider />

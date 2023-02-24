@@ -59,25 +59,21 @@ const EnderecoCad = () => {
         localStorage.setItem("nomes_db", JSON.stringify(newNome));
     }
 
+
     const editCadNomes = (cc) => {
 
         var numeroadress = isBlank(cc.numero) ? "" : ", " + cc.numero;
 
-        var newNomeCad = initialNomes;
-
         let itemUpdate = JSON.parse(localStorage.getItem("nomes_db"));
         const n = itemUpdate?.filter((obj) => obj.cdTipoNome === 3 && obj.cdCadastroNomes === cc.cdEndereco);
-        newNomeCad.id = n[0].id;
-        newNomeCad.cdNomes = n[0].cdNomes;
-        newNomeCad.nome = cc.logradouro + numeroadress;
-        newNomeCad.cdTipoNome = n[0].cdTipoNome;
-        newNomeCad.cdCadastroNomes = n[0].cdCadastroNomes;
+        n[0].nome = cc.logradouro + numeroadress;
 
-        var updateEndereco = JSON.parse(localStorage.getItem("nomes_db"));
-        updateEndereco[updateEndereco.findIndex((x) => x.id === newNomeCad.id)] = newNomeCad;
-        localStorage.setItem("nomes_db", JSON.stringify(updateEndereco));
+        itemUpdate[itemUpdate.findIndex((x) => x.id === n[0].id)] = n[0];
+
+        localStorage.setItem("nomes_db", JSON.stringify(itemUpdate));
 
     }
+
 
     function isBlank(str) {
         return (!str || /^\s*$/.test(str));

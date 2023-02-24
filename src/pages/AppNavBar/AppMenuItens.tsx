@@ -102,13 +102,7 @@ export const appMenuItems = [
         sx: { pl: 4 },
         Icon: SummarizeIcon,
         link: `/operacoes/lancamento-contabil`,
-      },
-      {
-        name: "Lançamento Bancos",
-        sx: { pl: 4 },
-        Icon: SummarizeIcon,
-        link: `operacoes/lancamento-bancos`,
-      },
+      },     
       {
         name: "ARE",
         sx: { pl: 4 },
@@ -122,19 +116,7 @@ export const appMenuItems = [
     Icon: InsightsIcon,
     items: [
       {
-        name: "Pesquisa Por Campo",
-        sx: { pl: 4 },
-        Icon: IconBarChart,
-        link: `/relatorios/pesquisa-por-campo`,
-      },
-      {
-        name: "Lançamento",
-        sx: { pl: 4 },
-        Icon: IconBarChart,
-        link: `/relatorios/lancamento`,
-      },
-      {
-        name: "Livro Razão",
+        name: "Relatórios Contábeis",
         sx: { pl: 4 },
         Icon: IconBarChart,
         link: `/relatorios/livro-razao`,

@@ -66,7 +66,7 @@ const ContasHome = () => {
     };
 
     function isEligible(value) {
-        if (value !== false || value !== null || value !== 0 || value !== "") {
+        if (value !== false || value !== null || value !== 0 || value !== "" || value !== undefined) {
             return value;
         }
     }

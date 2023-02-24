@@ -29,4 +29,5 @@ export const msgSuccessExcludeEndereco = "O endereço foi excluído.";
 export const msgExcludeContaC = "Tem certeza que deseja excluir esta conta complementar?";
 export const msgExcludeContaCError = "Erro ao excluir conta complementar. Verifique.";
 export const msgSuccessExcludeContaC = "A conta complementar foi excluída.";
-
+export const msgEditPerfilSuccess = "O dados do perfil foram alterados com sucesso.";
+export const msgAlterSuccess = "Alteração Efetuada.";
