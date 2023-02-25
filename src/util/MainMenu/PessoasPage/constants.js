@@ -36,6 +36,7 @@ export const estadoCivilOptions = [
 ////PESSOA JURÍDICA CONSTANTS:
 
 export const initialValuesPJ = {
+  id: '',
   cdPessoaJuridica: '',
   nomeEmpresarial: '',
   emailContato: '',

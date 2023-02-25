@@ -15,7 +15,13 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
-import { Breadcrumbs, Button, Grid, TableHead, TextField, Typography } from "@mui/material";
+import {
+    Button, Grid, TableHead, TextField, Typography, FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    Breadcrumbs
+} from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
@@ -23,7 +29,8 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import { msgAtencao, msgExcludeCdC, msgExcludeCdCError, msgSuccessExcludeCdC } from "../../../../../util/applicationresources";
+import { ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
+import { msgAtencao, msgExcludeEndereco, msgExcludeEnderecoCError, msgSuccessExcludeEndereco } from "../../../../util/applicationresources";
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -98,13 +105,17 @@ TablePaginationActions.propTypes = {
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
-const GridCentrodeCusto = (props) => {
-    const { centrodecusto_db, deletecentrodecusto, filter, disableDelete, disableEdit } = props;
+const GridEndereco = (props) => {
+    const { enderecos_db, deleteendereco, filter, disableDelete, disableEdit } = props;
 
-    const [filterDescCentrodeCusto, setfilterDescCentrodeCusto] = useState("");
+    const [filterLogradouro, setFilterLogradouro] = useState("");
+    const [filterCep, setFilterCep] = useState("");
+    const [filterBairro, setFilterBairro] = useState("");
+    const [filterLocalidade, setFilterLocalidade] = useState("");
+    const [filterUf, setFilterUf] = useState("");
 
     const handleExcluir = (cdc) => {
-        deletecentrodecusto(cdc);
+        deleteendereco(cdc);
     };
 
     const validaExclusao = () => {
@@ -117,22 +128,31 @@ const GridCentrodeCusto = (props) => {
     const navigate = useNavigate();
 
     const navigateToComponent = (id) => {
-        navigate("/cadastro/contascontabeis/cadcentrodecusto", { state: { id: id } });
+        navigate("/cadastro/cadenderecos", { state: { id: id } });
     };
 
     const handleFilter = (f) => {
         if (f) {
             filter(null);
-            setfilterDescCentrodeCusto("");
+            setFilterLogradouro("");
+            setFilterCep("");
+            setFilterBairro("");
+            setFilterLocalidade("");
+            setFilterUf("");
+
         } else {
             filter(
-                filterDescCentrodeCusto
+                filterLogradouro,
+                filterCep,
+                filterBairro,
+                filterLocalidade,
+                filterUf,
             );
         }
     };
 
     const verificaNulo = () => {
-        return !!centrodecusto_db ? centrodecusto_db.length : 0;
+        return !!enderecos_db ? enderecos_db.length : 0;
     };
 
     //----------PAGINATION START--------////
@@ -142,7 +162,7 @@ const GridCentrodeCusto = (props) => {
     // Avoid a layout jump when reaching the last page with empty rows.
     // const emptyRows =
     //     page > 0
-    //         ? Math.max(0, (1 + page) * rowsPerPage - centrodecusto_db.length)
+    //         ? Math.max(0, (1 + page) * rowsPerPage - enderecos_db.length)
     //         : 0;
 
     const handleChangePage = (event, newPage) => {
@@ -157,10 +177,8 @@ const GridCentrodeCusto = (props) => {
 
     return (
         <>
-
             <Breadcrumbs aria-label="breadcrumb">
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Contábeis</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Centro de Custo</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Endereços</Typography>
                 <Typography color="text.primary">Informações</Typography>
             </Breadcrumbs>
 
@@ -169,9 +187,7 @@ const GridCentrodeCusto = (props) => {
                 container
                 spacing={0}
                 justifyContent="left"
-                style={{
-                    padding: "20px 0px 0px 0px",
-                }}
+                style={{ minHeight: "30vh", padding: "20px 0px 0px 0px" }}
             >
                 <Grid item xs={12}>
 
@@ -184,21 +200,86 @@ const GridCentrodeCusto = (props) => {
                             margin: "0px 0px 10px 0px",
                         }}
                     >
-                        <Grid item xs={4}>
+                        <Grid item xs={2}>
                             <TextField
                                 fullWidth
                                 size="small"
-                                label="Nome Centro de Custo"
+                                label="Logradouro"
                                 type="text"
-                                value={filterDescCentrodeCusto}
+                                value={filterLogradouro}
                                 required={false}
-                                onChange={(e) => setfilterDescCentrodeCusto(e.target.value)}
+                                onChange={(e) => setFilterLogradouro(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={2}>
+                            <TextField
+                                fullWidth
+                                size="small"
+                                label="CEP"
+                                type="text"
+                                value={filterCep}
+                                required={false}
+                                onChange={(e) => setFilterCep(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={2}>
+                            <TextField
+                                fullWidth
+                                size="small"
+                                label="Bairro"
+                                type="text"
+                                value={filterBairro}
+                                required={false}
+                                onChange={(e) => setFilterBairro(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={2}>
+                            <TextField
+                                fullWidth
+                                size="small"
+                                label="Cidade"
+                                type="text"
+                                value={filterLocalidade}
+                                required={false}
+                                onChange={(e) => setFilterLocalidade(e.target.value)}
                             />
                         </Grid>
 
 
+                        <Grid item xs={2}>
 
-                        <Grid item xs={7}>
+                            <FormControl fullWidth size="small">
+                                <InputLabel id="demo-controlled-open-select-label">Estado</InputLabel>
+                                <Select
+                                    fullWidth
+                                    size="small"
+                                    name="filterUf"
+                                    label="Estado"
+                                    labelId="select-label-id"
+                                    id="select-label-id"
+                                    value={filterUf}
+                                    onChange={(e) => setFilterUf(e.target.value)}
+
+                                >
+                                    {ufOptions.map((e) => (
+                                        <MenuItem
+                                            key={e.uf}
+                                            value={e.uf}
+                                        >
+                                            {e.nome}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+
+
+
+
+                        <Grid item xs={1}>
                             <IconButton
                                 color="info"
                                 variant="outlined"
@@ -242,36 +323,57 @@ const GridCentrodeCusto = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Id</TableCell>
-                                    <TableCell align="left">Centro de Custo</TableCell>
+                                    <TableCell align="left">CEP</TableCell>
+                                    <TableCell align="left">Logradouro</TableCell>
+                                    <TableCell align="left">Número</TableCell>
+                                    <TableCell align="left">Complemento</TableCell>
+                                    <TableCell align="left">Bairro</TableCell>
+                                    <TableCell align="left">Cidade</TableCell>
+                                    <TableCell align="left">Estado</TableCell>
                                     <TableCell align="center" colSpan={2}></TableCell>
                                 </TableRow>
                             </TableHead>
 
                             <>
-                                {centrodecusto_db && centrodecusto_db.length > 0 && (
+                                {enderecos_db && enderecos_db.length > 0 && (
                                     <TableBody>
                                         {(rowsPerPage > 0
-                                            ? centrodecusto_db.slice(
+                                            ? enderecos_db.slice(
                                                 page * rowsPerPage,
                                                 page * rowsPerPage + rowsPerPage
                                             )
-                                            : centrodecusto_db
-                                        ).map((centrodecusto) => (
-                                            <TableRow key={centrodecusto.id}>
+                                            : enderecos_db
+                                        ).map((endereco) => (
+                                            <TableRow key={endereco.id}>
+                                                <TableCell align="left" width="10%">
+                                                    {endereco.cep}
+                                                </TableCell>
                                                 <TableCell align="left" width="15%">
-                                                    {centrodecusto.id}
+                                                    {endereco.logradouro}
                                                 </TableCell>
-                                                <TableCell align="left" width="45%">
-                                                    {centrodecusto.descCentrodeCusto}
+                                                <TableCell align="left" width="10%">
+                                                    {endereco.numero}
                                                 </TableCell>
+                                                <TableCell align="left" width="10%">
+                                                    {endereco.complemento}
+                                                </TableCell>
+                                                <TableCell align="left" width="10%">
+                                                    {endereco.bairro}
+                                                </TableCell>
+                                                <TableCell align="left" width="10%">
+                                                    {endereco.localidade}
+                                                </TableCell>
+                                                <TableCell align="left" width="10%">
+                                                    {endereco.uf}
+                                                </TableCell>
+
 
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableEdit}
                                                         color="primary"
                                                         onClick={() => {
-                                                            navigateToComponent(centrodecusto.id);
+                                                            navigateToComponent(endereco.id);
                                                         }}
                                                     >
                                                         <EditIcon></EditIcon>
@@ -283,7 +385,7 @@ const GridCentrodeCusto = (props) => {
                                                         color="error"
                                                         onClick={() => {
                                                             Swal.fire({
-                                                                title: msgExcludeCdC,
+                                                                title: msgExcludeEndereco,
                                                                 icon: "warning",
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: "#3085d6",
@@ -293,10 +395,10 @@ const GridCentrodeCusto = (props) => {
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
                                                                     if (!validaExclusao()) {
-                                                                        Swal.fire(msgAtencao, msgExcludeCdCError);
+                                                                        Swal.fire(msgAtencao, msgExcludeEnderecoCError);
                                                                     } else {
-                                                                        Swal.fire(msgAtencao, msgSuccessExcludeCdC);
-                                                                        handleExcluir(centrodecusto);
+                                                                        Swal.fire(msgAtencao, msgSuccessExcludeEndereco);
+                                                                        handleExcluir(endereco);
                                                                     }
                                                                 }
                                                             });
@@ -339,4 +441,4 @@ const GridCentrodeCusto = (props) => {
     );
 };
 
-export default GridCentrodeCusto;
+export default GridEndereco;

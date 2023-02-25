@@ -39,7 +39,7 @@ export const createPessoaFisica = [
     telefone: "51-984736159",
     telefoneAdicional: "",
     email: "tiago@teste.com.br",
-    enderecoCompleto: "Rua Dona Cecília, 603 Vila City - Cachoeirinha-RS",
+    enderecoCompleto: "Rua Dona Cecília, 603",
     logradouro: "Rua Dona Cecília",
     cep: "94935130",
     bairro: "Vila City",
@@ -62,7 +62,7 @@ export const createPessoaFisica = [
     telefone: "51-985855692",
     telefoneAdicional: "51-34412056",
     email: "esv@teste.com.br",
-    enderecoCompleto: "Travessa Planalto, 56 Ap 520 Bloco 05 Parque da Matriz - Cachoeirinha-RS ",
+    enderecoCompleto: "Travessa Planalto, 56 Ap 520 Bloco 05",
     logradouro: "Travessa Planalto",
     cep: "949385669",
     bairro: "Parque da Matriz",
@@ -85,7 +85,7 @@ export const createPessoaFisica = [
     telefone: "84-8885985265",
     telefoneAdicional: "",
     email: "johnconnor@teste.com.br",
-    enderecoCompleto: "Rua Dona Cecília, 805 Vila City - Cachoeirinha-RS",
+    enderecoCompleto: "Rua Dona Cecília, 805",
     logradouro: "Rua Dona Cecília",
     cep: "94935130",
     bairro: "Vila City",
@@ -112,7 +112,7 @@ export const createPessoaJuridica = [
     complemento: "",
     uf: "SC",
     localidade: "Florianópolis",
-    enderecoCompleto: "Rua 1, 456 Vila Teste - Florianopolis-SC"
+    enderecoCompleto: "Rua 1, 456"
   },
   {
     id: 2,
@@ -127,7 +127,22 @@ export const createPessoaJuridica = [
     complemento: "",
     uf: "PR",
     localidade: "Toledo",
-    enderecoCompleto: "Rua 2, 1025 Vila Teste 2 - Toledo-PR"
+    enderecoCompleto: "Rua 2, 1025"
+  },
+  {
+    id: 3,
+    cdPessoaJuridica: 3,
+    nomeEmpresarial: "Santander",
+    emailContato: "santander@santander.com.br",
+    cnpj: "26550001065664",
+    cep: "94352002",
+    logradouro: "Rua 8",
+    bairro: "Vila Teste 8",
+    numero: "",
+    complemento: "",
+    uf: "SP",
+    localidade: "São Paulo",
+    enderecoCompleto: "Rua 8"
   },
 ];
 
@@ -152,24 +167,6 @@ export const createRepresentantesLegaisBase = [
     nomeRepresentante: "Tiago Amaral Valcarenghi",
   },
 ];
-
-export const createRepresentantesLegaisOptions = [
-  {
-    id: 1,
-    cdPessoaFisica: 1,
-    nomeRepresentante: "Tiago Amaral Valcarenghi",
-  },
-  {
-    id: 2,
-    cdPessoaFisica: 2,
-    nomeRepresentante: "Elvis Sandro Valcarenghi",
-  },
-  {
-    id: 3,
-    cdPessoaFisica: 3,
-    nomeRepresentante: "John Connor"
-  },
-]
 
 
 //-------------------------------------------------
@@ -241,4 +238,125 @@ export const createCentrodeCusto = [
     cdCentrodeCusto: 3,
     descCentrodeCusto: 'Prestação'
   }
+]
+
+
+//-------------------------------------------------
+
+export const createEnderecos = [
+  {
+    id: 1,
+    cdEndereco: 1,
+    enderecoCompleto: "Rua Dona Cecília, 805",
+    logradouro: "Rua Dona Cecília",
+    cep: "94935130",
+    bairro: "Vila City",
+    numero: "805",
+    complemento: "",
+    localidade: "Cachoeirinha",
+    uf: "RS",
+  },
+  {
+    id: 2,
+    cdEndereco: 2,
+    enderecoCompleto: "Travessa Planalto, 56 Ap 520 Bloco 05",
+    logradouro: "Travessa Planalto",
+    cep: "949385669",
+    bairro: "Parque da Matriz",
+    numero: "56",
+    complemento: "Ap 520 Bloco 05",
+    localidade: "Cachoeirinha",
+    uf: "RS",
+  }
+]
+
+
+//-------------------------------------------------
+
+export const createContasComplementares = [
+  {
+    id: 1,
+    cdContaComplementar: 1,
+    desccContaComplementar: 'Tiago Amaral Valcarenghi',
+    cdTipoContaComplementar: 1,
+    cdCadastro: 1,
+    isBanco: false,
+  },
+  {
+    id: 2,
+    cdContaComplementar: 2,
+    desccContaComplementar: 'Santander',
+    cdTipoContaComplementar: 2,
+    cdCadastro: 3,
+    isBanco: true,
+  },
+  {
+    id: 3,
+    cdContaComplementar: 3,
+    desccContaComplementar: 'Travessa Planalto, 56 Ap 520 Bloco 05',
+    cdTipoContaComplementar: 3,
+    cdCadastro: 2,
+    isBanco: false,
+  },
+
+]
+
+
+export const createNomes = [
+  {
+    id: 1,
+    cdNomes: 1,
+    nome: 'Tiago Amaral Valcarenghi',
+    cdTipoNome: 1,
+    cdCadastroNomes: 1,
+  },
+  {
+    id: 2,
+    cdNomes: 2,
+    nome: 'Elvis Sandro Valcarenghi',
+    cdTipoNome: 1,
+    cdCadastroNomes: 2,
+  },
+  {
+    id: 3,
+    cdNomes: 3,
+    nome: 'John Connor',
+    cdTipoNome: 1,
+    cdCadastroNomes: 3,
+  },
+  {
+    id: 4,
+    cdNomes: 4,
+    nome: 'SAB',
+    cdTipoNome: 2,
+    cdCadastroNomes: 1,
+  },
+  {
+    id: 5,
+    cdNomes: 5,
+    nome: 'Lojas Quero-Quero',
+    cdTipoNome: 2,
+    cdCadastroNomes: 2,
+  },
+  {
+    id: 6,
+    cdNomes: 6,
+    nome: 'Santander',
+    cdTipoNome: 2,
+    cdCadastroNomes: 3,
+  },
+  {
+    id: 7,
+    cdNomes: 7,
+    nome: 'Rua Dona Cecília, 805',
+    cdTipoNome: 3,
+    cdCadastroNomes: 1,
+  },
+  {
+    id: 8,
+    cdNomes: 8,
+    nome: 'Travessa Planalto, 56 Ap 520 Bloco 05',
+    cdTipoNome: 3,
+    cdCadastroNomes: 2,
+  },
 ]

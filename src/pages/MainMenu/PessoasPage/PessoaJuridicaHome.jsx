@@ -21,6 +21,22 @@ const PessoaJuridicaHome = (props) => {
     }
     deleteRepresentanteLegal(data);
     setPessoaJuridicaDb(JSON.parse(localStorage.getItem("pessoajuridica_db")));
+    deleteName(data);
+  };
+
+
+  const deleteName = (data) => {
+
+    let itemDeletado = JSON.parse(localStorage.getItem("nomes_db"));
+    itemDeletado = itemDeletado?.filter((obj) => obj.cdTipoNome === 2 && obj.cdCadastroNomes === data.cdPessoaJuridica);
+
+    let items = JSON.parse(localStorage.getItem("nomes_db"));
+    items = items.filter((item) => item.id !== itemDeletado[0].id);
+
+    localStorage.setItem("nomes_db", JSON.stringify(items));
+    if (items.length === 0) {
+      localStorage.removeItem("nomes_db");
+    }
   };
 
   const deleteRepresentanteLegal = (data) => {

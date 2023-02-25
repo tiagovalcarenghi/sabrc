@@ -15,7 +15,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TableHead, TextField, Typography } from "@mui/material";
+import { Button, Grid, TableHead, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 import {
   msgAtencao,
@@ -176,7 +176,7 @@ const GridPessoaFisica = (props) => {
         style={{ minHeight: "30vh" }}
       >
         <Grid item xs={12}>
-          <Typography>Pesquisar Dados:</Typography>
+
 
           <Grid
             container

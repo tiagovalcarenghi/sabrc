@@ -1,12 +1,6 @@
-import {
-    Button,
-    Grid,
-    TextField,
-} from "@mui/material";
+import { Breadcrumbs, Button, Grid, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import { msgCadMinutaPadraoSuccess, msgCadSuccess } from "../../../../util/applicationresources";
 import { initialValuesMinutasPadraoLocacao } from "../../../../util/MainMenu/MinutasPadrao/ContratoLocacao/constants";
@@ -33,17 +27,20 @@ const CadastroMinutasLocacao = (props) => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
+            <Breadcrumbs aria-label="breadcrumb">
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Minutas Padrão</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Locação</Typography>
+                <Typography color="text.primary">Editar</Typography>
+            </Breadcrumbs>
+
             <Grid
                 style={{
                     display: "grid",
                     gridRowGap: "20px",
-                    padding: "20px",
+                    padding: "20px 0px 0px 0px",
                     margin: "10px 10px 10px 10px",
                 }}
             >
-                <Stack direction="row" spacing={1}>
-                    <Chip label="Cadastro Minuta Padrão Locação" />
-                </Stack>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid item xs={12}>
                         <TextField

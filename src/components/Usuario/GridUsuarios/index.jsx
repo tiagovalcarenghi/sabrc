@@ -15,7 +15,13 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
-import { Breadcrumbs, Button, Grid, TableHead, TextField, Typography } from "@mui/material";
+import {
+    Button, Grid, TableHead, TextField, Typography, FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    Breadcrumbs,
+} from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
@@ -23,7 +29,9 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import { msgAtencao, msgExcludeCdC, msgExcludeCdCError, msgSuccessExcludeCdC } from "../../../../../util/applicationresources";
+import { userOptions } from "../../../util/Usuarios/constants";
+import { msgAtencao, msgExcludeUser, msgExcludeUserError, msgExcludeUserErrorSame, msgSuccessExcludeUser } from "../../../util/applicationresources";
+
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -98,41 +106,42 @@ TablePaginationActions.propTypes = {
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
-const GridCentrodeCusto = (props) => {
-    const { centrodecusto_db, deletecentrodecusto, filter, disableDelete, disableEdit } = props;
+const GridUsuarios = (props) => {
+    const { users_db, deleteusuario, filter } = props;
 
-    const [filterDescCentrodeCusto, setfilterDescCentrodeCusto] = useState("");
+    const [filterNameUser, setFilterNameUser] = useState("");
+    const [filterEmail, setFilterEmail] = useState("");
+    const [filterTipoUser, setFilterTipoUser] = useState("");
 
-    const handleExcluir = (cdc) => {
-        deletecentrodecusto(cdc);
+    const handleExcluir = (u) => {
+        deleteusuario(u);
     };
 
-    const validaExclusao = () => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            return usuario.tipoUser === "ADMIN" ? true : false;
-        }
-    };
 
     const navigate = useNavigate();
 
     const navigateToComponent = (id) => {
-        navigate("/cadastro/contascontabeis/cadcentrodecusto", { state: { id: id } });
+        navigate("/cadastro/cadusuarios", { state: { id: id } });
     };
 
     const handleFilter = (f) => {
         if (f) {
             filter(null);
-            setfilterDescCentrodeCusto("");
+            setFilterNameUser("");
+            setFilterEmail("");
+            setFilterTipoUser("");
+
         } else {
             filter(
-                filterDescCentrodeCusto
+                filterNameUser,
+                filterEmail,
+                filterTipoUser,
             );
         }
     };
 
     const verificaNulo = () => {
-        return !!centrodecusto_db ? centrodecusto_db.length : 0;
+        return !!users_db ? users_db.length : 0;
     };
 
     //----------PAGINATION START--------////
@@ -142,7 +151,7 @@ const GridCentrodeCusto = (props) => {
     // Avoid a layout jump when reaching the last page with empty rows.
     // const emptyRows =
     //     page > 0
-    //         ? Math.max(0, (1 + page) * rowsPerPage - centrodecusto_db.length)
+    //         ? Math.max(0, (1 + page) * rowsPerPage - users_db.length)
     //         : 0;
 
     const handleChangePage = (event, newPage) => {
@@ -155,12 +164,42 @@ const GridCentrodeCusto = (props) => {
     };
     //----------PAGINATION END--------////
 
+
+
+    const validaExclusao = (usuario, tipoValida) => {
+
+        switch (tipoValida) {
+            case 1:
+                if (usuario.tipoUser === "ADMIN") {
+
+                    const vusuario = JSON.parse(localStorage.getItem("users_db"));
+                    const verificaQtdeAdministradores = vusuario?.filter(
+                        (user) => user.tipoUser === "ADMIN"
+                    );
+
+                    return verificaQtdeAdministradores.length > 1 ? true : false;
+
+                } else {
+                    return true;
+                };
+
+
+            case 2:
+                const usuariov = JSON.parse(localStorage.getItem("user_storage"));
+                return usuariov.nameUser === usuario.nameUser ? false : true;
+
+
+            default: break;
+        }
+
+    };
+
+
     return (
         <>
 
             <Breadcrumbs aria-label="breadcrumb">
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Contábeis</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Centro de Custo</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Usuários</Typography>
                 <Typography color="text.primary">Informações</Typography>
             </Breadcrumbs>
 
@@ -169,12 +208,12 @@ const GridCentrodeCusto = (props) => {
                 container
                 spacing={0}
                 justifyContent="left"
-                style={{
-                    padding: "20px 0px 0px 0px",
-                }}
+                style={{ minHeight: "30vh", padding: "20px 0px 0px 0px" }}
             >
                 <Grid item xs={12}>
 
+
+                    {/* <Typography>Pesquisar Dados:</Typography> */}
 
                     <Grid
                         container
@@ -184,21 +223,62 @@ const GridCentrodeCusto = (props) => {
                             margin: "0px 0px 10px 0px",
                         }}
                     >
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <TextField
                                 fullWidth
                                 size="small"
-                                label="Nome Centro de Custo"
+                                label="Nome Usuário"
                                 type="text"
-                                value={filterDescCentrodeCusto}
+                                value={filterNameUser}
                                 required={false}
-                                onChange={(e) => setfilterDescCentrodeCusto(e.target.value)}
+                                onChange={(e) => setFilterNameUser(e.target.value)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={3}>
+                            <TextField
+                                fullWidth
+                                size="small"
+                                label="Email"
+                                type="text"
+                                value={filterEmail}
+                                required={false}
+                                onChange={(e) => setFilterEmail(e.target.value)}
                             />
                         </Grid>
 
 
+                        <Grid item xs={3}>
 
-                        <Grid item xs={7}>
+                            <FormControl fullWidth size="small">
+                                <InputLabel id="demo-controlled-open-select-label">Tipo de Usuário</InputLabel>
+                                <Select
+                                    fullWidth
+                                    size="small"
+                                    name="filterTipoUser"
+                                    label="Tipo de Usuário"
+                                    labelId="select-label-id"
+                                    id="select-label-id"
+                                    value={filterTipoUser}
+                                    onChange={(e) => setFilterTipoUser(e.target.value)}
+
+                                >
+                                    {userOptions.map((e) => (
+                                        <MenuItem
+                                            key={e.id}
+                                            value={e.tipoUser}
+                                        >
+                                            {e.tipoUser}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+
+
+
+
+                        <Grid item xs={2}>
                             <IconButton
                                 color="info"
                                 variant="outlined"
@@ -242,36 +322,40 @@ const GridCentrodeCusto = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Id</TableCell>
-                                    <TableCell align="left">Centro de Custo</TableCell>
+                                    <TableCell align="left">Usuário</TableCell>
+                                    <TableCell align="left">Email</TableCell>
+                                    <TableCell align="left">Tipo de Usuário</TableCell>
                                     <TableCell align="center" colSpan={2}></TableCell>
                                 </TableRow>
                             </TableHead>
 
                             <>
-                                {centrodecusto_db && centrodecusto_db.length > 0 && (
+                                {users_db && users_db.length > 0 && (
                                     <TableBody>
                                         {(rowsPerPage > 0
-                                            ? centrodecusto_db.slice(
+                                            ? users_db.slice(
                                                 page * rowsPerPage,
                                                 page * rowsPerPage + rowsPerPage
                                             )
-                                            : centrodecusto_db
-                                        ).map((centrodecusto) => (
-                                            <TableRow key={centrodecusto.id}>
+                                            : users_db
+                                        ).map((usuario) => (
+                                            <TableRow key={usuario.id}>
+                                                <TableCell align="left" width="25%">
+                                                    {usuario.nameUser}
+                                                </TableCell>
+                                                <TableCell align="left" width="30%">
+                                                    {usuario.email}
+                                                </TableCell>
                                                 <TableCell align="left" width="15%">
-                                                    {centrodecusto.id}
+                                                    {usuario.tipoUser}
                                                 </TableCell>
-                                                <TableCell align="left" width="45%">
-                                                    {centrodecusto.descCentrodeCusto}
-                                                </TableCell>
+
 
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
-                                                        disabled={disableEdit}
                                                         color="primary"
                                                         onClick={() => {
-                                                            navigateToComponent(centrodecusto.id);
+                                                            navigateToComponent(usuario.id);
                                                         }}
                                                     >
                                                         <EditIcon></EditIcon>
@@ -279,11 +363,10 @@ const GridCentrodeCusto = (props) => {
                                                 </TableCell>
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
-                                                        disabled={disableDelete}
                                                         color="error"
                                                         onClick={() => {
                                                             Swal.fire({
-                                                                title: msgExcludeCdC,
+                                                                title: msgExcludeUser,
                                                                 icon: "warning",
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: "#3085d6",
@@ -292,11 +375,13 @@ const GridCentrodeCusto = (props) => {
                                                                 cancelButtonText: "Não",
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
-                                                                    if (!validaExclusao()) {
-                                                                        Swal.fire(msgAtencao, msgExcludeCdCError);
+                                                                    if (!validaExclusao(usuario, 1)) {
+                                                                        Swal.fire(msgAtencao, msgExcludeUserError);
+                                                                    } else if (!validaExclusao(usuario, 2)) {
+                                                                        Swal.fire(msgAtencao, msgExcludeUserErrorSame);
                                                                     } else {
-                                                                        Swal.fire(msgAtencao, msgSuccessExcludeCdC);
-                                                                        handleExcluir(centrodecusto);
+                                                                        Swal.fire(msgAtencao, msgSuccessExcludeUser);
+                                                                        handleExcluir(usuario);
                                                                     }
                                                                 }
                                                             });
@@ -339,4 +424,4 @@ const GridCentrodeCusto = (props) => {
     );
 };
 
-export default GridCentrodeCusto;
+export default GridUsuarios;

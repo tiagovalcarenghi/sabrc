@@ -15,15 +15,17 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
-import { Breadcrumbs, Button, Grid, TableHead, TextField, Typography } from "@mui/material";
+import { Button, Grid, TableHead, TextField, Typography, Breadcrumbs } from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import { msgAtencao, msgExcludeCdC, msgExcludeCdCError, msgSuccessExcludeCdC } from "../../../../../util/applicationresources";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { msgAtencao, msgExcludeContaC, msgExcludeContaCError, msgSuccessExcludeContaC } from "../../../../../util/applicationresources";
+
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -98,13 +100,15 @@ TablePaginationActions.propTypes = {
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
-const GridCentrodeCusto = (props) => {
-    const { centrodecusto_db, deletecentrodecusto, filter, disableDelete, disableEdit } = props;
+const GridContasComplementares = (props) => {
+    const { contascomplementares_db, deletecontacomplementar, filter, disableDelete, } = props;
 
-    const [filterDescCentrodeCusto, setfilterDescCentrodeCusto] = useState("");
+    const [filterDesContaComplementar, setFilterDesContaComplementar] = useState("");
+    const [checked, setChecked] = React.useState(false);
+    const [filterIsBanco, setFilterIsBanco] = React.useState(false);
 
-    const handleExcluir = (cdc) => {
-        deletecentrodecusto(cdc);
+    const handleExcluir = (conta) => {
+        deletecontacomplementar(conta);
     };
 
     const validaExclusao = () => {
@@ -117,33 +121,30 @@ const GridCentrodeCusto = (props) => {
     const navigate = useNavigate();
 
     const navigateToComponent = (id) => {
-        navigate("/cadastro/contascontabeis/cadcentrodecusto", { state: { id: id } });
+        navigate("/cadastro/contascontabeis/cadcontascomplementares", { state: { id: id } });
     };
 
     const handleFilter = (f) => {
         if (f) {
             filter(null);
-            setfilterDescCentrodeCusto("");
+            setFilterDesContaComplementar("");
+            setFilterIsBanco(false);
+            setChecked(false);
         } else {
             filter(
-                filterDescCentrodeCusto
+                filterDesContaComplementar,
+                filterIsBanco
             );
         }
     };
 
     const verificaNulo = () => {
-        return !!centrodecusto_db ? centrodecusto_db.length : 0;
+        return !!contascomplementares_db ? contascomplementares_db.length : 0;
     };
 
     //----------PAGINATION START--------////
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    // const emptyRows =
-    //     page > 0
-    //         ? Math.max(0, (1 + page) * rowsPerPage - centrodecusto_db.length)
-    //         : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -155,12 +156,16 @@ const GridCentrodeCusto = (props) => {
     };
     //----------PAGINATION END--------////
 
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+        setFilterIsBanco(event.target.checked);
+    };
+
     return (
         <>
-
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Contábeis</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Centro de Custo</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Complementares</Typography>
                 <Typography color="text.primary">Informações</Typography>
             </Breadcrumbs>
 
@@ -169,9 +174,7 @@ const GridCentrodeCusto = (props) => {
                 container
                 spacing={0}
                 justifyContent="left"
-                style={{
-                    padding: "20px 0px 0px 0px",
-                }}
+                style={{ minHeight: "30vh", padding: "20px 0px 0px 0px" }}
             >
                 <Grid item xs={12}>
 
@@ -188,17 +191,32 @@ const GridCentrodeCusto = (props) => {
                             <TextField
                                 fullWidth
                                 size="small"
-                                label="Nome Centro de Custo"
+                                label="Nome Conta Complementar"
                                 type="text"
-                                value={filterDescCentrodeCusto}
+                                value={filterDesContaComplementar}
                                 required={false}
-                                onChange={(e) => setfilterDescCentrodeCusto(e.target.value)}
+                                onChange={(e) => setFilterDesContaComplementar(e.target.value)}
                             />
+                        </Grid>
+
+                        <Grid item xs={2}>
+
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Banco"
+                                size="small"
+                                type="text"
+                                checked={checked}
+                                value={filterIsBanco}
+                                required={false}
+                                onChange={handleChange}
+                            />
+
                         </Grid>
 
 
 
-                        <Grid item xs={7}>
+                        <Grid item xs={5}>
                             <IconButton
                                 color="info"
                                 variant="outlined"
@@ -242,48 +260,38 @@ const GridCentrodeCusto = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Id</TableCell>
-                                    <TableCell align="left">Centro de Custo</TableCell>
+                                    <TableCell align="left">Nome Conta</TableCell>
+                                    <TableCell align="left">Banco</TableCell>
                                     <TableCell align="center" colSpan={2}></TableCell>
                                 </TableRow>
                             </TableHead>
 
                             <>
-                                {centrodecusto_db && centrodecusto_db.length > 0 && (
+                                {contascomplementares_db && contascomplementares_db.length > 0 && (
                                     <TableBody>
                                         {(rowsPerPage > 0
-                                            ? centrodecusto_db.slice(
+                                            ? contascomplementares_db.slice(
                                                 page * rowsPerPage,
                                                 page * rowsPerPage + rowsPerPage
                                             )
-                                            : centrodecusto_db
-                                        ).map((centrodecusto) => (
-                                            <TableRow key={centrodecusto.id}>
-                                                <TableCell align="left" width="15%">
-                                                    {centrodecusto.id}
+                                            : contascomplementares_db
+                                        ).map((contacomplementar) => (
+                                            <TableRow key={contacomplementar.id}>
+                                                <TableCell align="left" width="40%">
+                                                    {contacomplementar.desccContaComplementar}
                                                 </TableCell>
-                                                <TableCell align="left" width="45%">
-                                                    {centrodecusto.descCentrodeCusto}
+                                                <TableCell align="left" width="15%">
+                                                    {contacomplementar.isBanco === false ? "Não" : "Sim"}
                                                 </TableCell>
 
-                                                <TableCell width="5%" align="center">
-                                                    <IconButton
-                                                        disabled={disableEdit}
-                                                        color="primary"
-                                                        onClick={() => {
-                                                            navigateToComponent(centrodecusto.id);
-                                                        }}
-                                                    >
-                                                        <EditIcon></EditIcon>
-                                                    </IconButton>
-                                                </TableCell>
+
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableDelete}
                                                         color="error"
                                                         onClick={() => {
                                                             Swal.fire({
-                                                                title: msgExcludeCdC,
+                                                                title: msgExcludeContaC,
                                                                 icon: "warning",
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: "#3085d6",
@@ -293,10 +301,10 @@ const GridCentrodeCusto = (props) => {
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
                                                                     if (!validaExclusao()) {
-                                                                        Swal.fire(msgAtencao, msgExcludeCdCError);
+                                                                        Swal.fire(msgAtencao, msgExcludeContaCError);
                                                                     } else {
-                                                                        Swal.fire(msgAtencao, msgSuccessExcludeCdC);
-                                                                        handleExcluir(centrodecusto);
+                                                                        Swal.fire(msgAtencao, msgSuccessExcludeContaC);
+                                                                        handleExcluir(contacomplementar);
                                                                     }
                                                                 }
                                                             });
@@ -339,4 +347,4 @@ const GridCentrodeCusto = (props) => {
     );
 };
 
-export default GridCentrodeCusto;
+export default GridContasComplementares;

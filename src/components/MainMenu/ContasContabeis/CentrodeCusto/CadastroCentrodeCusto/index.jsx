@@ -1,13 +1,13 @@
 import {
+    Breadcrumbs,
     Button,
     Grid,
     TextField,
+    Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -38,17 +38,21 @@ const CadastroCentrodeCusto = (props) => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
+            <Breadcrumbs aria-label="breadcrumb">
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Contábeis</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Centro de Custo</Typography>
+                <Typography color="text.primary">Cadastrar</Typography>
+            </Breadcrumbs>
+
             <Grid
                 style={{
                     display: "grid",
                     gridRowGap: "20px",
-                    padding: "20px",
+                    padding: "20px 0px 0px 0px",
                     margin: "10px 10px 10px 10px",
                 }}
             >
-                <Stack direction="row" spacing={1}>
-                    <Chip label="Cadastro Contas" />
-                </Stack>
+
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid item xs={5}>
                         <TextField

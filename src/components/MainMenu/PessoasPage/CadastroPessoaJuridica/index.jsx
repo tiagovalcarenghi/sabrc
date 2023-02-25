@@ -6,7 +6,9 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  TableHead
+  TableHead,
+  Breadcrumbs,
+  Typography
 } from "@mui/material";
 import { useFormik } from "formik";
 import {
@@ -15,18 +17,13 @@ import {
   msgCadSuccess,
   msgErroValidateEmail,
   msgExcludeRepresentanteLegal,
-  msgExcludeUser,
-  msgSuccessExcludePessoa,
   msgSuccessExcludeRepresentanteLegal
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import { initialValuesPJ } from "../../../../util/MainMenu/PessoasPage/constants";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { createRepresentantesLegaisOptions } from "../../../../contexts/storage";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -34,13 +31,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import React, { useState } from "react";
+import React from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 
 const CadastroPJ = (props) => {
-  const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl } = props;
+  const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl, representanteslegaisoptions } = props;
   const navigate = useNavigate();
 
   const navigateToComponent = () => {
@@ -106,18 +103,20 @@ const CadastroPJ = (props) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Pessoa Jurídica</Typography>
+        <Typography color="text.primary">Cadastrar</Typography>
+      </Breadcrumbs>
+
       <Grid
         style={{
           display: "grid",
           gridRowGap: "20px",
-          padding: "20px",
+          padding: "20px 0px 0px 0px",
           margin: "10px 10px 10px 10px",
         }}
       >
-        <Stack direction="row" spacing={1}>
-          <Chip label="Cadastro Pessoa Jurídica" />
-          {/* <Chip label="Chip Outlined" variant="outlined" /> */}
-        </Stack>
+
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={4}>
             <TextField
@@ -270,17 +269,23 @@ const CadastroPJ = (props) => {
                 value={selectRepresentanteLegal}
                 onChange={changeRepresentante}
                 required
-
               >
-                {createRepresentantesLegaisOptions.map((rl) => (
-                  <MenuItem
-                    key={rl.id}
-                    value={rl}
 
-                  >
-                    {rl.nomeRepresentante}
-                  </MenuItem>
-                ))}
+                {representanteslegaisoptions && representanteslegaisoptions.length > 0 && (
+
+                  representanteslegaisoptions.map((rl) => (
+                    <MenuItem
+                      key={rl.id}
+                      value={rl}
+
+                    >
+                      {rl.nomeCompleto}
+                    </MenuItem>
+                  ))
+
+                )}
+
+
               </Select>
             </FormControl>
 
@@ -364,19 +369,6 @@ const CadastroPJ = (props) => {
                     </TableBody>
                   )}
                 </></Table></TableContainer>
-
-
-
-
-
-
-
-
-
-
-
-
-
           </Grid>
 
         </Grid>

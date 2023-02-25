@@ -1,4 +1,5 @@
 import {
+  Breadcrumbs,
   Button,
   FormControl,
   Grid,
@@ -6,6 +7,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,11 +19,10 @@ import {
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import { estadoCivilOptions, initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
 
 
 const CadastroPF = (props) => {
@@ -45,13 +46,19 @@ const CadastroPF = (props) => {
           title: msgCadSuccess,
           text: msgCadPessoaSuccess,
         });
-        values.enderecoCompleto = values.logradouro + values.numero;
+
+        var numeroadress = isBlank(values.numero) ? "" : ", " + values.numero;
+        values.enderecoCompleto = values.logradouro + numeroadress;
         salvar(values);
         formik.resetForm();
         navigate("/cadastro/pessoas");
       }
     },
   });
+
+  function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+  }
 
   const confirmaEmail = (email) => {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -61,18 +68,20 @@ const CadastroPF = (props) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Pessoa Física</Typography>
+        <Typography color="text.primary">Cadastrar</Typography>
+      </Breadcrumbs>
+
       <Grid
         style={{
           display: "grid",
           gridRowGap: "20px",
-          padding: "20px",
+          padding: "20px 0px 0px 0px",
           margin: "10px 10px 10px 10px",
         }}
       >
-        <Stack direction="row" spacing={1}>
-          <Chip label="Cadastro Pessoa Física" />
-          {/* <Chip label="Chip Outlined" variant="outlined" /> */}
-        </Stack>
+
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={4}>
             <TextField
@@ -284,7 +293,6 @@ const CadastroPF = (props) => {
               label="Número"
               value={formik.values.numero}
               onChange={formik.handleChange}
-              required
             />
           </Grid>
 
@@ -310,7 +318,7 @@ const CadastroPF = (props) => {
               size="small"
               fullWidth
               name="localidade"
-              label="Localidade"
+              label="Cidade"
               value={formik.values.localidade}
               onChange={formik.handleChange}
               required
@@ -319,15 +327,30 @@ const CadastroPF = (props) => {
           </Grid>
 
           <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="uf"
-              label="UF"
-              value={formik.values.uf}
-              onChange={formik.handleChange}
-              required
-            />
+            <FormControl fullWidth size="small">
+              <InputLabel id="demo-controlled-open-select-label">Estado</InputLabel>
+              <Select
+                fullWidth
+                size="small"
+                name="uf"
+                label="Estado"
+                labelId="select-label-id"
+                id="select-label-id"
+                value={formik.values.uf}
+                onChange={formik.handleChange}
+                required
+
+              >
+                {ufOptions.map((e) => (
+                  <MenuItem
+                    key={e.uf}
+                    value={e.uf}
+                  >
+                    {e.nome}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
           </Grid>
 

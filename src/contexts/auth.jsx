@@ -6,10 +6,13 @@ import {
 } from "../util/applicationresources";
 import {
   createCentrodeCusto,
+  createContasComplementares,
   createContasContabeis,
+  createEnderecos,
   createMinutasPadraoCeV,
   createMinutasPadraoLocacao,
   createMinutasPadraoOrdemServico,
+  createNomes,
   createPessoaFisica,
   createPessoaJuridica,
   createRepresentantesLegaisBase,
@@ -50,6 +53,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("minutaspadraolocacao_db", JSON.stringify(createMinutasPadraoLocacao));
     localStorage.setItem("minutaspadraoos_db", JSON.stringify(createMinutasPadraoOrdemServico));
     localStorage.setItem("centrodecusto_db", JSON.stringify(createCentrodeCusto));
+    localStorage.setItem("enderecos_db", JSON.stringify(createEnderecos));
+    localStorage.setItem("contascomplementares_db", JSON.stringify(createContasComplementares));
+    localStorage.setItem("nomes_db", JSON.stringify(createNomes));
+
+
   };
 
   const login = (nameUser, password) => {
@@ -67,6 +75,7 @@ export const AuthProvider = ({ children }) => {
           nameUser: nameUser,
           email: hasUser[0].email,
           tipoUser: hasUser[0].tipoUser,
+          password: hasUser[0].password,
         };
 
         localStorage.setItem("user_storage", JSON.stringify(loggedUser));
@@ -83,7 +92,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    //localStorage.removeItem("user_storage");
     setUser(null);
     navigate("/login");
   };

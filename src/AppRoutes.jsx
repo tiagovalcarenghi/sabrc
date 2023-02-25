@@ -12,12 +12,19 @@ import CentrodeCustoCad from "./pages/MainMenu/ContasContabeis/CentrodeCusto/Cen
 import CentrodeCustoHome from "./pages/MainMenu/ContasContabeis/CentrodeCusto/CentrodeCustoHome";
 import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
 import ContasHome from "./pages/MainMenu/ContasContabeis/Contas/ContasHome";
+import ContasComplementaresCad from "./pages/MainMenu/ContasContabeis/ContasComplementares/ContasComplementaresCad";
+import ContasComplementaresHome from "./pages/MainMenu/ContasContabeis/ContasComplementares/ContasComplementaresHome";
+import EnderecoCad from "./pages/MainMenu/Enderecos/EnderecoCad";
+import EnderecoHome from "./pages/MainMenu/Enderecos/EnderecoHome";
 import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
 import MinutaPadraoLocacaoHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoContratodeLocacao";
 import MinutaPadraoOSHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoOS";
 import PessoasPage from "./pages/MainMenu/PessoasPage";
 import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
 import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
+import PerfilPage from "./pages/PerfilPage";
+import UsuarioCad from "./pages/UsuariosPage/UsuarioCad";
+import UsuariosHome from "./pages/UsuariosPage/UsuariosHome";
 
 const AppRoutes = () => {
   const Private = ({ children }) => {
@@ -45,6 +52,34 @@ const AppRoutes = () => {
             element={
               <Private>
                 <AppMenu />
+              </Private>
+            }
+          />
+
+          <Route
+            exact
+            path="/editar/perfil"
+            element={
+              <Private>
+                <PerfilPage />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/usuarios"
+            element={
+              <Private>
+                <UsuariosHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/cadusuarios"
+            element={
+              <Private>
+                <UsuarioCad />
               </Private>
             }
           />
@@ -96,6 +131,25 @@ const AppRoutes = () => {
 
           <Route
             exact
+            path="/cadastro/contascontabeis/contascomplementares"
+            element={
+              <Private>
+                <ContasComplementaresHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/contascontabeis/cadcontascomplementares"
+            element={
+              <Private>
+                <ContasComplementaresCad />
+              </Private>
+            }
+          />
+
+          <Route
+            exact
             path="/cadastro/contascontabeis/centrodecusto"
             element={
               <Private>
@@ -140,6 +194,26 @@ const AppRoutes = () => {
             element={
               <Private>
                 <MinutaPadraoOSHome />
+              </Private>
+            }
+          />
+
+
+          <Route
+            exact
+            path="/cadastro/enderecos"
+            element={
+              <Private>
+                <EnderecoHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/cadenderecos"
+            element={
+              <Private>
+                <EnderecoCad />
               </Private>
             }
           />

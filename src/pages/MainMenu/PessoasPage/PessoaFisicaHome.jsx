@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import GridPessoaFisica from "../../../components/MainMenu/PessoasPage/GridPessoaFisica";
 
 const PessoaFisicaHome = (props) => {
-  const {disableDelete, disableEdit } = props;
+  const { disableDelete, disableEdit } = props;
   const [pessoaFisicaDb, setpessoaFisicaDb] = useState([]);
-  
+
 
   useEffect(() => {
     setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
@@ -19,6 +19,22 @@ const PessoaFisicaHome = (props) => {
       localStorage.removeItem("pessoafisica_db");
     }
     setpessoaFisicaDb(JSON.parse(localStorage.getItem("pessoafisica_db")));
+    deleteName(data);
+  };
+
+
+  const deleteName = (data) => {
+
+    let itemDeletado = JSON.parse(localStorage.getItem("nomes_db"));
+    itemDeletado = itemDeletado?.filter((obj) => obj.cdTipoNome === 1 && obj.cdCadastroNomes === data.cdPessoaFisica);
+
+    let items = JSON.parse(localStorage.getItem("nomes_db"));
+    items = items.filter((item) => item.id !== itemDeletado[0].id);
+
+    localStorage.setItem("nomes_db", JSON.stringify(items));
+    if (items.length === 0) {
+      localStorage.removeItem("nomes_db");
+    }
   };
 
   const filtraPessoaFisisca = (
@@ -32,11 +48,10 @@ const PessoaFisicaHome = (props) => {
     }
 
     let items = JSON.parse(localStorage.getItem("pessoafisica_db"));
-    items = filterer((x) =>
-      x.nomeCompleto.toLowerCase().includes(nomeCompleto.toLowerCase())
-    )((x) => x.telefone.includes(telefonePrincipal))((x) =>
-      x.enderecoCompleto.toLowerCase().includes(enderecoCompleto.toLowerCase())
-    )(run(items));
+    items = filterer((x) => x.nomeCompleto.toLowerCase().includes(nomeCompleto.toLowerCase()))
+      ((x) => x.telefone.includes(telefonePrincipal))
+      ((x) => x.enderecoCompleto.toLowerCase().includes(enderecoCompleto.toLowerCase()))
+      (run(items));
 
     setpessoaFisicaDb(items);
   };
