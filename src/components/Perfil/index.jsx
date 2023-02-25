@@ -1,4 +1,5 @@
 import {
+    Breadcrumbs,
     Button,
     Grid,
     TextField,
@@ -81,17 +82,24 @@ const EditaPerfil = (props) => {
     };
 
     return (
+
         <form onSubmit={formik.handleSubmit}>
+
+            <Breadcrumbs aria-label="breadcrumb">
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Perfil</Typography>
+                <Typography color="text.primary">Editar</Typography>
+            </Breadcrumbs>
+
+
             <Grid
                 style={{
                     display: "grid",
                     gridRowGap: "20px",
-                    padding: "20px",
+                    padding: "10px 0px 0px 0px",
                     margin: "10px 10px 10px 10px",
                 }}
             >
                 <Stack direction="row" spacing={3}>
-                    <Chip label="Editar Perfil" />
                     <Chip label={"Tipo de Usuário:" + perfil_db.tipoUser} />
                 </Stack>
 

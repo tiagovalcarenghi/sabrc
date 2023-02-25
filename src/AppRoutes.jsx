@@ -23,6 +23,8 @@ import PessoasPage from "./pages/MainMenu/PessoasPage";
 import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
 import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
 import PerfilPage from "./pages/PerfilPage";
+import UsuarioCad from "./pages/UsuariosPage/UsuarioCad";
+import UsuariosHome from "./pages/UsuariosPage/UsuariosHome";
 
 const AppRoutes = () => {
   const Private = ({ children }) => {
@@ -53,21 +55,40 @@ const AppRoutes = () => {
               </Private>
             }
           />
-          <Route
-            exact
-            path="/cadastro/pessoas"
-            element={
-              <Private>
-                <PessoasPage />
-              </Private>
-            }
-          />
+
           <Route
             exact
             path="/editar/perfil"
             element={
               <Private>
                 <PerfilPage />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/usuarios"
+            element={
+              <Private>
+                <UsuariosHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/cadusuarios"
+            element={
+              <Private>
+                <UsuarioCad />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/cadastro/pessoas"
+            element={
+              <Private>
+                <PessoasPage />
               </Private>
             }
           />

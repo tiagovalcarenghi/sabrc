@@ -1,4 +1,5 @@
 import {
+  Breadcrumbs,
   Button,
   FormControl,
   Grid,
@@ -6,6 +7,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -68,18 +70,20 @@ const CadastroPF = (props) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Pessoa Física</Typography>
+        <Typography color="text.primary">Cadastrar</Typography>
+      </Breadcrumbs>
+
       <Grid
         style={{
           display: "grid",
           gridRowGap: "20px",
-          padding: "20px",
+          padding: "10px 0px 0px 0px",
           margin: "10px 10px 10px 10px",
         }}
       >
-        <Stack direction="row" spacing={1}>
-          <Chip label="Cadastro Pessoa Física" />
-          {/* <Chip label="Chip Outlined" variant="outlined" /> */}
-        </Stack>
+
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={4}>
             <TextField

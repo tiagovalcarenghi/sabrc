@@ -176,7 +176,7 @@ const GridPessoaFisica = (props) => {
         style={{ minHeight: "30vh" }}
       >
         <Grid item xs={12}>
-          <Typography>Pesquisar Dados:</Typography>
+
 
           <Grid
             container

@@ -91,24 +91,16 @@ const AppMenu = (props: any) => {
     ptBR
   );
 
-  const [disableEdit, setDisableEdit] = useState(true);
+  const [disableEdit, setDisableEdit] = useState('hidden');
 
   useEffect(() => {
+
     const usuario = JSON.parse(localStorage.getItem("user_storage") || '{}');
-
-    if (usuario)
-      if (usuario.tipoUser === "ADMIN")
-        disables(1)
-
+    if (usuario && usuario.tipoUser === "ADMIN")
+      setDisableEdit('visible');
 
   }, []);
 
-  const disables = (data: any) => {
-    setDisableEdit(false);
-  };
-
-
-  const [open, setOpen] = React.useState(true);
   const { logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -127,7 +119,7 @@ const AppMenu = (props: any) => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={true}>
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
             SAB - Sistema Administrativo Bomlar
@@ -145,7 +137,7 @@ const AppMenu = (props: any) => {
         }}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={true}
       >
         <DrawerHeader>
           <DrawerLeft>
@@ -170,7 +162,12 @@ const AppMenu = (props: any) => {
 
             <Tooltip title="Usuários" >
               <IconButton
-                disabled={disableEdit}
+                sx={{
+                  //display: disableEdit
+                  visibility: disableEdit
+                }}
+
+
                 color="warning"
                 onClick={() => {
                   navigateToComponent('usuarios');
@@ -196,7 +193,7 @@ const AppMenu = (props: any) => {
           ))}
         </List>
       </Drawer>
-      <Main open={open}>
+      <Main open={true}>
         <DrawerHeader />
         <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
       </Main>

@@ -166,6 +166,8 @@ const GridPessoaJuridica = (props) => {
 
   return (
     <>
+
+
       <Grid
         container
         spacing={0}
@@ -173,7 +175,7 @@ const GridPessoaJuridica = (props) => {
         style={{ minHeight: "30vh" }}
       >
         <Grid item xs={12}>
-          <Typography>Pesquisar Dados:</Typography>
+
 
           <Grid
             container
