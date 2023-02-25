@@ -75,6 +75,7 @@ export const AuthProvider = ({ children }) => {
           nameUser: nameUser,
           email: hasUser[0].email,
           tipoUser: hasUser[0].tipoUser,
+          password: hasUser[0].password,
         };
 
         localStorage.setItem("user_storage", JSON.stringify(loggedUser));
@@ -91,7 +92,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    //localStorage.removeItem("user_storage");
     setUser(null);
     navigate("/login");
   };

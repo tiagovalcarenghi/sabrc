@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -91,6 +91,23 @@ const AppMenu = (props: any) => {
     ptBR
   );
 
+  const [disableEdit, setDisableEdit] = useState(true);
+
+  useEffect(() => {
+    const usuario = JSON.parse(localStorage.getItem("user_storage") || '{}');
+
+    if (usuario)
+      if (usuario.tipoUser === "ADMIN")
+        disables(1)
+
+
+  }, []);
+
+  const disables = (data: any) => {
+    setDisableEdit(false);
+  };
+
+
   const [open, setOpen] = React.useState(true);
   const { logout } = useContext(AuthContext);
 
@@ -153,6 +170,7 @@ const AppMenu = (props: any) => {
 
             <Tooltip title="Usuários" >
               <IconButton
+                disabled={disableEdit}
                 color="warning"
                 onClick={() => {
                   navigateToComponent('usuarios');

@@ -10,7 +10,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import { initialPerfil } from "../../util/Perfil/contants";
-import { msgAlterSuccess, msgAtencao, msgEditPerfilSuccess, msgPasswordEqualError } from "../../util/applicationresources";
+import { msgAlterSuccess, msgAtencao, msgEditPerfilSuccess, msgPasswordEqualError, msgPasswordOldError } from "../../util/applicationresources";
 import { Navigate } from "react-router-dom";
 
 import IconButton from '@mui/material/IconButton';
@@ -31,13 +31,17 @@ const EditaPerfil = (props) => {
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+    const [showPassword2, setShowPassword2] = useState(false);
+
+    const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
+
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: initialPerfil,
+        initialValues: perfil_db || initialPerfil,
         onSubmit: (values) => {
             if (!confimarPassEqual(values.newPassword, values.confirmNewPassword)) {
                 Swal.fire({
@@ -45,7 +49,14 @@ const EditaPerfil = (props) => {
                     title: msgAtencao,
                     text: msgPasswordEqualError,
                 });
-            } else {
+            } else if (!confirmaOldPassword(values.insertOldpassword)) {
+                Swal.fire({
+                    icon: "error",
+                    title: msgAtencao,
+                    text: msgPasswordOldError,
+                });
+            }
+            else {
 
                 Swal.fire({
                     icon: "success",
@@ -55,13 +66,18 @@ const EditaPerfil = (props) => {
 
                 salvar(values);
                 formik.resetForm();
-                Navigate("/*");
+                Navigate("/edita/perfil");
             }
         }
     });
 
     const confimarPassEqual = (newPassword, confirmNewPassword) => {
         return newPassword === confirmNewPassword;
+    };
+
+    const confirmaOldPassword = (insertOldpassword) => {
+
+        return insertOldpassword === perfil_db.oldPassword;
     };
 
     return (
@@ -78,6 +94,39 @@ const EditaPerfil = (props) => {
                     <Chip label="Editar Perfil" />
                     <Chip label={"Tipo de Usuário:" + perfil_db.tipoUser} />
                 </Stack>
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item xs={4}>
+
+                        <FormControl variant="outlined" size="small" fullWidth>
+                            <InputLabel htmlFor="outlined-adornment-password2">Insira a senha atual</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password2"
+                                type={showPassword2 ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle2 password2 visibility2"
+                                            onClick={handleClickShowPassword2}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword2 ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                fullWidth
+                                label="Password2"
+                                name="insertOldpassword"
+                                value={formik.values.insertOldpassword}
+                                onChange={formik.handleChange}
+                                required
+                            />
+                        </FormControl>
+
+                    </Grid>
+
+                </Grid>
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid item xs={4}>
