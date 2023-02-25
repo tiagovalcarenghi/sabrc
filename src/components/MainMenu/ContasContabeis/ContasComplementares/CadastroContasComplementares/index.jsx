@@ -1,26 +1,15 @@
-import {
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Select,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Breadcrumbs, Button, Grid, Typography, MenuItem, Select, FormControl, InputLabel, } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { initialNomes, initialValuesContasComplementares } from "../../../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
+import { initialValuesContasComplementares } from "../../../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../../util/applicationresources";
 import { useState } from "react";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const CadastroContasComplementares = (props) => {
     const { contacomplementar, salvar, nomes_db } = props;
@@ -77,17 +66,21 @@ const CadastroContasComplementares = (props) => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
+            <Breadcrumbs aria-label="breadcrumb">
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Contábeis</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Complementares</Typography>
+                <Typography color="text.primary">Cadastro</Typography>
+            </Breadcrumbs>
+
+
             <Grid
                 style={{
                     display: "grid",
                     gridRowGap: "20px",
-                    padding: "20px",
+                    padding: "20px 0px 0px 0px",
                     margin: "10px 10px 10px 10px",
                 }}
             >
-                <Stack direction="row" spacing={1}>
-                    <Chip label="Cadastro Contas Complementares" />
-                </Stack>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={4}>

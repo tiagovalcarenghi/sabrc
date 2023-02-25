@@ -15,7 +15,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TableHead, TextField, Typography } from "@mui/material";
+import { Breadcrumbs, Button, Grid, TableHead, TextField, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
@@ -157,14 +157,24 @@ const GridCentrodeCusto = (props) => {
 
     return (
         <>
+
+            <Breadcrumbs aria-label="breadcrumb">
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Contábeis</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Centro de Custo</Typography>
+                <Typography color="text.primary">Informações</Typography>
+            </Breadcrumbs>
+
+
             <Grid
                 container
                 spacing={0}
                 justifyContent="left"
-                style={{ minHeight: "30vh" }}
+                style={{
+                    padding: "20px 0px 0px 0px",
+                }}
             >
                 <Grid item xs={12}>
-                    <Typography>Pesquisar Dados:</Typography>
+
 
                     <Grid
                         container

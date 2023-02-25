@@ -21,7 +21,6 @@ import {
     MenuItem,
     Select,
     Breadcrumbs,
-    Link,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
@@ -32,9 +31,7 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { userOptions } from "../../../util/Usuarios/constants";
 import { msgAtencao, msgExcludeUser, msgExcludeUserError, msgExcludeUserErrorSame, msgSuccessExcludeUser } from "../../../util/applicationresources";
-import Stack from "@mui/material/Stack";
-import Chip from "@mui/material/Chip";
-import Divider from "@mui/material/Divider";
+
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -185,12 +182,12 @@ const GridUsuarios = (props) => {
                 } else {
                     return true;
                 };
-                break;
+
 
             case 2:
                 const usuariov = JSON.parse(localStorage.getItem("user_storage"));
                 return usuariov.nameUser === usuario.nameUser ? false : true;
-                break;
+
 
             default: break;
         }
@@ -200,7 +197,6 @@ const GridUsuarios = (props) => {
 
     return (
         <>
-
 
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Usuários</Typography>

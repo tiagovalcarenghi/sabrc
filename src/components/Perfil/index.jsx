@@ -95,7 +95,7 @@ const EditaPerfil = (props) => {
                 style={{
                     display: "grid",
                     gridRowGap: "20px",
-                    padding: "10px 0px 0px 0px",
+                    padding: "20px 0px 0px 0px",
                     margin: "10px 10px 10px 10px",
                 }}
             >
@@ -124,7 +124,7 @@ const EditaPerfil = (props) => {
                                     </InputAdornment>
                                 }
                                 fullWidth
-                                label="Password2"
+                                label="Insira a senha atual"
                                 name="insertOldpassword"
                                 value={formik.values.insertOldpassword}
                                 onChange={formik.handleChange}

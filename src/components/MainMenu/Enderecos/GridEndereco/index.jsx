@@ -20,6 +20,7 @@ import {
     InputLabel,
     MenuItem,
     Select,
+    Breadcrumbs
 } from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
@@ -176,14 +177,20 @@ const GridEndereco = (props) => {
 
     return (
         <>
+            <Breadcrumbs aria-label="breadcrumb">
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Endereços</Typography>
+                <Typography color="text.primary">Informações</Typography>
+            </Breadcrumbs>
+
+
             <Grid
                 container
                 spacing={0}
                 justifyContent="left"
-                style={{ minHeight: "30vh" }}
+                style={{ minHeight: "30vh", padding: "20px 0px 0px 0px" }}
             >
                 <Grid item xs={12}>
-                    <Typography>Pesquisar Dados:</Typography>
+
 
                     <Grid
                         container

@@ -12,8 +12,6 @@ import {
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -88,7 +86,7 @@ const CadastroUsuarios = (props) => {
                 style={{
                     display: "grid",
                     gridRowGap: "20px",
-                    padding: "20px",
+                    padding: "20px 0px 0px 0px",
                     margin: "10px 10px 10px 10px",
                 }}
             >

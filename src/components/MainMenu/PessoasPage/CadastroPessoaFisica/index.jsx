@@ -19,8 +19,6 @@ import {
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
 import { estadoCivilOptions, initialValuesPF } from "../../../../util/MainMenu/PessoasPage/constants";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -79,7 +77,7 @@ const CadastroPF = (props) => {
         style={{
           display: "grid",
           gridRowGap: "20px",
-          padding: "10px 0px 0px 0px",
+          padding: "20px 0px 0px 0px",
           margin: "10px 10px 10px 10px",
         }}
       >

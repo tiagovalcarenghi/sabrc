@@ -15,12 +15,11 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TableHead, TextField, Typography, InputLabel } from "@mui/material";
+import { Button, Grid, TableHead, TextField, Typography, Breadcrumbs } from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -164,14 +163,21 @@ const GridContasComplementares = (props) => {
 
     return (
         <>
+            <Breadcrumbs aria-label="breadcrumb">
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Contábeis</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Complementares</Typography>
+                <Typography color="text.primary">Informações</Typography>
+            </Breadcrumbs>
+
+
             <Grid
                 container
                 spacing={0}
                 justifyContent="left"
-                style={{ minHeight: "30vh" }}
+                style={{ minHeight: "30vh", padding: "20px 0px 0px 0px" }}
             >
                 <Grid item xs={12}>
-                    <Typography>Pesquisar Dados:</Typography>
+
 
                     <Grid
                         container
