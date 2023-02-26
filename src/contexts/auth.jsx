@@ -9,6 +9,11 @@ import {
   createContasComplementares,
   createContasContabeis,
   createEnderecos,
+  createLancamentoContasPatrimoniais,
+  createLancamentoContasResultado,
+  createLancamentosContabeisAll,
+  createLancamentosContabeisBase,
+  createLancamentosContabeisOperacao,
   createMinutasPadraoCeV,
   createMinutasPadraoLocacao,
   createMinutasPadraoOrdemServico,
@@ -56,6 +61,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("enderecos_db", JSON.stringify(createEnderecos));
     localStorage.setItem("contascomplementares_db", JSON.stringify(createContasComplementares));
     localStorage.setItem("nomes_db", JSON.stringify(createNomes));
+    localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(createLancamentosContabeisAll));
+    localStorage.setItem("lancamentoscontabeisabase_db", JSON.stringify(createLancamentosContabeisBase));
+    localStorage.setItem("lancamentoscontabeisaoperacao_db", JSON.stringify(createLancamentosContabeisOperacao));
+    localStorage.setItem("lancamentoscontasresultado_db", JSON.stringify(createLancamentoContasResultado));
+    localStorage.setItem("lancamentoscontaspatrimoniais_db", JSON.stringify(createLancamentoContasPatrimoniais));
+
 
 
   };

@@ -16,6 +16,8 @@ import ContasComplementaresCad from "./pages/MainMenu/ContasContabeis/ContasComp
 import ContasComplementaresHome from "./pages/MainMenu/ContasContabeis/ContasComplementares/ContasComplementaresHome";
 import EnderecoCad from "./pages/MainMenu/Enderecos/EnderecoCad";
 import EnderecoHome from "./pages/MainMenu/Enderecos/EnderecoHome";
+import LancamentoContabilCad from "./pages/MainMenu/LancamentoContabil/LancamentoContabilCad";
+import LancamentoContabilHome from "./pages/MainMenu/LancamentoContabil/LancamentoContabilHome";
 import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
 import MinutaPadraoLocacaoHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoContratodeLocacao";
 import MinutaPadraoOSHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoOS";
@@ -55,7 +57,6 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
           <Route
             exact
             path="/editar/perfil"
@@ -128,7 +129,6 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
           <Route
             exact
             path="/cadastro/contascontabeis/contascomplementares"
@@ -147,7 +147,6 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
           <Route
             exact
             path="/cadastro/contascontabeis/centrodecusto"
@@ -166,7 +165,6 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
           <Route
             exact
             path="/cadastro/minutaspadrao/compraevenda"
@@ -176,8 +174,6 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
-
           <Route
             exact
             path="/cadastro/minutaspadrao/locacao"
@@ -187,7 +183,6 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
           <Route
             exact
             path="/cadastro/minutaspadrao/os"
@@ -197,8 +192,6 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
-
           <Route
             exact
             path="/cadastro/enderecos"
@@ -217,7 +210,24 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
+          <Route
+            exact
+            path="/operacoes/lancamentocontabil"
+            element={
+              <Private>
+                <LancamentoContabilHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/operacoes/cadlancamentocontabil"
+            element={
+              <Private>
+                <LancamentoContabilCad />
+              </Private>
+            }
+          />
 
         </Routes>
       </AuthProvider>

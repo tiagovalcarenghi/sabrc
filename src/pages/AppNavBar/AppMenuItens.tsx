@@ -16,7 +16,7 @@ export const appMenuItems = [
         sx: { pl: 4 },
         Icon: BadgeIcon,
         link: `/cadastro/pessoas`,
-      },    
+      },
       {
         name: "Contas Contábeis",
         sx: { pl: 4 },
@@ -101,8 +101,8 @@ export const appMenuItems = [
         name: "Lançamento Contábil",
         sx: { pl: 4 },
         Icon: SummarizeIcon,
-        link: `/operacoes/lancamento-contabil`,
-      },     
+        link: `/operacoes/lancamentocontabil`,
+      },
       {
         name: "ARE",
         sx: { pl: 4 },
