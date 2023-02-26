@@ -152,7 +152,7 @@ const CadastroLancamentoContabil = (props) => {
                                 fullWidth
                                 size="small"
                                 name="filterCdConta"
-                                label="Centro de Custo"
+                                label="Contas"
                                 labelId="select-label-id"
                                 id="select-label-id"
                                 value={filterCdConta}
@@ -181,7 +181,7 @@ const CadastroLancamentoContabil = (props) => {
                                 fullWidth
                                 size="small"
                                 name="filterCdContaComplementar"
-                                label="Centro de Custo"
+                                label="Contas Complementares"
                                 labelId="select-label-id"
                                 id="select-label-id"
                                 value={filterCdContaComplementar}
@@ -238,6 +238,7 @@ const CadastroLancamentoContabil = (props) => {
                         <TextField
                             id="date"
                             label="Data do Lançamento"
+                            name="dataLancamento"
                             type="date"
                             // defaultValue="2017-05-24"
                             size="small"
@@ -269,7 +270,7 @@ const CadastroLancamentoContabil = (props) => {
                             }}
                             startIcon={<AddBoxRoundedIcon />}
                         >
-                            Adicionar Represetante
+                            Adicionar Lançamento
                         </Button>
 
 
@@ -378,6 +379,10 @@ const CadastroLancamentoContabil = (props) => {
                                 e.preventDefault();
                                 formik.resetForm();
                                 limpar();
+                                setFilterCdCentrodeCusto({});
+                                setFilterCdConta({});
+                                setFilterCdContaComplementar({});
+                                setDataLancamento({});
                             }}
                             startIcon={<RefreshIcon />}
                         >

@@ -7,3 +7,11 @@ export function getCurrentDate(separator = '') {
 
     return `${date}${separator}${month < 10 ? `0${month}` : `${month}`}${separator}${year}`
 }
+
+
+
+export function isEligible(value) {
+    if (value !== false || value !== null || value !== 0 || value !== "" || value !== undefined) {
+        return value;
+    }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import GridLancamentoContabil from "../../../components/MainMenu/LancamentoContabil/GridLancamentoContabil";
+import { isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 
@@ -88,11 +89,7 @@ const LancamentoContabilHome = (props) => {
         setLancamentoContabilDb(items);
     };
 
-    function isEligible(value) {
-        if (value !== false || value !== null || value !== 0 || value !== "" || value !== undefined) {
-            return value;
-        }
-    }
+
 
     const run = (value = []) => ({ type: run, value: value });
 

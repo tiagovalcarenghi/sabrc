@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import GridContas from "../../../../components/MainMenu/ContasContabeis/Contas/GridContas";
+import { isEligible } from "../../../../util/utils";
 import AppMenu from "../../../AppNavBar/AppMenu";
 
 
@@ -65,11 +66,7 @@ const ContasHome = () => {
         setContasDb(items);
     };
 
-    function isEligible(value) {
-        if (value !== false || value !== null || value !== 0 || value !== "" || value !== undefined) {
-            return value;
-        }
-    }
+
 
 
     const run = (value = []) => ({ type: run, value: value });
