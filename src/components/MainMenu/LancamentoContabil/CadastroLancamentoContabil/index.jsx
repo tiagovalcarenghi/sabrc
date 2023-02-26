@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { initialValuesLancamentoContabilBase, initialValuesLancamentoContabilOperacao } from "../../../../util/MainMenu/LancamentoContabil/constants";
 import { msgAtencao, msgCadSuccess, msgExcludeRLancamentoOperacoes, msgExcludeRLancamentoOperacoesSuccess, msgInsertLancamentoSuccess } from "../../../../util/applicationresources";
 import React, { useState } from "react";
+import { isEligible, verificaContas, verificaValores } from "../../../../util/utils";
 
 const CadastroLancamentoContabil = (props) => {
     const { lancamentocontabil, lancamentocontabiloperacao, salvar, limpar, deletelancamentocontabiloperacao, addlancamento, centrosdecusto, contas, contascomplementares } = props;
@@ -39,7 +40,7 @@ const CadastroLancamentoContabil = (props) => {
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: lancamentocontabil || initialValuesLancamentoContabilBase,
+        initialValues: initialValuesLancamentoContabilBase,
         onSubmit: (values) => {
 
             Swal.fire({
@@ -64,18 +65,48 @@ const CadastroLancamentoContabil = (props) => {
 
     const addLancamento = () => {
 
-        const newl = initialValuesLancamentoContabilOperacao;
-        newl.descLancamento = formik.values.descLancamento;
-        newl.cdCentrodeCusto = filterCdCentrodeCusto.cdCentrodeCusto;
-        newl.descCentrodeCusto = filterCdCentrodeCusto.descCentrodeCusto;
-        newl.cdConta = filterCdConta.cdContaContabil;
-        newl.descConta = filterCdConta.desContaContabil;
-        newl.cdContaComplementar = filterCdContaComplementar.cdContaComplementar;
-        newl.descContaComplementar = filterCdContaComplementar.desccContaComplementar;
-        newl.valorCredito = formik.values.valorCredito;
-        newl.valorDebito = formik.values.valorDebito;
 
-        addlancamento(newl);
+
+        if (!isEligible(formik.values.descLancamento) && !isEligible(filterCdConta.cdContaContabil)
+            && !isEligible(formik.values.valorCredito) && !isEligible(formik.values.valorCredito)
+            && !isEligible(formik.values.valorDebito)) {
+
+            console.log('a1');
+
+        } else {
+
+            if (!verificaContas(filterCdConta.cdTipoConta, filterCdContaComplementar.cdContaComplementar, filterCdContaComplementar.cdCentrodeCusto)) {
+
+                console.log('a2');
+
+            } else {
+
+                if (!verificaValores(Number(formik.values.valorCredito), Number(formik.values.valorDebito))) {
+
+                    console.log('a3');
+
+                } else {
+
+                    const newl = initialValuesLancamentoContabilOperacao;
+                    newl.descLancamento = formik.values.descLancamento;
+                    newl.cdCentrodeCusto = filterCdCentrodeCusto.cdCentrodeCusto;
+                    newl.descCentrodeCusto = filterCdCentrodeCusto.descCentrodeCusto;
+                    newl.cdConta = filterCdConta.cdContaContabil;
+                    newl.descConta = filterCdConta.desContaContabil;
+                    newl.cdContaComplementar = filterCdContaComplementar.cdContaComplementar;
+                    newl.descContaComplementar = filterCdContaComplementar.desccContaComplementar;
+                    newl.valorCredito = isEligible(Number(formik.values.valorCredito)) ? Number(formik.values.valorCredito) : 0;
+                    newl.valorDebito = isEligible(Number(formik.values.valorDebito)) ? Number(formik.values.valorDebito) : 0;
+
+                    addlancamento(newl);
+
+                }
+
+            }
+        }
+
+
+
 
     };
 
@@ -83,7 +114,7 @@ const CadastroLancamentoContabil = (props) => {
     const [filterCdCentrodeCusto, setFilterCdCentrodeCusto] = React.useState({});;
     const [filterCdConta, setFilterCdConta] = React.useState({});;
     const [filterCdContaComplementar, setFilterCdContaComplementar] = React.useState({});;
-    const [dataLancamento, setDataLancamento] = useState("");
+    const [dataLancamento, setDataLancamento] = useState();
 
 
     return (
@@ -104,8 +135,11 @@ const CadastroLancamentoContabil = (props) => {
             >
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid item xs={3}>
+
+                    <Grid item xs={12}>
                         <TextField
+                            rows={4}
+                            multiline
                             size="small"
                             fullWidth
                             name="descLancamento"
@@ -115,6 +149,10 @@ const CadastroLancamentoContabil = (props) => {
                             required
                         />
                     </Grid>
+
+                </Grid>
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={3}>
 
@@ -157,6 +195,7 @@ const CadastroLancamentoContabil = (props) => {
                                 id="select-label-id"
                                 value={filterCdConta}
                                 onChange={(e) => setFilterCdConta(e.target.value)}
+                                required
 
                             >
                                 {contas.map((cc) => (
@@ -208,7 +247,7 @@ const CadastroLancamentoContabil = (props) => {
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                         <TextField
                             size="small"
                             fullWidth
@@ -220,7 +259,7 @@ const CadastroLancamentoContabil = (props) => {
                         />
                     </Grid>
 
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                         <TextField
                             size="small"
                             fullWidth
@@ -233,7 +272,29 @@ const CadastroLancamentoContabil = (props) => {
                     </Grid>
 
 
-                    <Grid item xs={4}>
+                </Grid>
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={3}>
+
+                        <Button
+                            fullWidth
+                            color="info"
+                            variant="outlined"
+                            onClick={() => {
+                                addLancamento();
+                            }}
+                            startIcon={<AddBoxRoundedIcon />}
+                        >
+                            Adicionar Lançamento
+                        </Button>
+
+
+                    </Grid>
+
+
+                    <Grid item xs={3}>
 
                         <TextField
                             id="date"
@@ -247,32 +308,9 @@ const CadastroLancamentoContabil = (props) => {
                                 shrink: true,
                             }}
                             value={dataLancamento}
-                            required={false}
+                            required
                             onChange={(e) => setDataLancamento(e.target.value)}
                         />
-
-                    </Grid>
-
-
-                </Grid>
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-
-
-                    <Grid item xs={4}>
-
-                        <Button
-                            color="info"
-                            variant="outlined"
-                            onClick={() => {
-                                addLancamento();
-                            }}
-                            startIcon={<AddBoxRoundedIcon />}
-                        >
-                            Adicionar Lançamento
-                        </Button>
-
 
                     </Grid>
 

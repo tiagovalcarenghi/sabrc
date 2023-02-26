@@ -17,13 +17,9 @@ const LancamentoContabilCad = () => {
     useEffect(() => {
         console.log(location.state);
 
-        // if (!location.state) {
-        //     limparLancamentoContabil();
-        //     return;
-        // }
+
         limparLancamentoContabil();
         carregarLancamentoContabilOperacoes();
-        // carregaRepresentantesLegais(location.state.id);
         carregarDadosSelects();
     }, [location.state]);
 
@@ -32,12 +28,6 @@ const LancamentoContabilCad = () => {
         setLancamentoContabilOperacaoEmEdicao(lancamentoContabilStorage);
     };
 
-    // const carregaRepresentantesLegais = async (id) => {
-    //     const pessoaRepresentantesLegaisStorage = JSON.parse(localStorage.getItem("representanteslegais_db"));
-    //     const selectRepresentantesLegais = pessoaRepresentantesLegaisStorage?.filter((rl) => rl.cdPessoaJuridica === id);
-    //     setLancamentoContabilOperacaoEmEdicao(selectRepresentantesLegais);
-
-    // }
 
     const carregarDadosSelects = async () => {
         setCentrosDeCusto(JSON.parse(localStorage.getItem("centrodecusto_db")));
@@ -70,15 +60,6 @@ const LancamentoContabilCad = () => {
             item.id = getId;
             item.cdLancamentoContabil = getIdCdLancamento;
             item.ordemLancamento = getOrdem;
-            // item.descLancamento = item.descLancamento;
-            // item.cdCentrodeCusto = item.cdCentrodeCusto;
-            // item.descCentrodeCusto = item.descCentrodeCusto;
-            // item.cdConta = item.cdConta;
-            // item.descConta = item.descConta;
-            // item.cdContaComplementar = item.cdContaComplementar;
-            // item.descContaComplementar = item.descContaComplementar;
-            // item.valorCredito = item.valorCredito;
-            // item.valorDebito = item.valorDebito;
             item.isValido = true;
             item.status = 'VALIDO';
             item.dataLancamento = getCurrentDate();

@@ -32,6 +32,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { msgAtencao, msgExcludeLancamentoContabilError, msgExcludeRLancamentoOperacoes, msgSuccessExcludeLancamentoContabil } from "../../../../util/applicationresources";
+import { getDateFormat } from "../../../../util/utils";
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -485,10 +486,10 @@ const GridLancamentoContabil = (props) => {
                                                     {lancamentocontabil.valorDebito}
                                                 </TableCell>
                                                 <TableCell align="left" width="10%">
-                                                    {lancamentocontabil.status}
+                                                    {getDateFormat(lancamentocontabil.dataSelecionada)}
                                                 </TableCell>
                                                 <TableCell align="left" width="10%">
-                                                    {lancamentocontabil.dataLancamento}
+                                                    {lancamentocontabil.status}
                                                 </TableCell>
 
                                                 {/* 
@@ -505,7 +506,7 @@ const GridLancamentoContabil = (props) => {
                                                 </TableCell> */}
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
-                                                        disabled={disableDelete}
+                                                        disabled={disableDelete || !lancamentocontabil.isValido}
                                                         color="error"
                                                         onClick={() => {
                                                             Swal.fire({

@@ -23,8 +23,8 @@ const LancamentoContabilHome = (props) => {
 
     const deleteLancamentoContabil = (data) => {
         let items = JSON.parse(localStorage.getItem("lancamentoscontabeisabase_db"));
-        items = items.map((item) => {
-            if (item.id === data.id) {
+        items.map((item) => {
+            if (item.cdLancamentoContabil === data.cdLancamentoContabil) {
                 item.valorCredito = '';
                 item.valorDebito = '';
                 item.isValido = false;
@@ -34,7 +34,7 @@ const LancamentoContabilHome = (props) => {
 
         localStorage.setItem("lancamentoscontabeisabase_db", JSON.stringify(items));
 
-        // deleteLancamentoContabilAll(data);
+        deleteLancamentoContabilAll(data);
         setLancamentoContabilDb(JSON.parse(localStorage.getItem("lancamentoscontabeisabase_db")));
         // deleteLancamentoContasResultadoPatrimonial(data);
     };
@@ -54,14 +54,19 @@ const LancamentoContabilHome = (props) => {
     //     }
     // };
 
-    // const deleteLancamentoContabilAll = (data) => {
-    //     let items = JSON.parse(localStorage.getItem("representanteslegais_db"));
-    //     items = items.filter((item) => item.cdPessoaJuridica !== data.cdPessoaJuridica);
-    //     localStorage.setItem("representanteslegais_db", JSON.stringify(items));
-    //     if (items.length === 0) {
-    //         localStorage.removeItem("representanteslegais_db");
-    //     }
-    // };
+    const deleteLancamentoContabilAll = (data) => {
+        let items = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
+        items.map((item) => {
+            if (item.cdLancamentoContabil === data.cdLancamentoContabil) {
+                item.valorCredito = '';
+                item.valorDebito = '';
+                item.isValido = false;
+                item.status = 'CANCELADO';
+            }
+        });
+
+        localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(items));
+    };
 
     const filtraLancamentoContabil = (cdLancamentoContabil, descLancamento, cdCentrodeCusto, cdConta, cdContaComplementar, isValido, dataInicial, dataFinal) => {
         if (!cdLancamentoContabil && !descLancamento && !cdCentrodeCusto && !cdConta && !cdContaComplementar && !isValido && !dataInicial && !dataFinal) {
@@ -70,21 +75,19 @@ const LancamentoContabilHome = (props) => {
         }
 
         let items = JSON.parse(localStorage.getItem("lancamentoscontabeisabase_db"));
-        items = filterer((x) => x.descLancamento.toLowerCase().includes(descLancamento.toLowerCase()))
-        if (isEligible(cdLancamentoContabil)) { items = filterer(((x) => x.cdLancamentoContabil === cdLancamentoContabil)) }
-        if (isEligible(cdCentrodeCusto)) { items = filterer(((x) => x.cdCentrodeCusto === cdCentrodeCusto)) }
-        if (isEligible(cdConta)) { items = filterer(((x) => x.cdConta === cdConta)) }
-        if (isEligible(cdContaComplementar)) { items = filterer(((x) => x.cdContaComplementar === cdContaComplementar)) }
-        if (isEligible(isValido)) { items = filterer(((x) => x.isValido === isValido)) }
+        items = filterer((x) => x.descLancamento.toLowerCase().includes(descLancamento.toLowerCase()))(run(items));
+        if (isEligible(cdLancamentoContabil)) { items = filterer(((x) => x.cdLancamentoContabil.toString() === cdLancamentoContabil))(run(items)); }
+        if (isEligible(cdCentrodeCusto)) { items = filterer(((x) => x.cdCentrodeCusto === cdCentrodeCusto))(run(items)); }
+        if (isEligible(cdConta)) { items = filterer(((x) => x.cdConta === cdConta))(run(items)); }
+        if (isEligible(cdContaComplementar)) { items = filterer(((x) => x.cdContaComplementar === cdContaComplementar))(run(items)); }
+        if (isEligible(isValido)) { items = filterer(((x) => x.isValido === isValido))(run(items)); }
 
         if (isEligible(dataInicial) && isEligible(dataFinal)) {
-            items = filterer(((x) => x.dataInicial >= dataInicial && x.dataFinal <= dataFinal))
+            items = filterer(((x) => x.dataSelecionada >= dataInicial && x.dataSelecionada <= dataFinal))(run(items));
         } else {
-            if (isEligible(dataInicial) && !isEligible(dataFinal)) { items = filterer(((x) => x.dataInicial >= dataInicial)) }
-            if (!isEligible(dataInicial) && isEligible(dataFinal)) { items = filterer(((x) => x.dataFinal <= dataFinal)) }
+            if (isEligible(dataInicial) && !isEligible(dataFinal)) { items = filterer(((x) => x.dataSelecionada >= dataInicial))(run(items)); }
+            if (!isEligible(dataInicial) && isEligible(dataFinal)) { items = filterer(((x) => x.dataSelecionada <= dataFinal))(run(items)); }
         }
-
-        (run(items));
 
         setLancamentoContabilDb(items);
     };
