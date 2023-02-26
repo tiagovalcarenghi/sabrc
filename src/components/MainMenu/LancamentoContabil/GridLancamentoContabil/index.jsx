@@ -212,13 +212,13 @@ const GridLancamentoContabil = (props) => {
 
                     <Grid
                         container
-                        rowSpacing={1}
+                        rowSpacing={5}
                         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                         sx={{
                             margin: "0px 0px 10px 0px",
                         }}
                     >
-                        <Grid item xs={3}>
+                        <Grid item xs={2}>
                             <TextField
                                 fullWidth
                                 size="small"
@@ -230,7 +230,7 @@ const GridLancamentoContabil = (props) => {
                             />
                         </Grid>
 
-                        <Grid item xs={3}>
+                        <Grid item xs={2}>
                             <TextField
                                 fullWidth
                                 size="small"
@@ -242,7 +242,7 @@ const GridLancamentoContabil = (props) => {
                             />
                         </Grid>
 
-                        <Grid item xs={3}>
+                        <Grid item xs={2}>
 
                             <FormControl fullWidth size="small">
                                 <InputLabel id="demo-controlled-open-select-label">Centro de Custo</InputLabel>
@@ -278,7 +278,7 @@ const GridLancamentoContabil = (props) => {
                                     fullWidth
                                     size="small"
                                     name="filterCdConta"
-                                    label="Centro de Custo"
+                                    label="Contas"
                                     labelId="select-label-id"
                                     id="select-label-id"
                                     value={filterCdConta}
@@ -298,17 +298,6 @@ const GridLancamentoContabil = (props) => {
                             </FormControl>
                         </Grid>
 
-                    </Grid>
-
-                    <Grid
-                        container
-                        rowSpacing={1}
-                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                        sx={{
-                            margin: "0px 0px 10px 0px",
-                        }}
-                    >
-
 
                         <Grid item xs={3}>
 
@@ -318,7 +307,7 @@ const GridLancamentoContabil = (props) => {
                                     fullWidth
                                     size="small"
                                     name="filterCdContaComplementar"
-                                    label="Centro de Custo"
+                                    label="Contas Complementares"
                                     labelId="select-label-id"
                                     id="select-label-id"
                                     value={filterCdContaComplementar}
@@ -338,6 +327,19 @@ const GridLancamentoContabil = (props) => {
                             </FormControl>
                         </Grid>
 
+
+                    </Grid>
+
+                    <Grid
+                        container
+                        rowSpacing={1}
+                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                        sx={{
+                            margin: "0px 0px 10px 0px",
+                        }}
+                    >
+
+
                         <Grid item xs={2}>
 
                             <FormControlLabel
@@ -353,9 +355,10 @@ const GridLancamentoContabil = (props) => {
 
                         </Grid>
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
 
                             <TextField
+                                color="primary"
                                 id="date"
                                 label="Data Inicial"
                                 type="date"
@@ -372,7 +375,7 @@ const GridLancamentoContabil = (props) => {
 
                         </Grid>
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
 
                             <TextField
                                 id="date"
@@ -392,7 +395,7 @@ const GridLancamentoContabil = (props) => {
 
 
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <IconButton
                                 color="info"
                                 variant="outlined"

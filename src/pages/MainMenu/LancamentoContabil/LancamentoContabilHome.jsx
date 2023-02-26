@@ -25,8 +25,8 @@ const LancamentoContabilHome = (props) => {
         let items = JSON.parse(localStorage.getItem("lancamentoscontabeisabase_db"));
         items.map((item) => {
             if (item.cdLancamentoContabil === data.cdLancamentoContabil) {
-                item.valorCredito = '';
-                item.valorDebito = '';
+                item.valorCredito = 0;
+                item.valorDebito = 0;
                 item.isValido = false;
                 item.status = 'CANCELADO';
             }
@@ -58,8 +58,8 @@ const LancamentoContabilHome = (props) => {
         let items = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
         items.map((item) => {
             if (item.cdLancamentoContabil === data.cdLancamentoContabil) {
-                item.valorCredito = '';
-                item.valorDebito = '';
+                item.valorCredito = 0;
+                item.valorDebito = 0;
                 item.isValido = false;
                 item.status = 'CANCELADO';
             }
