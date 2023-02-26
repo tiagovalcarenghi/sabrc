@@ -360,3 +360,18 @@ export const createNomes = [
     cdCadastroNomes: 2,
   },
 ]
+
+
+
+//-------------------------------------------------
+
+
+export const createLancamentosContabeisAll = []
+
+export const createLancamentosContabeisBase = []
+
+export const createLancamentosContabeisOperacao = []
+
+export const createLancamentoContasResultado = []
+
+export const createLancamentoContasPatrimoniais = []
