@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import GridLancamentoContabil from "../../../components/MainMenu/LancamentoContabil/GridLancamentoContabil";
-import { isEligible } from "../../../util/utils";
+import { getDateFormat, isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 
@@ -73,6 +73,13 @@ const LancamentoContabilHome = (props) => {
             setLancamentoContabilDb(JSON.parse(localStorage.getItem("lancamentoscontabeisabase_db")));
             return;
         }
+
+        dataInicial = getDateFormat(dataInicial);
+        dataFinal = getDateFormat(dataFinal);
+
+        console.log(dataInicial);
+        console.log(dataFinal);
+
 
         let items = JSON.parse(localStorage.getItem("lancamentoscontabeisabase_db"));
         items = filterer((x) => x.descLancamento.toLowerCase().includes(descLancamento.toLowerCase()))(run(items));

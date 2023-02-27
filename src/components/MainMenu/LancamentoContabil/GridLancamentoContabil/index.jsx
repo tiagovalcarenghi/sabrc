@@ -33,6 +33,10 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { msgAtencao, msgExcludeLancamentoContabilError, msgExcludeRLancamentoOperacoes, msgSuccessExcludeLancamentoContabil } from "../../../../util/applicationresources";
 import { getDateFormat } from "../../../../util/utils";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -116,8 +120,8 @@ const GridLancamentoContabil = (props) => {
     const [filterCdConta, setFilterCdConta] = useState("");
     const [filterCdContaComplementar, setFilterCdContaComplementar] = useState("");
     const [filterIsValido, setFilterIsValido] = useState("");
-    const [filterDataInicial, setFilterDataInicial] = useState("");
-    const [filterDataFinal, setFilterDataFinal] = useState("");
+    const [filterDataInicial, setFilterDataInicial] = React.useState(dayjs());
+    const [filterDataFinal, setFilterDataFinal] = React.useState(dayjs());
     const [checked, setChecked] = React.useState(false);
 
     const handleExcluir = (lancamentocontabil) => {
@@ -146,8 +150,8 @@ const GridLancamentoContabil = (props) => {
             setFilterCdConta("");
             setFilterCdContaComplementar("");
             setFilterIsValido("");
-            setFilterDataInicial("");
-            setFilterDataFinal("");
+            setFilterDataInicial(dayjs());
+            setFilterDataFinal(dayjs());
         } else {
             filter(
                 filterCdLancamentoContabil,
@@ -191,6 +195,15 @@ const GridLancamentoContabil = (props) => {
         setChecked(event.target.checked);
         setFilterIsValido(event.target.checked);
     };
+
+    const handleChangeDataInicial = (newValue) => {
+        setFilterDataInicial(newValue);
+    };
+
+    const handleChangeDataFinal = (newValue) => {
+        setFilterDataFinal(newValue);
+    };
+
 
 
     return (
@@ -357,42 +370,41 @@ const GridLancamentoContabil = (props) => {
 
                         <Grid item xs={3}>
 
-                            <TextField
-                                color="primary"
-                                id="date"
-                                label="Data Inicial"
-                                type="date"
-                                // defaultValue="2017-05-24"
-                                size="small"
-                                fullWidth
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={filterDataInicial}
-                                required={false}
-                                onChange={(e) => setFilterDataInicial(e.target.value)}
-                            />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+                                <DesktopDatePicker
+                                    label="Data Inicial"
+                                    inputFormat="DD/MM/YYYY"
+                                    value={filterDataInicial}
+                                    onChange={handleChangeDataInicial}
+                                    renderInput={(params) => <TextField
+                                        fullWidth
+                                        name="filterDataInicial"
+                                        size="small"
+                                        {...params} />}
+                                />
+                            </LocalizationProvider>
 
                         </Grid>
 
                         <Grid item xs={3}>
 
-                            <TextField
-                                id="date"
-                                label="Data Final"
-                                type="date"
-                                // defaultValue="2017-05-24"
-                                size="small"
-                                fullWidth
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={filterDataFinal}
-                                required={false}
-                                onChange={(e) => setFilterDataFinal(e.target.value)}
-                            />
-                        </Grid>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DesktopDatePicker
+                                    label="Data Final"
+                                    inputFormat="DD/MM/YYYY"
+                                    value={filterDataFinal}
+                                    onChange={handleChangeDataFinal}
+                                    renderInput={(params) => <TextField
+                                        fullWidth
+                                        name="filterDataFinal"
+                                        size="small"
+                                        {...params} />}
+                                />
+                            </LocalizationProvider>
 
+
+                        </Grid>
 
 
                         <Grid item xs={3}>
@@ -489,7 +501,7 @@ const GridLancamentoContabil = (props) => {
                                                     {lancamentocontabil.valorDebito}
                                                 </TableCell>
                                                 <TableCell align="left" width="10%">
-                                                    {getDateFormat(lancamentocontabil.dataSelecionada)}
+                                                    {lancamentocontabil.dataSelecionada}
                                                 </TableCell>
                                                 <TableCell align="left" width="10%">
                                                     {lancamentocontabil.status}

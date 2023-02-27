@@ -28,7 +28,12 @@ import { useNavigate } from "react-router-dom";
 import { initialValuesLancamentoContabilBase, initialValuesLancamentoContabilOperacao } from "../../../../util/MainMenu/LancamentoContabil/constants";
 import { msgAtencao, msgCadSuccess, msgExcludeRLancamentoOperacoes, msgExcludeRLancamentoOperacoesSuccess, msgInsertLancamentoSuccess } from "../../../../util/applicationresources";
 import React, { useState } from "react";
-import { isEligible, verificaContas, verificaValores } from "../../../../util/utils";
+import { getDateFormat, isEligible, verificaContas, verificaValores } from "../../../../util/utils";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 
 const CadastroLancamentoContabil = (props) => {
     const { lancamentocontabil, lancamentocontabiloperacao, salvar, limpar, deletelancamentocontabiloperacao, addlancamento, centrosdecusto, contas, contascomplementares } = props;
@@ -43,18 +48,36 @@ const CadastroLancamentoContabil = (props) => {
         initialValues: initialValuesLancamentoContabilBase,
         onSubmit: (values) => {
 
-            Swal.fire({
-                icon: "success",
-                title: msgCadSuccess,
-                text: msgInsertLancamentoSuccess,
+            var totalCredito = 0;
+            var totalDebito = 0;
+            let items = JSON.parse(localStorage.getItem("lancamentoscontabeisaoperacao_db"));
+            items.map((item) => {
+                totalCredito = totalCredito + Number(item.valorCredito);
+                totalDebito = totalDebito + Number(item.valorDebito);
             });
 
-            values.dataSelecionada = dataLancamento;
+            if (totalCredito !== totalDebito) {
+
+                console.log("erro");
+
+            } else {
+
+                Swal.fire({
+                    icon: "success",
+                    title: msgCadSuccess,
+                    text: msgInsertLancamentoSuccess,
+                });
+
+                values.dataSelecionada = getDateFormat(dataLancamento);
 
 
-            salvar(values);
-            formik.resetForm();
-            navigate("/operacoes/lancamentocontabil");
+                salvar(values);
+                formik.resetForm();
+                navigate("/operacoes/lancamentocontabil");
+
+            }
+
+
         }
 
     });
@@ -65,27 +88,28 @@ const CadastroLancamentoContabil = (props) => {
 
     const addLancamento = () => {
 
+        setValorCredito(isEligible(valorCredito) ? valorCredito : 0);
+        setValorDebito(isEligible(valorDebito) ? valorDebito : 0);
 
 
-        if (!isEligible(formik.values.descLancamento) && !isEligible(filterCdConta.cdContaContabil)
-            && !isEligible(formik.values.valorCredito) && !isEligible(formik.values.valorCredito)
-            && !isEligible(formik.values.valorDebito)) {
+        if (!isEligible(formik.values.descLancamento)) {
 
             console.log('a1');
 
         } else {
 
-            if (!verificaContas(filterCdConta.cdTipoConta, filterCdContaComplementar.cdContaComplementar, filterCdContaComplementar.cdCentrodeCusto)) {
+            if (!verificaContas(filterCdConta.cdTipoConta, filterCdContaComplementar.cdContaComplementar, filterCdCentrodeCusto.cdCentrodeCusto)) {
 
                 console.log('a2');
 
             } else {
 
-                if (!verificaValores(Number(formik.values.valorCredito), Number(formik.values.valorDebito))) {
+                if (!verificaValores(valorCredito, valorDebito)) {
 
                     console.log('a3');
 
                 } else {
+
 
                     const newl = initialValuesLancamentoContabilOperacao;
                     newl.descLancamento = formik.values.descLancamento;
@@ -95,10 +119,18 @@ const CadastroLancamentoContabil = (props) => {
                     newl.descConta = filterCdConta.desContaContabil;
                     newl.cdContaComplementar = filterCdContaComplementar.cdContaComplementar;
                     newl.descContaComplementar = filterCdContaComplementar.desccContaComplementar;
-                    newl.valorCredito = isEligible(Number(formik.values.valorCredito)) ? Number(formik.values.valorCredito) : 0;
-                    newl.valorDebito = isEligible(Number(formik.values.valorDebito)) ? Number(formik.values.valorDebito) : 0;
+                    newl.valorCredito = valorCredito;
+                    newl.valorDebito = valorDebito;
 
                     addlancamento(newl);
+
+                    formik.resetForm();
+                    setFilterCdCentrodeCusto({});
+                    setFilterCdConta({});
+                    setFilterCdContaComplementar({});
+                    setValorCredito(0);
+                    setValorDebito(0);
+
 
                 }
 
@@ -114,7 +146,15 @@ const CadastroLancamentoContabil = (props) => {
     const [filterCdCentrodeCusto, setFilterCdCentrodeCusto] = React.useState({});;
     const [filterCdConta, setFilterCdConta] = React.useState({});;
     const [filterCdContaComplementar, setFilterCdContaComplementar] = React.useState({});;
-    const [dataLancamento, setDataLancamento] = useState();
+    const [dataLancamento, setDataLancamento] = React.useState(dayjs());
+    const [valorCredito, setValorCredito] = React.useState(0);
+    const [valorDebito, setValorDebito] = React.useState(0);
+
+    const handleChange = (newValue) => {
+        setDataLancamento(newValue);
+    };
+
+
 
 
     return (
@@ -146,7 +186,7 @@ const CadastroLancamentoContabil = (props) => {
                             label="Descrição"
                             value={formik.values.descLancamento}
                             onChange={formik.handleChange}
-                            required
+
                         />
                     </Grid>
 
@@ -195,7 +235,7 @@ const CadastroLancamentoContabil = (props) => {
                                 id="select-label-id"
                                 value={filterCdConta}
                                 onChange={(e) => setFilterCdConta(e.target.value)}
-                                required
+
 
                             >
                                 {contas.map((cc) => (
@@ -248,27 +288,38 @@ const CadastroLancamentoContabil = (props) => {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={3}>
-                        <TextField
+                        <CurrencyTextField
                             size="small"
                             fullWidth
                             name="valorCredito"
                             label="Crédito"
-                            value={formik.values.valorCredito}
-                            onChange={formik.handleChange}
-                            required
+                            variant="standard"
+                            value={valorCredito}
+                            currencySymbol="R$"
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            outputFormat="string"
+                            onChange={(event, value) => setValorCredito(value)}
                         />
                     </Grid>
 
                     <Grid item xs={3}>
-                        <TextField
+
+                        <CurrencyTextField
                             size="small"
                             fullWidth
                             name="valorDebito"
                             label="Débito"
-                            value={formik.values.valorDebito}
-                            onChange={formik.handleChange}
-                            required
+                            variant="standard"
+                            value={valorDebito}
+                            currencySymbol="R$"
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            outputFormat="string"
+                            onChange={(event, value) => setValorDebito(value)}
                         />
+
+
                     </Grid>
 
 
@@ -296,22 +347,20 @@ const CadastroLancamentoContabil = (props) => {
 
                     <Grid item xs={3}>
 
-                        <TextField
-                            id="date"
-                            label="Data do Lançamento"
-                            name="dataLancamento"
-                            type="date"
-                            // defaultValue="2017-05-24"
-                            size="small"
-                            fullWidth
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={dataLancamento}
-                            required
-                            onChange={(e) => setDataLancamento(e.target.value)}
-                        />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
 
+                            <DesktopDatePicker
+                                label="Data do Lançamento"
+                                inputFormat="DD/MM/YYYY"
+                                value={dataLancamento}
+                                onChange={handleChange}
+                                renderInput={(params) => <TextField
+                                    fullWidth
+                                    name="dataLancamento"
+                                    size="small"
+                                    {...params} />}
+                            />
+                        </LocalizationProvider>
                     </Grid>
 
 

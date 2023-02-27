@@ -23,15 +23,13 @@ export function getDateFormat(datenew) {
 
 
 export function isEligible(value) {
-    if (value !== false || value !== null || value !== 0 || value !== "" || value !== undefined) {
+    if (value !== false || value !== null || value !== 0 || value !== "" || value !== '' || value !== undefined) {
         return value;
     }
 }
 
 
 export function verificaContas(cdTipo, contaComp, centrodeCusto) {
-
-    console.log(cdTipo);
 
     if (cdTipo === 1 && isEligible(contaComp) && !isEligible(centrodeCusto)) {
         return true;
