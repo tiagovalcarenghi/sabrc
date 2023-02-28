@@ -198,7 +198,7 @@ const GridCentrodeCusto = (props) => {
 
 
 
-                        <Grid item xs={7}>
+                        <Grid item xs={1}>
                             <IconButton
                                 color="info"
                                 variant="outlined"

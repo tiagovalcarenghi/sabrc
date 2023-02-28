@@ -152,6 +152,7 @@ const GridLancamentoContabil = (props) => {
             setFilterIsValido("");
             setFilterDataInicial(dayjs());
             setFilterDataFinal(dayjs());
+            setChecked(false)
         } else {
             filter(
                 filterCdLancamentoContabil,
@@ -407,7 +408,7 @@ const GridLancamentoContabil = (props) => {
                         </Grid>
 
 
-                        <Grid item xs={3}>
+                        <Grid item xs={1}>
                             <IconButton
                                 color="info"
                                 variant="outlined"

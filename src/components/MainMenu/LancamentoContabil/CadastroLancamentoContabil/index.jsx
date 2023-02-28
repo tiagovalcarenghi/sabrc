@@ -26,8 +26,8 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { initialValuesLancamentoContabilBase, initialValuesLancamentoContabilOperacao } from "../../../../util/MainMenu/LancamentoContabil/constants";
-import { msgAtencao, msgCadSuccess, msgExcludeRLancamentoOperacoes, msgExcludeRLancamentoOperacoesSuccess, msgInsertLancamentoSuccess } from "../../../../util/applicationresources";
-import React, { useState } from "react";
+import { msgAtencao, msgCadSuccess, msgExcludeRLancamentoOperacoes, msgExcludeRLancamentoOperacoesSuccess, msgInsertLancamentoSuccess, msgLancamentoError, msgLancamentoInsertContaError, msgLancamentoInsertDescricaoError, msgLancamentoInsertError, msgLancamentoInsertValoresError, msgLancamentoSaveError } from "../../../../util/applicationresources";
+import React from "react";
 import { getDateFormat, isEligible, verificaContas, verificaValores } from "../../../../util/utils";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -36,125 +36,165 @@ import dayjs from 'dayjs';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 
 const CadastroLancamentoContabil = (props) => {
-    const { lancamentocontabil, lancamentocontabiloperacao, salvar, limpar, deletelancamentocontabiloperacao, addlancamento, centrosdecusto, contas, contascomplementares } = props;
-    const navigate = useNavigate();
 
-    const navigateToComponent = () => {
-        navigate("/operacoes/lancamentocontabil", { state: { value: 1 } });
-    };
-
-    const formik = useFormik({
-        enableReinitialize: true,
-        initialValues: initialValuesLancamentoContabilBase,
-        onSubmit: (values) => {
-
-            var totalCredito = 0;
-            var totalDebito = 0;
-            let items = JSON.parse(localStorage.getItem("lancamentoscontabeisaoperacao_db"));
-            items.map((item) => {
-                totalCredito = totalCredito + Number(item.valorCredito);
-                totalDebito = totalDebito + Number(item.valorDebito);
-            });
-
-            if (totalCredito !== totalDebito) {
-
-                console.log("erro");
-
-            } else {
-
-                Swal.fire({
-                    icon: "success",
-                    title: msgCadSuccess,
-                    text: msgInsertLancamentoSuccess,
-                });
-
-                values.dataSelecionada = getDateFormat(dataLancamento);
-
-
-                salvar(values);
-                formik.resetForm();
-                navigate("/operacoes/lancamentocontabil");
-
-            }
-
-
-        }
-
-    });
-
-    const handleExcluirLancamento = (l) => {
-        deletelancamentocontabiloperacao(l);
-    };
-
-    const addLancamento = () => {
-
-        setValorCredito(isEligible(valorCredito) ? valorCredito : 0);
-        setValorDebito(isEligible(valorDebito) ? valorDebito : 0);
-
-
-        if (!isEligible(formik.values.descLancamento)) {
-
-            console.log('a1');
-
-        } else {
-
-            if (!verificaContas(filterCdConta.cdTipoConta, filterCdContaComplementar.cdContaComplementar, filterCdCentrodeCusto.cdCentrodeCusto)) {
-
-                console.log('a2');
-
-            } else {
-
-                if (!verificaValores(valorCredito, valorDebito)) {
-
-                    console.log('a3');
-
-                } else {
-
-
-                    const newl = initialValuesLancamentoContabilOperacao;
-                    newl.descLancamento = formik.values.descLancamento;
-                    newl.cdCentrodeCusto = filterCdCentrodeCusto.cdCentrodeCusto;
-                    newl.descCentrodeCusto = filterCdCentrodeCusto.descCentrodeCusto;
-                    newl.cdConta = filterCdConta.cdContaContabil;
-                    newl.descConta = filterCdConta.desContaContabil;
-                    newl.cdContaComplementar = filterCdContaComplementar.cdContaComplementar;
-                    newl.descContaComplementar = filterCdContaComplementar.desccContaComplementar;
-                    newl.valorCredito = valorCredito;
-                    newl.valorDebito = valorDebito;
-
-                    addlancamento(newl);
-
-                    formik.resetForm();
-                    setFilterCdCentrodeCusto({});
-                    setFilterCdConta({});
-                    setFilterCdContaComplementar({});
-                    setValorCredito(0);
-                    setValorDebito(0);
-
-
-                }
-
-            }
-        }
-
-
-
-
-    };
-
-
+    const { lancamentocontabiloperacao, salvar, limpar, deletelancamentocontabiloperacao, addlancamento, centrosdecusto, contas, contascomplementares } = props;
     const [filterCdCentrodeCusto, setFilterCdCentrodeCusto] = React.useState({});;
     const [filterCdConta, setFilterCdConta] = React.useState({});;
     const [filterCdContaComplementar, setFilterCdContaComplementar] = React.useState({});;
     const [dataLancamento, setDataLancamento] = React.useState(dayjs());
     const [valorCredito, setValorCredito] = React.useState(0);
     const [valorDebito, setValorDebito] = React.useState(0);
+    const navigate = useNavigate();
 
     const handleChange = (newValue) => {
         setDataLancamento(newValue);
     };
 
+    const navigateToComponent = () => {
+        navigate("/operacoes/lancamentocontabil", { state: { value: 1 } });
+    };
 
+
+    const handleExcluirLancamento = (l) => {
+        deletelancamentocontabiloperacao(l);
+    };
+
+    const validaValores = () => {
+
+        var totalCredito = 0;
+        var totalDebito = 0;
+        let items = JSON.parse(localStorage.getItem("lancamentoscontabeisaoperacao_db"));
+        items.map((item) => {
+            totalCredito = totalCredito + Number(item.valorCredito);
+            totalDebito = totalDebito + Number(item.valorDebito);
+        });
+
+        return totalCredito !== totalDebito;
+    }
+
+    const addLancamento = () => {
+
+        setValorCredito(isEligible(valorCredito) ? Number(valorCredito) : Number(0));
+        setValorDebito(isEligible(valorDebito) ? Number(valorDebito) : Number(0));
+
+
+        if (!isEligible(formik.values.descLancamento)) {
+
+            Swal.fire({
+                icon: "error",
+                title: msgLancamentoError,
+                text: msgLancamentoInsertDescricaoError,
+            });
+
+        } else {
+
+            if (!verificaContas(filterCdConta.cdTipoConta, filterCdContaComplementar.cdContaComplementar, filterCdCentrodeCusto.cdCentrodeCusto)) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: msgLancamentoError,
+                    text: msgLancamentoInsertContaError,
+                });
+
+
+            } else {
+
+                console.log(valorCredito);
+                console.log(valorDebito);
+
+                if (!verificaValores(valorCredito, valorDebito)) {
+
+                    Swal.fire({
+                        icon: "error",
+                        title: msgLancamentoError,
+                        text: msgLancamentoInsertValoresError,
+                    });
+
+                } else {
+
+                    insertNewLancamento();
+
+                }
+            }
+        }
+    };
+
+
+    const insertNewLancamento = () => {
+
+        const newl = initialValuesLancamentoContabilOperacao;
+        newl.descLancamento = formik.values.descLancamento;
+        newl.cdCentrodeCusto = filterCdCentrodeCusto.cdCentrodeCusto;
+        newl.descCentrodeCusto = filterCdCentrodeCusto.descCentrodeCusto;
+        newl.cdConta = filterCdConta.cdContaContabil;
+        newl.descConta = filterCdConta.desContaContabil;
+        newl.cdContaComplementar = filterCdContaComplementar.cdContaComplementar;
+        newl.descContaComplementar = filterCdContaComplementar.desccContaComplementar;
+        newl.valorCredito = valorCredito;
+        newl.valorDebito = valorDebito;
+
+        addlancamento(newl);
+
+        formik.resetForm();
+        setFilterCdCentrodeCusto({});
+        setFilterCdConta({});
+        setFilterCdContaComplementar({});
+        setValorCredito(0);
+        setValorDebito(0);
+    }
+
+    const validaGridOperacoes = () => {
+
+
+        let items = JSON.parse(localStorage.getItem("lancamentoscontabeisaoperacao_db"));
+
+        return items.length > 0 ? true : false;
+    }
+
+
+    const formik = useFormik({
+
+        enableReinitialize: true,
+        initialValues: initialValuesLancamentoContabilBase,
+        onSubmit: (values) => {
+
+            if (!validaGridOperacoes()) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: msgLancamentoError,
+                    text: msgLancamentoSaveError,
+                });
+
+            } else {
+
+                if (validaValores()) {
+
+                    Swal.fire({
+                        icon: "error",
+                        title: msgLancamentoError,
+                        text: msgLancamentoInsertError,
+                    });
+
+                } else {
+
+                    Swal.fire({
+                        icon: "success",
+                        title: msgCadSuccess,
+                        text: msgInsertLancamentoSuccess,
+                    });
+
+                    values.dataSelecionada = getDateFormat(dataLancamento);
+
+                    salvar(values);
+                    formik.resetForm();
+                    navigate("/operacoes/lancamentocontabil");
+
+                }
+            }
+        }
+
+    });
 
 
     return (
@@ -469,7 +509,6 @@ const CadastroLancamentoContabil = (props) => {
                                 setFilterCdCentrodeCusto({});
                                 setFilterCdConta({});
                                 setFilterCdContaComplementar({});
-                                setDataLancamento({});
                             }}
                             startIcon={<RefreshIcon />}
                         >
