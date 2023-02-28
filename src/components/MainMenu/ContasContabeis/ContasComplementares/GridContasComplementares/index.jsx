@@ -216,7 +216,7 @@ const GridContasComplementares = (props) => {
 
 
 
-                        <Grid item xs={5}>
+                        <Grid item xs={1}>
                             <IconButton
                                 color="info"
                                 variant="outlined"

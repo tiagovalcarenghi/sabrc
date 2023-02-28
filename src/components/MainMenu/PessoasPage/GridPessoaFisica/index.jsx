@@ -222,7 +222,7 @@ const GridPessoaFisica = (props) => {
               />
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <IconButton
                 color="info"
                 variant="outlined"

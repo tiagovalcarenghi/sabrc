@@ -210,7 +210,7 @@ const GridPessoaJuridica = (props) => {
             </Grid>
 
 
-            <Grid item xs={3}>
+            <Grid item xs={1}>
               <IconButton
                 color="info"
                 variant="outlined"

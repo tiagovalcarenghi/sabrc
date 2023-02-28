@@ -7,7 +7,7 @@ import AppMenu from "../../AppNavBar/AppMenu";
 
 
 const LancamentoContabilCad = () => {
-    const [lancamentoContabilEmEdicao, setLancamentoContabilEdicao] = useState(initialValuesLancamentoContabilBase);
+    // const [lancamentoContabilEmEdicao, setLancamentoContabilEdicao] = useState(initialValuesLancamentoContabilBase);
     const [LancamentoContabilOperacao, setLancamentoContabilOperacaoEmEdicao] = useState(initialValuesLancamentoContabilOperacao);
     const [centrosDeCusto, setCentrosDeCusto] = useState([]);
     const [contas, setContas] = useState([]);
@@ -76,7 +76,7 @@ const LancamentoContabilCad = () => {
         const nlc = !isEligible(verifica.length) ? newLancamentoContabil : verifica.concat(newLancamentoContabil);
 
         localStorage.setItem("lancamentoscontabeisabase_db", JSON.stringify(nlc));
-        setLancamentoContabilEdicao(initialValuesLancamentoContabilBase);
+        // setLancamentoContabilEdicao(initialValuesLancamentoContabilBase);
         insertLancamentoContabilGeral(newLancamentoContabil);
         //falta insert lancamentocontasresultado
         //falta insert lancamentocontaspatromonial
@@ -100,7 +100,7 @@ const LancamentoContabilCad = () => {
 
 
     const limparLancamentoContabil = () => {
-        setLancamentoContabilEdicao(initialValuesLancamentoContabilBase);
+        // setLancamentoContabilEdicao(initialValuesLancamentoContabilBase);
         setLancamentoContabilOperacaoEmEdicao(initialValuesLancamentoContabilOperacao);
         localStorage.setItem("lancamentoscontabeisaoperacao_db", JSON.stringify([]));
     };
@@ -132,7 +132,7 @@ const LancamentoContabilCad = () => {
     return (
         <AppMenu>
             <CadastroLancamentoContabil
-                lancamentocontabil={lancamentoContabilEmEdicao}
+                // lancamentocontabil={lancamentoContabilEmEdicao}
                 lancamentocontabiloperacao={LancamentoContabilOperacao}
                 salvar={salvarLancamentoContabil}
                 limpar={limparLancamentoContabil}
