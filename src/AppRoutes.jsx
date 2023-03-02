@@ -14,6 +14,8 @@ import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
 import ContasHome from "./pages/MainMenu/ContasContabeis/Contas/ContasHome";
 import ContasComplementaresCad from "./pages/MainMenu/ContasContabeis/ContasComplementares/ContasComplementaresCad";
 import ContasComplementaresHome from "./pages/MainMenu/ContasContabeis/ContasComplementares/ContasComplementaresHome";
+import ContratoCompraeVendaCad from "./pages/MainMenu/ContratoCompraeVenda/ContratoCompraeVendaCad";
+import ContratoCompraeVendaHome from "./pages/MainMenu/ContratoCompraeVenda/ContratoCompraeVendaHome";
 import EnderecoCad from "./pages/MainMenu/Enderecos/EnderecoCad";
 import EnderecoHome from "./pages/MainMenu/Enderecos/EnderecoHome";
 import LancamentoContabilCad from "./pages/MainMenu/LancamentoContabil/LancamentoContabilCad";
@@ -228,7 +230,24 @@ const AppRoutes = () => {
               </Private>
             }
           />
-
+          <Route
+            exact
+            path="/operacoes/contratocompraevenda"
+            element={
+              <Private>
+                <ContratoCompraeVendaHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/operacoes/cadcontratocompraevenda"
+            element={
+              <Private>
+                <ContratoCompraeVendaCad />
+              </Private>
+            }
+          />
         </Routes>
       </AuthProvider>
     </Router>

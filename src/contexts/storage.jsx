@@ -375,3 +375,20 @@ export const createLancamentosContabeisOperacao = []
 export const createLancamentoContasResultado = []
 
 export const createLancamentoContasPatrimoniais = []
+
+
+//-------------------------------------------------
+
+export const createContratosdeCompraeVendaBase = []
+
+export const createCompradorProcuradorBase = []
+export const createCompradorProcuradorOperacao = []
+
+export const createVendedorProcuradorBase = []
+export const createVendedorProcuradorOperacao = []
+
+export const createHonorariosCorretorParceiroBase = []
+export const createHonorariosCorretorParceiroOperacao = []
+
+
+//-------------------------------------------------

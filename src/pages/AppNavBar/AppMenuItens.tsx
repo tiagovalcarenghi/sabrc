@@ -83,7 +83,7 @@ export const appMenuItems = [
         name: "Contrato de Compra e Venda",
         sx: { pl: 4 },
         Icon: SummarizeIcon,
-        link: `/operacoes/contratocv`,
+        link: `/operacoes/contratocompraevenda`,
       },
       {
         name: "Contrato de Locação",
