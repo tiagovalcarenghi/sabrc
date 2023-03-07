@@ -31,6 +31,7 @@ export const initialContratosdeCompraeVendaBase = {
 
 export const initialCompradorProcuradorBase = {
     id: '',
+    cdContratoCompraeVenda: '',
     cdCompradorProcurador: '',
     cdNomes: '',
     nome: '',
@@ -48,6 +49,7 @@ export const initialCompradorProcuradorOperacao = {
 
 export const initialVendedorProcuradorBase = {
     id: '',
+    cdContratoCompraeVenda: '',
     cdVendedorProcurador: '',
     cdNomes: '',
     nome: '',
@@ -65,6 +67,7 @@ export const initialVendedorProcuradorOperacao = {
 
 export const initialHonorariosCorretorParceiroBase = {
     id: '',
+    cdContratoCompraeVenda: '',
     cdHonorariosCorretorParceiro: '',
     cdPessoaFisica: '',
     nomeCompleto: '',

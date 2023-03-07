@@ -201,7 +201,7 @@ const CadastroContratoCompraeVenda = (props) => {
         <form onSubmit={formik.handleSubmit}>
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Operações</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Lançamento Contábil</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contrato Compra e Venda</Typography>
                 <Typography color="text.primary">Cadastrar</Typography>
             </Breadcrumbs>
 

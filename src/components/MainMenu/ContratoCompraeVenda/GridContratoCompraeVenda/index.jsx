@@ -25,18 +25,13 @@ import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import EditIcon from '@mui/icons-material/Edit';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
-import { msgAtencao, msgExcludeLancamentoContabilError, msgExcludeRLancamentoOperacoes, msgSuccessExcludeLancamentoContabil } from "../../../../util/applicationresources";
-import { getDateFormat } from "../../../../util/utils";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import { msgAtencao, msgExcludeContrato, msgExcludeContratoError, msgExcludeContratoSuccess, msgValidaContrato, msgValidaContratoError, msgValidaContratoSuccess } from "../../../../util/applicationresources";
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -112,20 +107,18 @@ TablePaginationActions.propTypes = {
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
 const GridContratoCompraeVenda = (props) => {
-    const { lancamentoscontabeisabase_db, deletelancamentocontabil, filter, disableDelete, centrosdecusto, contas, contascomplementares } = props;
+    const { contratocompraevendabase_db, deletacontratocompraevenda, validacontratocompraevenda, filter, disableDelete, disableEdit, disableValida } = props;
 
-    const [filterCdLancamentoContabil, setFilterCdLancamentoContabil] = useState("");
-    const [filterDescLancamento, setFilterDescLancamento] = useState("");
-    const [filterCdCentrodeCusto, setFilterCdCentrodeCusto] = useState("");
-    const [filterCdConta, setFilterCdConta] = useState("");
-    const [filterCdContaComplementar, setFilterCdContaComplementar] = useState("");
-    const [filterIsValido, setFilterIsValido] = useState("");
-    const [filterDataInicial, setFilterDataInicial] = React.useState(dayjs());
-    const [filterDataFinal, setFilterDataFinal] = React.useState(dayjs());
-    const [checked, setChecked] = React.useState(false);
+    const [filterCdContratoCompraeVenda, setFilterCdContratoCompraeVenda] = useState("");
+    const [filterEndereco, setFilterEndereco] = useState("");
 
-    const handleExcluir = (lancamentocontabil) => {
-        deletelancamentocontabil(lancamentocontabil);
+
+    const handleExcluir = (contrato) => {
+        deletacontratocompraevenda(contrato);
+    };
+
+    const handleValidar = (contrato) => {
+        validacontratocompraevenda(contrato);
     };
 
     const validaExclusao = () => {
@@ -138,37 +131,25 @@ const GridContratoCompraeVenda = (props) => {
     const navigate = useNavigate();
 
     const navigateToComponent = (id) => {
-        navigate("/operacoes/cadlancamentocontabil", { state: { id: id } });
+        navigate("/operacoes/cadcontratocompraevenda", { state: { id: id } });
     };
 
     const handleFilter = (f) => {
         if (f) {
             filter(null);
-            setFilterCdLancamentoContabil("");
-            setFilterDescLancamento("");
-            setFilterCdCentrodeCusto("");
-            setFilterCdConta("");
-            setFilterCdContaComplementar("");
-            setFilterIsValido("");
-            setFilterDataInicial(dayjs());
-            setFilterDataFinal(dayjs());
-            setChecked(false)
+            setFilterCdContratoCompraeVenda("");
+            setFilterEndereco("");
+
         } else {
             filter(
-                filterCdLancamentoContabil,
-                filterDescLancamento,
-                filterCdCentrodeCusto,
-                filterCdConta,
-                filterCdContaComplementar,
-                filterIsValido,
-                filterDataInicial,
-                filterDataFinal,
+                filterCdContratoCompraeVenda,
+                filterEndereco
             );
         }
     };
 
     const verificaNulo = () => {
-        return !!lancamentoscontabeisabase_db ? lancamentoscontabeisabase_db.length : 0;
+        return !!contratocompraevendabase_db ? contratocompraevendabase_db.length : 0;
     };
 
     //----------PAGINATION START--------////
@@ -178,7 +159,7 @@ const GridContratoCompraeVenda = (props) => {
     // Avoid a layout jump when reaching the last page with empty rows.
     // const emptyRows =
     //   page > 0
-    //     ? Math.max(0, (1 + page) * rowsPerPage - lancamentoscontabeisabase_db.length)
+    //     ? Math.max(0, (1 + page) * rowsPerPage - contratocompraevendabase_db.length)
     //     : 0;
 
     const handleChangePage = (event, newPage) => {
@@ -192,26 +173,12 @@ const GridContratoCompraeVenda = (props) => {
     //----------PAGINATION END--------////
 
 
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
-        setFilterIsValido(event.target.checked);
-    };
-
-    const handleChangeDataInicial = (newValue) => {
-        setFilterDataInicial(newValue);
-    };
-
-    const handleChangeDataFinal = (newValue) => {
-        setFilterDataFinal(newValue);
-    };
-
-
 
     return (
         <>
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Operações</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Lançamento Contábil</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contrato de Compra e Venda</Typography>
                 <Typography color="text.primary">Informações</Typography>
             </Breadcrumbs>
 
@@ -232,183 +199,32 @@ const GridContratoCompraeVenda = (props) => {
                             margin: "0px 0px 10px 0px",
                         }}
                     >
-                        <Grid item xs={2}>
+                        <Grid item xs={4}>
                             <TextField
                                 fullWidth
                                 size="small"
                                 label="Número Lançamento"
                                 type="text"
-                                value={filterCdLancamentoContabil}
+                                value={filterCdContratoCompraeVenda}
                                 required={false}
-                                onChange={(e) => setFilterCdLancamentoContabil(e.target.value)}
+                                onChange={(e) => setFilterCdContratoCompraeVenda(e.target.value)}
                             />
                         </Grid>
 
-                        <Grid item xs={2}>
+                        <Grid item xs={4}>
                             <TextField
                                 fullWidth
                                 size="small"
-                                label="Descrição"
+                                label="Endereço"
                                 type="text"
-                                value={filterDescLancamento}
+                                value={filterEndereco}
                                 required={false}
-                                onChange={(e) => setFilterDescLancamento(e.target.value)}
+                                onChange={(e) => setFilterEndereco(e.target.value)}
                             />
                         </Grid>
 
-                        <Grid item xs={2}>
-
-                            <FormControl fullWidth size="small">
-                                <InputLabel id="demo-controlled-open-select-label">Centro de Custo</InputLabel>
-                                <Select
-                                    fullWidth
-                                    size="small"
-                                    name="filterCdCentrodeCusto"
-                                    label="Centro de Custo"
-                                    labelId="select-label-id"
-                                    id="select-label-id"
-                                    value={filterCdCentrodeCusto}
-                                    onChange={(e) => setFilterCdCentrodeCusto(e.target.value)}
-
-                                >
-                                    {centrosdecusto.map((cdc) => (
-                                        <MenuItem
-                                            key={cdc.id}
-                                            value={cdc.cdCentrodeCusto}
-
-                                        >
-                                            {cdc.descCentrodeCusto}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
 
                         <Grid item xs={3}>
-
-                            <FormControl fullWidth size="small">
-                                <InputLabel id="demo-controlled-open-select-label">Contas</InputLabel>
-                                <Select
-                                    fullWidth
-                                    size="small"
-                                    name="filterCdConta"
-                                    label="Contas"
-                                    labelId="select-label-id"
-                                    id="select-label-id"
-                                    value={filterCdConta}
-                                    onChange={(e) => setFilterCdConta(e.target.value)}
-
-                                >
-                                    {contas.map((cc) => (
-                                        <MenuItem
-                                            key={cc.id}
-                                            value={cc.cdContaContabil}
-
-                                        >
-                                            {cc.desContaContabil}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-
-
-                        <Grid item xs={3}>
-
-                            <FormControl fullWidth size="small">
-                                <InputLabel id="demo-controlled-open-select-label">Contas Complementares</InputLabel>
-                                <Select
-                                    fullWidth
-                                    size="small"
-                                    name="filterCdContaComplementar"
-                                    label="Contas Complementares"
-                                    labelId="select-label-id"
-                                    id="select-label-id"
-                                    value={filterCdContaComplementar}
-                                    onChange={(e) => setFilterCdContaComplementar(e.target.value)}
-
-                                >
-                                    {contascomplementares.map((cco) => (
-                                        <MenuItem
-                                            key={cco.id}
-                                            value={cco.cdContaComplementar}
-
-                                        >
-                                            {cco.desccContaComplementar}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-
-
-                    </Grid>
-
-                    <Grid
-                        container
-                        rowSpacing={1}
-                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                        sx={{
-                            margin: "0px 0px 10px 0px",
-                        }}
-                    >
-
-
-                        <Grid item xs={2}>
-
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Lançamento Válido"
-                                size="small"
-                                // type="text"
-                                checked={checked}
-                                value={filterIsValido}
-                                required={false}
-                                onChange={handleChange}
-                            />
-
-                        </Grid>
-
-                        <Grid item xs={3}>
-
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                                <DesktopDatePicker
-                                    label="Data Inicial"
-                                    inputFormat="DD/MM/YYYY"
-                                    value={filterDataInicial}
-                                    onChange={handleChangeDataInicial}
-                                    renderInput={(params) => <TextField
-                                        fullWidth
-                                        name="filterDataInicial"
-                                        size="small"
-                                        {...params} />}
-                                />
-                            </LocalizationProvider>
-
-                        </Grid>
-
-                        <Grid item xs={3}>
-
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DesktopDatePicker
-                                    label="Data Final"
-                                    inputFormat="DD/MM/YYYY"
-                                    value={filterDataFinal}
-                                    onChange={handleChangeDataFinal}
-                                    renderInput={(params) => <TextField
-                                        fullWidth
-                                        name="filterDataFinal"
-                                        size="small"
-                                        {...params} />}
-                                />
-                            </LocalizationProvider>
-
-
-                        </Grid>
-
-
-                        <Grid item xs={1}>
                             <IconButton
                                 color="info"
                                 variant="outlined"
@@ -452,81 +268,37 @@ const GridContratoCompraeVenda = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Número Lançamento</TableCell>
-                                    <TableCell align="left">Ordem</TableCell>
-                                    <TableCell align="left">Descrição</TableCell>
-                                    <TableCell align="left">Centro de Custo</TableCell>
-                                    <TableCell align="left">Conta</TableCell>
-                                    <TableCell align="left">Conta Complementar</TableCell>
-                                    <TableCell align="left">Crédito</TableCell>
-                                    <TableCell align="left">Débito</TableCell>
-                                    <TableCell align="left">Data de Lançamento</TableCell>
-                                    <TableCell align="left">Status</TableCell>
+                                    <TableCell align="left">Número do Contrato</TableCell>
+                                    <TableCell align="left">Endereço</TableCell>
                                     <TableCell align="center" colSpan={2}></TableCell>
                                 </TableRow>
                             </TableHead>
 
                             <>
-                                {lancamentoscontabeisabase_db && lancamentoscontabeisabase_db.length > 0 && (
+                                {contratocompraevendabase_db && contratocompraevendabase_db.length > 0 && (
                                     <TableBody>
                                         {(rowsPerPage > 0
-                                            ? lancamentoscontabeisabase_db.slice(
+                                            ? contratocompraevendabase_db.slice(
                                                 page * rowsPerPage,
                                                 page * rowsPerPage + rowsPerPage
                                             )
-                                            : lancamentoscontabeisabase_db
-                                        ).map((lancamentocontabil) => (
-                                            <TableRow key={lancamentocontabil.id}>
-                                                <TableCell align="left" width="10%">
-                                                    {lancamentocontabil.cdLancamentoContabil}
-                                                </TableCell>
-                                                <TableCell align="left" width="5%">
-                                                    {lancamentocontabil.ordemLancamento}
-                                                </TableCell>
+                                            : contratocompraevendabase_db
+                                        ).map((contrato) => (
+                                            <TableRow key={contrato.id}>
                                                 <TableCell align="left" width="15%">
-                                                    {lancamentocontabil.descLancamento}
+                                                    {contrato.cdContratoCompraeVenda}
                                                 </TableCell>
-                                                <TableCell align="left" width="10%">
-                                                    {lancamentocontabil.descCentrodeCusto}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
-                                                    {lancamentocontabil.descConta}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
-                                                    {lancamentocontabil.descContaComplementar}
-                                                </TableCell>
-                                                <TableCell align="left" width="5%">
-                                                    {lancamentocontabil.valorCredito}
-                                                </TableCell>
-                                                <TableCell align="left" width="5%">
-                                                    {lancamentocontabil.valorDebito}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
-                                                    {lancamentocontabil.dataSelecionada}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
-                                                    {lancamentocontabil.status}
+                                                <TableCell align="left" width="35%">
+                                                    {contrato.enderecoCompleto}
                                                 </TableCell>
 
-                                                {/* 
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
-                                                        disabled={disableEdit}
-                                                        color="primary"
-                                                        onClick={() => {
-                                                            navigateToComponent(lancamentocontabil.id);
-                                                        }}
-                                                    >
-                                                        <EditIcon></EditIcon>
-                                                    </IconButton>
-                                                </TableCell> */}
-                                                <TableCell width="5%" align="center">
-                                                    <IconButton
-                                                        disabled={disableDelete || !lancamentocontabil.isValido}
-                                                        color="error"
+                                                        disabled={disableValida || !contrato.isValido || contrato.status !== "RASCUNHO"}
+                                                        color="success"
                                                         onClick={() => {
                                                             Swal.fire({
-                                                                title: msgExcludeRLancamentoOperacoes,
+                                                                title: msgValidaContrato,
                                                                 icon: "warning",
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: "#3085d6",
@@ -536,10 +308,51 @@ const GridContratoCompraeVenda = (props) => {
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
                                                                     if (!validaExclusao()) {
-                                                                        Swal.fire(msgAtencao, msgExcludeLancamentoContabilError);
+                                                                        Swal.fire(msgAtencao, msgValidaContratoError);
                                                                     } else {
-                                                                        Swal.fire(msgAtencao, msgSuccessExcludeLancamentoContabil);
-                                                                        handleExcluir(lancamentocontabil);
+                                                                        Swal.fire(msgAtencao, msgValidaContratoSuccess);
+                                                                        handleValidar(contrato);
+                                                                    }
+                                                                }
+                                                            });
+                                                        }}
+                                                    >
+                                                        <FactCheckIcon></FactCheckIcon>
+                                                    </IconButton>
+                                                </TableCell>
+
+
+                                                <TableCell width="5%" align="center">
+                                                    <IconButton
+                                                        disabled={disableEdit || !contrato.isValido || contrato.status !== "RASCUNHO"}
+                                                        color="primary"
+                                                        onClick={() => {
+                                                            navigateToComponent(contrato.id);
+                                                        }}
+                                                    >
+                                                        <EditIcon></EditIcon>
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell width="5%" align="center">
+                                                    <IconButton
+                                                        disabled={disableDelete || !contrato.isValido}
+                                                        color="error"
+                                                        onClick={() => {
+                                                            Swal.fire({
+                                                                title: msgExcludeContrato,
+                                                                icon: "warning",
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: "#3085d6",
+                                                                cancelButtonColor: "#d33",
+                                                                confirmButtonText: "Sim",
+                                                                cancelButtonText: "Não",
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    if (!validaExclusao()) {
+                                                                        Swal.fire(msgAtencao, msgExcludeContratoError);
+                                                                    } else {
+                                                                        Swal.fire(msgAtencao, msgExcludeContratoSuccess);
+                                                                        handleExcluir(contrato);
                                                                     }
                                                                 }
                                                             });

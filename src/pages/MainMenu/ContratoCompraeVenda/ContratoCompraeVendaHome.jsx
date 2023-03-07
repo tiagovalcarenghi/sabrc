@@ -6,12 +6,44 @@ import AppMenu from "../../AppNavBar/AppMenu";
 
 const ContratoCompraeVendaHome = (props) => {
 
-    const { disableDelete, disableEdit } = props;
+    const [disableDelete, setDisableDelete] = useState(true);
+    const [disableEdit, setDisableEdit] = useState(true);
+    const [disableValida, setDisableValida] = useState(true);
     const [contratoCompraeVendaDb, setContratoCompraeVendaDb] = useState([]);
 
     useEffect(() => {
         setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
     }, []);
+
+    useEffect(() => {
+        const usuario = JSON.parse(localStorage.getItem("user_storage"));
+        if (usuario) {
+            usuario.tipoUser === "ADMIN"
+                ? disables(1)
+                : usuario.tipoUser === "MASTER"
+                    ? disables(2)
+                    : disables(0);
+        }
+    }, []);
+
+    const disables = (data) => {
+        switch (data) {
+            case 1:
+                setDisableDelete(false);
+                setDisableEdit(false);
+                setDisableValida(false);
+                break;
+            case 2:
+                setDisableDelete(true);
+                setDisableEdit(false);
+                setDisableValida(false);
+                break;
+            default:
+                setDisableDelete(true);
+                setDisableEdit(false);
+                setDisableValida(true);
+        }
+    };
 
 
     const deleteContratoCompraeVenda = (data) => {
@@ -44,6 +76,36 @@ const ContratoCompraeVendaHome = (props) => {
         localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(items));
     };
 
+    const validaContratoCompraeVenda = (data) => {
+        let items = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
+        items.map((item) => {
+            if (item.id === data.id) {
+                item.status = 'VALIDO';
+            }
+        });
+
+        localStorage.setItem("contratocompraevendabase_db", JSON.stringify(items));
+
+        validarLancamentoContabil(data);
+        setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
+    };
+
+
+    const validarLancamentoContabil = (data) => {
+
+        //FAZER O LANÇAMENTO COMPLETO
+
+        // let items = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
+        // items.map((item) => {
+        //     if (item.cdLancamentoContabil === data.cdLancamentoContabil) {
+        //         item.isValido = true;
+        //         item.status = 'VALIDO';
+        //     }
+        // });
+
+        // localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(items));
+    };
+
     const filtraContratoCompraeVenda = (cdContratoCompraeVenda, cdEndereco) => {
         if (!cdContratoCompraeVenda && !cdEndereco) {
             setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
@@ -73,9 +135,11 @@ const ContratoCompraeVendaHome = (props) => {
                 <GridContratoCompraeVenda
                     contratocompraevendabase_db={contratoCompraeVendaDb}
                     deletacontratocompraevenda={deleteContratoCompraeVenda}
+                    validacontratocompraevenda={validaContratoCompraeVenda}
                     filter={filtraContratoCompraeVenda}
                     disableDelete={disableDelete}
                     disableEdit={disableEdit}
+                    disableValida={disableValida}
                 />
             </AppMenu>
         </>
