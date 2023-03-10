@@ -12,7 +12,7 @@ const PessoaFisiscaCad = () => {
   useEffect(() => {
     console.log(location.state);
 
-    if (!location.state) {
+    if (!location.state.id) {
       setPessoaFisicaEmEdicao(initialValuesPF);
       return;
     }

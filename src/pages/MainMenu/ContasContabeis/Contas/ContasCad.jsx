@@ -12,7 +12,7 @@ const ContasCad = () => {
     useEffect(() => {
         console.log(location.state);
 
-        if (!location.state) {
+        if (!location.state.id) {
             setContaContabilEmEdicao(initialValuesContasContabeis);
             return;
         }

@@ -73,7 +73,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("lancamentoscontabeisaoperacao_db", JSON.stringify(createLancamentosContabeisOperacao));
     localStorage.setItem("lancamentoscontasresultado_db", JSON.stringify(createLancamentoContasResultado));
     localStorage.setItem("lancamentoscontaspatrimoniais_db", JSON.stringify(createLancamentoContasPatrimoniais));
-
     localStorage.setItem("contratocompraevendabase_db", JSON.stringify(createContratosdeCompraeVendaBase));
     localStorage.setItem("compradorprocurador_db", JSON.stringify(createCompradorProcuradorBase));
     localStorage.setItem("compradorprocuradoroperacao_db", JSON.stringify(createCompradorProcuradorOperacao));
@@ -81,9 +80,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("vendedorprocuradoroperacao_db", JSON.stringify(createVendedorProcuradorOperacao));
     localStorage.setItem("honorarioscorretorparceiro_db", JSON.stringify(createHonorariosCorretorParceiroBase));
     localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify(createHonorariosCorretorParceiroOperacao));
-
-
-
   };
 
   const login = (nameUser, password) => {

@@ -22,6 +22,7 @@ export const initialContratosdeCompraeVendaBase = {
     posseDefinitiva: '',
     prazoObtencaoFinanciamento: '',
     cdMinutaPadraoContratoCeV: '',
+    textoMinuta: '',
     isValido: '',
     status: '',
     dataAdd: '',
@@ -33,36 +34,43 @@ export const initialCompradorProcuradorBase = {
     id: '',
     cdContratoCompraeVenda: '',
     cdCompradorProcurador: '',
-    cdNomes: '',
-    nome: '',
-    cdTipoNome: '',
-    procurador: '',
+    cdNomeComprador: '',
+    nomeComprador: '',
+    cdTipoNomeComprador: '',
+    cdNomeProcurador: '',
+    nomeProcurador: '',
+    cdTipoNomeProcurador: '',
 }
 
 export const initialCompradorProcuradorOperacao = {
     id: '',
-    cdNomes: '',
-    nome: '',
-    cdTipoNome: '',
-    procurador: '',
+    cdNomeComprador: '',
+    nomeComprador: '',
+    cdTipoNomeComprador: '',
+    cdNomeProcurador: '',
+    nomeProcurador: '',
+    cdTipoNomeProcurador: '',
 }
 
 export const initialVendedorProcuradorBase = {
     id: '',
     cdContratoCompraeVenda: '',
-    cdVendedorProcurador: '',
-    cdNomes: '',
-    nome: '',
-    cdTipoNome: '',
-    procurador: '',
+    cdNomeVendedor: '',
+    nomeVendedor: '',
+    cdTipoNomeVendedor: '',
+    cdNomeProcurador: '',
+    nomeProcurador: '',
+    cdTipoNomeProcurador: '',
 }
 
 export const initialVendedorProcuradorOperacao = {
     id: '',
-    cdNomes: '',
-    nome: '',
-    cdTipoNome: '',
-    procurador: '',
+    cdNomeVendedor: '',
+    nomeVendedor: '',
+    cdTipoNomeVendedor: '',
+    cdNomeProcurador: '',
+    nomeProcurador: '',
+    cdTipoNomeProcurador: '',
 }
 
 export const initialHonorariosCorretorParceiroBase = {

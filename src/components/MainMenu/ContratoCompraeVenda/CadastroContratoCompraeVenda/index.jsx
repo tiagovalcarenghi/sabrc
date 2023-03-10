@@ -8,7 +8,9 @@ import {
     MenuItem,
     TableHead,
     Breadcrumbs,
-    Typography
+    Typography,
+    Divider,
+    Chip
 } from "@mui/material";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
@@ -22,178 +24,148 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import EditIcon from '@mui/icons-material/Edit';
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
-import { initialValuesLancamentoContabilBase, initialValuesLancamentoContabilOperacao } from "../../../../util/MainMenu/LancamentoContabil/constants";
-import { msgAtencao, msgCadSuccess, msgExcludeRLancamentoOperacoes, msgExcludeRLancamentoOperacoesSuccess, msgInsertLancamentoSuccess, msgLancamentoError, msgLancamentoInsertContaError, msgLancamentoInsertDescricaoError, msgLancamentoInsertError, msgLancamentoInsertValoresError, msgLancamentoSaveError } from "../../../../util/applicationresources";
-import React from "react";
-import { getDateFormat, isEligible, verificaContas, verificaValores } from "../../../../util/utils";
+import React, { useState } from "react";
+import { msgAtencao, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess } from "../../../../util/applicationresources";
+import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/ContratoCompraeVenda/constants";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+
 
 const CadastroContratoCompraeVenda = (props) => {
 
-    const { lancamentocontabiloperacao, salvar, limpar, deletelancamentocontabiloperacao, addlancamento, centrosdecusto, contas, contascomplementares } = props;
-    const [filterCdCentrodeCusto, setFilterCdCentrodeCusto] = React.useState({});;
-    const [filterCdConta, setFilterCdConta] = React.useState({});;
-    const [filterCdContaComplementar, setFilterCdContaComplementar] = React.useState({});;
-    const [dataLancamento, setDataLancamento] = React.useState(dayjs());
-    const [valorCredito, setValorCredito] = React.useState(0);
-    const [valorDebito, setValorDebito] = React.useState(0);
+    const { contratocompraevenda, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, minutaspadraocev_db, salvar, limpar } = props;
+    const [filterComprador, setFilterComprador] = useState({});
+    const [filterCompradorProcurador, setFilterCompradorProcurador] = React.useState({});;
+    const [filterVendedor, setFilterVendedor] = React.useState({});;
+    const [filterVendedorProcurador, setFilterVendedorProcurador] = React.useState({});
+    const [filterEndereco, setEndereco] = React.useState({});
+    const [filterCorretorParceiro, setFilterCorretorParceiro] = React.useState({});
+    const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = React.useState(0);
+    const [textoMinuta, setTextoMinuta] = React.useState('');
+    const [disableTextoMinuta, setDisableTextoMinuta] = React.useState(true);
+    const [valorNegocio, setValorNegocio] = React.useState(0);
+    const [prazoRegularizacao, setPrazoRegularizacao] = React.useState(dayjs());
+
     const navigate = useNavigate();
 
-    const handleChange = (newValue) => {
-        setDataLancamento(newValue);
-    };
+
 
     const navigateToComponent = () => {
-        navigate("/operacoes/lancamentocontabil", { state: { value: 1 } });
+        navigate("/operacoes/contratocompraevenda", { state: { value: 1 } });
     };
 
 
-    const handleExcluirLancamento = (l) => {
-        deletelancamentocontabiloperacao(l);
-    };
-
-    const validaValores = () => {
-
-        var totalCredito = 0;
-        var totalDebito = 0;
-        let items = JSON.parse(localStorage.getItem("lancamentoscontabeisaoperacao_db"));
-        items.map((item) => {
-            totalCredito = totalCredito + Number(item.valorCredito);
-            totalDebito = totalDebito + Number(item.valorDebito);
-        });
-
-        return totalCredito !== totalDebito;
-    }
-
-    const addLancamento = () => {
-
-        setValorCredito(isEligible(valorCredito) ? Number(valorCredito) : Number(0));
-        setValorDebito(isEligible(valorDebito) ? Number(valorDebito) : Number(0));
-
-
-        if (!isEligible(formik.values.descLancamento)) {
-
-            Swal.fire({
-                icon: "error",
-                title: msgLancamentoError,
-                text: msgLancamentoInsertDescricaoError,
-            });
-
-        } else {
-
-            if (!verificaContas(filterCdConta.cdTipoConta, filterCdContaComplementar.cdContaComplementar, filterCdCentrodeCusto.cdCentrodeCusto)) {
-
-                Swal.fire({
-                    icon: "error",
-                    title: msgLancamentoError,
-                    text: msgLancamentoInsertContaError,
-                });
-
-
-            } else {
-
-                console.log(valorCredito);
-                console.log(valorDebito);
-
-                if (!verificaValores(valorCredito, valorDebito)) {
-
-                    Swal.fire({
-                        icon: "error",
-                        title: msgLancamentoError,
-                        text: msgLancamentoInsertValoresError,
-                    });
-
-                } else {
-
-                    insertNewLancamento();
-
-                }
-            }
-        }
+    const handleExcluirCompradoreProcurador = (cp) => {
+        deletecompradoreprocurador(cp);
     };
 
 
-    const insertNewLancamento = () => {
+    const handleExcluirVendcedroeProcurador = (vp) => {
+        deletevendedoreprocurador(vp);
+    };
 
-        const newl = initialValuesLancamentoContabilOperacao;
-        newl.descLancamento = formik.values.descLancamento;
-        newl.cdCentrodeCusto = filterCdCentrodeCusto.cdCentrodeCusto;
-        newl.descCentrodeCusto = filterCdCentrodeCusto.descCentrodeCusto;
-        newl.cdConta = filterCdConta.cdContaContabil;
-        newl.descConta = filterCdConta.desContaContabil;
-        newl.cdContaComplementar = filterCdContaComplementar.cdContaComplementar;
-        newl.descContaComplementar = filterCdContaComplementar.desccContaComplementar;
-        newl.valorCredito = valorCredito;
-        newl.valorDebito = valorDebito;
-
-        addlancamento(newl);
-
-        formik.resetForm();
-        setFilterCdCentrodeCusto({});
-        setFilterCdConta({});
-        setFilterCdContaComplementar({});
-        setValorCredito(0);
-        setValorDebito(0);
-    }
-
-    const validaGridOperacoes = () => {
+    const handleExcluirCorretorParceiro = (co) => {
+        deletehonorarios(co);
+    };
 
 
-        let items = JSON.parse(localStorage.getItem("lancamentoscontabeisaoperacao_db"));
 
+    const addCompradoreProcurador = () => {
+        addcompradoreprocurador(filterComprador, filterCompradorProcurador);
+    };
+
+    const addVendedoreProcurador = () => {
+        addvendedoreprocurador(filterVendedor, filterVendedorProcurador);
+    };
+
+
+    const addCorretorParceiro = () => {
+        addhonorarios(filterCorretorParceiro, honorariosCorretorParceiro);
+    };
+
+
+
+
+    const validaGridCompradores = () => {
+
+        let items = JSON.parse(localStorage.getItem("compradorprocuradoroperacao_db"));
         return items.length > 0 ? true : false;
+
     }
 
+    const validaGridVendedores = () => {
+
+        let items = JSON.parse(localStorage.getItem("vendedorprocuradoroperacao_db"));
+        return items.length > 0 ? true : false;
+
+    }
+
+
+    const validaGridHonorarios = () => {
+
+        let items = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
+        return items.length > 0 ? true : false;
+
+    }
+
+
+    const handlePrazoRegularizacao = (newValue) => {
+        setPrazoRegularizacao(newValue);
+    };
+
+
+    const handleChangeTextoMinuta = (newValue) => {
+        setTextoMinuta(newValue);
+    };
 
     const formik = useFormik({
 
         enableReinitialize: true,
-        initialValues: initialValuesLancamentoContabilBase,
+        initialValues: initialContratosdeCompraeVendaBase,
         onSubmit: (values) => {
 
-            if (!validaGridOperacoes()) {
+            //     if (!validaGridOperacoes()) {
 
-                Swal.fire({
-                    icon: "error",
-                    title: msgLancamentoError,
-                    text: msgLancamentoSaveError,
-                });
+            //         Swal.fire({
+            //             icon: "error",
+            //             title: msgLancamentoError,
+            //             text: msgLancamentoSaveError,
+            //         });
 
-            } else {
+            //     } else {
 
-                if (validaValores()) {
+            //         if (validaValores()) {
 
-                    Swal.fire({
-                        icon: "error",
-                        title: msgLancamentoError,
-                        text: msgLancamentoInsertError,
-                    });
+            //             Swal.fire({
+            //                 icon: "error",
+            //                 title: msgLancamentoError,
+            //                 text: msgLancamentoInsertError,
+            //             });
 
-                } else {
+            //         } else {
 
-                    Swal.fire({
-                        icon: "success",
-                        title: msgCadSuccess,
-                        text: msgInsertLancamentoSuccess,
-                    });
+            //             Swal.fire({
+            //                 icon: "success",
+            //                 title: msgCadSuccess,
+            //                 text: msgInsertLancamentoSuccess,
+            //             });
 
-                    values.dataSelecionada = getDateFormat(dataLancamento);
+            //             values.dataSelecionada = getDateFormat(dataLancamento);
 
-                    salvar(values);
-                    formik.resetForm();
-                    navigate("/operacoes/lancamentocontabil");
+            //             salvar(values);
+            //             formik.resetForm();
+            //             navigate("/operacoes/lancamentocontabil");
 
-                }
-            }
+            //         }
+            //     }
         }
-
     });
 
 
@@ -201,7 +173,7 @@ const CadastroContratoCompraeVenda = (props) => {
         <form onSubmit={formik.handleSubmit}>
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Operações</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contrato Compra e Venda</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contrato de Compra e Venda</Typography>
                 <Typography color="text.primary">Cadastrar</Typography>
             </Breadcrumbs>
 
@@ -214,50 +186,36 @@ const CadastroContratoCompraeVenda = (props) => {
                 }}
             >
 
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    <Grid item xs={12}>
-                        <TextField
-                            rows={4}
-                            multiline
-                            size="small"
-                            fullWidth
-                            name="descLancamento"
-                            label="Descrição"
-                            value={formik.values.descLancamento}
-                            onChange={formik.handleChange}
-
-                        />
-                    </Grid>
-
-                </Grid>
+                <Chip label="Promitente Comprador" />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={3}>
 
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Centro de Custo</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Comprador</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="filterCdCentrodeCusto"
-                                label="Centro de Custo"
+                                name="filterComprador"
+                                label="Comprador"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterCdCentrodeCusto}
-                                onChange={(e) => setFilterCdCentrodeCusto(e.target.value)}
-
+                                value={filterComprador}
+                                onChange={(e) => setFilterComprador(e.target.value)}
                             >
-                                {centrosdecusto.map((cdc) => (
+
+                                {compradorvendedornomes.map((nome) => (
                                     <MenuItem
-                                        key={cdc.id}
-                                        value={cdc}
+                                        key={nome.id}
+                                        value={nome}
 
                                     >
-                                        {cdc.descCentrodeCusto}
+                                        {nome.nome}
                                     </MenuItem>
                                 ))}
+
+
                             </Select>
                         </FormControl>
                     </Grid>
@@ -265,26 +223,24 @@ const CadastroContratoCompraeVenda = (props) => {
                     <Grid item xs={3}>
 
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Contas</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Procurador</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
                                 name="filterCdConta"
-                                label="Contas"
+                                label="Procurador"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterCdConta}
-                                onChange={(e) => setFilterCdConta(e.target.value)}
-
-
+                                value={filterCompradorProcurador}
+                                onChange={(e) => setFilterCompradorProcurador(e.target.value)}
                             >
-                                {contas.map((cc) => (
+                                {procuradornomes.map((nome) => (
                                     <MenuItem
-                                        key={cc.id}
-                                        value={cc}
+                                        key={nome.id}
+                                        value={nome}
 
                                     >
-                                        {cc.desContaContabil}
+                                        {nome.nome}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -292,80 +248,6 @@ const CadastroContratoCompraeVenda = (props) => {
                     </Grid>
 
 
-                    <Grid item xs={3}>
-
-                        <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Contas Complementares</InputLabel>
-                            <Select
-                                fullWidth
-                                size="small"
-                                name="filterCdContaComplementar"
-                                label="Contas Complementares"
-                                labelId="select-label-id"
-                                id="select-label-id"
-                                value={filterCdContaComplementar}
-                                onChange={(e) => setFilterCdContaComplementar(e.target.value)}
-
-                            >
-                                {contascomplementares.map((cco) => (
-                                    <MenuItem
-                                        key={cco.id}
-                                        value={cco}
-
-                                    >
-                                        {cco.desccContaComplementar}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-
-
-                </Grid>
-
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    <Grid item xs={3}>
-                        <CurrencyTextField
-                            size="small"
-                            fullWidth
-                            name="valorCredito"
-                            label="Crédito"
-                            variant="standard"
-                            value={valorCredito}
-                            currencySymbol="R$"
-                            decimalCharacter=","
-                            digitGroupSeparator="."
-                            outputFormat="string"
-                            onChange={(event, value) => setValorCredito(value)}
-                        />
-                    </Grid>
-
-                    <Grid item xs={3}>
-
-                        <CurrencyTextField
-                            size="small"
-                            fullWidth
-                            name="valorDebito"
-                            label="Débito"
-                            variant="standard"
-                            value={valorDebito}
-                            currencySymbol="R$"
-                            decimalCharacter=","
-                            digitGroupSeparator="."
-                            outputFormat="string"
-                            onChange={(event, value) => setValorDebito(value)}
-                        />
-
-
-                    </Grid>
-
-
-                </Grid>
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={3}>
 
@@ -374,37 +256,19 @@ const CadastroContratoCompraeVenda = (props) => {
                             color="info"
                             variant="outlined"
                             onClick={() => {
-                                addLancamento();
+                                addCompradoreProcurador();
                             }}
                             startIcon={<AddBoxRoundedIcon />}
                         >
-                            Adicionar Lançamento
+                            Adicionar Comprador
                         </Button>
 
 
                     </Grid>
 
-
-                    <Grid item xs={3}>
-
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                            <DesktopDatePicker
-                                label="Data do Lançamento"
-                                inputFormat="DD/MM/YYYY"
-                                value={dataLancamento}
-                                onChange={handleChange}
-                                renderInput={(params) => <TextField
-                                    fullWidth
-                                    name="dataLancamento"
-                                    size="small"
-                                    {...params} />}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-
-
                 </Grid>
+
+
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -419,47 +283,31 @@ const CadastroContratoCompraeVenda = (props) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left">Descrição</TableCell>
-                                        <TableCell align="left">Centro de Custo</TableCell>
-                                        <TableCell align="left">Conta Contábil</TableCell>
-                                        <TableCell align="left">Conta Complementar</TableCell>
-                                        <TableCell align="left">Crédito</TableCell>
-                                        <TableCell align="left">Débito</TableCell>
-
+                                        <TableCell align="left">Comprador</TableCell>
+                                        <TableCell align="left">Procurador</TableCell>
                                         <TableCell align="center" colSpan={2}></TableCell>
                                     </TableRow>
                                 </TableHead>
 
                                 <>
-                                    {lancamentocontabiloperacao && lancamentocontabiloperacao.length > 0 && (
+                                    {compradoreprocurador && compradoreprocurador.length > 0 && (
                                         <TableBody>
-                                            {lancamentocontabiloperacao.map((lc) => (
-                                                <TableRow key={lc.id}>
-                                                    <TableCell align="left" width="20%">
-                                                        {lc.descLancamento}
+                                            {compradoreprocurador.map((compradoreproc) => (
+                                                <TableRow key={compradoreproc.id}>
+                                                    <TableCell align="left" width="30%">
+                                                        {compradoreproc.nomeComprador}
                                                     </TableCell>
-                                                    <TableCell align="left" width="15%">
-                                                        {lc.descCentrodeCusto}
+                                                    <TableCell align="left" width="30%">
+                                                        {compradoreproc.nomeProcurador}
                                                     </TableCell>
-                                                    <TableCell align="left" width="15%">
-                                                        {lc.descConta}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="15%">
-                                                        {lc.descContaComplementar}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="10%">
-                                                        {lc.valorCredito}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="10%">
-                                                        {lc.valorDebito}
-                                                    </TableCell>
+
 
                                                     <TableCell width="5%" align="center">
                                                         <IconButton
                                                             color="error"
                                                             onClick={() => {
                                                                 Swal.fire({
-                                                                    title: msgExcludeRLancamentoOperacoes,
+                                                                    title: msgExcludeComprador,
                                                                     icon: "warning",
                                                                     showCancelButton: true,
                                                                     confirmButtonColor: "#3085d6",
@@ -468,8 +316,8 @@ const CadastroContratoCompraeVenda = (props) => {
                                                                     cancelButtonText: "Não",
                                                                 }).then((result) => {
                                                                     if (result.isConfirmed) {
-                                                                        Swal.fire(msgAtencao, msgExcludeRLancamentoOperacoesSuccess);
-                                                                        handleExcluirLancamento(lc);
+                                                                        Swal.fire(msgAtencao, msgExcludeCompradorSuccess);
+                                                                        handleExcluirCompradoreProcurador(compradoreproc);
                                                                     }
                                                                 });
                                                             }}
@@ -485,6 +333,531 @@ const CadastroContratoCompraeVenda = (props) => {
                     </Grid>
 
                 </Grid>
+
+                <Chip label="Promitente Vendedor" />
+                <Divider />
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={3}>
+
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="demo-controlled-open-select-label">Vendedor</InputLabel>
+                            <Select
+                                fullWidth
+                                size="small"
+                                name="filterVendedor"
+                                label="Vendedor"
+                                labelId="select-label-id"
+                                id="select-label-id"
+                                value={filterVendedor}
+                                onChange={(e) => setFilterVendedor(e.target.value)}
+                            >
+
+                                {compradorvendedornomes.map((nome) => (
+                                    <MenuItem
+                                        key={nome.id}
+                                        value={nome}
+
+                                    >
+                                        {nome.nome}
+                                    </MenuItem>
+                                ))}
+
+
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={3}>
+
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="demo-controlled-open-select-label">Procurador</InputLabel>
+                            <Select
+                                fullWidth
+                                size="small"
+                                name="filterVendedorProcurador"
+                                label="Procurador"
+                                labelId="select-label-id"
+                                id="select-label-id"
+                                value={filterVendedorProcurador}
+                                onChange={(e) => setFilterVendedorProcurador(e.target.value)}
+                            >
+                                {procuradornomes.map((nome) => (
+                                    <MenuItem
+                                        key={nome.id}
+                                        value={nome}
+
+                                    >
+                                        {nome.nome}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+
+
+                    <Grid item xs={3}>
+
+                        <Button
+                            fullWidth
+                            color="info"
+                            variant="outlined"
+                            onClick={() => {
+                                addVendedoreProcurador();
+                            }}
+                            startIcon={<AddBoxRoundedIcon />}
+                        >
+                            Adicionar Vendedor
+                        </Button>
+
+
+                    </Grid>
+
+                </Grid>
+
+
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={12}>
+
+
+                        <TableContainer component={Paper}>
+                            <Table
+                                sx={{ minWidth: 500 }}
+                                size="small"
+                                aria-label="custom pagination table"
+                            >
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="left">Vendedor</TableCell>
+                                        <TableCell align="left">Procurador</TableCell>
+                                        <TableCell align="center" colSpan={2}></TableCell>
+                                    </TableRow>
+                                </TableHead>
+
+                                <>
+                                    {vendedoreprocurador && vendedoreprocurador.length > 0 && (
+                                        <TableBody>
+                                            {vendedoreprocurador.map((vendedoreproc) => (
+                                                <TableRow key={vendedoreproc.id}>
+                                                    <TableCell align="left" width="30%">
+                                                        {vendedoreproc.nomeVendedor}
+                                                    </TableCell>
+                                                    <TableCell align="left" width="30%">
+                                                        {vendedoreproc.cdNomeProcurador}
+                                                    </TableCell>
+
+
+                                                    <TableCell width="5%" align="center">
+                                                        <IconButton
+                                                            color="error"
+                                                            onClick={() => {
+                                                                Swal.fire({
+                                                                    title: msgExcludeVendedor,
+                                                                    icon: "warning",
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: "#3085d6",
+                                                                    cancelButtonColor: "#d33",
+                                                                    confirmButtonText: "Sim",
+                                                                    cancelButtonText: "Não",
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        Swal.fire(msgAtencao, msgExcludeVendedorSuccess);
+                                                                        handleExcluirVendcedroeProcurador(vendedoreproc);
+                                                                    }
+                                                                });
+                                                            }}
+                                                        >
+                                                            <DeleteRoundedIcon></DeleteRoundedIcon>
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    )}
+                                </></Table></TableContainer>
+                    </Grid>
+
+                </Grid>
+
+                <Chip label="Detalhes Imóvel" />
+                <Divider />
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={3}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="demo-controlled-open-select-label">Endereço</InputLabel>
+                            <Select
+                                fullWidth
+                                size="small"
+                                name="filterEndereco"
+                                label="Endereço"
+                                labelId="select-label-id"
+                                id="select-label-id"
+                                value={filterEndereco}
+                                onChange={(e) => setEndereco(e.target.value)}
+                            >
+                                {endereco.map((nome) => (
+                                    <MenuItem
+                                        key={nome.id}
+                                        value={nome}
+
+                                    >
+                                        {nome.nome}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+
+                    <Grid item xs={2}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="detalhamentoImovel"
+                            label="Detalhamento do Imóvel"
+                            value={formik.values.detalhamentoImovel}
+                            onChange={formik.handleChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+
+                    <Grid item xs={3}>
+                        <CurrencyTextField
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            name="valorNegocio"
+                            label="Valor do Negócio"
+                            // value={valorNegocio}
+                            currencySymbol="R$"
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            outputFormat="string"
+                            value={formik.values.valorNegocio}
+                            onChange={formik.handleChange}
+                        // onChange={(event, value) => setValorNegocio(value)}
+                        />
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="formaPagto"
+                            label="Forma de Pagamento"
+                            value={formik.values.formaPagto}
+                            onChange={formik.handleChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+
+
+                    <Grid item xs={2}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="condicoes"
+                            label="Condições"
+                            value={formik.values.condicoes}
+                            onChange={formik.handleChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+
+
+                </Grid>
+
+                <Chip label="Honorários" />
+                <Divider />
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={3}>
+                        <CurrencyTextField
+                            size="small"
+                            fullWidth
+                            name="honorarioImobiliaria"
+                            label="Honorários Imobiliária"
+                            variant="outlined"
+                            // value={valorNegocio}
+                            currencySymbol="R$"
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            outputFormat="string"
+                            value={formik.values.honorarioImobiliaria}
+                            onChange={formik.handleChange}
+                        // onChange={(event, value) => setValorNegocio(value)}
+                        />
+                    </Grid>
+
+                    <Grid item xs={3}>
+
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="demo-controlled-open-select-label">Corretor Parceiro</InputLabel>
+                            <Select
+                                fullWidth
+                                size="small"
+                                name="filterCorretorParceiro"
+                                label="Corretor Parceiro"
+                                labelId="select-label-id"
+                                id="select-label-id"
+                                value={filterCorretorParceiro}
+                                onChange={(e) => setFilterCorretorParceiro(e.target.value)}
+                            >
+                                {procuradornomes.map((nome) => (
+                                    <MenuItem
+                                        key={nome.id}
+                                        value={nome}
+
+                                    >
+                                        {nome.nome}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+
+
+                    <Grid item xs={3}>
+                        <CurrencyTextField
+                            size="small"
+                            fullWidth
+                            color="primary"
+                            name="honorariosCorretorParceiro"
+                            label="Honorários Corretor"
+                            variant="outlined"
+                            currencySymbol="R$"
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            outputFormat="string"
+                            value={honorariosCorretorParceiro}
+                            onChange={(e) => setHonorariosCorretorParceiro(e.target.value)}
+                        />
+                    </Grid>
+
+
+
+                    <Grid item xs={3}>
+
+                        <Button
+                            fullWidth
+                            color="info"
+                            variant="outlined"
+                            onClick={() => {
+                                addCorretorParceiro();
+                            }}
+                            startIcon={<AddBoxRoundedIcon />}
+                        >
+                            Adicionar Honorário
+                        </Button>
+
+
+                    </Grid>
+
+                </Grid>
+
+
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={12}>
+
+
+                        <TableContainer component={Paper}>
+                            <Table
+                                sx={{ minWidth: 500 }}
+                                size="small"
+                                aria-label="custom pagination table"
+                            >
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="left">Nome Corretor</TableCell>
+                                        <TableCell align="left">Valor Honorário</TableCell>
+                                        <TableCell align="center" colSpan={2}></TableCell>
+                                    </TableRow>
+                                </TableHead>
+
+                                <>
+                                    {honorarioscorretorparceiro && honorarioscorretorparceiro.length > 0 && (
+                                        <TableBody>
+                                            {honorarioscorretorparceiro.map((honorarioscorretor) => (
+                                                <TableRow key={honorarioscorretor.id}>
+                                                    <TableCell align="left" width="30%">
+                                                        {honorarioscorretor.nomeCompleto}
+                                                    </TableCell>
+                                                    <TableCell align="left" width="30%">
+                                                        {honorarioscorretor.valorHonorario}
+                                                    </TableCell>
+
+
+                                                    <TableCell width="5%" align="center">
+                                                        <IconButton
+                                                            color="error"
+                                                            onClick={() => {
+                                                                Swal.fire({
+                                                                    title: msgExcludeHonorario,
+                                                                    icon: "warning",
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: "#3085d6",
+                                                                    cancelButtonColor: "#d33",
+                                                                    confirmButtonText: "Sim",
+                                                                    cancelButtonText: "Não",
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        Swal.fire(msgAtencao, msgExcludeHonorarioSuccess);
+                                                                        handleExcluirCorretorParceiro(honorarioscorretor);
+                                                                    }
+                                                                });
+                                                            }}
+                                                        >
+                                                            <DeleteRoundedIcon></DeleteRoundedIcon>
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    )}
+                                </></Table></TableContainer>
+
+
+                    </Grid>
+
+
+                </Grid>
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={4}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="formaPagtoHonorarios"
+                            label="Forma de Pagamento dos Honorários"
+                            value={formik.values.formaPagtoHonorarios}
+                            onChange={formik.handleChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+
+
+                </Grid>
+
+                <Chip label="Regularidade" />
+
+                <Divider />
+
+
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={4}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="regularidadeImovel"
+                            label="Regularidade do Imóvel"
+                            value={formik.values.regularidadeImovel}
+                            onChange={formik.handleChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+
+
+                    <Grid item xs={4}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="responsabilidadeRegularizacao"
+                            label="Responsabilidade pela Regularização"
+                            value={formik.values.responsabilidadeRegularizacao}
+                            onChange={formik.handleChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+
+
+                    <Grid item xs={4}>
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+                            <DesktopDatePicker
+                                label="Prazo de Regularização"
+                                inputFormat="DD/MM/YYYY"
+                                value={prazoRegularizacao}
+                                onChange={handlePrazoRegularizacao}
+                                renderInput={(params) => <TextField
+                                    fullWidth
+                                    name="prazoRegularizacao"
+                                    size="small"
+                                    {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+
+                </Grid>
+
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={4}></Grid>
+
+                </Grid>
+
+
+                <Chip label="Minuta" />
+
+                <Divider />
+
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={12}>
+                        <Button
+                            disabled={false}
+                            color="info"
+                            variant="outlined"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setDisableTextoMinuta(false);
+                            }}
+                            startIcon={<EditIcon />}
+                        >
+                            Editar Minuta
+                        </Button>
+                    </Grid>
+
+                </Grid>
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item xs={12}>
+                        <TextField
+                            rows={12}
+                            multiline
+                            size="small"
+                            fullWidth
+                            name="textoMinuta"
+                            label="Texto Minuta Padrão"
+                            value={minutaspadraocev_db.texto}
+                            // onChange={handleChangeTextoMinuta}
+                            onChange={(e) => setTextoMinuta(e.target.value)}
+                            disabled={disableTextoMinuta}
+                        />
+                    </Grid>
+
+                </Grid>
+
+
+
+
+
+
 
                 <Grid container spacing={2} justifyContent="flex-start">
                     <Grid item>
@@ -506,9 +879,9 @@ const CadastroContratoCompraeVenda = (props) => {
                                 e.preventDefault();
                                 formik.resetForm();
                                 limpar();
-                                setFilterCdCentrodeCusto({});
-                                setFilterCdConta({});
-                                setFilterCdContaComplementar({});
+                                // setFilterCdCentrodeCusto({});
+                                // setFilterCdConta({});
+                                // setFilterCdContaComplementar({});
                             }}
                             startIcon={<RefreshIcon />}
                         >
