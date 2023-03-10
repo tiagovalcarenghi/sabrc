@@ -13,7 +13,7 @@ const EnderecoCad = () => {
     useEffect(() => {
         console.log(location.state);
 
-        if (!location.state) {
+        if (!location.state.id) {
             setEnderecoEmEdicao(initialValuesEnderecos);
             return;
         }

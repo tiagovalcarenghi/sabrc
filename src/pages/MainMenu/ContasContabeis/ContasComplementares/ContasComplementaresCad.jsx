@@ -11,7 +11,7 @@ const ContasComplementaresCad = () => {
     const [nomesDb, setnomesDb] = useState([]);
 
     useEffect(() => {
-        if (!location.state) {
+        if (!location.state.id) {
             setContaComplementarEmEdicao(initialValuesContasComplementares);
             return;
         }

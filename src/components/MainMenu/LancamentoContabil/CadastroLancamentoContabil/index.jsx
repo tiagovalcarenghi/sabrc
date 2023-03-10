@@ -321,6 +321,25 @@ const CadastroLancamentoContabil = (props) => {
                     </Grid>
 
 
+                    <Grid item xs={3}>
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+                            <DesktopDatePicker
+                                label="Data do Lançamento"
+                                inputFormat="DD/MM/YYYY"
+                                value={dataLancamento}
+                                onChange={handleChange}
+                                renderInput={(params) => <TextField
+                                    fullWidth
+                                    name="dataLancamento"
+                                    size="small"
+                                    {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+
+
 
                 </Grid>
 
@@ -363,10 +382,6 @@ const CadastroLancamentoContabil = (props) => {
                     </Grid>
 
 
-                </Grid>
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
                     <Grid item xs={3}>
 
                         <Button
@@ -385,26 +400,9 @@ const CadastroLancamentoContabil = (props) => {
                     </Grid>
 
 
-                    <Grid item xs={3}>
-
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                            <DesktopDatePicker
-                                label="Data do Lançamento"
-                                inputFormat="DD/MM/YYYY"
-                                value={dataLancamento}
-                                onChange={handleChange}
-                                renderInput={(params) => <TextField
-                                    fullWidth
-                                    name="dataLancamento"
-                                    size="small"
-                                    {...params} />}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-
 
                 </Grid>
+
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 

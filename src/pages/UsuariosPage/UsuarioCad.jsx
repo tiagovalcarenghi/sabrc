@@ -12,7 +12,7 @@ const UsuarioCad = () => {
     useEffect(() => {
         console.log(location.state);
 
-        if (!location.state) {
+        if (!location.state.id) {
             setUsuarioEmEdicao(initialUsuarios);
             return;
         }

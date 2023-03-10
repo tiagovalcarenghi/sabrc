@@ -13,7 +13,7 @@ const CentrodeCustoCad = () => {
     useEffect(() => {
         console.log(location.state);
 
-        if (!location.state) {
+        if (!location.state.id) {
             setcentrodeCustoEmEdicao(initialValuesCentrodeCusto);
             return;
         }
