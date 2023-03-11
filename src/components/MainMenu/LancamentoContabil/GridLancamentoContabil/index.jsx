@@ -120,9 +120,9 @@ const GridLancamentoContabil = (props) => {
     const [filterCdConta, setFilterCdConta] = useState("");
     const [filterCdContaComplementar, setFilterCdContaComplementar] = useState("");
     const [filterIsValido, setFilterIsValido] = useState("");
-    const [filterDataInicial, setFilterDataInicial] = React.useState(dayjs());
-    const [filterDataFinal, setFilterDataFinal] = React.useState(dayjs());
-    const [checked, setChecked] = React.useState(false);
+    const [filterDataInicial, setFilterDataInicial] = useState(dayjs());
+    const [filterDataFinal, setFilterDataFinal] = useState(dayjs());
+    const [checked, setChecked] = useState(false);
 
     const handleExcluir = (lancamentocontabil) => {
         deletelancamentocontabil(lancamentocontabil);
@@ -172,8 +172,8 @@ const GridLancamentoContabil = (props) => {
     };
 
     //----------PAGINATION START--------////
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     // Avoid a layout jump when reaching the last page with empty rows.
     // const emptyRows =

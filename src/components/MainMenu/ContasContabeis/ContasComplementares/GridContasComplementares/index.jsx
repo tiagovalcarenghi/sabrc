@@ -104,8 +104,8 @@ const GridContasComplementares = (props) => {
     const { contascomplementares_db, deletecontacomplementar, filter, disableDelete, } = props;
 
     const [filterDesContaComplementar, setFilterDesContaComplementar] = useState("");
-    const [checked, setChecked] = React.useState(false);
-    const [filterIsBanco, setFilterIsBanco] = React.useState(false);
+    const [checked, setChecked] = useState(false);
+    const [filterIsBanco, setFilterIsBanco] = useState(false);
 
     const handleExcluir = (conta) => {
         deletecontacomplementar(conta);
@@ -143,8 +143,8 @@ const GridContasComplementares = (props) => {
     };
 
     //----------PAGINATION START--------////
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
