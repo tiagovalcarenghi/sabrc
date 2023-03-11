@@ -57,3 +57,4 @@ export const msgExcludeVendedor = "Tem certeza que deseja remover este vendedor 
 export const msgExcludeVendedorSuccess = "Vendedor e procurador removidos com sucesso.";
 export const msgExcludeHonorario = "Tem certeza que deseja remover este corretor parceiro?";
 export const msgExcludeHonorarioSuccess = "Corretor parceiro removido com sucesso.";
+export const msgInsertContratoCompraeVendaSuccess = "Contrato salvo com sucesso.";

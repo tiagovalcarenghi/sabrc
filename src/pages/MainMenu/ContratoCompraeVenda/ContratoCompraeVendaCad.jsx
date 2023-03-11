@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroContratoCompraeVenda from "../../../components/MainMenu/ContratoCompraeVenda/CadastroContratoCompraeVenda";
-import { initialCompradorProcuradorOperacao, initialContratosdeCompraeVendaBase, initialHonorariosCorretorParceiroOperacoes, initialVendedorProcuradorOperacao } from "../../../util/MainMenu/ContratoCompraeVenda/constants";
+import { initialCompradorProcuradorBase, initialCompradorProcuradorOperacao, initialContratosdeCompraeVendaBase, initialHonorariosCorretorParceiroOperacoes, initialVendedorProcuradorOperacao } from "../../../util/MainMenu/ContratoCompraeVenda/constants";
 import { initialValuesMinutasPadraoCeV } from "../../../util/MainMenu/MinutasPadrao/ContratoCompraeVenda/constants";
 import { isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
@@ -210,18 +210,64 @@ const ContratoCompraeVendaCad = () => {
 
     const salvarContratoCompraeVenda = (ccv) => {
 
-        // insertContratoCompraeVenda();
-        // insertCompradores();
+
+        var newDataContratoCompraeVenda = initialContratosdeCompraeVendaBase;
+
+        var contratoCeVSBase = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
+        var getIdContrato = contratoCeVSBase.length;
+        var getCdContrato = !isEligible(contratoCeVSBase.length) ? 1 : contratoCeVSBase.length + 1;
+
+        newDataContratoCompraeVenda.id = !isEligible(getIdContrato) || !isEligible(getIdContrato.length) ? 1 : getIdContrato[getIdContrato.length - 1].id + 1;
+
+        insertCompradores(getCdContrato);
         // insertVendedores();
         // insertHonorarios();
+        // insertContratoCompraeVenda();
 
 
-        // updateContratoCompraeVenda();
         // updateCompradores();
         // updateVendedores();
         // updateHonorarios();
+        // updateContratoCompraeVenda();
+
 
     };
+
+    const insertCompradores = (cdContrato) => {
+
+        var newComprador = {};
+        const listCompradores = [];
+
+        const compradorDb = JSON.parse(localStorage.getItem("compradorprocurador_db"));
+        var getCd = !isEligible(compradorDb.length) ? 1 : compradorDb.length + 1;
+        var getId = compradorDb.length;
+
+        const compradorOperacao = JSON.parse(localStorage.getItem("compradorprocuradoroperacao_db"));
+
+        compradorOperacao.map((item) => {
+
+            getId = !isEligible(getId) ? 1 : getId + 1;
+
+            newComprador.id = getId;
+            newComprador.cdContratoCompraeVenda = cdContrato;
+            newComprador.cdCompradorProcurador = getCd;
+            newComprador.cdNomeComprador = item.cdNomeComprador;
+            newComprador.nomeComprador = item.nomeComprador;
+            newComprador.cdTipoNomeComprador = item.cdTipoNomeComprador;
+            newComprador.cdNomeProcurador = item.cdNomeProcurador;
+            newComprador.nomeProcurador = item.nomeProcurador;
+            newComprador.cdTipoNomeProcurador = item.cdTipoNomeProcurador;
+
+            listCompradores.push(newComprador);
+            newComprador = {};
+
+        });
+
+        const verifica = JSON.parse(localStorage.getItem("compradorprocurador_db"));
+        const nlc = !isEligible(verifica.length) ? listCompradores : verifica.concat(listCompradores);
+        localStorage.setItem("compradorprocurador_db", JSON.stringify(nlc));
+
+    }
 
 
     const limparContratoCompraeVenda = () => {

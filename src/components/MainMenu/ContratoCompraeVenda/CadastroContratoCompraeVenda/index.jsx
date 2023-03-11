@@ -31,19 +31,19 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { msgAtencao, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess } from "../../../../util/applicationresources";
+import { msgAtencao, msgCadSuccess, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess } from "../../../../util/applicationresources";
 import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/ContratoCompraeVenda/constants";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { isEligible } from "../../../../util/utils";
+import { getDateFormat, isEligible } from "../../../../util/utils";
 
 
 const CadastroContratoCompraeVenda = (props) => {
 
-    const { contratocompraevenda, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, minutaspadraocev_db, salvar, limpar } = props;
+    const { contratocompraevenda, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar } = props;
     const [filterComprador, setFilterComprador] = useState({});
     const [filterCompradorProcurador, setFilterCompradorProcurador] = useState({});;
     const [filterVendedor, setFilterVendedor] = useState({});;
@@ -52,7 +52,7 @@ const CadastroContratoCompraeVenda = (props) => {
     const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
     const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
     const [textoMinuta, setTextoMinuta] = useState('');
-    const [radioMinuta, setRadioMinutaValue] = useState();
+    const [radioMinuta, setRadioMinutaValue] = useState('padrao');
     const [showMinuta, setShowMinuta] = useState('hidden');
     const [showDisplay, setShowDisplay] = useState('none');
     const [showDisplayPrint, setShowDisplayPrint] = useState('block');
@@ -185,7 +185,33 @@ const CadastroContratoCompraeVenda = (props) => {
 
             //         }
             //     }
+
+
+            Swal.fire({
+                icon: "success",
+                title: msgCadSuccess,
+                text: msgInsertContratoCompraeVendaSuccess,
+            });
+
+            values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
+            if (radioMinuta !== 'padrao') {
+                values.textoMinuta = textoMinuta;
+            }
+            values.valorNegocio = valorNegocio;
+            values.honorarioImobiliaria = honorariosImobiliaria;
+
+
+            salvar(values);
+            formik.resetForm();
+            navigate("/operacoes/lancamentocontabil");
+
         }
+
+
+
+
+
+
     });
 
 
