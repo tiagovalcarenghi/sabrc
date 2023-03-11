@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import IconExpandLess from "@material-ui/icons/ExpandLess";
 import IconExpandMore from "@material-ui/icons/ExpandMore";
@@ -32,7 +32,7 @@ export type AppMenuItemProps = AppMenuItemPropsWithoutItems & {
 const AppMenuItem = (props: AppMenuItemProps) => {
   const { name, link, sx, Icon, items = [] } = props;
   const isExpandable = items && items.length > 0;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   function handleClick() {
     setOpen(!open);

@@ -10,7 +10,10 @@ import {
     Breadcrumbs,
     Typography,
     Divider,
-    Chip
+    Chip,
+    RadioGroup,
+    FormControlLabel,
+    Radio
 } from "@mui/material";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
@@ -24,11 +27,10 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import EditIcon from '@mui/icons-material/Edit';
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { useState } from "react";
 import { msgAtencao, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess } from "../../../../util/applicationresources";
 import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/ContratoCompraeVenda/constants";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
@@ -42,16 +44,20 @@ const CadastroContratoCompraeVenda = (props) => {
 
     const { contratocompraevenda, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, minutaspadraocev_db, salvar, limpar } = props;
     const [filterComprador, setFilterComprador] = useState({});
-    const [filterCompradorProcurador, setFilterCompradorProcurador] = React.useState({});;
-    const [filterVendedor, setFilterVendedor] = React.useState({});;
-    const [filterVendedorProcurador, setFilterVendedorProcurador] = React.useState({});
-    const [filterEndereco, setEndereco] = React.useState({});
-    const [filterCorretorParceiro, setFilterCorretorParceiro] = React.useState({});
-    const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = React.useState(0);
-    const [textoMinuta, setTextoMinuta] = React.useState('');
-    const [disableTextoMinuta, setDisableTextoMinuta] = React.useState(true);
-    const [valorNegocio, setValorNegocio] = React.useState(0);
-    const [prazoRegularizacao, setPrazoRegularizacao] = React.useState(dayjs());
+    const [filterCompradorProcurador, setFilterCompradorProcurador] = useState({});;
+    const [filterVendedor, setFilterVendedor] = useState({});;
+    const [filterVendedorProcurador, setFilterVendedorProcurador] = useState({});
+    const [filterEndereco, setEndereco] = useState({});
+    const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
+    const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
+    const [textoMinuta, setTextoMinuta] = useState('');
+    const [radioMinuta, setRadioMinutaValue] = useState();
+    const [showMinuta, setShowMinuta] = useState('hidden');
+    const [showDisplay, setShowDisplay] = useState('none');
+    const [showDisplayPrint, setShowDisplayPrint] = useState('block');
+
+    const [valorNegocio, setValorNegocio] = useState(0);
+    const [prazoRegularizacao, setPrazoRegularizacao] = useState(dayjs());
 
     const navigate = useNavigate();
 
@@ -121,8 +127,19 @@ const CadastroContratoCompraeVenda = (props) => {
     };
 
 
-    const handleChangeTextoMinuta = (newValue) => {
-        setTextoMinuta(newValue);
+    const handleChangeRadioMinuta = (event) => {
+        setRadioMinutaValue(event.target.value);
+
+        if (event.target.value === 'edit') {
+            setShowMinuta('visible');
+            setShowDisplay('block');
+            setShowDisplayPrint('none');
+        } else {
+            setShowDisplay('none');
+            setShowDisplayPrint('block');
+            setShowMinuta('hidden');
+        }
+
     };
 
     const formik = useFormik({
@@ -785,7 +802,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                     <Grid item xs={4}>
 
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
 
                             <DesktopDatePicker
                                 label="Prazo de Regularização"
@@ -819,35 +836,31 @@ const CadastroContratoCompraeVenda = (props) => {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={12}>
-                        <Button
-                            disabled={false}
-                            color="info"
-                            variant="outlined"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setDisableTextoMinuta(false);
-                            }}
-                            startIcon={<EditIcon />}
+                        <RadioGroup
+                            aria-labelledby="demo-controlled-radio-buttons-group"
+                            name="controlled-radio-buttons-group"
+                            value={radioMinuta}
+                            onChange={handleChangeRadioMinuta}
+                            row
                         >
-                            Editar Minuta
-                        </Button>
+                            <FormControlLabel value="padrao" control={<Radio />} label="Utilizar Minuta Padrão Compra e Venda" />
+                            <FormControlLabel value="edit" control={<Radio />} label="Editar Minuta para este contrato" />
+                        </RadioGroup>
                     </Grid>
 
                 </Grid>
 
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid item xs={12}>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ visibility: showMinuta }} display={showDisplay} displayPrint={showDisplayPrint} >
+                    <Grid item xs={12}  >
                         <TextField
                             rows={12}
                             multiline
                             size="small"
                             fullWidth
                             name="textoMinuta"
-                            label="Texto Minuta Padrão"
-                            value={minutaspadraocev_db.texto}
-                            // onChange={handleChangeTextoMinuta}
+                            label="Texto Minuta Contrato"
+                            value={textoMinuta}
                             onChange={(e) => setTextoMinuta(e.target.value)}
-                            disabled={disableTextoMinuta}
                         />
                     </Grid>
 

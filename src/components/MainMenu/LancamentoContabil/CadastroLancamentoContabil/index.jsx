@@ -27,7 +27,7 @@ import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { initialValuesLancamentoContabilBase, initialValuesLancamentoContabilOperacao } from "../../../../util/MainMenu/LancamentoContabil/constants";
 import { msgAtencao, msgCadSuccess, msgExcludeRLancamentoOperacoes, msgExcludeRLancamentoOperacoesSuccess, msgInsertLancamentoSuccess, msgLancamentoError, msgLancamentoInsertContaError, msgLancamentoInsertDescricaoError, msgLancamentoInsertError, msgLancamentoInsertValoresError, msgLancamentoSaveError } from "../../../../util/applicationresources";
-import React from "react";
+import React, { useState } from "react";
 import { getDateFormat, isEligible, verificaContas, verificaValores } from "../../../../util/utils";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -38,12 +38,12 @@ import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 const CadastroLancamentoContabil = (props) => {
 
     const { lancamentocontabiloperacao, salvar, limpar, deletelancamentocontabiloperacao, addlancamento, centrosdecusto, contas, contascomplementares } = props;
-    const [filterCdCentrodeCusto, setFilterCdCentrodeCusto] = React.useState({});;
-    const [filterCdConta, setFilterCdConta] = React.useState({});;
-    const [filterCdContaComplementar, setFilterCdContaComplementar] = React.useState({});;
-    const [dataLancamento, setDataLancamento] = React.useState(dayjs());
-    const [valorCredito, setValorCredito] = React.useState(0);
-    const [valorDebito, setValorDebito] = React.useState(0);
+    const [filterCdCentrodeCusto, setFilterCdCentrodeCusto] = useState({});;
+    const [filterCdConta, setFilterCdConta] = useState({});;
+    const [filterCdContaComplementar, setFilterCdContaComplementar] = useState({});;
+    const [dataLancamento, setDataLancamento] = useState(dayjs());
+    const [valorCredito, setValorCredito] = useState(0);
+    const [valorDebito, setValorDebito] = useState(0);
     const navigate = useNavigate();
 
     const handleChange = (newValue) => {

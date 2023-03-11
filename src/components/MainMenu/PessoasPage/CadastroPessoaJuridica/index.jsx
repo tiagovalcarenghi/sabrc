@@ -31,7 +31,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import React from "react";
+import React, { useState } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
@@ -91,7 +91,7 @@ const CadastroPJ = (props) => {
   };
 
 
-  const [selectRepresentanteLegal, setSelectRepresentanteLegal] = React.useState({});
+  const [selectRepresentanteLegal, setSelectRepresentanteLegal] = useState({});
 
   const changeRepresentante = (event) => {
     const {

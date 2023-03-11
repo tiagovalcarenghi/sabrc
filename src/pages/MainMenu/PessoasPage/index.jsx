@@ -43,7 +43,7 @@ function a11yProps(index) {
 }
 
 const PessoasPage = () => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const [disableDelete, setDisableDelete] = useState(true);
   const [disableEdit, setDisableEdit] = useState(true);
 
