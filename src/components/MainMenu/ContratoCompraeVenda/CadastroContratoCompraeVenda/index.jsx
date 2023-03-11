@@ -203,7 +203,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
             salvar(values);
             formik.resetForm();
-            navigate("/operacoes/lancamentocontabil");
+            navigate("/operacoes/contratocompraevenda");
 
         }
 
@@ -232,7 +232,7 @@ const CadastroContratoCompraeVenda = (props) => {
                 }}
             >
 
-                <Chip label="Promitente Comprador" />
+                <Chip label="PROMINETE COMPRADOR" />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -380,7 +380,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                <Chip label="Promitente Vendedor" />
+                <Chip label="PROMINENTE VENDEDOR" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -529,7 +529,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                <Chip label="Detalhes Imóvel" />
+                <Chip label="DETALHES IMÓVEL" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -620,7 +620,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                <Chip label="Honorários" />
+                <Chip label="HONORÁRIOS" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -804,7 +804,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                <Chip label="Regularidade" />
+                <Chip label="REGULARIDADE" />
 
                 <Divider />
 
@@ -866,7 +866,7 @@ const CadastroContratoCompraeVenda = (props) => {
                 </Grid>
 
 
-                <Chip label="Minuta" />
+                <Chip label="MINUTA" />
 
                 <Divider />
 

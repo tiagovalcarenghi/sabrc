@@ -55,6 +55,7 @@ export const initialCompradorProcuradorOperacao = {
 export const initialVendedorProcuradorBase = {
     id: '',
     cdContratoCompraeVenda: '',
+    cdVendedorProcurador: '',
     cdNomeVendedor: '',
     nomeVendedor: '',
     cdTipoNomeVendedor: '',

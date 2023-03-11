@@ -220,8 +220,8 @@ const ContratoCompraeVendaCad = () => {
         newDataContratoCompraeVenda.id = !isEligible(getIdContrato) || !isEligible(getIdContrato.length) ? 1 : getIdContrato[getIdContrato.length - 1].id + 1;
 
         insertCompradores(getCdContrato);
-        // insertVendedores();
-        // insertHonorarios();
+        insertVendedores(getCdContrato);
+        insertHonorarios(getCdContrato);
         // insertContratoCompraeVenda();
 
 
@@ -266,6 +266,77 @@ const ContratoCompraeVendaCad = () => {
         const verifica = JSON.parse(localStorage.getItem("compradorprocurador_db"));
         const nlc = !isEligible(verifica.length) ? listCompradores : verifica.concat(listCompradores);
         localStorage.setItem("compradorprocurador_db", JSON.stringify(nlc));
+
+    }
+
+
+
+    const insertVendedores = (cdContrato) => {
+
+        var newVendedor = {};
+        const listVendedores = [];
+
+        const cvendedorDb = JSON.parse(localStorage.getItem("vendedorprocurador_db"));
+        var getCd = !isEligible(cvendedorDb.length) ? 1 : cvendedorDb.length + 1;
+        var getId = cvendedorDb.length;
+
+        const vendedorOperacao = JSON.parse(localStorage.getItem("vendedorprocuradoroperacao_db"));
+
+        vendedorOperacao.map((item) => {
+
+            getId = !isEligible(getId) ? 1 : getId + 1;
+
+            newVendedor.id = getId;
+            newVendedor.cdContratoCompraeVenda = cdContrato;
+            newVendedor.cdVendedorProcurador = getCd;
+            newVendedor.cdNomeVendedor = item.cdNomeVendedor;
+            newVendedor.nomeVendedor = item.nomeVendedor;
+            newVendedor.cdTipoNomeVendedor = item.cdTipoNomeVendedor;
+            newVendedor.cdNomeProcurador = item.cdNomeProcurador;
+            newVendedor.nomeProcurador = item.nomeProcurador;
+            newVendedor.cdTipoNomeProcurador = item.cdTipoNomeProcurador;
+
+            listVendedores.push(newVendedor);
+            newVendedor = {};
+
+        });
+
+        const verifica = JSON.parse(localStorage.getItem("vendedorprocurador_db"));
+        const nlc = !isEligible(verifica.length) ? listVendedores : verifica.concat(listVendedores);
+        localStorage.setItem("vendedorprocurador_db", JSON.stringify(nlc));
+
+    }
+
+    const insertHonorarios = (cdContrato) => {
+
+        var newCorretorParceiro = {};
+        const listCorretoresParceiros = [];
+
+        const corretorParceiroDb = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
+        var getCd = !isEligible(corretorParceiroDb.length) ? 1 : corretorParceiroDb.length + 1;
+        var getId = corretorParceiroDb.length;
+
+        const corretorParceiroOperacao = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
+
+        corretorParceiroOperacao.map((item) => {
+
+            getId = !isEligible(getId) ? 1 : getId + 1;
+
+            newCorretorParceiro.id = getId;
+            newCorretorParceiro.cdContratoCompraeVenda = cdContrato;
+            newCorretorParceiro.cdHonorariosCorretorParceiro = getCd;
+            newCorretorParceiro.cdPessoaFisica = item.cdPessoaFisica;
+            newCorretorParceiro.nomeCompleto = item.nomeCompleto;
+            newCorretorParceiro.valorHonorario = item.valorHonorario;
+
+            listCorretoresParceiros.push(newCorretorParceiro);
+            newCorretorParceiro = {};
+
+        });
+
+        const verifica = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
+        const nlc = !isEligible(verifica.length) ? listCorretoresParceiros : verifica.concat(listCorretoresParceiros);
+        localStorage.setItem("honorarioscorretorparceiro_db", JSON.stringify(nlc));
 
     }
 
