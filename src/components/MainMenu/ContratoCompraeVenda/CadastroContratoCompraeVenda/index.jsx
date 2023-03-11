@@ -38,6 +38,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { isEligible } from "../../../../util/utils";
 
 
 const CadastroContratoCompraeVenda = (props) => {
@@ -55,13 +56,14 @@ const CadastroContratoCompraeVenda = (props) => {
     const [showMinuta, setShowMinuta] = useState('hidden');
     const [showDisplay, setShowDisplay] = useState('none');
     const [showDisplayPrint, setShowDisplayPrint] = useState('block');
-
-    const [valorNegocio, setValorNegocio] = useState(0);
     const [prazoRegularizacao, setPrazoRegularizacao] = useState(dayjs());
+    const [valorNegocio, setValorNegocio] = useState(0);
+    const [honorariosImobiliaria, setHonorariosImobiliaria] = useState(0);
+
+
+
 
     const navigate = useNavigate();
-
-
 
     const navigateToComponent = () => {
         navigate("/operacoes/contratocompraevenda", { state: { value: 1 } });
@@ -93,33 +95,34 @@ const CadastroContratoCompraeVenda = (props) => {
 
 
     const addCorretorParceiro = () => {
+
+        setHonorariosCorretorParceiro(isEligible(honorariosCorretorParceiro) ? Number(honorariosCorretorParceiro) : Number(0));
+
         addhonorarios(filterCorretorParceiro, honorariosCorretorParceiro);
     };
 
 
+    // const validaGridCompradores = () => {
+
+    //     let items = JSON.parse(localStorage.getItem("compradorprocuradoroperacao_db"));
+    //     return items.length > 0 ? true : false;
+
+    // }
+
+    // const validaGridVendedores = () => {
+
+    //     let items = JSON.parse(localStorage.getItem("vendedorprocuradoroperacao_db"));
+    //     return items.length > 0 ? true : false;
+
+    // }
 
 
-    const validaGridCompradores = () => {
+    // const validaGridHonorarios = () => {
 
-        let items = JSON.parse(localStorage.getItem("compradorprocuradoroperacao_db"));
-        return items.length > 0 ? true : false;
+    //     let items = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
+    //     return items.length > 0 ? true : false;
 
-    }
-
-    const validaGridVendedores = () => {
-
-        let items = JSON.parse(localStorage.getItem("vendedorprocuradoroperacao_db"));
-        return items.length > 0 ? true : false;
-
-    }
-
-
-    const validaGridHonorarios = () => {
-
-        let items = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
-        return items.length > 0 ? true : false;
-
-    }
+    // }
 
 
     const handlePrazoRegularizacao = (newValue) => {
@@ -464,7 +467,7 @@ const CadastroContratoCompraeVenda = (props) => {
                                                         {vendedoreproc.nomeVendedor}
                                                     </TableCell>
                                                     <TableCell align="left" width="30%">
-                                                        {vendedoreproc.cdNomeProcurador}
+                                                        {vendedoreproc.nomeProcurador}
                                                     </TableCell>
 
 
@@ -505,7 +508,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-controlled-open-select-label">Endereço</InputLabel>
                             <Select
@@ -532,7 +535,7 @@ const CadastroContratoCompraeVenda = (props) => {
                     </Grid>
 
 
-                    <Grid item xs={2}>
+                    <Grid item xs={5}>
                         <TextField
                             size="small"
                             fullWidth
@@ -551,18 +554,19 @@ const CadastroContratoCompraeVenda = (props) => {
                             fullWidth
                             name="valorNegocio"
                             label="Valor do Negócio"
-                            // value={valorNegocio}
+                            value={valorNegocio}
                             currencySymbol="R$"
                             decimalCharacter=","
                             digitGroupSeparator="."
                             outputFormat="string"
-                            value={formik.values.valorNegocio}
-                            onChange={formik.handleChange}
-                        // onChange={(event, value) => setValorNegocio(value)}
+                            onChange={(event, value) => setValorNegocio(value)}
                         />
                     </Grid>
+                </Grid>
 
-                    <Grid item xs={2}>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={6}>
                         <TextField
                             size="small"
                             fullWidth
@@ -575,7 +579,7 @@ const CadastroContratoCompraeVenda = (props) => {
                     </Grid>
 
 
-                    <Grid item xs={2}>
+                    <Grid item xs={6}>
                         <TextField
                             size="small"
                             fullWidth
@@ -595,23 +599,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-                    <Grid item xs={3}>
-                        <CurrencyTextField
-                            size="small"
-                            fullWidth
-                            name="honorarioImobiliaria"
-                            label="Honorários Imobiliária"
-                            variant="outlined"
-                            // value={valorNegocio}
-                            currencySymbol="R$"
-                            decimalCharacter=","
-                            digitGroupSeparator="."
-                            outputFormat="string"
-                            value={formik.values.honorarioImobiliaria}
-                            onChange={formik.handleChange}
-                        // onChange={(event, value) => setValorNegocio(value)}
-                        />
-                    </Grid>
+
 
                     <Grid item xs={3}>
 
@@ -655,9 +643,12 @@ const CadastroContratoCompraeVenda = (props) => {
                             digitGroupSeparator="."
                             outputFormat="string"
                             value={honorariosCorretorParceiro}
-                            onChange={(e) => setHonorariosCorretorParceiro(e.target.value)}
+                            onChange={(event, value) => setHonorariosCorretorParceiro(value)}
                         />
                     </Grid>
+
+
+
 
 
 
@@ -751,7 +742,26 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-                    <Grid item xs={4}>
+
+
+                    <Grid item xs={6}>
+                        <CurrencyTextField
+                            size="small"
+                            fullWidth
+                            name="honorarioImobiliaria"
+                            label="Honorários Imobiliária"
+                            variant="outlined"
+                            currencySymbol="R$"
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            outputFormat="string"
+                            value={honorariosImobiliaria}
+                            onChange={(event, value) => setHonorariosImobiliaria(value)}
+                        />
+                    </Grid>
+
+
+                    <Grid item xs={6}>
                         <TextField
                             size="small"
                             fullWidth
@@ -762,6 +772,8 @@ const CadastroContratoCompraeVenda = (props) => {
                             InputLabelProps={{ shrink: true }}
                         />
                     </Grid>
+
+
 
 
                 </Grid>
