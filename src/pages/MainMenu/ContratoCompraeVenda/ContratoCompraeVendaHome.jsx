@@ -4,7 +4,7 @@ import { isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 
-const ContratoCompraeVendaHome = (props) => {
+const ContratoCompraeVendaHome = () => {
 
     const [disableDelete, setDisableDelete] = useState(true);
     const [disableEdit, setDisableEdit] = useState(true);
@@ -133,7 +133,7 @@ const ContratoCompraeVendaHome = (props) => {
         <>
             <AppMenu>
                 <GridContratoCompraeVenda
-                    contratocompraevendabase_db={contratoCompraeVendaDb}
+                    contratocompraevendagrid_db={contratoCompraeVendaDb}
                     deletacontratocompraevenda={deleteContratoCompraeVenda}
                     validacontratocompraevenda={validaContratoCompraeVenda}
                     filter={filtraContratoCompraeVenda}

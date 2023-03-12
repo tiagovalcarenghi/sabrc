@@ -58,3 +58,4 @@ export const msgExcludeVendedorSuccess = "Vendedor e procurador removidos com su
 export const msgExcludeHonorario = "Tem certeza que deseja remover este corretor parceiro?";
 export const msgExcludeHonorarioSuccess = "Corretor parceiro removido com sucesso.";
 export const msgInsertContratoCompraeVendaSuccess = "Contrato salvo com sucesso.";
+export const msgContratoCompraeVendaMinutaInsertError = "Minuta Padrão está vazia, atualize a minuta padrão ou crie uma para este contrato.";

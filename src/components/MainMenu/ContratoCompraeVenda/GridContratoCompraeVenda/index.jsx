@@ -107,7 +107,7 @@ TablePaginationActions.propTypes = {
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
 const GridContratoCompraeVenda = (props) => {
-    const { contratocompraevendabase_db, deletacontratocompraevenda, validacontratocompraevenda, filter, disableDelete, disableEdit, disableValida } = props;
+    const { contratocompraevendagrid_db, deletacontratocompraevenda, validacontratocompraevenda, filter, disableDelete, disableEdit, disableValida } = props;
 
     const [filterCdContratoCompraeVenda, setFilterCdContratoCompraeVenda] = useState("");
     const [filterEndereco, setFilterEndereco] = useState("");
@@ -149,7 +149,7 @@ const GridContratoCompraeVenda = (props) => {
     };
 
     const verificaNulo = () => {
-        return !!contratocompraevendabase_db ? contratocompraevendabase_db.length : 0;
+        return !!contratocompraevendagrid_db ? contratocompraevendagrid_db.length : 0;
     };
 
     //----------PAGINATION START--------////
@@ -275,14 +275,14 @@ const GridContratoCompraeVenda = (props) => {
                             </TableHead>
 
                             <>
-                                {contratocompraevendabase_db && contratocompraevendabase_db.length > 0 && (
+                                {contratocompraevendagrid_db && contratocompraevendagrid_db.length > 0 && (
                                     <TableBody>
                                         {(rowsPerPage > 0
-                                            ? contratocompraevendabase_db.slice(
+                                            ? contratocompraevendagrid_db.slice(
                                                 page * rowsPerPage,
                                                 page * rowsPerPage + rowsPerPage
                                             )
-                                            : contratocompraevendabase_db
+                                            : contratocompraevendagrid_db
                                         ).map((contrato) => (
                                             <TableRow key={contrato.id}>
                                                 <TableCell align="left" width="15%">
