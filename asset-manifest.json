@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/sab/static/css/main.46e4d252.css",
+    "main.js": "/sab/static/js/main.bff27846.js",
+    "static/js/787.c459a2a8.chunk.js": "/sab/static/js/787.c459a2a8.chunk.js",
+    "static/media/banner-SAB.png": "/sab/static/media/banner-SAB.53e76f221c15d97cb051.png",
+    "index.html": "/sab/index.html",
+    "main.46e4d252.css.map": "/sab/static/css/main.46e4d252.css.map",
+    "main.bff27846.js.map": "/sab/static/js/main.bff27846.js.map",
+    "787.c459a2a8.chunk.js.map": "/sab/static/js/787.c459a2a8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.46e4d252.css",
+    "static/js/main.bff27846.js"
+  ]
+}
