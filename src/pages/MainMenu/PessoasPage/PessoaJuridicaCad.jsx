@@ -14,7 +14,7 @@ const PessoaJuridicaCad = () => {
   useEffect(() => {
     console.log(location.state);
 
-    if (!location.state.id) {
+    if (!location.state) {
       setPessoaJuridicaEmEdicao(initialValuesPJ);
       setrepresentanteLegalEmEdicao(initialValuesRL);
       return;

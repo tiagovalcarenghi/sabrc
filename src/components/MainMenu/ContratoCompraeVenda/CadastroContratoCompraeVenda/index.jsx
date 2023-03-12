@@ -29,21 +29,21 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { msgAtencao, msgCadSuccess, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess } from "../../../../util/applicationresources";
-import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/ContratoCompraeVenda/constants";
+import { msgAtencao, msgCadSuccess, msgContratoCompraeVendaMinutaInsertError, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess, msgLancamentoError } from "../../../../util/applicationresources";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { getDateFormat, isEligible } from "../../../../util/utils";
-
+import { initialValuesMinutasPadraoCeV } from "../../../../util/MainMenu/MinutasPadrao/ContratoCompraeVenda/constants";
+import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/ContratoCompraeVenda/constants";
 
 const CadastroContratoCompraeVenda = (props) => {
 
-    const { contratocompraevenda, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar } = props;
+    const { contratocompraevendacad, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar } = props;
     const [filterComprador, setFilterComprador] = useState({});
     const [filterCompradorProcurador, setFilterCompradorProcurador] = useState({});;
     const [filterVendedor, setFilterVendedor] = useState({});;
@@ -53,22 +53,18 @@ const CadastroContratoCompraeVenda = (props) => {
     const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
     const [textoMinuta, setTextoMinuta] = useState('');
     const [radioMinuta, setRadioMinutaValue] = useState('padrao');
-    const [showMinuta, setShowMinuta] = useState('hidden');
-    const [showDisplay, setShowDisplay] = useState('none');
-    const [showDisplayPrint, setShowDisplayPrint] = useState('block');
     const [prazoRegularizacao, setPrazoRegularizacao] = useState(dayjs());
     const [valorNegocio, setValorNegocio] = useState(0);
     const [honorariosImobiliaria, setHonorariosImobiliaria] = useState(0);
-
-
+    // const [showMinuta, setShowMinuta] = useState('hidden');
+    // const [showMinutaP, setShowMinutaP] = useState('visible');
+    // const [showDisplay, setShowDisplay] = useState('none');
+    // const [showDisplayP, setShowDisplayP] = useState('block');
+    // const [showDisplayPrint, setShowDisplayPrint] = useState('block');
+    // const [showDisplayPrintP, setShowDisplayPrintP] = useState('none');
 
 
     const navigate = useNavigate();
-
-    const navigateToComponent = () => {
-        navigate("/operacoes/contratocompraevenda", { state: { value: 1 } });
-    };
-
 
     const handleExcluirCompradoreProcurador = (cp) => {
         deletecompradoreprocurador(cp);
@@ -102,90 +98,54 @@ const CadastroContratoCompraeVenda = (props) => {
     };
 
 
-    // const validaGridCompradores = () => {
-
-    //     let items = JSON.parse(localStorage.getItem("compradorprocuradoroperacao_db"));
-    //     return items.length > 0 ? true : false;
-
-    // }
-
-    // const validaGridVendedores = () => {
-
-    //     let items = JSON.parse(localStorage.getItem("vendedorprocuradoroperacao_db"));
-    //     return items.length > 0 ? true : false;
-
-    // }
-
-
-    // const validaGridHonorarios = () => {
-
-    //     let items = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
-    //     return items.length > 0 ? true : false;
-
-    // }
-
 
     const handlePrazoRegularizacao = (newValue) => {
         setPrazoRegularizacao(newValue);
     };
 
 
-    const handleChangeRadioMinuta = (event) => {
-        setRadioMinutaValue(event.target.value);
+    // const handleChangeRadioMinuta = (event) => {
+    //     setRadioMinutaValue(event.target.value);
 
-        if (event.target.value === 'edit') {
-            setShowMinuta('visible');
-            setShowDisplay('block');
-            setShowDisplayPrint('none');
-        } else {
-            setShowDisplay('none');
-            setShowDisplayPrint('block');
-            setShowMinuta('hidden');
-        }
+    //     if (event.target.value === 'edit') {
+    //         setShowMinuta('visible');
+    //         setShowDisplay('block');
+    //         setShowDisplayPrint('none');
 
-    };
+    //         setShowDisplayP('none');
+    //         setShowDisplayPrintP('block');
+    //         setShowMinutaP('hidden');
+
+
+
+    //     } else {
+    //         setShowDisplay('none');
+    //         setShowDisplayPrint('block');
+    //         setShowMinuta('hidden');
+
+    //         setShowMinutaP('visible');
+    //         setShowDisplayP('block');
+    //         setShowDisplayPrintP('none');
+    //     }
+
+    // };
 
     const formik = useFormik({
-
         enableReinitialize: true,
-        initialValues: initialContratosdeCompraeVendaBase,
+        initialValues: contratocompraevendacad || initialContratosdeCompraeVendaBase,
         onSubmit: (values) => {
 
-            //     if (!validaGridOperacoes()) {
+            // var mpcev = initialValuesMinutasPadraoCeV;
 
-            //         Swal.fire({
-            //             icon: "error",
-            //             title: msgLancamentoError,
-            //             text: msgLancamentoSaveError,
-            //         });
+            // if (radioMinuta === 'edit') {
+            //     values.textoMinuta = textoMinuta;
+            // } else {
+            //     mpcev = minutaspadraocev_db;
+            //     values.cdMinutaPadraoContratoCeV = mpcev.cdMinutaPadraoContratoCeV;
+            //     values.textoMinuta = mpcev.texto;
+            // }
 
-            //     } else {
-
-            //         if (validaValores()) {
-
-            //             Swal.fire({
-            //                 icon: "error",
-            //                 title: msgLancamentoError,
-            //                 text: msgLancamentoInsertError,
-            //             });
-
-            //         } else {
-
-            //             Swal.fire({
-            //                 icon: "success",
-            //                 title: msgCadSuccess,
-            //                 text: msgInsertLancamentoSuccess,
-            //             });
-
-            //             values.dataSelecionada = getDateFormat(dataLancamento);
-
-            //             salvar(values);
-            //             formik.resetForm();
-            //             navigate("/operacoes/lancamentocontabil");
-
-            //         }
-            //     }
-
+            // alert('0');
 
             Swal.fire({
                 icon: "success",
@@ -194,22 +154,16 @@ const CadastroContratoCompraeVenda = (props) => {
             });
 
             values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
-            if (radioMinuta !== 'padrao') {
-                values.textoMinuta = textoMinuta;
-            }
             values.valorNegocio = valorNegocio;
             values.honorarioImobiliaria = honorariosImobiliaria;
-
+            values.cdEndereco = filterEndereco.cdNomes;
+            values.enderecoCompleto = filterEndereco.nome;
 
             salvar(values);
             formik.resetForm();
             navigate("/operacoes/contratocompraevenda");
 
         }
-
-
-
-
 
 
     });
@@ -861,11 +815,40 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-                    <Grid item xs={4}></Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="posseDefinitiva"
+                            label="Posse Definitiva(dias)"
+                            value={formik.values.posseDefinitiva}
+                            onChange={formik.handleChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="prazoObtencaoFinanciamento"
+                            label="Prazo Para Obtenção do Financiamento(dias)"
+                            value={formik.values.prazoObtencaoFinanciamento}
+                            onChange={formik.handleChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
 
                 </Grid>
 
 
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+                    <Grid item xs={4}></Grid>
+
+                </Grid>
+
+                {/* 
                 <Chip label="MINUTA" />
 
                 <Divider />
@@ -888,7 +871,23 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ visibility: showMinuta }} display={showDisplay} displayPrint={showDisplayPrint} >
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ visibility: showMinutaP }} display={showDisplayP} displayPrint={showDisplayPrintP} >
+                    <Grid item xs={12}  >
+                        <TextField
+                            rows={12}
+                            multiline
+                            size="small"
+                            fullWidth
+                            name="minutaspadraocev_db"
+                            label="Texto Minuta Contrato"
+                            value={isEligible(minutaspadraocev_db) ? minutaspadraocev_db : ''}
+                            disabled={true}
+                        />
+                    </Grid>
+
+                </Grid>
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ visibility: showMinuta }} display={showDisplay} displayPrint={showDisplayPrint}>
                     <Grid item xs={12}  >
                         <TextField
                             rows={12}
@@ -902,9 +901,7 @@ const CadastroContratoCompraeVenda = (props) => {
                         />
                     </Grid>
 
-                </Grid>
-
-
+                </Grid> */}
 
 
 
@@ -929,10 +926,23 @@ const CadastroContratoCompraeVenda = (props) => {
                             onClick={(e) => {
                                 e.preventDefault();
                                 formik.resetForm();
+
+                                setFilterComprador({});
+                                setFilterCompradorProcurador({});;
+                                setFilterVendedor({});;
+                                setFilterVendedorProcurador({});
+                                setEndereco({});
+                                setFilterCorretorParceiro({});
+                                setHonorariosCorretorParceiro(0);
+                                setTextoMinuta('');
+                                setRadioMinutaValue('padrao');
+                                setPrazoRegularizacao(dayjs());
+                                setValorNegocio(0);
+                                setHonorariosImobiliaria(0);
+
                                 limpar();
-                                // setFilterCdCentrodeCusto({});
-                                // setFilterCdConta({});
-                                // setFilterCdContaComplementar({});
+
+
                             }}
                             startIcon={<RefreshIcon />}
                         >
@@ -944,9 +954,8 @@ const CadastroContratoCompraeVenda = (props) => {
                         <Button
                             color="primary"
                             variant="outlined"
-                            onClick={() => {
-                                navigateToComponent();
-                            }}
+                            component={Link}
+                            to="/operacoes/contratocompraevenda"
                             startIcon={<ArrowBackIcon />}
                         >
                             VOLTAR

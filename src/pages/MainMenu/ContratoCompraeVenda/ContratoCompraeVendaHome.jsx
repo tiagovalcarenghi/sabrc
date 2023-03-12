@@ -4,7 +4,7 @@ import { isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 
-const ContratoCompraeVendaHome = (props) => {
+const ContratoCompraeVendaHome = () => {
 
     const [disableDelete, setDisableDelete] = useState(true);
     const [disableEdit, setDisableEdit] = useState(true);
@@ -14,6 +14,7 @@ const ContratoCompraeVendaHome = (props) => {
     useEffect(() => {
         setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
     }, []);
+
 
     useEffect(() => {
         const usuario = JSON.parse(localStorage.getItem("user_storage"));
@@ -57,24 +58,24 @@ const ContratoCompraeVendaHome = (props) => {
 
         localStorage.setItem("contratocompraevendabase_db", JSON.stringify(items));
 
-        deleteLancamentoContabilAll(data);
+        // deleteLancamentoContabilAll(data);
         setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
     };
 
 
-    const deleteLancamentoContabilAll = (data) => {
-        let items = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
-        items.map((item) => {
-            if (item.cdLancamentoContabil === data.cdLancamentoContabil) {
-                item.valorCredito = 0;
-                item.valorDebito = 0;
-                item.isValido = false;
-                item.status = 'CANCELADO';
-            }
-        });
+    // const deleteLancamentoContabilAll = (data) => {
+    //     let items = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
+    //     items.map((item) => {
+    //         if (item.cdLancamentoContabil === data.cdLancamentoContabil) {
+    //             item.valorCredito = 0;
+    //             item.valorDebito = 0;
+    //             item.isValido = false;
+    //             item.status = 'CANCELADO';
+    //         }
+    //     });
 
-        localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(items));
-    };
+    //     localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(items));
+    // };
 
     const validaContratoCompraeVenda = (data) => {
         let items = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
@@ -133,7 +134,7 @@ const ContratoCompraeVendaHome = (props) => {
         <>
             <AppMenu>
                 <GridContratoCompraeVenda
-                    contratocompraevendabase_db={contratoCompraeVendaDb}
+                    contratocompraevendagrid_db={contratoCompraeVendaDb}
                     deletacontratocompraevenda={deleteContratoCompraeVenda}
                     validacontratocompraevenda={validaContratoCompraeVenda}
                     filter={filtraContratoCompraeVenda}
