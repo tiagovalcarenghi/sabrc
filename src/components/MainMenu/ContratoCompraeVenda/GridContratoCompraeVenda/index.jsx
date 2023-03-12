@@ -270,7 +270,7 @@ const GridContratoCompraeVenda = (props) => {
                                 <TableRow>
                                     <TableCell align="left">Número do Contrato</TableCell>
                                     <TableCell align="left">Endereço</TableCell>
-                                    <TableCell align="center" colSpan={2}></TableCell>
+                                    <TableCell align="center" colSpan={3}></TableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -285,10 +285,10 @@ const GridContratoCompraeVenda = (props) => {
                                             : contratocompraevendagrid_db
                                         ).map((contrato) => (
                                             <TableRow key={contrato.id}>
-                                                <TableCell align="left" width="15%">
+                                                <TableCell align="left" width="20%">
                                                     {contrato.cdContratoCompraeVenda}
                                                 </TableCell>
-                                                <TableCell align="left" width="35%">
+                                                <TableCell align="left" width="65%">
                                                     {contrato.enderecoCompleto}
                                                 </TableCell>
 
@@ -333,6 +333,7 @@ const GridContratoCompraeVenda = (props) => {
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
                                                 </TableCell>
+
                                                 <TableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableDelete || !contrato.isValido}

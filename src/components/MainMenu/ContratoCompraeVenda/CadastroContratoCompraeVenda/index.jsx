@@ -51,12 +51,17 @@ const CadastroContratoCompraeVenda = (props) => {
     const [filterEndereco, setEndereco] = useState({});
     const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
     const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
-    const [textoMinuta, setTextoMinuta] = useState(minutaspadraocev_db);
+    const [textoMinuta, setTextoMinuta] = useState('');
     const [radioMinuta, setRadioMinutaValue] = useState('padrao');
-    const [disableMinuta, setDisableMinuta] = useState(true);
     const [prazoRegularizacao, setPrazoRegularizacao] = useState(dayjs());
     const [valorNegocio, setValorNegocio] = useState(0);
     const [honorariosImobiliaria, setHonorariosImobiliaria] = useState(0);
+    const [showMinuta, setShowMinuta] = useState('hidden');
+    const [showMinutaP, setShowMinutaP] = useState('visible');
+    const [showDisplay, setShowDisplay] = useState('none');
+    const [showDisplayP, setShowDisplayP] = useState('block');
+    const [showDisplayPrint, setShowDisplayPrint] = useState('block');
+    const [showDisplayPrintP, setShowDisplayPrintP] = useState('none');
 
 
     const navigate = useNavigate();
@@ -103,9 +108,24 @@ const CadastroContratoCompraeVenda = (props) => {
         setRadioMinutaValue(event.target.value);
 
         if (event.target.value === 'edit') {
-            setDisableMinuta(false);
+            setShowMinuta('visible');
+            setShowDisplay('block');
+            setShowDisplayPrint('none');
+
+            setShowDisplayP('none');
+            setShowDisplayPrintP('block');
+            setShowMinutaP('hidden');
+
+
+
         } else {
-            setDisableMinuta(true);
+            setShowDisplay('none');
+            setShowDisplayPrint('block');
+            setShowMinuta('hidden');
+
+            setShowMinutaP('visible');
+            setShowDisplayP('block');
+            setShowDisplayPrintP('none');
         }
 
     };
@@ -115,6 +135,9 @@ const CadastroContratoCompraeVenda = (props) => {
         initialValues: contratocompraevendacad || initialContratosdeCompraeVendaBase,
         onSubmit: (values) => {
 
+
+
+
             var mpcev = initialValuesMinutasPadraoCeV;
 
             if (radioMinuta === 'edit') {
@@ -123,22 +146,10 @@ const CadastroContratoCompraeVenda = (props) => {
 
             } else {
 
-                const minutasPadraoContratoCeVStorage = JSON.parse(localStorage.getItem("minutaspadraocev_db"));
+                mpcev = minutaspadraocev_db;
 
-                if (minutasPadraoContratoCeVStorage) {
-                    mpcev = minutasPadraoContratoCeVStorage.reduce((max, game) => max.id > game.id ? max : game);
-                    values.cdMinutaPadraoContratoCeV = mpcev.cdMinutaPadraoContratoCeV;
-                    values.textoMinuta = mpcev.texto;
-                } else {
-
-                    Swal.fire({
-                        icon: "error",
-                        title: msgLancamentoError,
-                        text: msgContratoCompraeVendaMinutaInsertError,
-                    });
-
-                    return;
-                }
+                values.cdMinutaPadraoContratoCeV = mpcev.cdMinutaPadraoContratoCeV;
+                values.textoMinuta = mpcev.texto;
 
             }
 
@@ -154,7 +165,6 @@ const CadastroContratoCompraeVenda = (props) => {
             values.honorarioImobiliaria = honorariosImobiliaria;
             values.cdEndereco = filterEndereco.cdNomes;
             values.enderecoCompleto = filterEndereco.nome;
-
 
             salvar(values);
             formik.resetForm();
@@ -868,7 +878,23 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ visibility: showMinutaP }} display={showDisplayP} displayPrint={showDisplayPrintP} >
+                    <Grid item xs={12}  >
+                        <TextField
+                            rows={12}
+                            multiline
+                            size="small"
+                            fullWidth
+                            name="minutaspadraocev_db"
+                            label="Texto Minuta Contrato"
+                            value={isEligible(minutaspadraocev_db) ? minutaspadraocev_db : ''}
+                            disabled={true}
+                        />
+                    </Grid>
+
+                </Grid>
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ visibility: showMinuta }} display={showDisplay} displayPrint={showDisplayPrint}>
                     <Grid item xs={12}  >
                         <TextField
                             rows={12}
@@ -879,11 +905,11 @@ const CadastroContratoCompraeVenda = (props) => {
                             label="Texto Minuta Contrato"
                             value={textoMinuta}
                             onChange={(e) => setTextoMinuta(e.target.value)}
-                            disabled={disableMinuta}
                         />
                     </Grid>
 
                 </Grid>
+
 
 
 
@@ -917,7 +943,6 @@ const CadastroContratoCompraeVenda = (props) => {
                                 setHonorariosCorretorParceiro(0);
                                 setTextoMinuta('');
                                 setRadioMinutaValue('padrao');
-                                setDisableMinuta(true);
                                 setPrazoRegularizacao(dayjs());
                                 setValorNegocio(0);
                                 setHonorariosImobiliaria(0);
