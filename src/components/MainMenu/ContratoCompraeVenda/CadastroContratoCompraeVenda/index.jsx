@@ -147,17 +147,17 @@ const CadastroContratoCompraeVenda = (props) => {
 
             // alert('0');
 
-            // Swal.fire({
-            //     icon: "success",
-            //     title: msgCadSuccess,
-            //     text: msgInsertContratoCompraeVendaSuccess,
-            // });
+            Swal.fire({
+                icon: "success",
+                title: msgCadSuccess,
+                text: msgInsertContratoCompraeVendaSuccess,
+            });
 
-            // values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
-            // values.valorNegocio = valorNegocio;
-            // values.honorarioImobiliaria = honorariosImobiliaria;
-            // values.cdEndereco = filterEndereco.cdNomes;
-            // values.enderecoCompleto = filterEndereco.nome;
+            values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
+            values.valorNegocio = valorNegocio;
+            values.honorarioImobiliaria = honorariosImobiliaria;
+            values.cdEndereco = filterEndereco.cdNomes;
+            values.enderecoCompleto = filterEndereco.nome;
 
             salvar(values);
             formik.resetForm();

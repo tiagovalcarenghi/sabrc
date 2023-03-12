@@ -24,10 +24,8 @@ const ContratoCompraeVendaCad = () => {
 
     useEffect(() => {
 
-        carregarNomes();
 
-
-        if (!location.state) {
+        if (!location.state.id) {
             setContratoCompraeVendaEmEdicao(initialContratosdeCompraeVendaBase);
             setCompradorProcuradorEmEdicao(initialCompradorProcuradorOperacao);
             setVendedorProcuradorEmEdicao(initialVendedorProcuradorOperacao);
@@ -35,11 +33,12 @@ const ContratoCompraeVendaCad = () => {
             setCompradorVendedorNomes([]);
             setPessoaFisica([]);
             setEnderecoNomes([]);
+            carregarNomes();
             // carregarMinutaPadraoCeV();
             return;
         }
         carregarContratoCompraeVenda(location.state.id);
-    }, [location.state]);
+    }, [location.state.id]);
 
     const carregarContratoCompraeVenda = async (id) => {
         const contratoStorage = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
@@ -459,6 +458,8 @@ const ContratoCompraeVendaCad = () => {
 
         setHonorariosCorretorParceiroEmEdicao(initialHonorariosCorretorParceiroOperacoes);
         localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify([]));
+
+        carregarNomes();
 
     };
 
