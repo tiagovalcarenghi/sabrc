@@ -43,7 +43,7 @@ import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/Co
 
 const CadastroContratoCompraeVenda = (props) => {
 
-    const { contratocompraevendacad, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar, minutaspadraocev_db } = props;
+    const { contratocompraevendacad, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar } = props;
     const [filterComprador, setFilterComprador] = useState({});
     const [filterCompradorProcurador, setFilterCompradorProcurador] = useState({});;
     const [filterVendedor, setFilterVendedor] = useState({});;
@@ -56,12 +56,12 @@ const CadastroContratoCompraeVenda = (props) => {
     const [prazoRegularizacao, setPrazoRegularizacao] = useState(dayjs());
     const [valorNegocio, setValorNegocio] = useState(0);
     const [honorariosImobiliaria, setHonorariosImobiliaria] = useState(0);
-    const [showMinuta, setShowMinuta] = useState('hidden');
-    const [showMinutaP, setShowMinutaP] = useState('visible');
-    const [showDisplay, setShowDisplay] = useState('none');
-    const [showDisplayP, setShowDisplayP] = useState('block');
-    const [showDisplayPrint, setShowDisplayPrint] = useState('block');
-    const [showDisplayPrintP, setShowDisplayPrintP] = useState('none');
+    // const [showMinuta, setShowMinuta] = useState('hidden');
+    // const [showMinutaP, setShowMinutaP] = useState('visible');
+    // const [showDisplay, setShowDisplay] = useState('none');
+    // const [showDisplayP, setShowDisplayP] = useState('block');
+    // const [showDisplayPrint, setShowDisplayPrint] = useState('block');
+    // const [showDisplayPrintP, setShowDisplayPrintP] = useState('none');
 
 
     const navigate = useNavigate();
@@ -104,67 +104,60 @@ const CadastroContratoCompraeVenda = (props) => {
     };
 
 
-    const handleChangeRadioMinuta = (event) => {
-        setRadioMinutaValue(event.target.value);
+    // const handleChangeRadioMinuta = (event) => {
+    //     setRadioMinutaValue(event.target.value);
 
-        if (event.target.value === 'edit') {
-            setShowMinuta('visible');
-            setShowDisplay('block');
-            setShowDisplayPrint('none');
+    //     if (event.target.value === 'edit') {
+    //         setShowMinuta('visible');
+    //         setShowDisplay('block');
+    //         setShowDisplayPrint('none');
 
-            setShowDisplayP('none');
-            setShowDisplayPrintP('block');
-            setShowMinutaP('hidden');
+    //         setShowDisplayP('none');
+    //         setShowDisplayPrintP('block');
+    //         setShowMinutaP('hidden');
 
 
 
-        } else {
-            setShowDisplay('none');
-            setShowDisplayPrint('block');
-            setShowMinuta('hidden');
+    //     } else {
+    //         setShowDisplay('none');
+    //         setShowDisplayPrint('block');
+    //         setShowMinuta('hidden');
 
-            setShowMinutaP('visible');
-            setShowDisplayP('block');
-            setShowDisplayPrintP('none');
-        }
+    //         setShowMinutaP('visible');
+    //         setShowDisplayP('block');
+    //         setShowDisplayPrintP('none');
+    //     }
 
-    };
+    // };
 
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: contratocompraevendacad || initialContratosdeCompraeVendaBase,
         onSubmit: (values) => {
 
+            // var mpcev = initialValuesMinutasPadraoCeV;
 
+            // if (radioMinuta === 'edit') {
+            //     values.textoMinuta = textoMinuta;
+            // } else {
+            //     mpcev = minutaspadraocev_db;
+            //     values.cdMinutaPadraoContratoCeV = mpcev.cdMinutaPadraoContratoCeV;
+            //     values.textoMinuta = mpcev.texto;
+            // }
 
+            // alert('0');
 
-            var mpcev = initialValuesMinutasPadraoCeV;
+            // Swal.fire({
+            //     icon: "success",
+            //     title: msgCadSuccess,
+            //     text: msgInsertContratoCompraeVendaSuccess,
+            // });
 
-            if (radioMinuta === 'edit') {
-
-                values.textoMinuta = textoMinuta;
-
-            } else {
-
-                mpcev = minutaspadraocev_db;
-
-                values.cdMinutaPadraoContratoCeV = mpcev.cdMinutaPadraoContratoCeV;
-                values.textoMinuta = mpcev.texto;
-
-            }
-
-
-            Swal.fire({
-                icon: "success",
-                title: msgCadSuccess,
-                text: msgInsertContratoCompraeVendaSuccess,
-            });
-
-            values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
-            values.valorNegocio = valorNegocio;
-            values.honorarioImobiliaria = honorariosImobiliaria;
-            values.cdEndereco = filterEndereco.cdNomes;
-            values.enderecoCompleto = filterEndereco.nome;
+            // values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
+            // values.valorNegocio = valorNegocio;
+            // values.honorarioImobiliaria = honorariosImobiliaria;
+            // values.cdEndereco = filterEndereco.cdNomes;
+            // values.enderecoCompleto = filterEndereco.nome;
 
             salvar(values);
             formik.resetForm();
@@ -855,7 +848,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-
+                {/* 
                 <Chip label="MINUTA" />
 
                 <Divider />
@@ -908,7 +901,7 @@ const CadastroContratoCompraeVenda = (props) => {
                         />
                     </Grid>
 
-                </Grid>
+                </Grid> */}
 
 
 
