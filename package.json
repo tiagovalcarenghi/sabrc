@@ -17,6 +17,7 @@
     "@unicef/material-ui-currency-textfield": "^0.8.6",
     "dayjs": "^1.11.7",
     "formik": "^2.2.9",
+    "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5",
