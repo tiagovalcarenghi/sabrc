@@ -31,7 +31,7 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { msgAtencao, msgCadSuccess, msgContratoCompraeVendaMinutaInsertError, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess, msgLancamentoError } from "../../../../util/applicationresources";
+import { msgAtencao, msgCadSuccess, msgContratoCompraeVendaMinutaInsertError, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess, msgLancamentoError, msgLancamentoInsertDescricaoError, msgSaveContratoCompraeVendaError } from "../../../../util/applicationresources";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -147,21 +147,41 @@ const CadastroContratoCompraeVenda = (props) => {
 
             // alert('0');
 
-            Swal.fire({
-                icon: "success",
-                title: msgCadSuccess,
-                text: msgInsertContratoCompraeVendaSuccess,
-            });
 
-            values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
-            values.valorNegocio = valorNegocio;
-            values.honorarioImobiliaria = honorariosImobiliaria;
-            values.cdEndereco = filterEndereco.cdNomes;
-            values.enderecoCompleto = filterEndereco.nome;
+            if (!Object.values(values).every(x => x === null || x === '')) {
 
-            salvar(values);
-            formik.resetForm();
-            navigate("/operacoes/contratocompraevenda");
+                Swal.fire({
+                    icon: "success",
+                    title: msgCadSuccess,
+                    text: msgInsertContratoCompraeVendaSuccess,
+                });
+
+                values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
+                values.valorNegocio = isEligible(valorNegocio) ? valorNegocio : 0;
+                values.honorarioImobiliaria = isEligible(honorariosImobiliaria) ? honorariosImobiliaria : 0;
+                values.cdEndereco = isEligible(filterEndereco.cdNomes) ? filterEndereco.cdNomes : null;
+                values.enderecoCompleto = isEligible(filterEndereco.nome) ? filterEndereco.nome : '';
+                values.detalhamentoImovel = isEligible(values.detalhamentoImovel) ? values.detalhamentoImovel : '';
+                values.formaPagto = isEligible(values.formaPagto) ? values.formaPagto : '';
+                values.condicoes = isEligible(values.condicoes) ? values.condicoes : '';
+                values.formaPagtoHonorarios = isEligible(values.formaPagtoHonorarios) ? values.formaPagtoHonorarios : '';
+                values.regularidadeImovel = isEligible(values.regularidadeImovel) ? values.regularidadeImovel : '';
+                values.responsabilidadeRegularizacao = isEligible(values.responsabilidadeRegularizacao) ? values.responsabilidadeRegularizacao : '';
+                values.posseDefinitiva = isEligible(values.posseDefinitiva) ? values.posseDefinitiva : '';
+                values.prazoObtencaoFinanciamento = isEligible(values.prazoObtencaoFinanciamento) ? values.prazoObtencaoFinanciamento : '';
+
+                salvar(values);
+                formik.resetForm();
+                navigate("/operacoes/contratocompraevenda");
+
+            } else {
+
+                Swal.fire({
+                    icon: "error",
+                    title: msgLancamentoError,
+                    text: msgSaveContratoCompraeVendaError,
+                });
+            }
 
         }
 
