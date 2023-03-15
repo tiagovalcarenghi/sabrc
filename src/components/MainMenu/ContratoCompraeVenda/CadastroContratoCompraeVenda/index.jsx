@@ -46,11 +46,11 @@ const CadastroContratoCompraeVenda = (props) => {
     const { contratocompraevendacad, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar } = props;
     const [filterComprador, setFilterComprador] = useState({});
     const [filterCompradorProcurador, setFilterCompradorProcurador] = useState({});;
-    const [filterVendedor, setFilterVendedor] = useState({});;
-    const [filterVendedorProcurador, setFilterVendedorProcurador] = useState({});
+    // const [filterVendedor, setFilterVendedor] = useState({});;
+    // const [filterVendedorProcurador, setFilterVendedorProcurador] = useState({});
     const [filterEndereco, setEndereco] = useState({});
-    const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
-    const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
+    // const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
+    // const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
     const [textoMinuta, setTextoMinuta] = useState('');
     const [radioMinuta, setRadioMinutaValue] = useState('padrao');
     const [prazoRegularizacao, setPrazoRegularizacao] = useState(dayjs());
@@ -71,13 +71,13 @@ const CadastroContratoCompraeVenda = (props) => {
     };
 
 
-    const handleExcluirVendcedroeProcurador = (vp) => {
-        deletevendedoreprocurador(vp);
-    };
+    // const handleExcluirVendcedroeProcurador = (vp) => {
+    //     deletevendedoreprocurador(vp);
+    // };
 
-    const handleExcluirCorretorParceiro = (co) => {
-        deletehonorarios(co);
-    };
+    // const handleExcluirCorretorParceiro = (co) => {
+    //     deletehonorarios(co);
+    // };
 
 
 
@@ -85,17 +85,15 @@ const CadastroContratoCompraeVenda = (props) => {
         addcompradoreprocurador(filterComprador, filterCompradorProcurador);
     };
 
-    const addVendedoreProcurador = () => {
-        addvendedoreprocurador(filterVendedor, filterVendedorProcurador);
-    };
+    // const addVendedoreProcurador = () => {
+    //     addvendedoreprocurador(filterVendedor, filterVendedorProcurador);
+    // };
 
 
-    const addCorretorParceiro = () => {
-
-        setHonorariosCorretorParceiro(isEligible(honorariosCorretorParceiro) ? Number(honorariosCorretorParceiro) : Number(0));
-
-        addhonorarios(filterCorretorParceiro, honorariosCorretorParceiro);
-    };
+    // const addCorretorParceiro = () => {
+    //     setHonorariosCorretorParceiro(isEligible(honorariosCorretorParceiro) ? Number(honorariosCorretorParceiro) : Number(0));
+    //     addhonorarios(filterCorretorParceiro, honorariosCorretorParceiro);
+    // };
 
 
 
@@ -172,6 +170,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 salvar(values);
                 formik.resetForm();
+                limpar();
                 navigate("/operacoes/contratocompraevenda");
 
             } else {
@@ -354,7 +353,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                <Chip label="PROMINENTE VENDEDOR" />
+                {/* <Chip label="PROMINENTE VENDEDOR" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -501,7 +500,7 @@ const CadastroContratoCompraeVenda = (props) => {
                                 </></Table></TableContainer>
                     </Grid>
 
-                </Grid>
+                </Grid> */}
 
                 <Chip label="DETALHES IMÓVEL" />
                 <Divider />
@@ -594,7 +593,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                <Chip label="HONORÁRIOS" />
+                {/* <Chip label="HONORÁRIOS" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -738,7 +737,7 @@ const CadastroContratoCompraeVenda = (props) => {
                     </Grid>
 
 
-                </Grid>
+                </Grid> */}
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -949,11 +948,11 @@ const CadastroContratoCompraeVenda = (props) => {
 
                                 setFilterComprador({});
                                 setFilterCompradorProcurador({});;
-                                setFilterVendedor({});;
-                                setFilterVendedorProcurador({});
-                                setEndereco({});
-                                setFilterCorretorParceiro({});
-                                setHonorariosCorretorParceiro(0);
+                                // setFilterVendedor({});;
+                                // setFilterVendedorProcurador({});
+                                // setEndereco({});
+                                // setFilterCorretorParceiro({});
+                                // setHonorariosCorretorParceiro(0);
                                 setTextoMinuta('');
                                 setRadioMinutaValue('padrao');
                                 setPrazoRegularizacao(dayjs());
