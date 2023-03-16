@@ -46,8 +46,8 @@ const CadastroContratoCompraeVenda = (props) => {
     const { contratocompraevendacad, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar } = props;
     const [filterComprador, setFilterComprador] = useState({});
     const [filterCompradorProcurador, setFilterCompradorProcurador] = useState({});;
-    // const [filterVendedor, setFilterVendedor] = useState({});;
-    // const [filterVendedorProcurador, setFilterVendedorProcurador] = useState({});
+    const [filterVendedor, setFilterVendedor] = useState({});;
+    const [filterVendedorProcurador, setFilterVendedorProcurador] = useState({});
     const [filterEndereco, setEndereco] = useState({});
     // const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
     // const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
@@ -70,10 +70,9 @@ const CadastroContratoCompraeVenda = (props) => {
         deletecompradoreprocurador(cp);
     };
 
-
-    // const handleExcluirVendcedroeProcurador = (vp) => {
-    //     deletevendedoreprocurador(vp);
-    // };
+    const handleExcluirVendcedroeProcurador = (vp) => {
+        deletevendedoreprocurador(vp);
+    };
 
     // const handleExcluirCorretorParceiro = (co) => {
     //     deletehonorarios(co);
@@ -85,9 +84,9 @@ const CadastroContratoCompraeVenda = (props) => {
         addcompradoreprocurador(filterComprador, filterCompradorProcurador);
     };
 
-    // const addVendedoreProcurador = () => {
-    //     addvendedoreprocurador(filterVendedor, filterVendedorProcurador);
-    // };
+    const addVendedoreProcurador = () => {
+        addvendedoreprocurador(filterVendedor, filterVendedorProcurador);
+    };
 
 
     // const addCorretorParceiro = () => {
@@ -353,7 +352,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                {/* <Chip label="PROMINENTE VENDEDOR" />
+                <Chip label="PROMINENTE VENDEDOR" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -500,7 +499,7 @@ const CadastroContratoCompraeVenda = (props) => {
                                 </></Table></TableContainer>
                     </Grid>
 
-                </Grid> */}
+                </Grid>
 
                 <Chip label="DETALHES IMÓVEL" />
                 <Divider />
