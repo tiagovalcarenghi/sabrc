@@ -49,8 +49,8 @@ const CadastroContratoCompraeVenda = (props) => {
     const [filterVendedor, setFilterVendedor] = useState({});;
     const [filterVendedorProcurador, setFilterVendedorProcurador] = useState({});
     const [filterEndereco, setEndereco] = useState({});
-    // const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
-    // const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
+    const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
+    const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
     const [textoMinuta, setTextoMinuta] = useState('');
     const [radioMinuta, setRadioMinutaValue] = useState('padrao');
     const [prazoRegularizacao, setPrazoRegularizacao] = useState(dayjs());
@@ -74,9 +74,9 @@ const CadastroContratoCompraeVenda = (props) => {
         deletevendedoreprocurador(vp);
     };
 
-    // const handleExcluirCorretorParceiro = (co) => {
-    //     deletehonorarios(co);
-    // };
+    const handleExcluirCorretorParceiro = (co) => {
+        deletehonorarios(co);
+    };
 
 
 
@@ -89,10 +89,10 @@ const CadastroContratoCompraeVenda = (props) => {
     };
 
 
-    // const addCorretorParceiro = () => {
-    //     setHonorariosCorretorParceiro(isEligible(honorariosCorretorParceiro) ? Number(honorariosCorretorParceiro) : Number(0));
-    //     addhonorarios(filterCorretorParceiro, honorariosCorretorParceiro);
-    // };
+    const addCorretorParceiro = () => {
+        setHonorariosCorretorParceiro(isEligible(honorariosCorretorParceiro) ? Number(honorariosCorretorParceiro) : Number(0));
+        addhonorarios(filterCorretorParceiro, honorariosCorretorParceiro);
+    };
 
 
 
@@ -592,7 +592,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
-                {/* <Chip label="HONORÁRIOS" />
+                <Chip label="HONORÁRIOS" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -736,7 +736,7 @@ const CadastroContratoCompraeVenda = (props) => {
                     </Grid>
 
 
-                </Grid> */}
+                </Grid>
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -770,9 +770,6 @@ const CadastroContratoCompraeVenda = (props) => {
                             InputLabelProps={{ shrink: true }}
                         />
                     </Grid>
-
-
-
 
                 </Grid>
 
@@ -947,11 +944,11 @@ const CadastroContratoCompraeVenda = (props) => {
 
                                 setFilterComprador({});
                                 setFilterCompradorProcurador({});;
-                                // setFilterVendedor({});;
-                                // setFilterVendedorProcurador({});
-                                // setEndereco({});
-                                // setFilterCorretorParceiro({});
-                                // setHonorariosCorretorParceiro(0);
+                                setFilterVendedor({});;
+                                setFilterVendedorProcurador({});
+                                setEndereco({});
+                                setFilterCorretorParceiro({});
+                                setHonorariosCorretorParceiro(0);
                                 setTextoMinuta('');
                                 setRadioMinutaValue('padrao');
                                 setPrazoRegularizacao(dayjs());

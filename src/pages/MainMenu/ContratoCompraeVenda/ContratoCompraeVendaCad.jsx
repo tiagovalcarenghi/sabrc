@@ -46,13 +46,13 @@ const ContratoCompraeVendaCad = () => {
             carregarCompradoreseProcuradores(selectContrato[0]);
         }
 
-        if (selectContrato[0].cdCompradorProcurador) {
+        if (selectContrato[0].cdVendedorProcurador) {
             carregarVendedoreseProcuradores(selectContrato[0]);
         }
 
-        // if (selectContrato[0].cdHonorariosCorretorParceiro) {
-        //     carregarHonorariosCorretoresParceiros(selectContrato[0]);
-        // }
+        if (selectContrato[0].cdHonorariosCorretorParceiro) {
+            carregarHonorariosCorretoresParceiros(selectContrato[0]);
+        }
 
         carregarNomes();
         // carregarMinutaEdit(selectContrato[0]);
@@ -172,11 +172,37 @@ const ContratoCompraeVendaCad = () => {
         };
     };
 
-    // const carregarHonorariosCorretoresParceiros = async (selectContrato) => {
-    //     const honorariosStorage = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
-    //     const selectHonorarios = honorariosStorage?.filter((cc) => cc.cdContratoCompraeVenda === selectContrato.cdContratoCompraeVenda);
-    //     setHonorariosCorretorParceiroEmEdicao(selectHonorarios);
-    // };
+    const carregarHonorariosCorretoresParceiros = async (selectContrato) => {
+
+        const honorariosStorage = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
+        const selectHonorarios = honorariosStorage?.filter((cc) => cc.cdContratoCompraeVenda === selectContrato.cdContratoCompraeVenda);
+
+        let honorariosOperacao = {};
+        let listaHonorariosOperacao = [];
+
+
+        if (isEligible(selectHonorarios.length)) {
+
+            selectHonorarios.map((item) => {
+
+                honorariosOperacao.id = item.id;;
+                honorariosOperacao.cdPessoaFisica = item.cdPessoaFisica;
+                honorariosOperacao.nomeCompleto = item.nomeCompleto;
+                honorariosOperacao.valorHonorario = item.valorHonorario;
+
+                listaHonorariosOperacao.push(honorariosOperacao);
+                honorariosOperacao = {};
+
+            });
+
+            const verifica = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
+            const nlc = !isEligible(verifica.length) ? listaHonorariosOperacao : verifica.concat(listaHonorariosOperacao);
+            localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify(nlc));
+
+            setHonorariosCorretorParceiroEmEdicao(nlc);
+        };
+    };
+
 
     const addCompradoreProcurador = (comprador, procurador) => {
 
@@ -251,41 +277,41 @@ const ContratoCompraeVendaCad = () => {
     };
 
 
-    // const addHonorarios = (corretor, honorario) => {
+    const addHonorarios = (corretor, honorario) => {
 
-    //     var newDataCP = initialHonorariosCorretorParceiroOperacoes;
+        var newDataCP = initialHonorariosCorretorParceiroOperacoes;
 
-    //     var getId = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
+        var getId = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
 
-    //     newDataCP.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
-    //     newDataCP.cdPessoaFisica = corretor.cdNomes;
-    //     newDataCP.nomeCompleto = corretor.nome;
-    //     newDataCP.valorHonorario = honorario;
-
-
-    //     const newCorretorParceiro = !isEligible(getId) || !isEligible(getId.length) ? [newDataCP] : [...JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db")), newDataCP];
-    //     localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify(newCorretorParceiro));
-    //     carregarCorretorParceiroOperacao();
+        newDataCP.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
+        newDataCP.cdPessoaFisica = corretor.cdNomes;
+        newDataCP.nomeCompleto = corretor.nome;
+        newDataCP.valorHonorario = honorario;
 
 
-    // };
-
-    // const deleteHonorarios = (data) => {
-
-    //     let items = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
-    //     items = items.filter((item) => item.id !== data.id);
-    //     localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify(items));
-    //     if (items.length === 0) {
-    //         localStorage.removeItem("honorarioscorretorparceirooperacao_db");
-    //     }
-    //     carregarCorretorParceiroOperacao();
-    // };
+        const newCorretorParceiro = !isEligible(getId) || !isEligible(getId.length) ? [newDataCP] : [...JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db")), newDataCP];
+        localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify(newCorretorParceiro));
+        carregarCorretorParceiroOperacao();
 
 
-    // const carregarCorretorParceiroOperacao = async () => {
-    //     const cpStorage = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
-    //     setHonorariosCorretorParceiroEmEdicao(cpStorage);
-    // };
+    };
+
+    const deleteHonorarios = (data) => {
+
+        let items = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
+        items = items.filter((item) => item.id !== data.id);
+        localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify(items));
+        if (items.length === 0) {
+            localStorage.removeItem("honorarioscorretorparceirooperacao_db");
+        }
+        carregarCorretorParceiroOperacao();
+    };
+
+
+    const carregarCorretorParceiroOperacao = async () => {
+        const cpStorage = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
+        setHonorariosCorretorParceiroEmEdicao(cpStorage);
+    };
 
     const limpaBaseProcuradores = (items) => {
 
@@ -305,7 +331,13 @@ const ContratoCompraeVendaCad = () => {
 
     }
 
+    const limpaBaseHonorarios = (items) => {
 
+        localStorage.setItem("honorarioscorretorparceiro_db", JSON.stringify(items));
+        if (items.length === 0) {
+            localStorage.removeItem("honorarioscorretorparceiro_db");
+        }
+    }
 
     const salvarContratoCompraeVenda = (ccv) => {
 
@@ -333,9 +365,17 @@ const ContratoCompraeVendaCad = () => {
             saveVendedores(ccv.cdContratoCompraeVenda, vendedorOperacao, ccv.cdVendedorProcurador);
             ccv.cdVendedorProcurador = cdCVendedorProcuradorSave;
 
+            //save honorarios    
+            let honorarioOperacao = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
 
-            // updateVendedores();
-            // updateHonorarios();
+            let itemsh = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
+            itemsh = itemsh.filter((item) => item.cdHonorariosCorretorParceiro !== ccv.cdHonorariosCorretorParceiro);
+
+            limpaBaseHonorarios(itemsh);
+
+            saveHonorarios(ccv.cdContratoCompraeVenda, honorarioOperacao, ccv.cdHonorariosCorretorParceiro);
+            ccv.cdHonorariosCorretorParceiro = cdHonorariosSave;
+
 
             var updateContrato = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
             updateContrato[updateContrato.findIndex((x) => x.id === ccv.id)] = ccv;
@@ -349,21 +389,19 @@ const ContratoCompraeVendaCad = () => {
 
 
         const compradorOperacao = JSON.parse(localStorage.getItem("compradorprocuradoroperacao_db"));
-
-        if (compradorOperacao.length !== 0) {
+        if (compradorOperacao) {
             saveCompradores(getId, compradorOperacao, null);
         }
 
         const vendedorOperacao = JSON.parse(localStorage.getItem("vendedorprocuradoroperacao_db"));
-        if (vendedorOperacao.length !== 0) {
+        if (vendedorOperacao) {
             saveVendedores(getId, vendedorOperacao, null);
         }
 
-        // const corretorParceiroOperacao = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
-
-        // if (corretorParceiroOperacao.length !== 0) {
-        //     insertHonorarios(getId, corretorParceiroOperacao);
-        // }
+        const corretorParceiroOperacao = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
+        if (corretorParceiroOperacao) {
+            saveHonorarios(getId, corretorParceiroOperacao, null);
+        }
 
 
         ccv.id = getId;
@@ -476,46 +514,50 @@ const ContratoCompraeVendaCad = () => {
 
     }
 
+    const saveHonorarios = (cdContrato, corretorParceiroOperacao, cdHonorariosCorretorParceiro) => {
+
+        var newCorretorParceiro = {};
+        const listCorretoresParceiros = [];
 
 
+        if (!isEligible(JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db")))) {
+            localStorage.setItem("honorarioscorretorparceiro_db", JSON.stringify([]));
+        }
+        const honorariosDb = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
+        var getCd = !isEligible(honorariosDb.length) ? 1 : honorariosDb.length + 1;
+        var getId = honorariosDb.length;
 
-    // const insertHonorarios = (cdContrato, corretorParceiroOperacao) => {
-
-    //     var newCorretorParceiro = {};
-    //     const listCorretoresParceiros = [];
-
-    //     const corretorParceiroDb = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
-    //     var getCd = !isEligible(corretorParceiroDb.length) ? 1 : corretorParceiroDb.length + 1;
-    //     var getId = corretorParceiroDb.length;
+        cdHonorariosSave = cdHonorariosCorretorParceiro === null ? getCd : cdHonorariosCorretorParceiro;
 
 
-    //     if (isEligible(corretorParceiroOperacao.length)) {
+        if (isEligible(corretorParceiroOperacao)) {
 
-    //         cdHonorariosSave = getCd;
+            corretorParceiroOperacao.map((item) => {
 
-    //         corretorParceiroOperacao.map((item) => {
+                getId = !isEligible(getId) ? 1 : getId + 1;
 
-    //             getId = !isEligible(getId) ? 1 : getId + 1;
+                newCorretorParceiro.id = getId;
+                newCorretorParceiro.cdContratoCompraeVenda = cdContrato;
+                newCorretorParceiro.cdHonorariosCorretorParceiro = cdHonorariosSave;
+                newCorretorParceiro.cdPessoaFisica = item.cdPessoaFisica;
+                newCorretorParceiro.nomeCompleto = item.nomeCompleto;
+                newCorretorParceiro.valorHonorario = item.valorHonorario;
 
-    //             newCorretorParceiro.id = getId;
-    //             newCorretorParceiro.cdContratoCompraeVenda = cdContrato;
-    //             newCorretorParceiro.cdHonorariosCorretorParceiro = getCd;
-    //             newCorretorParceiro.cdPessoaFisica = item.cdPessoaFisica;
-    //             newCorretorParceiro.nomeCompleto = item.nomeCompleto;
-    //             newCorretorParceiro.valorHonorario = item.valorHonorario;
+                totalHonorariosSave = totalHonorariosSave + Number(item.valorHonorario);
 
-    //             totalHonorariosSave = totalHonorariosSave + Number(item.valorHonorario);
+                listCorretoresParceiros.push(newCorretorParceiro);
+                newCorretorParceiro = {};
 
-    //             listCorretoresParceiros.push(newCorretorParceiro);
-    //             newCorretorParceiro = {};
 
-    //         });
+            });
 
-    //         const verifica = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
-    //         const nlc = !isEligible(verifica.length) ? listCorretoresParceiros : verifica.concat(listCorretoresParceiros);
-    //         localStorage.setItem("honorarioscorretorparceiro_db", JSON.stringify(nlc));
-    //     }
-    // }
+            const verifica = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
+            const nlc = !isEligible(verifica.length) ? listCorretoresParceiros : verifica.concat(listCorretoresParceiros);
+            localStorage.setItem("honorarioscorretorparceiro_db", JSON.stringify(nlc));
+
+        }
+
+    }
 
 
     const limparContratoCompraeVenda = () => {
@@ -524,16 +566,13 @@ const ContratoCompraeVendaCad = () => {
         setCompradorProcuradorEmEdicao(initialCompradorProcuradorOperacao);
         localStorage.setItem("compradorprocuradoroperacao_db", JSON.stringify([]));
 
-
         setVendedorProcuradorEmEdicao(initialVendedorProcuradorOperacao);
         localStorage.setItem("vendedorprocuradoroperacao_db", JSON.stringify([]));
 
-
-        // setHonorariosCorretorParceiroEmEdicao(initialHonorariosCorretorParceiroOperacoes);
-        // localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify([]));
+        setHonorariosCorretorParceiroEmEdicao(initialHonorariosCorretorParceiroOperacoes);
+        localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify([]));
 
         setCompradorVendedorNomes([]);
-        setVendedorProcuradorEmEdicao([]);
         setPessoaFisica([]);
         setEnderecoNomes([]);
 
@@ -554,9 +593,9 @@ const ContratoCompraeVendaCad = () => {
                 addvendedoreprocurador={addVendedoreProcurador}
                 deletevendedoreprocurador={deleteVendedoreProcurador}
 
-                // honorarioscorretorparceiro={honorariosCorretorParceiroEmEdicao}
-                // addhonorarios={addHonorarios}
-                // deletehonorarios={deleteHonorarios}
+                honorarioscorretorparceiro={honorariosCorretorParceiroEmEdicao}
+                addhonorarios={addHonorarios}
+                deletehonorarios={deleteHonorarios}
 
                 compradorvendedornomes={compradorVendedorNomes}
                 procuradornomes={pessoaFisica}
