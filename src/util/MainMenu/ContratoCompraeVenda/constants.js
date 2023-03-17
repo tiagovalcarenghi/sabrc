@@ -21,7 +21,7 @@ export const initialContratosdeCompraeVendaBase = {
     prazoRegularizacao: '',
     posseDefinitiva: '',
     prazoObtencaoFinanciamento: '',
-    cdMinutaPadraoContratoCeV: '',
+    tipoMinuta: '',
     textoMinuta: '',
     isValido: '',
     status: '',

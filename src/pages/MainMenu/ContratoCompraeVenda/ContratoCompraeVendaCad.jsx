@@ -16,11 +16,11 @@ const ContratoCompraeVendaCad = () => {
     const [pessoaFisica, setPessoaFisica] = useState([]);
     const [enderecoNomes, setEnderecoNomes] = useState([]);
     const location = useLocation();
-    // const [minutasPadraoContratoCeVEmEdicao, setminutasPadraoContratoCeVEmEdicao] = useState(initialValuesMinutasPadraoCeV);
     let cdCompradorProcuradorSave = null;
     let cdCVendedorProcuradorSave = null;
     let cdHonorariosSave = null;
     let totalHonorariosSave = 0;
+    let valorTextoMinuta = '';
 
     useEffect(() => {
 
@@ -28,7 +28,6 @@ const ContratoCompraeVendaCad = () => {
         if (!location.state.id) {
             limparContratoCompraeVenda();
             carregarNomes();
-            // carregarMinutaPadraoCeV();
             return;
         }
         carregarContratoCompraeVenda(location.state.id);
@@ -55,34 +54,9 @@ const ContratoCompraeVendaCad = () => {
         }
 
         carregarNomes();
-        // carregarMinutaEdit(selectContrato[0]);
     };
 
-    // const carregarMinutaEdit = async (s) => {
 
-    //     const editMinuta = initialValuesMinutasPadraoCeV;
-
-    //     if (s) {
-    //         editMinuta.id = s.cdMinutaPadraoContratoCeV;
-    //         editMinuta.cdMinutaPadraoContratoCeV = s.cdMinutaPadraoContratoCeV;
-    //         editMinuta.texto = s.textoMinuta;
-    //     }
-
-
-    //     setminutasPadraoContratoCeVEmEdicao(editMinuta.texto);
-    // }
-
-
-    // const carregarMinutaPadraoCeV = async () => {
-    //     const minutasPadraoContratoCeVStorage = JSON.parse(localStorage.getItem("minutaspadraocev_db"));
-    //     if (minutasPadraoContratoCeVStorage) {
-    //         const selectComp = minutasPadraoContratoCeVStorage.reduce((max, game) => max.id > game.id ? max : game);
-    //         setminutasPadraoContratoCeVEmEdicao(selectComp.texto);
-    //     } else {
-    //         const editMinuta = initialValuesMinutasPadraoCeV;
-    //         setminutasPadraoContratoCeVEmEdicao(editMinuta.texto);
-    //     }
-    // };
 
     const carregarNomes = async () => {
 
@@ -339,6 +313,18 @@ const ContratoCompraeVendaCad = () => {
         }
     }
 
+
+    const carregaMinutaPadrao = async () => {
+
+        const minutasPadraoContratoCeVStorage = JSON.parse(localStorage.getItem("minutaspadraocev_db"));
+
+        if (minutasPadraoContratoCeVStorage) {
+            const selectComp = minutasPadraoContratoCeVStorage.reduce((max, game) => max.id > game.id ? max : game);
+            valorTextoMinuta = selectComp.texto;
+        }
+    };
+
+
     const salvarContratoCompraeVenda = (ccv) => {
 
         if (isEligible(ccv.id)) {
@@ -377,6 +363,14 @@ const ContratoCompraeVendaCad = () => {
             ccv.cdHonorariosCorretorParceiro = cdHonorariosSave;
 
 
+            //updateMinuta
+            if (ccv.tipoMinuta === 'padrao') {
+                carregaMinutaPadrao();
+                ccv.textoMinuta = valorTextoMinuta;
+            }
+
+
+
             var updateContrato = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
             updateContrato[updateContrato.findIndex((x) => x.id === ccv.id)] = ccv;
             localStorage.setItem("contratocompraevendabase_db", JSON.stringify(updateContrato));
@@ -398,9 +392,16 @@ const ContratoCompraeVendaCad = () => {
             saveVendedores(getId, vendedorOperacao, null);
         }
 
-        const corretorParceiroOperacao = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
+        const corretorParceiroOperacao = JSON.parse(localStorage.getItem("honorarioscorretorparceirooperacao_db"));
         if (corretorParceiroOperacao) {
             saveHonorarios(getId, corretorParceiroOperacao, null);
+        }
+
+
+        //updateMinuta
+        if (ccv.tipoMinuta === 'padrao') {
+            carregaMinutaPadrao();
+            ccv.textoMinuta = valorTextoMinuta;
         }
 
 
@@ -600,7 +601,6 @@ const ContratoCompraeVendaCad = () => {
                 compradorvendedornomes={compradorVendedorNomes}
                 procuradornomes={pessoaFisica}
                 endereco={enderecoNomes}
-                // minutaspadraocev_db={minutasPadraoContratoCeVEmEdicao}
 
                 salvar={salvarContratoCompraeVenda}
                 limpar={limparContratoCompraeVenda}
