@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
@@ -31,6 +30,8 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
 import { msgAtencao, msgExcludeEndereco, msgExcludeEnderecoCError, msgSuccessExcludeEndereco } from "../../../../util/applicationresources";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -104,6 +105,32 @@ TablePaginationActions.propTypes = {
 };
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
+
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 const GridEndereco = (props) => {
     const { enderecos_db, deleteendereco, filter, disableDelete, disableEdit } = props;
@@ -321,14 +348,14 @@ const GridEndereco = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">CEP</TableCell>
-                                    <TableCell align="left">Logradouro</TableCell>
-                                    <TableCell align="left">Número</TableCell>
-                                    <TableCell align="left">Complemento</TableCell>
-                                    <TableCell align="left">Bairro</TableCell>
-                                    <TableCell align="left">Cidade</TableCell>
-                                    <TableCell align="left">Estado</TableCell>
-                                    <TableCell align="center" colSpan={2}></TableCell>
+                                    <StyledTableCell align="center">CEP</StyledTableCell>
+                                    <StyledTableCell align="left">Logradouro</StyledTableCell>
+                                    <StyledTableCell align="center">Número</StyledTableCell>
+                                    <StyledTableCell align="left">Complemento</StyledTableCell>
+                                    <StyledTableCell align="left">Bairro</StyledTableCell>
+                                    <StyledTableCell align="left">Cidade</StyledTableCell>
+                                    <StyledTableCell align="center">Estado</StyledTableCell>
+                                    <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -342,31 +369,31 @@ const GridEndereco = (props) => {
                                             )
                                             : enderecos_db
                                         ).map((endereco) => (
-                                            <TableRow key={endereco.id}>
-                                                <TableCell align="left" width="10%">
+                                            <StyledTableRow key={endereco.id}>
+                                                <StyledTableCell align="center" width="5%">
                                                     {endereco.cep}
-                                                </TableCell>
-                                                <TableCell align="left" width="15%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="25%">
                                                     {endereco.logradouro}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="5%">
                                                     {endereco.numero}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="10%">
                                                     {endereco.complemento}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="10%">
                                                     {endereco.bairro}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="10%">
                                                     {endereco.localidade}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="5%">
                                                     {endereco.uf}
-                                                </TableCell>
+                                                </StyledTableCell>
 
 
-                                                <TableCell width="5%" align="center">
+                                                <StyledTableCell width="5%" align="right">
                                                     <IconButton
                                                         disabled={disableEdit}
                                                         color="primary"
@@ -376,8 +403,8 @@ const GridEndereco = (props) => {
                                                     >
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                                <TableCell width="5%" align="center">
+                                                </StyledTableCell>
+                                                <StyledTableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableDelete}
                                                         color="error"
@@ -404,8 +431,8 @@ const GridEndereco = (props) => {
                                                     >
                                                         <DeleteRoundedIcon></DeleteRoundedIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                            </TableRow>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
                                         ))}
                                     </TableBody>
                                 )}

@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
@@ -32,6 +31,9 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { msgAtencao, msgExcludeContrato, msgExcludeContratoError, msgExcludeContratoSuccess, msgValidaContrato, msgValidaContratoError, msgValidaContratoSuccess } from "../../../../util/applicationresources";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -103,6 +105,33 @@ TablePaginationActions.propTypes = {
     page: PropTypes.number.isRequired,
     rowsPerPage: PropTypes.number.isRequired,
 };
+
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
+
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
@@ -268,9 +297,9 @@ const GridContratoCompraeVenda = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Número do Contrato</TableCell>
-                                    <TableCell align="left">Endereço</TableCell>
-                                    <TableCell align="center" colSpan={3}></TableCell>
+                                    <StyledTableCell align="left">Número do Contrato</StyledTableCell>
+                                    <StyledTableCell align="left">Endereço</StyledTableCell>
+                                    <StyledTableCell align="center" colSpan={3}></StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -284,15 +313,15 @@ const GridContratoCompraeVenda = (props) => {
                                             )
                                             : contratocompraevendagrid_db
                                         ).map((contrato) => (
-                                            <TableRow key={contrato.id}>
-                                                <TableCell align="left" width="20%">
+                                            <StyledTableRow key={contrato.id}>
+                                                <StyledTableCell align="left" width="5%">
                                                     {contrato.cdContratoCompraeVenda}
-                                                </TableCell>
-                                                <TableCell align="left" width="65%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="80%">
                                                     {contrato.enderecoCompleto}
-                                                </TableCell>
+                                                </StyledTableCell>
 
-                                                <TableCell width="5%" align="center">
+                                                <StyledTableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableValida || !contrato.isValido || contrato.status !== "RASCUNHO"}
                                                         color="success"
@@ -319,10 +348,10 @@ const GridContratoCompraeVenda = (props) => {
                                                     >
                                                         <FactCheckIcon></FactCheckIcon>
                                                     </IconButton>
-                                                </TableCell>
+                                                </StyledTableCell>
 
 
-                                                <TableCell width="5%" align="center">
+                                                <StyledTableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableEdit || !contrato.isValido || contrato.status !== "RASCUNHO"}
                                                         color="primary"
@@ -332,9 +361,9 @@ const GridContratoCompraeVenda = (props) => {
                                                     >
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                </TableCell>
+                                                </StyledTableCell>
 
-                                                <TableCell width="5%" align="center">
+                                                <StyledTableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableDelete || !contrato.isValido}
                                                         color="error"
@@ -361,8 +390,8 @@ const GridContratoCompraeVenda = (props) => {
                                                     >
                                                         <DeleteRoundedIcon></DeleteRoundedIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                            </TableRow>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
                                         ))}
                                     </TableBody>
                                 )}

@@ -22,9 +22,18 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "rgb(255, 152, 0)",
+      contrastText: "#fff"
     },
   },
   ptBR,
+  typography: {
+
+    button: { // Here is where you can customise the button
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: "blue"
+    },
+  },
 });
 
 const LoginPage = () => {
@@ -88,11 +97,12 @@ const LoginPage = () => {
               <CssBaseline />
               <Box
                 sx={{
-                  marginTop: 8,
+                  marginTop: '50%',
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                 }}
+
               >
                 <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
                   <LockOutlinedIcon />
@@ -110,6 +120,7 @@ const LoginPage = () => {
                     type="text"
                     value={usuario}
                     onChange={(e) => setUsuario(e.target.value)}
+                    InputLabelProps={{ shrink: true }}
                   />
 
                   <TextField
@@ -120,6 +131,7 @@ const LoginPage = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    InputLabelProps={{ shrink: true }}
                   />
 
                   <Box

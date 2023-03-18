@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
@@ -29,6 +28,9 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -102,6 +104,32 @@ TablePaginationActions.propTypes = {
 };
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
+
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: '#f9b046',
+    color: '#ffffff',
+    fontSize: 13,
+    fontWeight: 'bold',
+    borderColor: '#f9b046',
+    border: 0,
+
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 12,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(even)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 const GridPessoaJuridica = (props) => {
   const { pessoajuridica_db, deletepj, filter, disableDelete, disableEdit } =
@@ -254,9 +282,9 @@ const GridPessoaJuridica = (props) => {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Nome Empresarial</TableCell>
-                  <TableCell align="left">CNPJ</TableCell>
-                  <TableCell align="center" colSpan={2}></TableCell>
+                  <StyledTableCell align="left">Nome Empresarial</StyledTableCell>
+                  <StyledTableCell align="left">CNPJ</StyledTableCell>
+                  <StyledTableCell align="right" colSpan={2}></StyledTableCell>
                 </TableRow>
               </TableHead>
 
@@ -270,14 +298,14 @@ const GridPessoaJuridica = (props) => {
                       )
                       : pessoajuridica_db
                     ).map((pessoajuridica) => (
-                      <TableRow key={pessoajuridica.id}>
-                        <TableCell align="left" width="35%">
+                      <StyledTableRow key={pessoajuridica.id}>
+                        <StyledTableCell align="left" width="35%">
                           {pessoajuridica.nomeEmpresarial}
-                        </TableCell>
-                        <TableCell align="left" width="20%">
+                        </StyledTableCell>
+                        <StyledTableCell align="left" width="20%">
                           {pessoajuridica.cnpj}
-                        </TableCell>
-                        <TableCell width="5%" align="center">
+                        </StyledTableCell>
+                        <StyledTableCell width="5%" align="right">
                           <IconButton
                             disabled={disableEdit}
                             color="primary"
@@ -287,8 +315,8 @@ const GridPessoaJuridica = (props) => {
                           >
                             <EditIcon></EditIcon>
                           </IconButton>
-                        </TableCell>
-                        <TableCell width="5%" align="center">
+                        </StyledTableCell>
+                        <StyledTableCell width="5%" align="right">
                           <IconButton
                             disabled={disableDelete}
                             color="error"
@@ -315,8 +343,8 @@ const GridPessoaJuridica = (props) => {
                           >
                             <DeleteRoundedIcon></DeleteRoundedIcon>
                           </IconButton>
-                        </TableCell>
-                      </TableRow>
+                        </StyledTableCell>
+                      </StyledTableRow>
                     ))}
                   </TableBody>
                 )}

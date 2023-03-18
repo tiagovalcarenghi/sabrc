@@ -18,7 +18,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
@@ -34,6 +33,33 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 const CadastroLancamentoContabil = (props) => {
 
@@ -417,14 +443,14 @@ const CadastroLancamentoContabil = (props) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left">Descrição</TableCell>
-                                        <TableCell align="left">Centro de Custo</TableCell>
-                                        <TableCell align="left">Conta Contábil</TableCell>
-                                        <TableCell align="left">Conta Complementar</TableCell>
-                                        <TableCell align="left">Crédito</TableCell>
-                                        <TableCell align="left">Débito</TableCell>
+                                        <StyledTableCell align="left">Descrição</StyledTableCell>
+                                        <StyledTableCell align="left">Centro de Custo</StyledTableCell>
+                                        <StyledTableCell align="left">Conta Contábil</StyledTableCell>
+                                        <StyledTableCell align="left">Conta Complementar</StyledTableCell>
+                                        <StyledTableCell align="center">Crédito</StyledTableCell>
+                                        <StyledTableCell align="center">Débito</StyledTableCell>
 
-                                        <TableCell align="center" colSpan={2}></TableCell>
+                                        <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
 
@@ -432,27 +458,27 @@ const CadastroLancamentoContabil = (props) => {
                                     {lancamentocontabiloperacao && lancamentocontabiloperacao.length > 0 && (
                                         <TableBody>
                                             {lancamentocontabiloperacao.map((lc) => (
-                                                <TableRow key={lc.id}>
-                                                    <TableCell align="left" width="20%">
+                                                <StyledTableRow key={lc.id}>
+                                                    <StyledTableCell align="left" width="20%">
                                                         {lc.descLancamento}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="15%">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left" width="15%">
                                                         {lc.descCentrodeCusto}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="15%">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left" width="15%">
                                                         {lc.descConta}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="15%">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left" width="15%">
                                                         {lc.descContaComplementar}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="10%">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" width="10%">
                                                         {lc.valorCredito}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="10%">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" width="10%">
                                                         {lc.valorDebito}
-                                                    </TableCell>
+                                                    </StyledTableCell>
 
-                                                    <TableCell width="5%" align="center">
+                                                    <StyledTableCell width="5%" align="center">
                                                         <IconButton
                                                             color="error"
                                                             onClick={() => {
@@ -474,8 +500,8 @@ const CadastroLancamentoContabil = (props) => {
                                                         >
                                                             <DeleteRoundedIcon></DeleteRoundedIcon>
                                                         </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
                                             ))}
                                         </TableBody>
                                     )}

@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
@@ -37,6 +36,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -108,6 +109,33 @@ TablePaginationActions.propTypes = {
     page: PropTypes.number.isRequired,
     rowsPerPage: PropTypes.number.isRequired,
 };
+
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
+
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
 
@@ -467,17 +495,16 @@ const GridLancamentoContabil = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Número Lançamento</TableCell>
-                                    <TableCell align="left">Ordem</TableCell>
-                                    <TableCell align="left">Descrição</TableCell>
-                                    <TableCell align="left">Centro de Custo</TableCell>
-                                    <TableCell align="left">Conta</TableCell>
-                                    <TableCell align="left">Conta Complementar</TableCell>
-                                    <TableCell align="left">Crédito</TableCell>
-                                    <TableCell align="left">Débito</TableCell>
-                                    <TableCell align="left">Data de Lançamento</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="center" colSpan={2}></TableCell>
+                                    <StyledTableCell align="center">Lançamento</StyledTableCell>
+                                    <StyledTableCell align="left">Descrição</StyledTableCell>
+                                    <StyledTableCell align="left">Centro de Custo</StyledTableCell>
+                                    <StyledTableCell align="left">Conta</StyledTableCell>
+                                    <StyledTableCell align="left">Conta Complementar</StyledTableCell>
+                                    <StyledTableCell align="center">Crédito</StyledTableCell>
+                                    <StyledTableCell align="center">Débito</StyledTableCell>
+                                    <StyledTableCell align="center">Data de Lançamento</StyledTableCell>
+                                    <StyledTableCell align="center">Status</StyledTableCell>
+                                    <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -491,51 +518,37 @@ const GridLancamentoContabil = (props) => {
                                             )
                                             : lancamentoscontabeisabase_db
                                         ).map((lancamentocontabil) => (
-                                            <TableRow key={lancamentocontabil.id}>
-                                                <TableCell align="left" width="10%">
+                                            <StyledTableRow key={lancamentocontabil.id}>
+                                                <StyledTableCell align="center" width="10%">
                                                     {lancamentocontabil.cdLancamentoContabil}
-                                                </TableCell>
-                                                <TableCell align="left" width="5%">
-                                                    {lancamentocontabil.ordemLancamento}
-                                                </TableCell>
-                                                <TableCell align="left" width="15%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="15%">
                                                     {lancamentocontabil.descLancamento}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="10%">
                                                     {lancamentocontabil.descCentrodeCusto}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="10%">
                                                     {lancamentocontabil.descConta}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="10%">
                                                     {lancamentocontabil.descContaComplementar}
-                                                </TableCell>
-                                                <TableCell align="left" width="5%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="5%">
                                                     {lancamentocontabil.valorCredito}
-                                                </TableCell>
-                                                <TableCell align="left" width="5%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="5%">
                                                     {lancamentocontabil.valorDebito}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="10%">
                                                     {lancamentocontabil.dataSelecionada}
-                                                </TableCell>
-                                                <TableCell align="left" width="10%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="3%">
                                                     {lancamentocontabil.status}
-                                                </TableCell>
+                                                </StyledTableCell>
 
-                                                {/* 
-                                                <TableCell width="5%" align="center">
-                                                    <IconButton
-                                                        disabled={disableEdit}
-                                                        color="primary"
-                                                        onClick={() => {
-                                                            navigateToComponent(lancamentocontabil.id);
-                                                        }}
-                                                    >
-                                                        <EditIcon></EditIcon>
-                                                    </IconButton>
-                                                </TableCell> */}
-                                                <TableCell width="5%" align="center">
+
+                                                <StyledTableCell width="5%" align="center">
                                                     <IconButton
                                                         disabled={disableDelete || !lancamentocontabil.isValido}
                                                         color="error"
@@ -562,8 +575,8 @@ const GridLancamentoContabil = (props) => {
                                                     >
                                                         <DeleteRoundedIcon></DeleteRoundedIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                            </TableRow>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
                                         ))}
                                     </TableBody>
                                 )}
