@@ -18,6 +18,8 @@ import ContratoCompraeVendaCad from "./pages/MainMenu/ContratoCompraeVenda/Contr
 import ContratoCompraeVendaHome from "./pages/MainMenu/ContratoCompraeVenda/ContratoCompraeVendaHome";
 import EnderecoCad from "./pages/MainMenu/Enderecos/EnderecoCad";
 import EnderecoHome from "./pages/MainMenu/Enderecos/EnderecoHome";
+import LancamentoBancosCad from "./pages/MainMenu/LancamentoBancos/LancamentoBancosCad";
+import LancamentoBancosHome from "./pages/MainMenu/LancamentoBancos/LancamentoBancosHome";
 import LancamentoContabilCad from "./pages/MainMenu/LancamentoContabil/LancamentoContabilCad";
 import LancamentoContabilHome from "./pages/MainMenu/LancamentoContabil/LancamentoContabilHome";
 import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
@@ -230,6 +232,27 @@ const AppRoutes = () => {
               </Private>
             }
           />
+
+          <Route
+            exact
+            path="/operacoes/lancamentobancos"
+            element={
+              <Private>
+                <LancamentoBancosHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/operacoes/cadlancamentobancos"
+            element={
+              <Private>
+                <LancamentoBancosCad />
+              </Private>
+            }
+          />
+
+
           <Route
             exact
             path="/operacoes/contratocompraevenda"

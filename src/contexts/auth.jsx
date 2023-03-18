@@ -16,6 +16,8 @@ import {
   createHonorariosCorretorParceiroOperacao,
   createLancamentoContasPatrimoniais,
   createLancamentoContasResultado,
+  createLancamentosBancoBase,
+  createLancamentosBancoOperacao,
   createLancamentosContabeisAll,
   createLancamentosContabeisBase,
   createLancamentosContabeisOperacao,
@@ -80,6 +82,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("vendedorprocuradoroperacao_db", JSON.stringify(createVendedorProcuradorOperacao));
     localStorage.setItem("honorarioscorretorparceiro_db", JSON.stringify(createHonorariosCorretorParceiroBase));
     localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify(createHonorariosCorretorParceiroOperacao));
+    localStorage.setItem("lancamentosbancobase_db", JSON.stringify(createLancamentosBancoBase));
+    localStorage.setItem("lancamentosbancooperacao_db", JSON.stringify(createLancamentosBancoOperacao));
+
   };
 
   const login = (nameUser, password) => {
