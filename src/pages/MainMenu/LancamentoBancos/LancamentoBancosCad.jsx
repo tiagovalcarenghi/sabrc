@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroLancamentoBancos from "../../../components/MainMenu/LancamentoBancos/CadastroLancamentoBancos";
 import { initialValuesLancamentoBancoOperacao } from "../../../util/MainMenu/LancamentoBancos/constants";
-import { isEligible } from "../../../util/utils";
+import { getCurrentDate, isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 

@@ -244,7 +244,7 @@ const GridLancamentoContabil = (props) => {
                             />
                         </Grid>
 
-                        <Grid item xs={2}>
+                        <Grid item xs={6}>
                             <TextField
                                 fullWidth
                                 size="small"
@@ -256,7 +256,58 @@ const GridLancamentoContabil = (props) => {
                             />
                         </Grid>
 
+
                         <Grid item xs={2}>
+
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+                                <DesktopDatePicker
+                                    label="Data Inicial"
+                                    inputFormat="DD/MM/YYYY"
+                                    value={filterDataInicial}
+                                    onChange={handleChangeDataInicial}
+                                    renderInput={(params) => <TextField
+                                        fullWidth
+                                        name="filterDataInicial"
+                                        size="small"
+                                        {...params} />}
+                                />
+                            </LocalizationProvider>
+
+                        </Grid>
+
+                        <Grid item xs={2}>
+
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DesktopDatePicker
+                                    label="Data Final"
+                                    inputFormat="DD/MM/YYYY"
+                                    value={filterDataFinal}
+                                    onChange={handleChangeDataFinal}
+                                    renderInput={(params) => <TextField
+                                        fullWidth
+                                        name="filterDataFinal"
+                                        size="small"
+                                        {...params} />}
+                                />
+                            </LocalizationProvider>
+
+
+                        </Grid>
+
+                    </Grid>
+
+
+                    <Grid
+                        container
+                        rowSpacing={1}
+                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                        sx={{
+                            margin: "0px 0px 10px 0px",
+                        }}
+                    >
+
+                        <Grid item xs={3}>
 
                             <FormControl fullWidth size="small">
                                 <InputLabel id="demo-controlled-open-select-label">Centro de Custo</InputLabel>
@@ -341,6 +392,23 @@ const GridLancamentoContabil = (props) => {
                             </FormControl>
                         </Grid>
 
+                        <Grid item xs={3}>
+
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Lançamentos Válidos"
+                                size="small"
+                                // type="text"
+                                checked={checked}
+                                value={filterIsValido}
+                                required={false}
+                                onChange={handleChange}
+                            />
+
+                        </Grid>
+
+
+
 
                     </Grid>
 
@@ -355,60 +423,6 @@ const GridLancamentoContabil = (props) => {
 
 
                         <Grid item xs={2}>
-
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Lançamento Válido"
-                                size="small"
-                                // type="text"
-                                checked={checked}
-                                value={filterIsValido}
-                                required={false}
-                                onChange={handleChange}
-                            />
-
-                        </Grid>
-
-                        <Grid item xs={3}>
-
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                                <DesktopDatePicker
-                                    label="Data Inicial"
-                                    inputFormat="DD/MM/YYYY"
-                                    value={filterDataInicial}
-                                    onChange={handleChangeDataInicial}
-                                    renderInput={(params) => <TextField
-                                        fullWidth
-                                        name="filterDataInicial"
-                                        size="small"
-                                        {...params} />}
-                                />
-                            </LocalizationProvider>
-
-                        </Grid>
-
-                        <Grid item xs={3}>
-
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DesktopDatePicker
-                                    label="Data Final"
-                                    inputFormat="DD/MM/YYYY"
-                                    value={filterDataFinal}
-                                    onChange={handleChangeDataFinal}
-                                    renderInput={(params) => <TextField
-                                        fullWidth
-                                        name="filterDataFinal"
-                                        size="small"
-                                        {...params} />}
-                                />
-                            </LocalizationProvider>
-
-
-                        </Grid>
-
-
-                        <Grid item xs={1}>
                             <IconButton
                                 color="info"
                                 variant="outlined"
@@ -443,6 +457,7 @@ const GridLancamentoContabil = (props) => {
                             </Button>
                         </Grid>
                     </Grid>
+
 
                     <TableContainer component={Paper}>
                         <Table

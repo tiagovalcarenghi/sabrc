@@ -33,7 +33,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
-import { initialValuesLancamentoBancoBase } from "../../../../util/MainMenu/LancamentoBancos/constants";
+import { initialValuesLancamentoBancoBase, initialValuesLancamentoBancoOperacao } from "../../../../util/MainMenu/LancamentoBancos/constants";
 
 const CadastroLancamentoBancos = (props) => {
 
@@ -51,7 +51,7 @@ const CadastroLancamentoBancos = (props) => {
     };
 
     const navigateToComponent = () => {
-        navigate("/operacoes/lancamentocontabil", { state: { value: 1 } });
+        navigate("/operacoes/lancamentobancos", { state: { value: 1 } });
     };
 
 
@@ -63,7 +63,7 @@ const CadastroLancamentoBancos = (props) => {
 
         var totalCredito = 0;
         var totalDebito = 0;
-        let items = JSON.parse(localStorage.getItem("lancamentoscontabeisaoperacao_db"));
+        let items = JSON.parse(localStorage.getItem("lancamentosbancooperacao_db"));
         items.map((item) => {
             totalCredito = totalCredito + Number(item.valorCredito);
             totalDebito = totalDebito + Number(item.valorDebito);
@@ -146,7 +146,7 @@ const CadastroLancamentoBancos = (props) => {
     const validaGridOperacoes = () => {
 
 
-        let items = JSON.parse(localStorage.getItem("lancamentoscontabeisaoperacao_db"));
+        let items = JSON.parse(localStorage.getItem("lancamentosbancooperacao_db"));
 
         return items.length > 0 ? true : false;
     }
@@ -201,7 +201,7 @@ const CadastroLancamentoBancos = (props) => {
         <form onSubmit={formik.handleSubmit}>
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Operações</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Lançamento Contábil</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Conciliação Bancária</Typography>
                 <Typography color="text.primary">Cadastrar</Typography>
             </Breadcrumbs>
 
