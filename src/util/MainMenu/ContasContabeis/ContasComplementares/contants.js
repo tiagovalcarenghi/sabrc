@@ -15,3 +15,7 @@ export const initialNomes = {
     cdTipoNome: '',
     cdCadastroNomes: '',
 }
+
+
+
+//ADICIONAR CAMPO 'isFixed' para as contas complementares fixos/não deletáveis do sistema.
