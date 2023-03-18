@@ -104,6 +104,12 @@ export const appMenuItems = [
         link: `/operacoes/lancamentocontabil`,
       },
       {
+        name: "Lançamento Bancos",
+        sx: { pl: 4 },
+        Icon: SummarizeIcon,
+        link: `/operacoes/lancamentobancos`,
+      },
+      {
         name: "ARE",
         sx: { pl: 4 },
         Icon: SummarizeIcon,

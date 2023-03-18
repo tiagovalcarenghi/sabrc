@@ -392,3 +392,10 @@ export const createHonorariosCorretorParceiroOperacao = []
 
 
 //-------------------------------------------------
+
+export const createLancamentosBancoBase = []
+
+export const createLancamentosBancoOperacao = []
+
+
+//-------------------------------------------------

@@ -21,3 +21,7 @@ export const tipoSaldoOptions = [
     { id: 2, cdTipoSaldo: 2, descTipoSaldo: "Débito" },
     { id: 3, cdTipoSaldo: 3, descTipoSaldo: "Zero" }
 ];
+
+
+
+//ADICIONAR CAMPO 'isFixed' para as contas fixos/não deletáveis/editaveis do sistema.
