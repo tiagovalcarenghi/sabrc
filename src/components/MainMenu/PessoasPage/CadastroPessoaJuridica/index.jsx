@@ -27,7 +27,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
@@ -35,6 +34,34 @@ import React, { useState } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: '#f9b046',
+    color: '#ffffff',
+    fontSize: 13,
+    fontWeight: 'bold',
+    borderColor: '#f9b046',
+    border: 0,
+
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 12,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(even)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 const CadastroPJ = (props) => {
   const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl, representanteslegaisoptions } = props;
@@ -323,9 +350,9 @@ const CadastroPJ = (props) => {
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell align="left">ID</TableCell>
-                    <TableCell align="left">Representante Legal</TableCell>
-                    <TableCell align="center" colSpan={2}></TableCell>
+                    <StyledTableCell align="center">ID</StyledTableCell>
+                    <StyledTableCell align="left">Representante Legal</StyledTableCell>
+                    <StyledTableCell align="right" colSpan={2}></StyledTableCell>
                   </TableRow>
                 </TableHead>
 
@@ -333,15 +360,15 @@ const CadastroPJ = (props) => {
                   {representanteslegais && representanteslegais.length > 0 && (
                     <TableBody>
                       {representanteslegais.map((rl) => (
-                        <TableRow key={rl.id}>
-                          <TableCell align="left" width="10%">
+                        <StyledTableRow key={rl.id}>
+                          <StyledTableCell align="center" width="10%">
                             {rl.id}
-                          </TableCell>
-                          <TableCell align="left" width="40%">
+                          </StyledTableCell>
+                          <StyledTableCell align="left" width="40%">
                             {rl.nomeRepresentante}
-                          </TableCell>
+                          </StyledTableCell>
 
-                          <TableCell width="5%" align="center">
+                          <StyledTableCell width="5%" align="right">
                             <IconButton
                               color="error"
                               onClick={() => {
@@ -363,8 +390,8 @@ const CadastroPJ = (props) => {
                             >
                               <DeleteRoundedIcon></DeleteRoundedIcon>
                             </IconButton>
-                          </TableCell>
-                        </TableRow>
+                          </StyledTableCell>
+                        </StyledTableRow>
                       ))}
                     </TableBody>
                   )}

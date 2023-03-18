@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
@@ -24,6 +23,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { msgAtencao, msgExcludeCdC, msgExcludeCdCError, msgSuccessExcludeCdC } from "../../../../../util/applicationresources";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -97,6 +98,31 @@ TablePaginationActions.propTypes = {
 };
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 const GridCentrodeCusto = (props) => {
     const { centrodecusto_db, deletecentrodecusto, filter, disableDelete, disableEdit } = props;
@@ -242,9 +268,9 @@ const GridCentrodeCusto = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Id</TableCell>
-                                    <TableCell align="left">Centro de Custo</TableCell>
-                                    <TableCell align="center" colSpan={2}></TableCell>
+                                    <StyledTableCell align="left">Id</StyledTableCell>
+                                    <StyledTableCell align="left">Centro de Custo</StyledTableCell>
+                                    <StyledTableCell align="right" colSpan={2}></StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -258,15 +284,15 @@ const GridCentrodeCusto = (props) => {
                                             )
                                             : centrodecusto_db
                                         ).map((centrodecusto) => (
-                                            <TableRow key={centrodecusto.id}>
-                                                <TableCell align="left" width="15%">
+                                            <StyledTableRow key={centrodecusto.id}>
+                                                <StyledTableCell align="left" width="15%">
                                                     {centrodecusto.id}
-                                                </TableCell>
-                                                <TableCell align="left" width="45%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="45%">
                                                     {centrodecusto.descCentrodeCusto}
-                                                </TableCell>
+                                                </StyledTableCell>
 
-                                                <TableCell width="5%" align="center">
+                                                <StyledTableCell width="5%" align="right">
                                                     <IconButton
                                                         disabled={disableEdit}
                                                         color="primary"
@@ -276,8 +302,8 @@ const GridCentrodeCusto = (props) => {
                                                     >
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                                <TableCell width="5%" align="center">
+                                                </StyledTableCell>
+                                                <StyledTableCell width="5%" align="right">
                                                     <IconButton
                                                         disabled={disableDelete}
                                                         color="error"
@@ -304,8 +330,8 @@ const GridCentrodeCusto = (props) => {
                                                     >
                                                         <DeleteRoundedIcon></DeleteRoundedIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                            </TableRow>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
                                         ))}
                                     </TableBody>
                                 )}

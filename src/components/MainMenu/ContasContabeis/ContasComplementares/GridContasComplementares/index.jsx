@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
@@ -25,6 +24,8 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { msgAtencao, msgExcludeContaC, msgExcludeContaCError, msgSuccessExcludeContaC } from "../../../../../util/applicationresources";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
@@ -99,6 +100,31 @@ TablePaginationActions.propTypes = {
 };
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 const GridContasComplementares = (props) => {
     const { contascomplementares_db, deletecontacomplementar, filter, disableDelete, } = props;
@@ -260,9 +286,9 @@ const GridContasComplementares = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Nome Conta</TableCell>
-                                    <TableCell align="left">Banco</TableCell>
-                                    <TableCell align="center" colSpan={2}></TableCell>
+                                    <StyledTableCell align="left">Nome Conta</StyledTableCell>
+                                    <StyledTableCell align="center">Banco</StyledTableCell>
+                                    <StyledTableCell align="right" colSpan={2}></StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -276,16 +302,16 @@ const GridContasComplementares = (props) => {
                                             )
                                             : contascomplementares_db
                                         ).map((contacomplementar) => (
-                                            <TableRow key={contacomplementar.id}>
-                                                <TableCell align="left" width="40%">
+                                            <StyledTableRow key={contacomplementar.id}>
+                                                <StyledTableCell align="left" width="40%">
                                                     {contacomplementar.desccContaComplementar}
-                                                </TableCell>
-                                                <TableCell align="left" width="15%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="15%">
                                                     {contacomplementar.isBanco === false ? "Não" : "Sim"}
-                                                </TableCell>
+                                                </StyledTableCell>
 
 
-                                                <TableCell width="5%" align="center">
+                                                <StyledTableCell width="5%" align="right">
                                                     <IconButton
                                                         disabled={disableDelete}
                                                         color="error"
@@ -312,8 +338,8 @@ const GridContasComplementares = (props) => {
                                                     >
                                                         <DeleteRoundedIcon></DeleteRoundedIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                            </TableRow>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
                                         ))}
                                     </TableBody>
                                 )}

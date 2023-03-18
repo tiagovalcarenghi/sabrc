@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
@@ -31,6 +30,8 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { userOptions } from "../../../util/Usuarios/constants";
 import { msgAtencao, msgExcludeUser, msgExcludeUserError, msgExcludeUserErrorSame, msgSuccessExcludeUser } from "../../../util/applicationresources";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
@@ -105,6 +106,31 @@ TablePaginationActions.propTypes = {
 };
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 const GridUsuarios = (props) => {
     const { users_db, deleteusuario, filter } = props;
@@ -322,10 +348,10 @@ const GridUsuarios = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Usuário</TableCell>
-                                    <TableCell align="left">Email</TableCell>
-                                    <TableCell align="left">Tipo de Usuário</TableCell>
-                                    <TableCell align="center" colSpan={2}></TableCell>
+                                    <StyledTableCell align="left">Usuário</StyledTableCell>
+                                    <StyledTableCell align="left">Email</StyledTableCell>
+                                    <StyledTableCell align="center">Tipo de Usuário</StyledTableCell>
+                                    <StyledTableCell align="right" colSpan={2}></StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -339,19 +365,19 @@ const GridUsuarios = (props) => {
                                             )
                                             : users_db
                                         ).map((usuario) => (
-                                            <TableRow key={usuario.id}>
-                                                <TableCell align="left" width="25%">
+                                            <StyledTableRow key={usuario.id}>
+                                                <StyledTableCell align="left" width="25%">
                                                     {usuario.nameUser}
-                                                </TableCell>
-                                                <TableCell align="left" width="30%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="30%">
                                                     {usuario.email}
-                                                </TableCell>
-                                                <TableCell align="left" width="15%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="15%">
                                                     {usuario.tipoUser}
-                                                </TableCell>
+                                                </StyledTableCell>
 
 
-                                                <TableCell width="5%" align="center">
+                                                <StyledTableCell width="5%" align="right">
                                                     <IconButton
                                                         color="primary"
                                                         onClick={() => {
@@ -360,8 +386,8 @@ const GridUsuarios = (props) => {
                                                     >
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                                <TableCell width="5%" align="center">
+                                                </StyledTableCell>
+                                                <StyledTableCell width="5%" align="right">
                                                     <IconButton
                                                         color="error"
                                                         onClick={() => {
@@ -389,8 +415,8 @@ const GridUsuarios = (props) => {
                                                     >
                                                         <DeleteRoundedIcon></DeleteRoundedIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                            </TableRow>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
                                         ))}
                                     </TableBody>
                                 )}

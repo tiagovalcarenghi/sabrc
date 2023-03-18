@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
@@ -32,6 +31,8 @@ import {
     Breadcrumbs
 } from "@mui/material";
 import { msgAtencao, msgExcludeConta, msgExcludeContaError, msgSuccessExcludeConta } from "../../../../../util/applicationresources";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 ///----------------- TABLE PAGINATION ACTIONS START-------------------/////
 
@@ -105,6 +106,31 @@ TablePaginationActions.propTypes = {
 };
 
 ///----------------- TABLE PAGINATION ACTIONS END-------------------/////
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 const GridContas = (props) => {
     const { contascontabeis_db, deleteconta, filter, disableDelete, disableEdit } = props;
@@ -308,11 +334,11 @@ const GridContas = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Nome Conta</TableCell>
-                                    <TableCell align="left">Tipo Conta</TableCell>
-                                    <TableCell align="left">Saldo</TableCell>
-                                    <TableCell align="left">Tipo Saldo</TableCell>
-                                    <TableCell align="center" colSpan={2}></TableCell>
+                                    <StyledTableCell align="left">Nome Conta</StyledTableCell>
+                                    <StyledTableCell align="left">Tipo Conta</StyledTableCell>
+                                    <StyledTableCell align="center">Saldo</StyledTableCell>
+                                    <StyledTableCell align="center">Tipo Saldo</StyledTableCell>
+                                    <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -326,20 +352,20 @@ const GridContas = (props) => {
                                             )
                                             : contascontabeis_db
                                         ).map((contacontabil) => (
-                                            <TableRow key={contacontabil.id}>
-                                                <TableCell align="left" width="30%">
+                                            <StyledTableRow key={contacontabil.id}>
+                                                <StyledTableCell align="left" width="30%">
                                                     {contacontabil.desContaContabil}
-                                                </TableCell>
-                                                <TableCell align="left" width="18%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="left" width="18%">
                                                     {contacontabil.descTipoConta}
-                                                </TableCell>
-                                                <TableCell align="left" width="22%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="22%">
                                                     {contacontabil.saldo}
-                                                </TableCell>
-                                                <TableCell align="left" width="15%">
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center" width="15%">
                                                     {contacontabil.descTipoSaldo}
-                                                </TableCell>
-                                                <TableCell width="5%" align="center">
+                                                </StyledTableCell>
+                                                <StyledTableCell width="5%" align="right">
                                                     <IconButton
                                                         disabled={disableEdit}
                                                         color="primary"
@@ -349,8 +375,8 @@ const GridContas = (props) => {
                                                     >
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                                <TableCell width="5%" align="center">
+                                                </StyledTableCell>
+                                                <StyledTableCell width="5%" align="right">
                                                     <IconButton
                                                         disabled={disableDelete}
                                                         color="error"
@@ -377,8 +403,8 @@ const GridContas = (props) => {
                                                     >
                                                         <DeleteRoundedIcon></DeleteRoundedIcon>
                                                     </IconButton>
-                                                </TableCell>
-                                            </TableRow>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
                                         ))}
                                     </TableBody>
                                 )}

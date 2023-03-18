@@ -23,7 +23,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
@@ -39,6 +38,33 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { getDateFormat, isEligible } from "../../../../util/utils";
 import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/ContratoCompraeVenda/constants";
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+
+const StyledTableCell = styled(TableCell)(({ }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#f9b046',
+        color: '#ffffff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 const CadastroContratoCompraeVenda = (props) => {
 
@@ -263,9 +289,9 @@ const CadastroContratoCompraeVenda = (props) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left">Comprador</TableCell>
-                                        <TableCell align="left">Procurador</TableCell>
-                                        <TableCell align="center" colSpan={2}></TableCell>
+                                        <StyledTableCell align="left">Comprador</StyledTableCell>
+                                        <StyledTableCell align="left">Procurador</StyledTableCell>
+                                        <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
 
@@ -273,16 +299,16 @@ const CadastroContratoCompraeVenda = (props) => {
                                     {compradoreprocurador && compradoreprocurador.length > 0 && (
                                         <TableBody>
                                             {compradoreprocurador.map((compradoreproc) => (
-                                                <TableRow key={compradoreproc.id}>
-                                                    <TableCell align="left" width="30%">
+                                                <StyledTableRow key={compradoreproc.id}>
+                                                    <StyledTableCell align="left" width="30%">
                                                         {compradoreproc.nomeComprador}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="30%">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left" width="30%">
                                                         {compradoreproc.nomeProcurador}
-                                                    </TableCell>
+                                                    </StyledTableCell>
 
 
-                                                    <TableCell width="5%" align="center">
+                                                    <StyledTableCell width="5%" align="center">
                                                         <IconButton
                                                             color="error"
                                                             onClick={() => {
@@ -304,8 +330,8 @@ const CadastroContratoCompraeVenda = (props) => {
                                                         >
                                                             <DeleteRoundedIcon></DeleteRoundedIcon>
                                                         </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
                                             ))}
                                         </TableBody>
                                     )}
@@ -412,9 +438,9 @@ const CadastroContratoCompraeVenda = (props) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left">Vendedor</TableCell>
-                                        <TableCell align="left">Procurador</TableCell>
-                                        <TableCell align="center" colSpan={2}></TableCell>
+                                        <StyledTableCell align="left">Vendedor</StyledTableCell>
+                                        <StyledTableCell align="left">Procurador</StyledTableCell>
+                                        <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
 
@@ -422,16 +448,16 @@ const CadastroContratoCompraeVenda = (props) => {
                                     {vendedoreprocurador && vendedoreprocurador.length > 0 && (
                                         <TableBody>
                                             {vendedoreprocurador.map((vendedoreproc) => (
-                                                <TableRow key={vendedoreproc.id}>
-                                                    <TableCell align="left" width="30%">
+                                                <StyledTableRow key={vendedoreproc.id}>
+                                                    <StyledTableCell align="left" width="40%">
                                                         {vendedoreproc.nomeVendedor}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="30%">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left" width="40%">
                                                         {vendedoreproc.nomeProcurador}
-                                                    </TableCell>
+                                                    </StyledTableCell>
 
 
-                                                    <TableCell width="5%" align="center">
+                                                    <StyledTableCell width="5%" align="center">
                                                         <IconButton
                                                             color="error"
                                                             onClick={() => {
@@ -453,8 +479,8 @@ const CadastroContratoCompraeVenda = (props) => {
                                                         >
                                                             <DeleteRoundedIcon></DeleteRoundedIcon>
                                                         </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
                                             ))}
                                         </TableBody>
                                     )}
@@ -646,9 +672,9 @@ const CadastroContratoCompraeVenda = (props) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left">Nome Corretor</TableCell>
-                                        <TableCell align="left">Valor Honorário</TableCell>
-                                        <TableCell align="center" colSpan={2}></TableCell>
+                                        <StyledTableCell align="left">Nome Corretor</StyledTableCell>
+                                        <StyledTableCell align="center">Valor Honorário</StyledTableCell>
+                                        <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
 
@@ -656,16 +682,16 @@ const CadastroContratoCompraeVenda = (props) => {
                                     {honorarioscorretorparceiro && honorarioscorretorparceiro.length > 0 && (
                                         <TableBody>
                                             {honorarioscorretorparceiro.map((honorarioscorretor) => (
-                                                <TableRow key={honorarioscorretor.id}>
-                                                    <TableCell align="left" width="30%">
+                                                <StyledTableRow key={honorarioscorretor.id}>
+                                                    <StyledTableCell align="left" width="60%">
                                                         {honorarioscorretor.nomeCompleto}
-                                                    </TableCell>
-                                                    <TableCell align="left" width="30%">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" width="15%">
                                                         {honorarioscorretor.valorHonorario}
-                                                    </TableCell>
+                                                    </StyledTableCell>
 
 
-                                                    <TableCell width="5%" align="center">
+                                                    <StyledTableCell width="5%" align="center">
                                                         <IconButton
                                                             color="error"
                                                             onClick={() => {
@@ -687,8 +713,8 @@ const CadastroContratoCompraeVenda = (props) => {
                                                         >
                                                             <DeleteRoundedIcon></DeleteRoundedIcon>
                                                         </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
                                             ))}
                                         </TableBody>
                                     )}
