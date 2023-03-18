@@ -17,11 +17,11 @@ const LancamentoBancosCad = () => {
         console.log(location.state);
 
         limparLancamentoContabil();
-        carregarLancamentoContabilOperacoes();
+        carregarLancamentoBancoOperacoes();
         carregarDadosSelects();
     }, [location.state]);
 
-    const carregarLancamentoContabilOperacoes = async () => {
+    const carregarLancamentoBancoOperacoes = async () => {
         const lancamentoContabilStorage = JSON.parse(localStorage.getItem("lancamentosbancooperacao_db"));
         setLancamentoContabilOperacaoEmEdicao(lancamentoContabilStorage);
     };
@@ -101,14 +101,16 @@ const LancamentoBancosCad = () => {
         localStorage.setItem("lancamentosbancooperacao_db", JSON.stringify([]));
     };
 
-    const deleteLancamentoContabilOperacao = (data) => {
+    const deleteLancamentoBancoOperacao = (data) => {
         let items = JSON.parse(localStorage.getItem("lancamentosbancooperacao_db"));
         items = items.filter((item) => item.id !== data.id);
+        items = items.filter((item) => item.idBanco !== data.idBanco);
         localStorage.setItem("lancamentosbancooperacao_db", JSON.stringify(items));
         if (items.length === 0) {
             localStorage.removeItem("lancamentosbancooperacao_db");
         }
-        carregarLancamentoContabilOperacoes();
+
+        carregarLancamentoBancoOperacoes();
 
     };
 
@@ -117,13 +119,43 @@ const LancamentoBancosCad = () => {
         var getId = JSON.parse(localStorage.getItem("lancamentosbancooperacao_db"));
 
         data.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
+        data.idBanco = data.id;
 
         const newLancamento = !isEligible(getId) || !isEligible(getId.length) ? [data] : [...JSON.parse(localStorage.getItem("lancamentosbancooperacao_db")), data];
         localStorage.setItem("lancamentosbancooperacao_db", JSON.stringify(newLancamento));
 
-        carregarLancamentoContabilOperacoes();
+
+        carregarLancamentoBancoOperacoes();
+
+        addLancamentoBanco(data);
 
     };
+
+
+    const addLancamentoBanco = (data) => {
+
+
+        var getId = JSON.parse(localStorage.getItem("lancamentosbancooperacao_db"));
+
+        var vc = data.valorCredito;
+        var vb = data.valorDebito;
+
+        data.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
+        data.cdCentrodeCusto = '';
+        data.descCentrodeCusto = '';
+        data.cdConta = 123654; //pegar o valor fixo da conta BANCO
+        data.descConta = 'Banco';
+        data.cdContaComplementar = '';
+        data.descContaComplementar = '';
+        data.valorCredito = vb;
+        data.valorDebito = vc;
+
+        const newLancamento = !isEligible(getId) || !isEligible(getId.length) ? [data] : [...JSON.parse(localStorage.getItem("lancamentosbancooperacao_db")), data];
+        localStorage.setItem("lancamentosbancooperacao_db", JSON.stringify(newLancamento));
+
+        carregarLancamentoBancoOperacoes();
+
+    }
 
     return (
         <AppMenu>
@@ -131,7 +163,7 @@ const LancamentoBancosCad = () => {
                 lancamentobancooperacao={LancamentoContabilOperacao}
                 salvar={salvarLancamentoContabil}
                 limpar={limparLancamentoContabil}
-                deletelancamentocontabiloperacao={deleteLancamentoContabilOperacao}
+                deletelancamentocontabiloperacao={deleteLancamentoBancoOperacao}
                 addlancamento={addLancamento}
                 centrosdecusto={centrosDeCusto}
                 contas={contas}

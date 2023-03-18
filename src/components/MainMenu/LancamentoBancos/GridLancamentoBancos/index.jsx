@@ -111,12 +111,14 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(({ }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#f9b046',
-        color: 'rgba(0, 0, 0, 0.87)',
+        color: '#ffffff',
         fontSize: 13,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        borderColor: '#f9b046',
+        border: 0,
 
     },
     [`&.${tableCellClasses.body}`]: {

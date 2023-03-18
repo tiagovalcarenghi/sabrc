@@ -30,4 +30,5 @@ export const initialValuesLancamentoBancoOperacao = {
     descContaComplementar: '',
     valorCredito: '',
     valorDebito: '',
+    idBanco: ''
 }
