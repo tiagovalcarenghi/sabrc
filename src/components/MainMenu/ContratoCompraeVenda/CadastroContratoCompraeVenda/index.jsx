@@ -605,7 +605,7 @@ const CadastroContratoCompraeVenda = (props) => {
                             digitGroupSeparator="."
                             outputFormat="string"
                             value={honorariosCorretorParceiro}
-                            onChange={(event, value) => setHonorariosCorretorParceiro(value)}
+                            onChange={(value) => setHonorariosCorretorParceiro(value)}
                         />
                     </Grid>
 
@@ -718,7 +718,7 @@ const CadastroContratoCompraeVenda = (props) => {
                             digitGroupSeparator="."
                             outputFormat="string"
                             value={honorariosImobiliaria}
-                            onChange={(event, value) => setHonorariosImobiliaria(value)}
+                            onChange={(value) => setHonorariosImobiliaria(value)}
                         />
                     </Grid>
 
