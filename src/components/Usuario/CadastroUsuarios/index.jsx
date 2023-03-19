@@ -23,6 +23,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from "react";
+import { confirmaEmail } from "../../commons/ConfirmaEmail";
 
 
 
@@ -57,12 +58,6 @@ const CadastroUsuarios = (props) => {
             }
         },
     });
-
-    const confirmaEmail = (email) => {
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        return mailformat.test(email);
-    };
-
 
     const [showPassword, setShowPassword] = useState(false);
 
