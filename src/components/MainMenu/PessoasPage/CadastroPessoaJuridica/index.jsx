@@ -30,38 +30,12 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import React, { useState } from "react";
+import { useState } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
-import { styled } from '@mui/material/styles';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
 
-
-const StyledTableCell = styled(TableCell)(({ }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: '#f9b046',
-    color: '#ffffff',
-    fontSize: 13,
-    fontWeight: 'bold',
-    borderColor: '#f9b046',
-    border: 0,
-
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(even)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 
 const CadastroPJ = (props) => {
   const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl, representanteslegaisoptions } = props;
@@ -106,7 +80,7 @@ const CadastroPJ = (props) => {
   };
 
   const addRepresentanteLegal = () => {
-    if (selectRepresentanteLegal.id != undefined) {
+    if (selectRepresentanteLegal.id !== undefined) {
       if (pessoajuridica) {
         addrl(selectRepresentanteLegal, pessoajuridica.id);
       } else {

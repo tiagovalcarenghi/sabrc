@@ -33,35 +33,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { initialValuesLancamentoBancoBase, initialValuesLancamentoBancoOperacao } from "../../../../util/MainMenu/LancamentoBancos/constants";
-import { styled } from '@mui/material/styles';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
 
-
-const StyledTableCell = styled(TableCell)(({ }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: '#f9b046',
-        color: '#ffffff',
-        fontSize: 13,
-        fontWeight: 'bold',
-        borderColor: '#f9b046',
-        border: 0,
-
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 12,
-    },
-}));
-
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(even)': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
-}));
 
 const CadastroLancamentoBancos = (props) => {
 
