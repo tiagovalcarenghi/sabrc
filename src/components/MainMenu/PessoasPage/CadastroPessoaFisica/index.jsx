@@ -23,6 +23,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
+import { confirmaEmail } from "../../../commons/ConfirmaEmail";
 
 
 const CadastroPF = (props) => {
@@ -60,10 +61,6 @@ const CadastroPF = (props) => {
     return (!str || /^\s*$/.test(str));
   }
 
-  const confirmaEmail = (email) => {
-    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return mailformat.test(email);
-  };
 
 
   return (

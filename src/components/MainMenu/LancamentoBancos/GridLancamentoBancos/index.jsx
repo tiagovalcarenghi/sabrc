@@ -27,6 +27,7 @@ import { msgAtencao, msgExcludeLancamentoContabilError, msgExcludeRLancamentoOpe
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import ptBR from 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
 
@@ -174,7 +175,7 @@ const GridLancamentoBancos = (props) => {
 
                         <Grid item xs={2}>
 
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} locale={ptBR}>
 
                                 <DesktopDatePicker
                                     label="Data Inicial"
@@ -193,7 +194,7 @@ const GridLancamentoBancos = (props) => {
 
                         <Grid item xs={2}>
 
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} locale={ptBR}>
                                 <DesktopDatePicker
                                     label="Data Final"
                                     inputFormat="DD/MM/YYYY"

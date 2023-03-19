@@ -30,11 +30,12 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { msgAtencao, msgCadSuccess, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess, msgLancamentoError, msgLancamentoInsertDescricaoError, msgSaveContratoCompraeVendaError } from "../../../../util/applicationresources";
+import { msgAtencao, msgCadSuccess, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess, msgLancamentoError, msgSaveContratoCompraeVendaError } from "../../../../util/applicationresources";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import ptBR from 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import { getDateFormat, isEligible } from "../../../../util/utils";
 import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/ContratoCompraeVenda/constants";
@@ -772,8 +773,7 @@ const CadastroContratoCompraeVenda = (props) => {
 
                     <Grid item xs={4}>
 
-                        <LocalizationProvider dateAdapter={AdapterDayjs} >
-
+                        <LocalizationProvider dateAdapter={AdapterDayjs} locale={ptBR}>
                             <DesktopDatePicker
                                 label="Prazo de Regularização"
                                 inputFormat="DD/MM/YYYY"

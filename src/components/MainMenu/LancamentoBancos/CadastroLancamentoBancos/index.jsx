@@ -30,6 +30,7 @@ import { getDateFormat, isEligible, verificaContas, verificaValores } from "../.
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import ptBR from 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { initialValuesLancamentoBancoBase, initialValuesLancamentoBancoOperacao } from "../../../../util/MainMenu/LancamentoBancos/constants";
@@ -324,7 +325,7 @@ const CadastroLancamentoBancos = (props) => {
 
                     <Grid item xs={3}>
 
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} locale={ptBR}>
 
                             <DesktopDatePicker
                                 label="Data do Lançamento"

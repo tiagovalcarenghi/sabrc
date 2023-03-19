@@ -35,6 +35,7 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
+import { confirmaEmail } from "../../../commons/ConfirmaEmail";
 
 
 const CadastroPJ = (props) => {
@@ -69,10 +70,6 @@ const CadastroPJ = (props) => {
     },
   });
 
-  const confirmaEmail = (emailContato) => {
-    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return mailformat.test(emailContato);
-  };
 
 
   const handleExcluirRL = (rl) => {
