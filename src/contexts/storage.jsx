@@ -399,3 +399,11 @@ export const createLancamentosBancoOperacao = []
 
 
 //-------------------------------------------------
+
+export const createOrdemdeServico = []
+
+export const createContratanteBase = []
+export const createContratanteOperacao = []
+
+
+//-------------------------------------------------

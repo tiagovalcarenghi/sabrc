@@ -22,6 +22,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { msgAtencao, msgExcludeContrato, msgExcludeContratoError, msgExcludeContratoSuccess, msgValidaContrato, msgValidaContratoError, msgValidaContratoSuccess } from "../../../../util/applicationresources";
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
+import { validaExclusao } from "../../../commons/ValidaExclusao";
 
 
 const GridContratoCompraeVenda = (props) => {
@@ -39,12 +40,7 @@ const GridContratoCompraeVenda = (props) => {
         validacontratocompraevenda(contrato);
     };
 
-    const validaExclusao = () => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            return usuario.tipoUser === "ADMIN" ? true : false;
-        }
-    };
+
 
     const navigate = useNavigate();
 

@@ -25,6 +25,8 @@ import LancamentoContabilHome from "./pages/MainMenu/LancamentoContabil/Lancamen
 import MinutaPadraoCompraeVendaHome from "./pages/MainMenu/MinutasPadrao/CompraeVenda";
 import MinutaPadraoLocacaoHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoContratodeLocacao";
 import MinutaPadraoOSHome from "./pages/MainMenu/MinutasPadrao/MinutaPadraoOS";
+import OrdemdeServicoCad from "./pages/MainMenu/OrdemdeServico/OrdemdeServicoCad";
+import OrdemdeServicoHome from "./pages/MainMenu/OrdemdeServico/OrdemdeServicoHome";
 import PessoasPage from "./pages/MainMenu/PessoasPage";
 import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
 import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
@@ -271,9 +273,30 @@ const AppRoutes = () => {
               </Private>
             }
           />
+
+          <Route
+            exact
+            path="/operacoes/ordemdeservico"
+            element={
+              <Private>
+                <OrdemdeServicoHome />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/operacoes/cadordemdeservico"
+            element={
+              <Private>
+                <OrdemdeServicoCad />
+              </Private>
+            }
+          />
+
+
         </Routes>
       </AuthProvider>
-    </Router>
+    </Router >
   );
 };
 

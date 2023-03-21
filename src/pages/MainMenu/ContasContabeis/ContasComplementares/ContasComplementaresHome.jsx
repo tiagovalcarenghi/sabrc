@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { verificaDisableDelete } from "../../../../components/commons/Disables";
 import GridContasComplementares from "../../../../components/MainMenu/ContasContabeis/ContasComplementares/GridContasComplementares";
 import AppMenu from "../../../AppNavBar/AppMenu";
 
@@ -13,28 +14,9 @@ const ContasComplementaresHome = () => {
 
 
     useEffect(() => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            usuario.tipoUser === "ADMIN"
-                ? disables(1)
-                : usuario.tipoUser === "MASTER"
-                    ? disables(2)
-                    : disables(0);
-        }
+        setDisableDelete(verificaDisableDelete());
     }, []);
 
-    const disables = (data) => {
-        switch (data) {
-            case 1:
-                setDisableDelete(false);
-                break;
-            case 2:
-                setDisableDelete(true);
-                break;
-            default:
-                setDisableDelete(true);
-        }
-    };
 
     const deleteContaComplementar = (data) => {
         let items = JSON.parse(localStorage.getItem("contascomplementares_db"));

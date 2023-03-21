@@ -30,6 +30,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import ptBR from 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
+import { validaExclusao } from "../../../commons/ValidaExclusao";
 
 
 const GridLancamentoContabil = (props) => {
@@ -49,12 +50,7 @@ const GridLancamentoContabil = (props) => {
         deletelancamentocontabil(lancamentocontabil);
     };
 
-    const validaExclusao = () => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            return usuario.tipoUser === "ADMIN" ? true : false;
-        }
-    };
+
 
     const navigate = useNavigate();
 

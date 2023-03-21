@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { verificaDisableDelete, verificaDisableValida } from "../../../components/commons/Disables";
 import GridContratoCompraeVenda from "../../../components/MainMenu/ContratoCompraeVenda/GridContratoCompraeVenda";
 import { initialValuesLancamentoContabilAll } from "../../../util/MainMenu/LancamentoContabil/constants";
 import { getCurrentDate, isEligible } from "../../../util/utils";
@@ -18,34 +19,12 @@ const ContratoCompraeVendaHome = () => {
 
 
     useEffect(() => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            usuario.tipoUser === "ADMIN"
-                ? disables(1)
-                : usuario.tipoUser === "MASTER"
-                    ? disables(2)
-                    : disables(0);
-        }
+        setDisableDelete(verificaDisableDelete());
+        setDisableEdit(false);
+        setDisableValida(verificaDisableValida());
     }, []);
 
-    const disables = (data) => {
-        switch (data) {
-            case 1:
-                setDisableDelete(false);
-                setDisableEdit(false);
-                setDisableValida(false);
-                break;
-            case 2:
-                setDisableDelete(true);
-                setDisableEdit(false);
-                setDisableValida(false);
-                break;
-            default:
-                setDisableDelete(true);
-                setDisableEdit(false);
-                setDisableValida(true);
-        }
-    };
+
 
 
     const deleteContratoCompraeVenda = (data) => {

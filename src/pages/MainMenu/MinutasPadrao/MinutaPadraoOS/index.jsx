@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { verificaDisableEdit } from "../../../../components/commons/Disables";
 import CadastroMinutasOS from "../../../../components/MainMenu/MinutasPadrao/CadastroMinutasOS";
 import { initialValuesMinutasPadraoOS } from "../../../../util/MainMenu/MinutasPadrao/ContratoOS/constants";
 import AppMenu from "../../../AppNavBar/AppMenu";
@@ -32,29 +33,8 @@ const MinutaPadraoOSHome = () => {
 
 
     useEffect(() => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            usuario.tipoUser === "ADMIN"
-                ? disables(1)
-                : usuario.tipoUser === "MASTER"
-                    ? disables(2)
-                    : disables(0);
-        }
+        setDisableEdit(verificaDisableEdit());
     }, []);
-
-    const disables = (data) => {
-        switch (data) {
-            case 1:
-                setDisableEdit(false);
-                break;
-            case 2:
-                setDisableEdit(false);
-                break;
-            default:
-                setDisableEdit(true);
-        }
-    };
-
 
 
     return (

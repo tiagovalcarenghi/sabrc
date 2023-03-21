@@ -95,7 +95,7 @@ export const appMenuItems = [
         name: "Ordem de Serviço",
         sx: { pl: 4 },
         Icon: SummarizeIcon,
-        link: `/operacoes/ordem-de-servico`,
+        link: `/operacoes/ordemdeservico`,
       },
       {
         name: "Lançamento Contábil",

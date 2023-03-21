@@ -24,6 +24,7 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
 import { msgAtencao, msgExcludeEndereco, msgExcludeEnderecoCError, msgSuccessExcludeEndereco } from "../../../../util/applicationresources";
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
+import { validaExclusao } from "../../../commons/ValidaExclusao";
 
 
 const GridEndereco = (props) => {
@@ -39,12 +40,7 @@ const GridEndereco = (props) => {
         deleteendereco(cdc);
     };
 
-    const validaExclusao = () => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            return usuario.tipoUser === "ADMIN" ? true : false;
-        }
-    };
+
 
     const navigate = useNavigate();
 
