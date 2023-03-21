@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { verificaDisableDelete, verificaDisableEdit } from "../../../components/commons/Disables";
 import GridEndereco from "../../../components/MainMenu/Enderecos/GridEndereco";
 import AppMenu from "../../AppNavBar/AppMenu";
 
@@ -15,31 +16,10 @@ const EnderecoHome = () => {
 
 
     useEffect(() => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            usuario.tipoUser === "ADMIN"
-                ? disables(1)
-                : usuario.tipoUser === "MASTER"
-                    ? disables(2)
-                    : disables(0);
-        }
+        setDisableDelete(verificaDisableDelete());
+        setDisableEdit(verificaDisableEdit());
     }, []);
 
-    const disables = (data) => {
-        switch (data) {
-            case 1:
-                setDisableDelete(false);
-                setDisableEdit(false);
-                break;
-            case 2:
-                setDisableDelete(true);
-                setDisableEdit(false);
-                break;
-            default:
-                setDisableDelete(true);
-                setDisableEdit(true);
-        }
-    };
 
     const deleteEndereco = (data) => {
         let items = JSON.parse(localStorage.getItem("enderecos_db"));

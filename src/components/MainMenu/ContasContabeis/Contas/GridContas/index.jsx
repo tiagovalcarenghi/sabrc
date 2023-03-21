@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 import { msgAtencao, msgExcludeConta, msgExcludeContaError, msgSuccessExcludeConta } from "../../../../../util/applicationresources";
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../../commons/GridCommons";
+import { validaExclusao } from "../../../../commons/ValidaExclusao";
 
 
 const GridContas = (props) => {
@@ -38,12 +39,7 @@ const GridContas = (props) => {
         deleteconta(conta);
     };
 
-    const validaExclusao = () => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            return usuario.tipoUser === "ADMIN" ? true : false;
-        }
-    };
+
 
     const navigate = useNavigate();
 

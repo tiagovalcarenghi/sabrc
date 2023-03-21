@@ -7,54 +7,55 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TableHead, TextField, Typography, Breadcrumbs } from "@mui/material";
+import {
+    Button, Grid, TableHead, TextField
+} from "@mui/material";
 import Swal from "sweetalert2";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { msgAtencao, msgExcludeContaC, msgExcludeContaCError, msgSuccessExcludeContaC } from "../../../../../util/applicationresources";
-import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../../commons/GridCommons";
-import { validaExclusao } from "../../../../commons/ValidaExclusao";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
+import { validaExclusao } from "../../../commons/ValidaExclusao";
+import { msgAtencao, msgExcludeOS, msgExcludeOSError, msgExcludeOSSuccess } from "../../../../util/applicationresources";
 
-const GridContasComplementares = (props) => {
-    const { contascomplementares_db, deletecontacomplementar, filter, disableDelete, } = props;
 
-    const [filterDesContaComplementar, setFilterDesContaComplementar] = useState("");
-    const [checked, setChecked] = useState(false);
-    const [filterIsBanco, setFilterIsBanco] = useState(false);
+const GridOrdemdeServico = (props) => {
+    const { ordemdeservico_db, deletaordemdeservico, filter, disableDelete } = props;
 
-    const handleExcluir = (conta) => {
-        deletecontacomplementar(conta);
+    const [filterOrdemdeServico, setFilterOrdemdeServico] = useState("");
+    const [filterEndereco, setFilterEndereco] = useState("");
+
+
+    const handleExcluir = (os) => {
+        deletaordemdeservico(os);
     };
-
-
 
     const navigate = useNavigate();
 
     const navigateToComponent = (id) => {
-        navigate("/cadastro/contascontabeis/cadcontascomplementares", { state: { id: id } });
+        navigate("/operacoes/cadordemdeservico", { state: { id: id } });
     };
 
     const handleFilter = (f) => {
         if (f) {
             filter(null);
-            setFilterDesContaComplementar("");
-            setFilterIsBanco(false);
-            setChecked(false);
+            setFilterOrdemdeServico("");
+            setFilterEndereco("");
+
         } else {
             filter(
-                filterDesContaComplementar,
-                filterIsBanco
+                filterOrdemdeServico,
+                filterEndereco
             );
         }
     };
 
     const verificaNulo = () => {
-        return !!contascomplementares_db ? contascomplementares_db.length : 0;
+        return !!ordemdeservico_db ? ordemdeservico_db.length : 0;
     };
 
     //----------PAGINATION START--------////
@@ -71,16 +72,12 @@ const GridContasComplementares = (props) => {
     };
     //----------PAGINATION END--------////
 
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
-        setFilterIsBanco(event.target.checked);
-    };
 
     return (
         <>
             <Breadcrumbs aria-label="breadcrumb">
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Contábeis</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contas Complementares</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Operações</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Ordem de Serviço</Typography>
                 <Typography color="text.primary">Informações</Typography>
             </Breadcrumbs>
 
@@ -89,49 +86,44 @@ const GridContasComplementares = (props) => {
                 container
                 spacing={0}
                 justifyContent="left"
-                style={{ minHeight: "30vh", padding: "20px 0px 0px 0px" }}
+                style={{ minHeight: "30vh" }}
             >
                 <Grid item xs={12}>
 
-
                     <Grid
                         container
-                        rowSpacing={1}
+                        rowSpacing={5}
                         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                         sx={{
                             margin: "0px 0px 10px 0px",
                         }}
                     >
+                        <Grid item xs={3}>
+                            <TextField
+                                fullWidth
+                                size="small"
+                                label="Número Ordem de Serviço"
+                                type="text"
+                                value={filterOrdemdeServico}
+                                required={false}
+                                onChange={(e) => setFilterOrdemdeServico(e.target.value)}
+                            />
+                        </Grid>
+
                         <Grid item xs={4}>
                             <TextField
                                 fullWidth
                                 size="small"
-                                label="Nome Conta Complementar"
+                                label="Endereço"
                                 type="text"
-                                value={filterDesContaComplementar}
+                                value={filterEndereco}
                                 required={false}
-                                onChange={(e) => setFilterDesContaComplementar(e.target.value)}
+                                onChange={(e) => setFilterEndereco(e.target.value)}
                             />
                         </Grid>
 
-                        <Grid item xs={2}>
 
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Banco"
-                                size="small"
-                                type="text"
-                                checked={checked}
-                                value={filterIsBanco}
-                                required={false}
-                                onChange={handleChange}
-                            />
-
-                        </Grid>
-
-
-
-                        <Grid item xs={1}>
+                        <Grid item xs={4}>
                             <IconButton
                                 color="info"
                                 variant="outlined"
@@ -141,6 +133,7 @@ const GridContasComplementares = (props) => {
                             >
                                 <SearchIcon></SearchIcon>
                             </IconButton>
+
 
                             <IconButton
                                 color="secondary"
@@ -175,38 +168,37 @@ const GridContasComplementares = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell align="left">Nome Conta</StyledTableCell>
-                                    <StyledTableCell align="center">Banco</StyledTableCell>
-                                    <StyledTableCell align="right" colSpan={2}></StyledTableCell>
+                                    <StyledTableCell align="center">Ordem de Serviço</StyledTableCell>
+                                    <StyledTableCell align="left">Endereço</StyledTableCell>
+                                    <StyledTableCell align="center" colSpan={3}></StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
                             <>
-                                {contascomplementares_db && contascomplementares_db.length > 0 && (
+                                {ordemdeservico_db && ordemdeservico_db.length > 0 && (
                                     <TableBody>
                                         {(rowsPerPage > 0
-                                            ? contascomplementares_db.slice(
+                                            ? ordemdeservico_db.slice(
                                                 page * rowsPerPage,
                                                 page * rowsPerPage + rowsPerPage
                                             )
-                                            : contascomplementares_db
-                                        ).map((contacomplementar) => (
-                                            <StyledTableRow key={contacomplementar.id}>
-                                                <StyledTableCell align="left" width="40%">
-                                                    {contacomplementar.desccContaComplementar}
+                                            : ordemdeservico_db
+                                        ).map((os) => (
+                                            <StyledTableRow key={os.id}>
+                                                <StyledTableCell align="center" width="10%">
+                                                    {os.cdOrdemdeServico}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="center" width="15%">
-                                                    {contacomplementar.isBanco === false ? "Não" : "Sim"}
+                                                <StyledTableCell align="left" width="70%">
+                                                    {os.enderecoCompleto}
                                                 </StyledTableCell>
 
-
-                                                <StyledTableCell width="5%" align="right">
+                                                <StyledTableCell width="5%" align="center">
                                                     <IconButton
-                                                        disabled={disableDelete}
+                                                        disabled={disableDelete || !os.isValido}
                                                         color="error"
                                                         onClick={() => {
                                                             Swal.fire({
-                                                                title: msgExcludeContaC,
+                                                                title: msgExcludeOS,
                                                                 icon: "warning",
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: "#3085d6",
@@ -216,10 +208,10 @@ const GridContasComplementares = (props) => {
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
                                                                     if (!validaExclusao()) {
-                                                                        Swal.fire(msgAtencao, msgExcludeContaCError);
+                                                                        Swal.fire(msgAtencao, msgExcludeOSError);
                                                                     } else {
-                                                                        Swal.fire(msgAtencao, msgSuccessExcludeContaC);
-                                                                        handleExcluir(contacomplementar);
+                                                                        Swal.fire(msgAtencao, msgExcludeOSSuccess);
+                                                                        handleExcluir(os);
                                                                     }
                                                                 }
                                                             });
@@ -262,4 +254,4 @@ const GridContasComplementares = (props) => {
     );
 };
 
-export default GridContasComplementares;
+export default GridOrdemdeServico;

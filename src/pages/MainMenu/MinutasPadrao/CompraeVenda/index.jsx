@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { verificaDisableEdit } from "../../../../components/commons/Disables";
 import CadastroMinutasPadraoCompraeVenda from "../../../../components/MainMenu/MinutasPadrao/CadastroMinutasPadraoCompraeVenda";
 import { initialValuesMinutasPadraoCeV } from "../../../../util/MainMenu/MinutasPadrao/ContratoCompraeVenda/constants";
 import AppMenu from "../../../AppNavBar/AppMenu";
@@ -32,29 +33,8 @@ const MinutaPadraoCompraeVendaHome = () => {
 
 
     useEffect(() => {
-        const usuario = JSON.parse(localStorage.getItem("user_storage"));
-        if (usuario) {
-            usuario.tipoUser === "ADMIN"
-                ? disables(1)
-                : usuario.tipoUser === "MASTER"
-                    ? disables(2)
-                    : disables(0);
-        }
+        setDisableEdit(verificaDisableEdit);
     }, []);
-
-    const disables = (data) => {
-        switch (data) {
-            case 1:
-                setDisableEdit(false);
-                break;
-            case 2:
-                setDisableEdit(false);
-                break;
-            default:
-                setDisableEdit(true);
-        }
-    };
-
 
 
     return (

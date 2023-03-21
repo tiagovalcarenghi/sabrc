@@ -10,6 +10,8 @@ import {
   createCompradorProcuradorOperacao,
   createContasComplementares,
   createContasContabeis,
+  createContratanteBase,
+  createContratanteOperacao,
   createContratosdeCompraeVendaBase,
   createEnderecos,
   createHonorariosCorretorParceiroBase,
@@ -25,6 +27,7 @@ import {
   createMinutasPadraoLocacao,
   createMinutasPadraoOrdemServico,
   createNomes,
+  createOrdemdeServico,
   createPessoaFisica,
   createPessoaJuridica,
   createRepresentantesLegaisBase,
@@ -84,6 +87,10 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify(createHonorariosCorretorParceiroOperacao));
     localStorage.setItem("lancamentosbancobase_db", JSON.stringify(createLancamentosBancoBase));
     localStorage.setItem("lancamentosbancooperacao_db", JSON.stringify(createLancamentosBancoOperacao));
+    localStorage.setItem("ordemdeservico_db", JSON.stringify(createOrdemdeServico));
+    localStorage.setItem("contratante_db", JSON.stringify(createContratanteBase));
+    localStorage.setItem("contratanteoperacao_db", JSON.stringify(createContratanteOperacao));
+
 
   };
 
