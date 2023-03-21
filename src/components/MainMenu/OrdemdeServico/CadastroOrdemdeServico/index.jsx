@@ -294,7 +294,7 @@ const CadastroOrdemdeServico = (props) => {
                             decimalCharacter=","
                             digitGroupSeparator="."
                             outputFormat="string"
-                            onChange={(value) => setValorServico(value)}
+                            onChange={(event, value) => setValorServico(value)}
                         />
                     </Grid>
 

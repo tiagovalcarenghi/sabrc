@@ -98,7 +98,7 @@ const GridOrdemdeServico = (props) => {
                             margin: "0px 0px 10px 0px",
                         }}
                     >
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <TextField
                                 fullWidth
                                 size="small"
@@ -123,7 +123,7 @@ const GridOrdemdeServico = (props) => {
                         </Grid>
 
 
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                             <IconButton
                                 color="info"
                                 variant="outlined"
@@ -133,6 +133,7 @@ const GridOrdemdeServico = (props) => {
                             >
                                 <SearchIcon></SearchIcon>
                             </IconButton>
+
 
                             <IconButton
                                 color="secondary"
@@ -167,7 +168,7 @@ const GridOrdemdeServico = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell align="left">Ordem de Serviço</StyledTableCell>
+                                    <StyledTableCell align="center">Ordem de Serviço</StyledTableCell>
                                     <StyledTableCell align="left">Endereço</StyledTableCell>
                                     <StyledTableCell align="center" colSpan={3}></StyledTableCell>
                                 </TableRow>
@@ -184,10 +185,10 @@ const GridOrdemdeServico = (props) => {
                                             : ordemdeservico_db
                                         ).map((os) => (
                                             <StyledTableRow key={os.id}>
-                                                <StyledTableCell align="left" width="5%">
+                                                <StyledTableCell align="center" width="10%">
                                                     {os.cdOrdemdeServico}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="left" width="80%">
+                                                <StyledTableCell align="left" width="70%">
                                                     {os.enderecoCompleto}
                                                 </StyledTableCell>
 
