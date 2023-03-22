@@ -72,7 +72,7 @@ const CadastroOrdemdeServico = (props) => {
 
                 values.cdEndereco = isEligible(filterEndereco.cdNomes) ? filterEndereco.cdNomes : null;
                 values.enderecoCompleto = isEligible(filterEndereco.nome) ? filterEndereco.nome : '';
-                values.valorServico = isEligible(valorServico) ? valorServico : 0;
+                values.valorServico = isEligible(valorServico) ? Number(valorServico) : Number(0);
 
                 salvar(values);
                 formik.resetForm();
