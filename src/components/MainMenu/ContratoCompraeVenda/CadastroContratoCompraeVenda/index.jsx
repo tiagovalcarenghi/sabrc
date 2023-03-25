@@ -594,19 +594,20 @@ const CadastroContratoCompraeVenda = (props) => {
 
                     <Grid item xs={3}>
                         <CurrencyTextField
+                            variant="outlined"
                             size="small"
                             fullWidth
-                            color="primary"
                             name="honorariosCorretorParceiro"
                             label="Honorários Corretor"
-                            variant="outlined"
+                            value={honorariosCorretorParceiro}
                             currencySymbol="R$"
                             decimalCharacter=","
                             digitGroupSeparator="."
                             outputFormat="string"
-                            value={honorariosCorretorParceiro}
-                            onChange={(value) => setHonorariosCorretorParceiro(value)}
+                            onChange={(event, value) => setHonorariosCorretorParceiro(value)}
                         />
+
+
                     </Grid>
 
 
@@ -718,7 +719,7 @@ const CadastroContratoCompraeVenda = (props) => {
                             digitGroupSeparator="."
                             outputFormat="string"
                             value={honorariosImobiliaria}
-                            onChange={(value) => setHonorariosImobiliaria(value)}
+                            onChange={(event, value) => setHonorariosImobiliaria(value)}
                         />
                     </Grid>
 

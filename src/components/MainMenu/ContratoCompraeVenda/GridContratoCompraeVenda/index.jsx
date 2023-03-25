@@ -176,7 +176,7 @@ const GridContratoCompraeVenda = (props) => {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell align="left">Número do Contrato</StyledTableCell>
+                                    <StyledTableCell align="center">Número do Contrato</StyledTableCell>
                                     <StyledTableCell align="left">Endereço</StyledTableCell>
                                     <StyledTableCell align="center" colSpan={3}></StyledTableCell>
                                 </TableRow>
@@ -193,10 +193,10 @@ const GridContratoCompraeVenda = (props) => {
                                             : contratocompraevendagrid_db
                                         ).map((contrato) => (
                                             <StyledTableRow key={contrato.id}>
-                                                <StyledTableCell align="left" width="5%">
+                                                <StyledTableCell align="center" width="12%">
                                                     {contrato.cdContratoCompraeVenda}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="left" width="80%">
+                                                <StyledTableCell align="left" width="68%">
                                                     {contrato.enderecoCompleto}
                                                 </StyledTableCell>
 

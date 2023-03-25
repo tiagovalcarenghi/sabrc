@@ -125,7 +125,7 @@ export const appMenuItems = [
         name: "Relatórios Contábeis",
         sx: { pl: 4 },
         Icon: IconBarChart,
-        link: `/relatorios/livro-razao`,
+        link: `/relatorios/relatorioscontabeis`,
       },
       {
         name: "DRE",

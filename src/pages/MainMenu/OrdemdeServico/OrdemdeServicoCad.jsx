@@ -12,6 +12,8 @@ const OrdemdeServicoCad = () => {
     const [enderecoNomes, setEnderecoNomes] = useState([]);
     const location = useLocation();
     let cdContratanteSave = null;
+    //busca usuário sistema
+    const userStorage = JSON.parse(localStorage.getItem("user_storage"));
 
     useEffect(() => {
 
@@ -84,23 +86,79 @@ const OrdemdeServicoCad = () => {
         }
 
 
+        //lançamento all
+        var getIdLancamentoAll = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
+        var getIdCdLancamento = !isEligible(getIdLancamentoAll) || !isEligible(getIdLancamentoAll.length) ? 1 : getIdLancamentoAll[getIdLancamentoAll.length - 1].cdLancamentoContabil + 1;
+        getIdLancamentoAll = !isEligible(getIdLancamentoAll.length) ? 1 : getIdLancamentoAll.length + 1;
+
+
         os.id = getId;
         os.cdOrdemdeServico = getId;
         os.cdContratante = cdContratanteSave;
-
-
-
         os.isValido = true;
         os.status = 'VALIDO';
         os.dataAdd = getCurrentDate();
         os.usuarioAdd = userStorage.id;
+        os.cdLancamentoContabil = getIdCdLancamento;
 
         const newOS = getId === null ? [os] : [...JSON.parse(localStorage.getItem("ordemdeservico_db")), os];
         localStorage.setItem("ordemdeservico_db", JSON.stringify(newOS));
 
-        //insertLancamentoContabil
+        insertLancamentoContabilGeral(os, getIdLancamentoAll, getIdCdLancamento);
 
     };
+
+
+    const insertLancamentoContabilGeral = (os, getId, getIdCdLancamento) => {
+
+        let lancamento = {};
+        let listaOs = [];
+
+        //lançamento ordem de serviço
+        lancamento.id = getId;
+        lancamento.cdLancamentoContabil = getIdCdLancamento;
+        lancamento.ordemLancamento = 1;
+        lancamento.descLancamento = "Geração de Ordem de Serviço Número - " + os.cdOrdemdeServico;
+        lancamento.cdCentrodeCusto = 454; //verificar cd centro de custo fixo nome 'Ordem de Serviço'
+        lancamento.descCentrodeCusto = "Ordem de Serviço"; //verificar centro de custo fixo nome 'Ordem de Serviço'
+        lancamento.cdConta = 102; // //buscar cdconta fixada da conta 'Receita Operacional'
+        lancamento.descConta = 'Receita Operacional'; //buscar cdconta fixada da conta 'Receita Operacional'
+        lancamento.valorCredito = os.valorServico;
+        lancamento.valorDebito = 0;
+        lancamento.isValido = true;
+        lancamento.status = 'VALIDO';
+        lancamento.dataLancamento = getCurrentDate();
+        lancamento.dataSelecionada = getCurrentDate();
+        lancamento.usuarioLancamento = userStorage.id;
+
+        listaOs.push(lancamento);
+
+        lancamento = {};
+
+        //lançamento endereço
+        lancamento.id = getId + 1;
+        lancamento.cdLancamentoContabil = getIdCdLancamento;
+        lancamento.ordemLancamento = 2;
+        lancamento.descLancamento = "Geração de Ordem de Serviço Número - " + os.cdOrdemdeServico;
+        lancamento.cdConta = 284 // //buscar cdconta fixada da conta 'Clientes'
+        lancamento.descConta = 'Clientes'; //buscar cdconta fixada da conta 'Clientes'
+        lancamento.cdContaComplementar = os.cdEndereco;
+        lancamento.descContaComplementar = os.enderecoCompleto;
+        lancamento.valorCredito = 0;
+        lancamento.valorDebito = os.valorServico;
+        lancamento.isValido = true;
+        lancamento.status = 'VALIDO';
+        lancamento.dataLancamento = getCurrentDate();
+        lancamento.dataSelecionada = getCurrentDate();
+        lancamento.usuarioLancamento = userStorage.id;
+
+        listaOs.push(lancamento);
+
+
+        const verifica = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
+        const nlc = !isEligible(verifica.length) ? listaOs : verifica.concat(listaOs);
+        localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(nlc));
+    }
 
     const saveContratantes = (cdOS, contratanteOperacao) => {
 

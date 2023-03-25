@@ -169,8 +169,8 @@ const ContratoCompraeVendaHome = () => {
         lancamento.descConta = 'Receita Operacional';
         lancamento.cdCentrodeCusto = 555; //buscar centro de custo fixo 'Intermediação'
         lancamento.descCentrodeCusto = 'Intermediação';
-        lancamento.valorCredito = 0;
-        lancamento.valorDebito = data.honorarioImobiliaria;
+        lancamento.valorCredito = data.honorarioImobiliaria;
+        lancamento.valorDebito = 0;
         lancamento.isValido = true;
         lancamento.status = 'VALIDO';
         lancamento.dataLancamento = getCurrentDate();
