@@ -30,6 +30,7 @@ import OrdemdeServicoHome from "./pages/MainMenu/OrdemdeServico/OrdemdeServicoHo
 import PessoasPage from "./pages/MainMenu/PessoasPage";
 import PessoaFisicaCad from "./pages/MainMenu/PessoasPage/PessoaFisicaCad";
 import PessoaJuridicaCad from "./pages/MainMenu/PessoasPage/PessoaJuridicaCad";
+import RelatoriosContabeisHome from "./pages/MainMenu/RelatoriosContabeis/RelatoriosContabeisHome";
 import PerfilPage from "./pages/PerfilPage";
 import UsuarioCad from "./pages/UsuariosPage/UsuarioCad";
 import UsuariosHome from "./pages/UsuariosPage/UsuariosHome";
@@ -289,6 +290,16 @@ const AppRoutes = () => {
             element={
               <Private>
                 <OrdemdeServicoCad />
+              </Private>
+            }
+          />
+
+          <Route
+            exact
+            path="/relatorios/relatorioscontabeis"
+            element={
+              <Private>
+                <RelatoriosContabeisHome />
               </Private>
             }
           />

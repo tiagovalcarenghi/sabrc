@@ -120,14 +120,15 @@ const OrdemdeServicoCad = () => {
         lancamento.ordemLancamento = 1;
         lancamento.descLancamento = "Geração de Ordem de Serviço Número - " + os.cdOrdemdeServico;
         lancamento.cdCentrodeCusto = 454; //verificar cd centro de custo fixo nome 'Ordem de Serviço'
-        lancamento.descCentrodeCusto = "Ordem de Serviço;" //verificar centro de custo fixo nome 'Ordem de Serviço'
-        lancamento.cdConta = 102 // //buscar cdconta fixada da conta 'Receita Operacional'
+        lancamento.descCentrodeCusto = "Ordem de Serviço"; //verificar centro de custo fixo nome 'Ordem de Serviço'
+        lancamento.cdConta = 102; // //buscar cdconta fixada da conta 'Receita Operacional'
         lancamento.descConta = 'Receita Operacional'; //buscar cdconta fixada da conta 'Receita Operacional'
         lancamento.valorCredito = os.valorServico;
         lancamento.valorDebito = 0;
         lancamento.isValido = true;
         lancamento.status = 'VALIDO';
         lancamento.dataLancamento = getCurrentDate();
+        lancamento.dataSelecionada = getCurrentDate();
         lancamento.usuarioLancamento = userStorage.id;
 
         listaOs.push(lancamento);
@@ -148,6 +149,7 @@ const OrdemdeServicoCad = () => {
         lancamento.isValido = true;
         lancamento.status = 'VALIDO';
         lancamento.dataLancamento = getCurrentDate();
+        lancamento.dataSelecionada = getCurrentDate();
         lancamento.usuarioLancamento = userStorage.id;
 
         listaOs.push(lancamento);

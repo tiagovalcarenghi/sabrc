@@ -77,10 +77,6 @@ const LancamentoContabilHome = (props) => {
         dataInicial = getDateFormat(dataInicial);
         dataFinal = getDateFormat(dataFinal);
 
-        console.log(dataInicial);
-        console.log(dataFinal);
-
-
         let items = JSON.parse(localStorage.getItem("lancamentoscontabeisabase_db"));
         items = filterer((x) => x.descLancamento.toLowerCase().includes(descLancamento.toLowerCase()))(run(items));
         if (isEligible(cdLancamentoContabil)) { items = filterer(((x) => x.cdLancamentoContabil.toString() === cdLancamentoContabil))(run(items)); }
