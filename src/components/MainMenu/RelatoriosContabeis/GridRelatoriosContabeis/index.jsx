@@ -344,7 +344,7 @@ const GridRelatoriosContabeis = (props) => {
                             </IconButton>
                         </Grid>
 
-                        <Grid item xs={1}>
+                        <Grid item xs={2}>
                             <Button
                                 color="info"
                                 variant="outlined"
