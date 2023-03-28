@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { verificaDisableDelete, verificaDisableValida } from "../../../components/commons/Disables";
-import GridContratoCompraeVenda from "../../../components/MainMenu/ContratoCompraeVenda/GridContratoCompraeVenda";
-import { initialValuesLancamentoContabilAll } from "../../../util/MainMenu/LancamentoContabil/constants";
+import GridContratoLocacao from "../../../components/MainMenu/ContratoLocacao/GridContratoLocacao";
 import { getCurrentDate, isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 
-const ContratoCompraeVendaHome = () => {
+const ContratoLocacaoHome = () => {
 
     const [disableDelete, setDisableDelete] = useState(true);
     const [disableEdit, setDisableEdit] = useState(true);
     const [disableValida, setDisableValida] = useState(true);
-    const [contratoCompraeVendaDb, setContratoCompraeVendaDb] = useState([]);
+    const [contratoLocacaoDb, setContratoLocacaoDb] = useState([]);
 
     useEffect(() => {
-        setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
+        setContratoLocacaoDb(JSON.parse(localStorage.getItem("contratolocacaobase_db")));
     }, []);
 
 
@@ -27,8 +26,8 @@ const ContratoCompraeVendaHome = () => {
 
 
 
-    const deleteContratoCompraeVenda = (data) => {
-        let items = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
+    const deleteContratoLocacao = (data) => {
+        let items = JSON.parse(localStorage.getItem("contratolocacaobase_db"));
         items.map((item) => {
             if (item.id === data.id) {
                 item.isValido = false;
@@ -36,10 +35,10 @@ const ContratoCompraeVendaHome = () => {
             }
         });
 
-        localStorage.setItem("contratocompraevendabase_db", JSON.stringify(items));
+        localStorage.setItem("contratolocacaobase_db", JSON.stringify(items));
 
         deleteLancamentoContabilAll(data);
-        setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
+        setContratoLocacaoDb(JSON.parse(localStorage.getItem("contratolocacaobase_db")));
     };
 
 
@@ -57,18 +56,18 @@ const ContratoCompraeVendaHome = () => {
         localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(items));
     };
 
-    const validaContratoCompraeVenda = (data) => {
-        let items = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
+    const validaContratoLocacao = (data) => {
+        let items = JSON.parse(localStorage.getItem("contratolocacaobase_db"));
         items.map((item) => {
             if (item.id === data.id) {
                 item.status = 'VALIDO';
             }
         });
 
-        localStorage.setItem("contratocompraevendabase_db", JSON.stringify(items));
+        localStorage.setItem("contratolocacaobase_db", JSON.stringify(items));
 
         validarLancamentoContabil(data);
-        setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
+        setContratoLocacaoDb(JSON.parse(localStorage.getItem("contratolocacaobase_db")));
     };
 
 
@@ -88,26 +87,28 @@ const ContratoCompraeVendaHome = () => {
         var getId = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
         getId = !isEligible(getId.length) ? 1 : getId.length + 1;
 
+        console.log(data);
+
         //salva cdLancamento no contrato
-        let contratobase = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
+        let contratobase = JSON.parse(localStorage.getItem("contratolocacaobase_db"));
         contratobase.map((item) => {
             if (item.id === data.id) {
                 item.cdLancamentoContabil = getIdCdLancamento;
             }
         });
-        localStorage.setItem("contratocompraevendabase_db", JSON.stringify(contratobase));
+        localStorage.setItem("contratolocacaobase_db", JSON.stringify(contratobase));
 
-        //lançamento endereço imovel ordem 1
+        //lançamento taxa intermediacao bomlar ordem 1
         lancamento.id = getId;
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = 1;
-        lancamento.descLancamento = "Negocio realizado contrato número " + data.cdContratoCompraeVenda;
-        lancamento.cdConta = 100; //buscar cdconta fixada da conta 'Creditos a Realizar'
-        lancamento.descConta = 'Creditos a Realizar';
-        lancamento.cdContaComplementar = data.cdEndereco;
-        lancamento.descContaComplementar = data.enderecoCompleto;
-        lancamento.valorCredito = 0;
-        lancamento.valorDebito = data.totalHonorarios;
+        lancamento.descLancamento = "Geração de Contrato de Locação Numero CL" + data.cdContratoLocacao;
+        lancamento.cdCentrodeCusto = 665; //buscar centro de custo fixo 'Locação'
+        lancamento.descCentrodeCusto = 'Locação'; //Locação
+        lancamento.cdConta = 102; //buscar cdconta fixada da conta 'Receita Operacional'
+        lancamento.descConta = 'Receita Operacional';
+        lancamento.valorCredito = data.taxaIntermediacaoBomlar;
+        lancamento.valorDebito = 0;
         lancamento.isValido = true;
         lancamento.status = 'VALIDO';
         lancamento.dataLancamento = getCurrentDate();
@@ -116,9 +117,9 @@ const ContratoCompraeVendaHome = () => {
 
         newLancamentoContabil.push(lancamento);
 
-        /////CASO HAJA CORRETORES PARCEIROS
-        const items = JSON.parse(localStorage.getItem("honorarioscorretorparceiro_db"));
-        const selectHonorarios = items?.filter((cc) => cc.cdContratoCompraeVenda === data.cdContratoCompraeVenda);
+        /////CASO HAJA CORRETORES NA INTERMEDIACAO
+        const items = JSON.parse(localStorage.getItem("taxaintermediacao_db"));
+        const selectHonorarios = items?.filter((cc) => cc.cdContratoLocacao === data.cdContratoLocacao);
 
         if (isEligible(selectHonorarios)) {
 
@@ -135,12 +136,12 @@ const ContratoCompraeVendaHome = () => {
                 lancamento.id = getId;
                 lancamento.cdLancamentoContabil = getIdCdLancamento;
                 lancamento.ordemLancamento = getOrdem;
-                lancamento.descLancamento = "Negocio realizado contrato número " + item.cdContratoCompraeVenda;
+                lancamento.descLancamento = "Geração de Contrato de Locação Numero CL" + data.cdContratoLocacao;
                 lancamento.cdConta = 101; //buscar cdconta fixada da conta 'Comissão'
                 lancamento.descConta = 'Comissão';
                 lancamento.cdContaComplementar = item.cdPessoaFisica;
                 lancamento.descContaComplementar = item.nomeCompleto;
-                lancamento.valorCredito = item.valorHonorario;
+                lancamento.valorCredito = item.valorTaxaIntermediacao;
                 lancamento.valorDebito = 0;
                 lancamento.isValido = true;
                 lancamento.status = 'VALIDO';
@@ -165,13 +166,13 @@ const ContratoCompraeVendaHome = () => {
         lancamento.id = getId;
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = getOrdem;
-        lancamento.descLancamento = "Negocio realizado contrato número " + data.cdContratoCompraeVenda;
-        lancamento.cdConta = 102; //buscar cdconta fixada da conta 'Receita Operacional'
-        lancamento.descConta = 'Receita Operacional';
-        lancamento.cdCentrodeCusto = 555; //buscar centro de custo fixo 'Intermediação'
-        lancamento.descCentrodeCusto = 'Intermediação';
-        lancamento.valorCredito = data.honorarioImobiliaria;
-        lancamento.valorDebito = 0;
+        lancamento.descLancamento = "Geração de Contrato de Locação Numero CL" + data.cdContratoLocacao;
+        lancamento.cdConta = 2258; //buscar cdconta fixada da conta 'CLIENTE'
+        lancamento.descConta = 'Cliente';
+        lancamento.cdContaComplementar = data.cdEndereco;
+        lancamento.descContaComplementar = data.enderecoCompleto;
+        lancamento.valorCredito = 0;
+        lancamento.valorDebito = data.taxaIntermediacaoTotal;
         lancamento.isValido = true;
         lancamento.status = 'VALIDO';
         lancamento.dataLancamento = getCurrentDate();
@@ -189,18 +190,18 @@ const ContratoCompraeVendaHome = () => {
 
     };
 
-    const filtraContratoCompraeVenda = (cdContratoCompraeVenda, cdEndereco) => {
-        if (!cdContratoCompraeVenda && !cdEndereco) {
-            setContratoCompraeVendaDb(JSON.parse(localStorage.getItem("contratocompraevendabase_db")));
+    const filtraContratoLocacao = (cdContratoLocacao, cdEndereco) => {
+        if (!cdContratoLocacao && !cdEndereco) {
+            setContratoLocacaoDb(JSON.parse(localStorage.getItem("contratolocacaobase_db")));
             return;
         }
 
-        let items = JSON.parse(localStorage.getItem("contratocompraevendabase_db"));
-        if (isEligible(cdContratoCompraeVenda)) { items = filterer(((x) => x.cdContratoCompraeVenda.toString() === cdContratoCompraeVenda))(run(items)); }
+        let items = JSON.parse(localStorage.getItem("contratolocacaobase_db"));
+        if (isEligible(cdContratoLocacao)) { items = filterer(((x) => x.cdContratoLocacao.toString() === cdContratoLocacao))(run(items)); }
         if (isEligible(cdEndereco)) { items = filterer(((x) => x.cdEndereco === cdEndereco))(run(items)); }
 
 
-        setContratoCompraeVendaDb(items);
+        setContratoLocacaoDb(items);
     };
 
     const run = (value = []) => ({ type: run, value: value });
@@ -215,11 +216,11 @@ const ContratoCompraeVendaHome = () => {
     return (
         <>
             <AppMenu>
-                <GridContratoCompraeVenda
-                    contratocompraevendagrid_db={contratoCompraeVendaDb}
-                    deletacontratocompraevenda={deleteContratoCompraeVenda}
-                    validacontratocompraevenda={validaContratoCompraeVenda}
-                    filter={filtraContratoCompraeVenda}
+                <GridContratoLocacao
+                    contratolocacaogrid_db={contratoLocacaoDb}
+                    deletecontratolocacao={deleteContratoLocacao}
+                    validacontratolocacao={validaContratoLocacao}
+                    filter={filtraContratoLocacao}
                     disableDelete={disableDelete}
                     disableEdit={disableEdit}
                     disableValida={disableValida}
@@ -229,4 +230,4 @@ const ContratoCompraeVendaHome = () => {
     );
 };
 
-export default ContratoCompraeVendaHome;
+export default ContratoLocacaoHome;

@@ -13,6 +13,7 @@ import {
   createContratanteBase,
   createContratanteOperacao,
   createContratosdeCompraeVendaBase,
+  createContratosLocacaoBase,
   createEnderecos,
   createHonorariosCorretorParceiroBase,
   createHonorariosCorretorParceiroOperacao,
@@ -23,6 +24,10 @@ import {
   createLancamentosContabeisAll,
   createLancamentosContabeisBase,
   createLancamentosContabeisOperacao,
+  createLocadorProcuradorBase,
+  createLocadorProcuradorOperacao,
+  createLocatarioProcuradorBase,
+  createLocatarioProcuradorOperacao,
   createMinutasPadraoCeV,
   createMinutasPadraoLocacao,
   createMinutasPadraoOrdemServico,
@@ -31,6 +36,8 @@ import {
   createPessoaFisica,
   createPessoaJuridica,
   createRepresentantesLegaisBase,
+  createTaxaIntermediacaoCorretoresBase,
+  createTaxaIntermediacaoCorretoresOperacao,
   createUsers,
   createVendedorProcuradorBase,
   createVendedorProcuradorOperacao,
@@ -90,7 +97,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("ordemdeservico_db", JSON.stringify(createOrdemdeServico));
     localStorage.setItem("contratante_db", JSON.stringify(createContratanteBase));
     localStorage.setItem("contratanteoperacao_db", JSON.stringify(createContratanteOperacao));
-
+    localStorage.setItem("contratolocacaobase_db", JSON.stringify(createContratosLocacaoBase));
+    localStorage.setItem("locadorprocurador_db", JSON.stringify(createLocadorProcuradorBase));
+    localStorage.setItem("locadorprocuradoroperacao_db", JSON.stringify(createLocadorProcuradorOperacao));
+    localStorage.setItem("locatarioprocurador_db", JSON.stringify(createLocatarioProcuradorBase));
+    localStorage.setItem("locatarioprocuradoroperacao_db", JSON.stringify(createLocatarioProcuradorOperacao));
+    localStorage.setItem("taxaintermediacao_db", JSON.stringify(createTaxaIntermediacaoCorretoresBase));
+    localStorage.setItem("taxaintermediacaooperacao_db", JSON.stringify(createTaxaIntermediacaoCorretoresOperacao));
 
   };
 

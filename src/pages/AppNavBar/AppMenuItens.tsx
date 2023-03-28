@@ -89,7 +89,7 @@ export const appMenuItems = [
         name: "Contrato de Locação",
         sx: { pl: 4 },
         Icon: SummarizeIcon,
-        link: `/operacoes/contrato-locacao`,
+        link: `/operacoes/contratolocacao`,
       },
       {
         name: "Ordem de Serviço",
