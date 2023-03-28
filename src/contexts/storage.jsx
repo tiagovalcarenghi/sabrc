@@ -407,3 +407,17 @@ export const createContratanteOperacao = []
 
 
 //-------------------------------------------------
+
+export const createContratosLocacaoBase = []
+
+export const createLocadorProcuradorBase = []
+export const createLocadorProcuradorOperacao = []
+
+export const createLocatarioProcuradorBase = []
+export const createLocatarioProcuradorOperacao = []
+
+export const createTaxaIntermediacaoCorretoresBase = []
+export const createTaxaIntermediacaoCorretoresOperacao = []
+
+
+//-------------------------------------------------
