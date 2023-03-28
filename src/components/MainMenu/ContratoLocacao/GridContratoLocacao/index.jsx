@@ -21,9 +21,8 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { msgAtencao, msgExcludeContrato, msgExcludeContratoError, msgExcludeContratoSuccess, msgValidaContrato, msgValidaContratoError, msgValidaContratoSuccess } from "../../../../util/applicationresources";
-import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
+import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
 import { validaExclusao } from "../../../commons/ValidaExclusao";
-import GridFooter from "../../../commons/TableFooter";
 
 
 const GridContratoLocacao = (props) => {
@@ -60,6 +59,27 @@ const GridContratoLocacao = (props) => {
             );
         }
     };
+
+
+    //----------PAGINATION START--------////
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const verificaNulo = () => {
+        return !!contratolocacaogrid_db ? contratolocacaogrid_db.length : 0;
+    };
+
+    //----------PAGINATION END--------////
 
 
     return (
@@ -256,9 +276,26 @@ const GridContratoLocacao = (props) => {
                                 )}
                             </>
 
-                            {/* tablefooter */}
-                            <GridFooter db={contratolocacaogrid_db} />
-
+                            <TableFooter>
+                                <TableRow>
+                                    <TablePagination
+                                        rowsPerPageOptions={[5, 10, 25]}
+                                        colSpan={5}
+                                        count={verificaNulo()}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        SelectProps={{
+                                            inputProps: {
+                                                "aria-label": "Linhas por Página",
+                                            },
+                                            native: true,
+                                        }}
+                                        onPageChange={handleChangePage}
+                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                        ActionsComponent={TablePaginationActions}
+                                    />
+                                </TableRow>
+                            </TableFooter>
                         </Table>
                     </TableContainer>
                 </Grid>
