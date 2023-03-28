@@ -26,7 +26,7 @@ export const initialLocadorProcuradorBase = {
     cdContratoLocacao: '',
     cdLocadores: '',
     cdNomeLocador: '',
-    cdTipoNomeLocador: '',
+    nomeLocador: '',
     cdTipoNomeLocador: '',
     cdNomeProcurador: '',
     nomeProcurador: '',

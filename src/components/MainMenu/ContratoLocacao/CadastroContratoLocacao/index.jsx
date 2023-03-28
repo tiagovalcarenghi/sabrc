@@ -32,65 +32,55 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { msgAtencao, msgCadSuccess, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess, msgLancamentoError, msgSaveContratoCompraeVendaError } from "../../../../util/applicationresources";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import ptBR from 'dayjs/locale/pt-br';
-import dayjs from 'dayjs';
-import { getDateFormat, isEligible } from "../../../../util/utils";
-import { initialContratosdeCompraeVendaBase } from "../../../../util/MainMenu/ContratoCompraeVenda/constants";
+import { isEligible } from "../../../../util/utils";
 import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
+import { initialContratosdeLocacaoBase } from "../../../../util/MainMenu/ContratoLocacao/constants";
 
 
 const CadastroContratoLocacao = (props) => {
 
-    const { contratocompraevendacad, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar } = props;
-    const [filterComprador, setFilterComprador] = useState({});
-    const [filterCompradorProcurador, setFilterCompradorProcurador] = useState({});;
-    const [filterVendedor, setFilterVendedor] = useState({});;
-    const [filterVendedorProcurador, setFilterVendedorProcurador] = useState({});
+    const { contratolocacaocad, locadoreprocurador, addlocadoreprocurador, deletelocadoreprocurador, locatarioeprocurador, addlocatarioeprocurador, deletelocatarioeprocurador, taxaintermediacaocorretores, addtaxaintermediacao, deletetaxaintermediacao, locadorlocatarionomes, procuradornomes, endereco, salvar, limpar } = props;
+
+    const [filterLocador, setFilterLocador] = useState({});
+    const [filterLocadorProcurador, setFilterLocadorProcurador] = useState({});;
+    const [filterLocatario, setFilterLocatario] = useState({});;
+    const [filterLocatarioProcurador, setFilterLocatarioProcurador] = useState({});
     const [filterEndereco, setEndereco] = useState({});
-    const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
-    const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
+    const [filterCorretor, setFilterCorretor] = useState({});
+    const [taxaIntermediacaoCorretor, setTaxaIntermediacaoCorretor] = useState(0);
     const [radioMinuta, setRadioMinutaValue] = useState('padrao');
     const [disableMinuta, setDisableMinuta] = useState(true);
-    const [prazoRegularizacao, setPrazoRegularizacao] = useState(dayjs());
-    const [valorNegocio, setValorNegocio] = useState(0);
-    const [honorariosImobiliaria, setHonorariosImobiliaria] = useState(0);
+    const [valordaLocacao, setValorLocacao] = useState(0);
+    const [taxaIntermediacaoBomlar, setTaxaIntermediacaoBomlar] = useState(0);
+    const [taxaIntermediacaoTotal, setTaxaIntermediacaoTotal] = useState(0);
 
     const navigate = useNavigate();
 
-    const handleExcluirCompradoreProcurador = (cp) => {
-        deletecompradoreprocurador(cp);
+    const handleExcluirLocadorProcurador = (cp) => {
+        deletelocadoreprocurador(cp);
     };
 
-    const handleExcluirVendcedroeProcurador = (vp) => {
-        deletevendedoreprocurador(vp);
+    const handleExcluirLocatarioProcurador = (vp) => {
+        deletelocatarioeprocurador(vp);
     };
 
-    const handleExcluirCorretorParceiro = (co) => {
-        deletehonorarios(co);
-    };
-
-
-    const addCompradoreProcurador = () => {
-        addcompradoreprocurador(filterComprador, filterCompradorProcurador);
-    };
-
-    const addVendedoreProcurador = () => {
-        addvendedoreprocurador(filterVendedor, filterVendedorProcurador);
+    const handleExcluirTaxaIntermediacaoCorretor = (co) => {
+        deletetaxaintermediacao(co);
     };
 
 
-    const addCorretorParceiro = () => {
-        setHonorariosCorretorParceiro(isEligible(honorariosCorretorParceiro) ? Number(honorariosCorretorParceiro) : Number(0));
-        addhonorarios(filterCorretorParceiro, honorariosCorretorParceiro);
+    const addLocadorProcurador = () => {
+        addlocadoreprocurador(filterLocador, filterLocadorProcurador);
+    };
+
+    const addLocatarioeProcurador = () => {
+        addlocatarioeprocurador(filterLocatario, filterLocatarioProcurador);
     };
 
 
-
-    const handlePrazoRegularizacao = (newValue) => {
-        setPrazoRegularizacao(newValue);
+    const addTaxaIntermediacaoCorretor = () => {
+        setTaxaIntermediacaoCorretor(isEligible(taxaIntermediacaoCorretor) ? Number(taxaIntermediacaoCorretor) : Number(0));
+        addtaxaintermediacao(filterCorretor, taxaIntermediacaoCorretor);
     };
 
 
@@ -103,7 +93,7 @@ const CadastroContratoLocacao = (props) => {
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: contratocompraevendacad || initialContratosdeCompraeVendaBase,
+        initialValues: contratolocacaocad || initialContratosdeLocacaoBase,
         onSubmit: (values) => {
 
 
@@ -115,26 +105,18 @@ const CadastroContratoLocacao = (props) => {
                     text: msgInsertContratoCompraeVendaSuccess,
                 });
 
-                values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
-                values.valorNegocio = isEligible(valorNegocio) ? valorNegocio : 0;
-                values.honorarioImobiliaria = isEligible(honorariosImobiliaria) ? honorariosImobiliaria : 0;
+                values.valordaLocacao = isEligible(valordaLocacao) ? valordaLocacao : 0;
+                values.taxaIntermediacaoBomlar = isEligible(taxaIntermediacaoBomlar) ? taxaIntermediacaoBomlar : 0;
                 values.cdEndereco = isEligible(filterEndereco.cdNomes) ? filterEndereco.cdNomes : null;
                 values.enderecoCompleto = isEligible(filterEndereco.nome) ? filterEndereco.nome : '';
-                values.detalhamentoImovel = isEligible(values.detalhamentoImovel) ? values.detalhamentoImovel : '';
-                values.formaPagto = isEligible(values.formaPagto) ? values.formaPagto : '';
-                values.condicoes = isEligible(values.condicoes) ? values.condicoes : '';
-                values.formaPagtoHonorarios = isEligible(values.formaPagtoHonorarios) ? values.formaPagtoHonorarios : '';
-                values.regularidadeImovel = isEligible(values.regularidadeImovel) ? values.regularidadeImovel : '';
-                values.responsabilidadeRegularizacao = isEligible(values.responsabilidadeRegularizacao) ? values.responsabilidadeRegularizacao : '';
-                values.posseDefinitiva = isEligible(values.posseDefinitiva) ? values.posseDefinitiva : '';
-                values.prazoObtencaoFinanciamento = isEligible(values.prazoObtencaoFinanciamento) ? values.prazoObtencaoFinanciamento : '';
+                values.taxaIntermediacaoTotal = isEligible(taxaIntermediacaoTotal) ? taxaIntermediacaoTotal : 0;
                 values.textoMinuta = isEligible(values.textoMinuta) ? values.textoMinuta : '';
                 values.tipoMinuta = radioMinuta;
 
                 salvar(values);
                 formik.resetForm();
                 limpar();
-                navigate("/operacoes/contratocompraevenda");
+                navigate("/operacoes/contratolocacao");
 
             } else {
 
@@ -155,7 +137,7 @@ const CadastroContratoLocacao = (props) => {
         <form onSubmit={formik.handleSubmit}>
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Operações</Typography>
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contrato de Compra e Venda</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Contrato de Locação</Typography>
                 <Typography color="text.primary">Cadastrar</Typography>
             </Breadcrumbs>
 
@@ -168,26 +150,26 @@ const CadastroContratoLocacao = (props) => {
                 }}
             >
 
-                <Chip label="PROMINETE COMPRADOR" />
+                <Chip label="LOCADOR" />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={3}>
 
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Comprador</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Locador</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="filterComprador"
-                                label="Comprador"
+                                name="filterLocador"
+                                label="Locador"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterComprador}
-                                onChange={(e) => setFilterComprador(e.target.value)}
+                                value={filterLocador}
+                                onChange={(e) => setFilterLocador(e.target.value)}
                             >
 
-                                {compradorvendedornomes.map((nome) => (
+                                {locadorlocatarionomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
                                         value={nome}
@@ -209,12 +191,12 @@ const CadastroContratoLocacao = (props) => {
                             <Select
                                 fullWidth
                                 size="small"
-                                name="filterCdConta"
+                                name="filterLocadorProcurador"
                                 label="Procurador"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterCompradorProcurador}
-                                onChange={(e) => setFilterCompradorProcurador(e.target.value)}
+                                value={filterLocadorProcurador}
+                                onChange={(e) => setFilterLocadorProcurador(e.target.value)}
                             >
                                 {procuradornomes.map((nome) => (
                                     <MenuItem
@@ -238,11 +220,11 @@ const CadastroContratoLocacao = (props) => {
                             color="info"
                             variant="outlined"
                             onClick={() => {
-                                addCompradoreProcurador();
+                                addLocadorProcurador();
                             }}
                             startIcon={<AddBoxRoundedIcon />}
                         >
-                            Adicionar Comprador
+                            Adicionar Locador
                         </Button>
 
 
@@ -265,22 +247,22 @@ const CadastroContratoLocacao = (props) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell align="left">Comprador</StyledTableCell>
+                                        <StyledTableCell align="left">Locador</StyledTableCell>
                                         <StyledTableCell align="left">Procurador</StyledTableCell>
                                         <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
 
                                 <>
-                                    {compradoreprocurador && compradoreprocurador.length > 0 && (
+                                    {locadoreprocurador && locadoreprocurador.length > 0 && (
                                         <TableBody>
-                                            {compradoreprocurador.map((compradoreproc) => (
-                                                <StyledTableRow key={compradoreproc.id}>
+                                            {locadoreprocurador.map((locadoreproc) => (
+                                                <StyledTableRow key={locadoreproc.id}>
                                                     <StyledTableCell align="left" width="30%">
-                                                        {compradoreproc.nomeComprador}
+                                                        {locadoreproc.nomeLocador}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="left" width="30%">
-                                                        {compradoreproc.nomeProcurador}
+                                                        {locadoreproc.nomeProcurador}
                                                     </StyledTableCell>
 
 
@@ -299,7 +281,7 @@ const CadastroContratoLocacao = (props) => {
                                                                 }).then((result) => {
                                                                     if (result.isConfirmed) {
                                                                         Swal.fire(msgAtencao, msgExcludeCompradorSuccess);
-                                                                        handleExcluirCompradoreProcurador(compradoreproc);
+                                                                        handleExcluirLocadorProcurador(locadoreproc);
                                                                     }
                                                                 });
                                                             }}
@@ -316,7 +298,7 @@ const CadastroContratoLocacao = (props) => {
 
                 </Grid>
 
-                <Chip label="PROMINENTE VENDEDOR" />
+                <Chip label="LOCATÁRIO" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -324,19 +306,19 @@ const CadastroContratoLocacao = (props) => {
                     <Grid item xs={3}>
 
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Vendedor</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Locatário</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="filterVendedor"
-                                label="Vendedor"
+                                name="filterLocatario"
+                                label="Locatário"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterVendedor}
-                                onChange={(e) => setFilterVendedor(e.target.value)}
+                                value={filterLocatario}
+                                onChange={(e) => setFilterLocatario(e.target.value)}
                             >
 
-                                {compradorvendedornomes.map((nome) => (
+                                {locadorlocatarionomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
                                         value={nome}
@@ -358,12 +340,12 @@ const CadastroContratoLocacao = (props) => {
                             <Select
                                 fullWidth
                                 size="small"
-                                name="filterVendedorProcurador"
+                                name="filterLocatarioProcurador"
                                 label="Procurador"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterVendedorProcurador}
-                                onChange={(e) => setFilterVendedorProcurador(e.target.value)}
+                                value={filterLocatarioProcurador}
+                                onChange={(e) => setFilterLocatarioProcurador(e.target.value)}
                             >
                                 {procuradornomes.map((nome) => (
                                     <MenuItem
@@ -387,11 +369,11 @@ const CadastroContratoLocacao = (props) => {
                             color="info"
                             variant="outlined"
                             onClick={() => {
-                                addVendedoreProcurador();
+                                addLocatarioeProcurador();
                             }}
                             startIcon={<AddBoxRoundedIcon />}
                         >
-                            Adicionar Vendedor
+                            Adicionar Locatário
                         </Button>
 
 
@@ -414,22 +396,22 @@ const CadastroContratoLocacao = (props) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell align="left">Vendedor</StyledTableCell>
+                                        <StyledTableCell align="left">Locatário</StyledTableCell>
                                         <StyledTableCell align="left">Procurador</StyledTableCell>
                                         <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
 
                                 <>
-                                    {vendedoreprocurador && vendedoreprocurador.length > 0 && (
+                                    {locatarioeprocurador && locatarioeprocurador.length > 0 && (
                                         <TableBody>
-                                            {vendedoreprocurador.map((vendedoreproc) => (
-                                                <StyledTableRow key={vendedoreproc.id}>
+                                            {locatarioeprocurador.map((locatarioeproc) => (
+                                                <StyledTableRow key={locatarioeproc.id}>
                                                     <StyledTableCell align="left" width="40%">
-                                                        {vendedoreproc.nomeVendedor}
+                                                        {locatarioeproc.nomeLocatario}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="left" width="40%">
-                                                        {vendedoreproc.nomeProcurador}
+                                                        {locatarioeproc.nomeProcurador}
                                                     </StyledTableCell>
 
 
@@ -448,7 +430,7 @@ const CadastroContratoLocacao = (props) => {
                                                                 }).then((result) => {
                                                                     if (result.isConfirmed) {
                                                                         Swal.fire(msgAtencao, msgExcludeVendedorSuccess);
-                                                                        handleExcluirVendcedroeProcurador(vendedoreproc);
+                                                                        handleExcluirLocatarioProcurador(locatarioeproc);
                                                                     }
                                                                 });
                                                             }}
@@ -465,7 +447,7 @@ const CadastroContratoLocacao = (props) => {
 
                 </Grid>
 
-                <Chip label="DETALHES IMÓVEL" />
+                <Chip label="DETALHES DETALHES" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -497,15 +479,19 @@ const CadastroContratoLocacao = (props) => {
                     </Grid>
 
 
-                    <Grid item xs={5}>
-                        <TextField
+                    <Grid item xs={3}>
+                        <CurrencyTextField
+                            variant="outlined"
                             size="small"
                             fullWidth
-                            name="detalhamentoImovel"
-                            label="Detalhamento do Imóvel"
-                            value={formik.values.detalhamentoImovel}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
+                            name="valordaLocacao"
+                            label="Valor da Locação"
+                            value={valordaLocacao}
+                            currencySymbol="R$"
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            outputFormat="string"
+                            onChange={(event, value) => setValorLocacao(value)}
                         />
                     </Grid>
 
@@ -514,68 +500,38 @@ const CadastroContratoLocacao = (props) => {
                             variant="outlined"
                             size="small"
                             fullWidth
-                            name="valorNegocio"
-                            label="Valor do Negócio"
-                            value={valorNegocio}
+                            name="taxaIntermediacaoTotal"
+                            label="Taxa de Intermediação Total"
+                            value={taxaIntermediacaoTotal}
                             currencySymbol="R$"
                             decimalCharacter=","
                             digitGroupSeparator="."
                             outputFormat="string"
-                            onChange={(event, value) => setValorNegocio(value)}
+                            onChange={(event, value) => setTaxaIntermediacaoTotal(value)}
                         />
                     </Grid>
                 </Grid>
 
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    <Grid item xs={6}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="formaPagto"
-                            label="Forma de Pagamento"
-                            value={formik.values.formaPagto}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
 
 
-                    <Grid item xs={6}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="condicoes"
-                            label="Condições"
-                            value={formik.values.condicoes}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-
-
-                </Grid>
-
-                <Chip label="HONORÁRIOS" />
+                <Chip label="RATEIO DE HONORÁRIOS" />
                 <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-
-
                     <Grid item xs={3}>
 
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Corretor Parceiro</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Corretor</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="filterCorretorParceiro"
-                                label="Corretor Parceiro"
+                                name="filterCorretor"
+                                label="Corretor"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterCorretorParceiro}
-                                onChange={(e) => setFilterCorretorParceiro(e.target.value)}
+                                value={filterCorretor}
+                                onChange={(e) => setFilterCorretor(e.target.value)}
                             >
                                 {procuradornomes.map((nome) => (
                                     <MenuItem
@@ -597,21 +553,17 @@ const CadastroContratoLocacao = (props) => {
                             variant="outlined"
                             size="small"
                             fullWidth
-                            name="honorariosCorretorParceiro"
-                            label="Honorários Corretor"
-                            value={honorariosCorretorParceiro}
+                            name="taxaIntermediacaoCorretor"
+                            label="Rateio do Corretor"
+                            value={taxaIntermediacaoCorretor}
                             currencySymbol="R$"
                             decimalCharacter=","
                             digitGroupSeparator="."
                             outputFormat="string"
-                            onChange={(event, value) => setHonorariosCorretorParceiro(value)}
+                            onChange={(event, value) => setTaxaIntermediacaoCorretor(value)}
                         />
 
-
                     </Grid>
-
-
-
 
 
 
@@ -622,11 +574,11 @@ const CadastroContratoLocacao = (props) => {
                             color="info"
                             variant="outlined"
                             onClick={() => {
-                                addCorretorParceiro();
+                                addTaxaIntermediacaoCorretor();
                             }}
                             startIcon={<AddBoxRoundedIcon />}
                         >
-                            Adicionar Honorário
+                            Adicionar Rateio
                         </Button>
 
 
@@ -650,21 +602,21 @@ const CadastroContratoLocacao = (props) => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="left">Nome Corretor</StyledTableCell>
-                                        <StyledTableCell align="center">Valor Honorário</StyledTableCell>
+                                        <StyledTableCell align="center">Valor</StyledTableCell>
                                         <StyledTableCell align="center" colSpan={2}></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
 
                                 <>
-                                    {honorarioscorretorparceiro && honorarioscorretorparceiro.length > 0 && (
+                                    {taxaintermediacaocorretores && taxaintermediacaocorretores.length > 0 && (
                                         <TableBody>
-                                            {honorarioscorretorparceiro.map((honorarioscorretor) => (
-                                                <StyledTableRow key={honorarioscorretor.id}>
+                                            {taxaintermediacaocorretores.map((rateiocorretor) => (
+                                                <StyledTableRow key={rateiocorretor.id}>
                                                     <StyledTableCell align="left" width="60%">
-                                                        {honorarioscorretor.nomeCompleto}
+                                                        {rateiocorretor.nomeCompleto}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="center" width="15%">
-                                                        {honorarioscorretor.valorHonorario}
+                                                        {rateiocorretor.valorTaxaIntermediacao}
                                                     </StyledTableCell>
 
 
@@ -683,7 +635,7 @@ const CadastroContratoLocacao = (props) => {
                                                                 }).then((result) => {
                                                                     if (result.isConfirmed) {
                                                                         Swal.fire(msgAtencao, msgExcludeHonorarioSuccess);
-                                                                        handleExcluirCorretorParceiro(honorarioscorretor);
+                                                                        handleExcluirTaxaIntermediacaoCorretor(rateiocorretor);
                                                                     }
                                                                 });
                                                             }}
@@ -711,114 +663,23 @@ const CadastroContratoLocacao = (props) => {
                         <CurrencyTextField
                             size="small"
                             fullWidth
-                            name="honorarioImobiliaria"
-                            label="Honorários Imobiliária"
+                            name="taxaIntermediacaoBomlar"
+                            label="Taxa Intermediação Bomlar"
                             variant="outlined"
                             currencySymbol="R$"
                             decimalCharacter=","
                             digitGroupSeparator="."
                             outputFormat="string"
-                            value={honorariosImobiliaria}
-                            onChange={(event, value) => setHonorariosImobiliaria(value)}
+                            value={taxaIntermediacaoBomlar}
+                            onChange={(event, value) => setTaxaIntermediacaoBomlar(value)}
                         />
                     </Grid>
 
 
-                    <Grid item xs={6}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="formaPagtoHonorarios"
-                            label="Forma de Pagamento dos Honorários"
-                            value={formik.values.formaPagtoHonorarios}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-
-                </Grid>
-
-                <Chip label="REGULARIDADE" />
-
-                <Divider />
-
-
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="regularidadeImovel"
-                            label="Regularidade do Imóvel"
-                            value={formik.values.regularidadeImovel}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="responsabilidadeRegularizacao"
-                            label="Responsabilidade pela Regularização"
-                            value={formik.values.responsabilidadeRegularizacao}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-
-
-                    <Grid item xs={4}>
-
-                        <LocalizationProvider dateAdapter={AdapterDayjs} locale={ptBR}>
-                            <DesktopDatePicker
-                                label="Prazo de Regularização"
-                                inputFormat="DD/MM/YYYY"
-                                value={prazoRegularizacao}
-                                onChange={handlePrazoRegularizacao}
-                                renderInput={(params) => <TextField
-                                    fullWidth
-                                    name="prazoRegularizacao"
-                                    size="small"
-                                    {...params} />}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
 
                 </Grid>
 
 
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="posseDefinitiva"
-                            label="Posse Definitiva(dias)"
-                            value={formik.values.posseDefinitiva}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="prazoObtencaoFinanciamento"
-                            label="Prazo Para Obtenção do Financiamento(dias)"
-                            value={formik.values.prazoObtencaoFinanciamento}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-
-                </Grid>
 
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -843,7 +704,7 @@ const CadastroContratoLocacao = (props) => {
                             onChange={handleChangeRadioMinuta}
                             row
                         >
-                            <FormControlLabel value="padrao" control={<Radio />} label="Utilizar Minuta Padrão Compra e Venda" />
+                            <FormControlLabel value="padrao" control={<Radio />} label="Utilizar Minuta Padrão Locação" />
                             <FormControlLabel value="edit" control={<Radio />} label="Editar Minuta para este contrato" />
                         </RadioGroup>
                     </Grid>
@@ -894,17 +755,16 @@ const CadastroContratoLocacao = (props) => {
                                 e.preventDefault();
                                 formik.resetForm();
 
-                                setFilterComprador({});
-                                setFilterCompradorProcurador({});;
-                                setFilterVendedor({});;
-                                setFilterVendedorProcurador({});
+                                setFilterLocador({});
+                                setFilterLocadorProcurador({});;
+                                setFilterLocatario({});;
+                                setFilterLocatarioProcurador({});
                                 setEndereco({});
-                                setFilterCorretorParceiro({});
-                                setHonorariosCorretorParceiro(0);
+                                setFilterCorretor({});
+                                setTaxaIntermediacaoCorretor(0);
                                 setRadioMinutaValue('padrao');
-                                setPrazoRegularizacao(dayjs());
-                                setValorNegocio(0);
-                                setHonorariosImobiliaria(0);
+                                setValorLocacao(0);
+                                setTaxaIntermediacaoBomlar(0);
 
                                 limpar();
 
@@ -921,7 +781,7 @@ const CadastroContratoLocacao = (props) => {
                             color="primary"
                             variant="outlined"
                             component={Link}
-                            to="/operacoes/contratocompraevenda"
+                            to="/operacoes/contratolocacao"
                             startIcon={<ArrowBackIcon />}
                         >
                             VOLTAR

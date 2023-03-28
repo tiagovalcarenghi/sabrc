@@ -87,6 +87,8 @@ const ContratoLocacaoHome = () => {
         var getId = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
         getId = !isEligible(getId.length) ? 1 : getId.length + 1;
 
+        console.log(data);
+
         //salva cdLancamento no contrato
         let contratobase = JSON.parse(localStorage.getItem("contratolocacaobase_db"));
         contratobase.map((item) => {
@@ -94,6 +96,7 @@ const ContratoLocacaoHome = () => {
                 item.cdLancamentoContabil = getIdCdLancamento;
             }
         });
+        localStorage.setItem("contratolocacaobase_db", JSON.stringify(contratobase));
 
         //lançamento taxa intermediacao bomlar ordem 1
         lancamento.id = getId;

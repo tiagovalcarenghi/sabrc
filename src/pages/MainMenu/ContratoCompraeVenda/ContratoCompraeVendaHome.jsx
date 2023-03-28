@@ -95,6 +95,7 @@ const ContratoCompraeVendaHome = () => {
                 item.cdLancamentoContabil = getIdCdLancamento;
             }
         });
+        localStorage.setItem("contratocompraevendabase_db", JSON.stringify(contratobase));
 
         //lançamento endereço imovel ordem 1
         lancamento.id = getId;
