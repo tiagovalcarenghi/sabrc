@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroUsuarios from "../../components/Usuario/CadastroUsuarios";
 import { initialUsuarios } from "../../util/Usuarios/constants";
+import { isEligible } from "../../util/utils";
 import AppMenu from "../AppNavBar/AppMenu";
 
 
@@ -35,7 +36,7 @@ const UsuarioCad = () => {
         }
 
         var getId = JSON.parse(localStorage.getItem("users_db"));
-        u.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+        u.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         const newUsuario = getId === null ? [u] : [...JSON.parse(localStorage.getItem("users_db")), u];
         localStorage.setItem("users_db", JSON.stringify(newUsuario));
         setUsuarioEmEdicao(initialUsuarios);

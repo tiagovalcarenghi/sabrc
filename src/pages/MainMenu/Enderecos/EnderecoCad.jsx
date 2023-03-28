@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import CadastroEndereco from "../../../components/MainMenu/Enderecos/CadastroEndereco";
 import { initialNomes } from "../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { initialValuesEnderecos } from "../../../util/MainMenu/Enderecos/constants";
+import { isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 
@@ -37,7 +38,7 @@ const EnderecoCad = () => {
         }
 
         var getId = JSON.parse(localStorage.getItem("enderecos_db"));
-        cc.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+        cc.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         cc.cdEndereco = cc.id;
         const newEndereco = getId === null ? [cc] : [...JSON.parse(localStorage.getItem("enderecos_db")), cc];
         localStorage.setItem("enderecos_db", JSON.stringify(newEndereco));
@@ -50,7 +51,7 @@ const EnderecoCad = () => {
         var numeroadress = isBlank(cc.numero) ? "" : ", " + cc.numero;
         var newNomeCad = initialNomes;
         var getId = JSON.parse(localStorage.getItem("nomes_db"));
-        newNomeCad.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+        newNomeCad.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         newNomeCad.cdNomes = newNomeCad.id;
         newNomeCad.nome = cc.logradouro + numeroadress;
         newNomeCad.cdTipoNome = 3;

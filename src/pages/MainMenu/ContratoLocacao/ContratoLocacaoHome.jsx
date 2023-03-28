@@ -103,9 +103,9 @@ const ContratoLocacaoHome = () => {
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = 1;
         lancamento.descLancamento = "Geração de Contrato de Locação Numero CL" + data.cdContratoLocacao;
-        lancamento.cdCentrodeCusto = 665; //buscar centro de custo fixo 'Locação'
+        lancamento.cdCentrodeCusto = 2; //buscar centro de custo fixo 'Locação'
         lancamento.descCentrodeCusto = 'Locação'; //Locação
-        lancamento.cdConta = 102; //buscar cdconta fixada da conta 'Receita Operacional'
+        lancamento.cdConta = 3; //buscar cdconta fixada da conta 'Receita Operacional'
         lancamento.descConta = 'Receita Operacional';
         lancamento.valorCredito = data.taxaIntermediacaoBomlar;
         lancamento.valorDebito = 0;
@@ -137,7 +137,7 @@ const ContratoLocacaoHome = () => {
                 lancamento.cdLancamentoContabil = getIdCdLancamento;
                 lancamento.ordemLancamento = getOrdem;
                 lancamento.descLancamento = "Geração de Contrato de Locação Numero CL" + data.cdContratoLocacao;
-                lancamento.cdConta = 101; //buscar cdconta fixada da conta 'Comissão'
+                lancamento.cdConta = 2; //buscar cdconta fixada da conta 'Comissão'
                 lancamento.descConta = 'Comissão';
                 lancamento.cdContaComplementar = item.cdPessoaFisica;
                 lancamento.descContaComplementar = item.nomeCompleto;
@@ -167,7 +167,7 @@ const ContratoLocacaoHome = () => {
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = getOrdem;
         lancamento.descLancamento = "Geração de Contrato de Locação Numero CL" + data.cdContratoLocacao;
-        lancamento.cdConta = 2258; //buscar cdconta fixada da conta 'CLIENTE'
+        lancamento.cdConta = 4; //buscar cdconta fixada da conta 'CLIENTE'
         lancamento.descConta = 'Cliente';
         lancamento.cdContaComplementar = data.cdEndereco;
         lancamento.descContaComplementar = data.enderecoCompleto;

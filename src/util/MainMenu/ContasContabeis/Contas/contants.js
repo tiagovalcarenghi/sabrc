@@ -7,6 +7,7 @@ export const initialValuesContasContabeis = {
     saldo: '',
     cdTipoSaldo: '',
     descTipoSaldo: '',
+    isFixed: ''
 }
 
 

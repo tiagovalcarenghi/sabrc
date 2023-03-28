@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { verificaDisableEdit } from "../../../../components/commons/Disables";
 import CadastroMinutasPadraoCompraeVenda from "../../../../components/MainMenu/MinutasPadrao/CadastroMinutasPadraoCompraeVenda";
 import { initialValuesMinutasPadraoCeV } from "../../../../util/MainMenu/MinutasPadrao/ContratoCompraeVenda/constants";
+import { isEligible } from "../../../../util/utils";
 import AppMenu from "../../../AppNavBar/AppMenu";
 
 
@@ -23,7 +24,7 @@ const MinutaPadraoCompraeVendaHome = () => {
 
     const salvarMinutasPadraoCeV = (mpcev) => {
         var getId = JSON.parse(localStorage.getItem("minutaspadraocev_db"));
-        mpcev.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+        mpcev.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         mpcev.cdMinutaPadraoContratoCeV = mpcev.id;
         const newMinutaPadraoCeV = getId === null ? [mpcev] : [...JSON.parse(localStorage.getItem("minutaspadraocev_db")), mpcev];
         localStorage.setItem("minutaspadraocev_db", JSON.stringify(newMinutaPadraoCeV));

@@ -119,9 +119,9 @@ const OrdemdeServicoCad = () => {
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = 1;
         lancamento.descLancamento = "Geração de Ordem de Serviço Número - " + os.cdOrdemdeServico;
-        lancamento.cdCentrodeCusto = 454; //verificar cd centro de custo fixo nome 'Ordem de Serviço'
+        lancamento.cdCentrodeCusto = 3; //verificar cd centro de custo fixo nome 'Ordem de Serviço'
         lancamento.descCentrodeCusto = "Ordem de Serviço"; //verificar centro de custo fixo nome 'Ordem de Serviço'
-        lancamento.cdConta = 102; // //buscar cdconta fixada da conta 'Receita Operacional'
+        lancamento.cdConta = 3; // //buscar cdconta fixada da conta 'Receita Operacional'
         lancamento.descConta = 'Receita Operacional'; //buscar cdconta fixada da conta 'Receita Operacional'
         lancamento.valorCredito = os.valorServico;
         lancamento.valorDebito = 0;
@@ -140,8 +140,8 @@ const OrdemdeServicoCad = () => {
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = 2;
         lancamento.descLancamento = "Geração de Ordem de Serviço Número - " + os.cdOrdemdeServico;
-        lancamento.cdConta = 284 // //buscar cdconta fixada da conta 'Clientes'
-        lancamento.descConta = 'Clientes'; //buscar cdconta fixada da conta 'Clientes'
+        lancamento.cdConta = 4 // //buscar cdconta fixada da conta 'Cliente'
+        lancamento.descConta = 'Cliente'; //buscar cdconta fixada da conta 'Cliente'
         lancamento.cdContaComplementar = os.cdEndereco;
         lancamento.descContaComplementar = os.enderecoCompleto;
         lancamento.valorCredito = 0;

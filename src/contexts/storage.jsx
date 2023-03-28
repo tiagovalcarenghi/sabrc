@@ -24,149 +24,14 @@ export const createUsers = [
 
 //---------------------------------------------
 
-export const createPessoaFisica = [
-  {
-    id: 1,
-    cdPessoaFisica: 1,
-    nomeCompleto: "Tiago Amaral Valcarenghi",
-    cdEstadoCivil: 1,
-    profissao: "Desenvolvedor",
-    nacionalidade: "Brasileiro",
-    ci: "2100511134",
-    cnh: "321654621",
-    docExtra: "",
-    cpf: "01698308027",
-    telefone: "51-984736159",
-    telefoneAdicional: "",
-    email: "tiago@teste.com.br",
-    enderecoCompleto: "Rua Dona Cecília, 603",
-    logradouro: "Rua Dona Cecília",
-    cep: "94935130",
-    bairro: "Vila City",
-    numero: "603",
-    complemento: "",
-    localidade: "Cachoeirinha",
-    uf: "RS",
-  },
-  {
-    id: 2,
-    cdPessoaFisica: 2,
-    nomeCompleto: "Elvis Sandro Valcarenghi",
-    cdEstadoCivil: 2,
-    profissao: "Gerente",
-    nacionalidade: "Brasileiro",
-    ci: "",
-    cnh: "21312421421",
-    docExtra: "teste 2131231321",
-    cpf: "12345678985",
-    telefone: "51-985855692",
-    telefoneAdicional: "51-34412056",
-    email: "esv@teste.com.br",
-    enderecoCompleto: "Travessa Planalto, 56 Ap 520 Bloco 05",
-    logradouro: "Travessa Planalto",
-    cep: "949385669",
-    bairro: "Parque da Matriz",
-    numero: "56",
-    complemento: "Ap 520 Bloco 05",
-    localidade: "Cachoeirinha",
-    uf: "RS",
-  },
-  {
-    id: 3,
-    cdPessoaFisica: 3,
-    nomeCompleto: "John Connor",
-    cdEstadoCivil: 4,
-    profissao: "Advogado",
-    nacionalidade: "Americano",
-    ci: "",
-    cnh: "",
-    docExtra: "ID: 456878563654",
-    cpf: "",
-    telefone: "84-8885985265",
-    telefoneAdicional: "",
-    email: "johnconnor@teste.com.br",
-    enderecoCompleto: "Rua Dona Cecília, 805",
-    logradouro: "Rua Dona Cecília",
-    cep: "94935130",
-    bairro: "Vila City",
-    numero: "805",
-    complemento: "",
-    localidade: "Cachoeirinha",
-    uf: "RS",
-  },
-];
+export const createPessoaFisica = [];
 
 //-------------------------------------------------
 
-export const createPessoaJuridica = [
-  {
-    id: 1,
-    cdPessoaJuridica: 1,
-    nomeEmpresarial: "SAB",
-    emailContato: "sab@sab.com.br",
-    cnpj: "66546400016546546",
-    cep: "9493699",
-    logradouro: "Rua 1",
-    bairro: "Vila Teste",
-    numero: "456",
-    complemento: "",
-    uf: "SC",
-    localidade: "Florianópolis",
-    enderecoCompleto: "Rua 1, 456"
-  },
-  {
-    id: 2,
-    cdPessoaJuridica: 2,
-    nomeEmpresarial: "Lojas Quero-Quero",
-    emailContato: "lojasqueroquero@lqq.com.br",
-    cnpj: "122132132124216",
-    cep: "120023554",
-    logradouro: "Rua 2",
-    bairro: "Vila Teste 2",
-    numero: "1025",
-    complemento: "",
-    uf: "PR",
-    localidade: "Toledo",
-    enderecoCompleto: "Rua 2, 1025"
-  },
-  {
-    id: 3,
-    cdPessoaJuridica: 3,
-    nomeEmpresarial: "Santander",
-    emailContato: "santander@santander.com.br",
-    cnpj: "26550001065664",
-    cep: "94352002",
-    logradouro: "Rua 8",
-    bairro: "Vila Teste 8",
-    numero: "",
-    complemento: "",
-    uf: "SP",
-    localidade: "São Paulo",
-    enderecoCompleto: "Rua 8"
-  },
-];
+export const createPessoaJuridica = [];
 
 
-export const createRepresentantesLegaisBase = [
-  {
-    id: 1,
-    cdPessoaJuridica: 1,
-    cdPessoaFisica: 2,
-    nomeRepresentante: "Elvis Sandro Valcarenghi",
-  },
-  {
-    id: 2,
-    cdPessoaJuridica: 1,
-    cdPessoaFisica: 3,
-    nomeRepresentante: "John Connor",
-  },
-  {
-    id: 3,
-    cdPessoaJuridica: 2,
-    cdPessoaFisica: 1,
-    nomeRepresentante: "Tiago Amaral Valcarenghi",
-  },
-];
+export const createRepresentantesLegaisBase = [];
 
 
 //-------------------------------------------------
@@ -175,32 +40,57 @@ export const createContasContabeis = [
   {
     id: 1,
     cdContaContabil: 1,
-    desContaContabil: 'Conta Patrimonial 1',
+    desContaContabil: 'Creditos a Realizar',
     cdTipoConta: 1,
     descTipoConta: 'Patrimonial',
-    saldo: 7500.36,
+    saldo: 1000.99,
     cdTipoSaldo: 1,
-    descTipoSaldo: 'Crédito'
+    descTipoSaldo: 'Crédito',
+    isFixed: true
   },
   {
     id: 2,
     cdContaContabil: 2,
-    desContaContabil: 'Conta Resultado 1',
-    cdTipoConta: 2,
-    descTipoConta: 'Resultado',
+    desContaContabil: 'Comissão',
+    cdTipoConta: 1,
+    descTipoConta: 'Patrimonial',
     saldo: 0,
     cdTipoSaldo: 3,
-    descTipoSaldo: 'Zero'
+    descTipoSaldo: 'Zero',
+    isFixed: true
   },
   {
     id: 3,
     cdContaContabil: 3,
-    desContaContabil: 'Conta Resultado 2',
+    desContaContabil: 'Receita Operacional',
     cdTipoConta: 2,
     descTipoConta: 'Resultado',
     saldo: 890.10,
     cdTipoSaldo: 2,
-    descTipoSaldo: 'Débito'
+    descTipoSaldo: 'Débito',
+    isFixed: true
+  },
+  {
+    id: 4,
+    cdContaContabil: 4,
+    desContaContabil: 'Cliente',
+    cdTipoConta: 1,
+    descTipoConta: 'Patrimonial',
+    saldo: 0,
+    cdTipoSaldo: 3,
+    descTipoSaldo: 'Zero',
+    isFixed: true
+  },
+  {
+    id: 5,
+    cdContaContabil: 5,
+    desContaContabil: 'Banco',
+    cdTipoConta: 0,
+    descTipoConta: 'Banco',
+    saldo: 0,
+    cdTipoSaldo: 3,
+    descTipoSaldo: 'Zero',
+    isFixed: true
   },
 ]
 
@@ -226,140 +116,35 @@ export const createCentrodeCusto = [
   {
     id: 1,
     cdCentrodeCusto: 1,
-    descCentrodeCusto: 'Intermediação'
+    descCentrodeCusto: 'Intermediação',
+    isFixed: true
   },
   {
     id: 2,
     cdCentrodeCusto: 2,
-    descCentrodeCusto: 'Locação'
+    descCentrodeCusto: 'Locação',
+    isFixed: true
   },
   {
     id: 3,
     cdCentrodeCusto: 3,
-    descCentrodeCusto: 'Prestação'
+    descCentrodeCusto: 'Ordem de Serviço',
+    isFixed: true
   }
 ]
 
 
 //-------------------------------------------------
 
-export const createEnderecos = [
-  {
-    id: 1,
-    cdEndereco: 1,
-    enderecoCompleto: "Rua Dona Cecília, 805",
-    logradouro: "Rua Dona Cecília",
-    cep: "94935130",
-    bairro: "Vila City",
-    numero: "805",
-    complemento: "",
-    localidade: "Cachoeirinha",
-    uf: "RS",
-  },
-  {
-    id: 2,
-    cdEndereco: 2,
-    enderecoCompleto: "Travessa Planalto, 56 Ap 520 Bloco 05",
-    logradouro: "Travessa Planalto",
-    cep: "949385669",
-    bairro: "Parque da Matriz",
-    numero: "56",
-    complemento: "Ap 520 Bloco 05",
-    localidade: "Cachoeirinha",
-    uf: "RS",
-  }
-]
+export const createEnderecos = []
 
 
 //-------------------------------------------------
 
-export const createContasComplementares = [
-  {
-    id: 1,
-    cdContaComplementar: 1,
-    desccContaComplementar: 'Tiago Amaral Valcarenghi',
-    cdTipoContaComplementar: 1,
-    cdCadastro: 1,
-    isBanco: false,
-  },
-  {
-    id: 2,
-    cdContaComplementar: 2,
-    desccContaComplementar: 'Santander',
-    cdTipoContaComplementar: 2,
-    cdCadastro: 3,
-    isBanco: true,
-  },
-  {
-    id: 3,
-    cdContaComplementar: 3,
-    desccContaComplementar: 'Travessa Planalto, 56 Ap 520 Bloco 05',
-    cdTipoContaComplementar: 3,
-    cdCadastro: 2,
-    isBanco: false,
-  },
-
-]
+export const createContasComplementares = []
 
 
-export const createNomes = [
-  {
-    id: 1,
-    cdNomes: 1,
-    nome: 'Tiago Amaral Valcarenghi',
-    cdTipoNome: 1,
-    cdCadastroNomes: 1,
-  },
-  {
-    id: 2,
-    cdNomes: 2,
-    nome: 'Elvis Sandro Valcarenghi',
-    cdTipoNome: 1,
-    cdCadastroNomes: 2,
-  },
-  {
-    id: 3,
-    cdNomes: 3,
-    nome: 'John Connor',
-    cdTipoNome: 1,
-    cdCadastroNomes: 3,
-  },
-  {
-    id: 4,
-    cdNomes: 4,
-    nome: 'SAB',
-    cdTipoNome: 2,
-    cdCadastroNomes: 1,
-  },
-  {
-    id: 5,
-    cdNomes: 5,
-    nome: 'Lojas Quero-Quero',
-    cdTipoNome: 2,
-    cdCadastroNomes: 2,
-  },
-  {
-    id: 6,
-    cdNomes: 6,
-    nome: 'Santander',
-    cdTipoNome: 2,
-    cdCadastroNomes: 3,
-  },
-  {
-    id: 7,
-    cdNomes: 7,
-    nome: 'Rua Dona Cecília, 805',
-    cdTipoNome: 3,
-    cdCadastroNomes: 1,
-  },
-  {
-    id: 8,
-    cdNomes: 8,
-    nome: 'Travessa Planalto, 56 Ap 520 Bloco 05',
-    cdTipoNome: 3,
-    cdCadastroNomes: 2,
-  },
-]
+export const createNomes = []
 
 
 
