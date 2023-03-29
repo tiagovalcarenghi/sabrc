@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { verificaDisableDelete, verificaDisableValida } from "../../../components/commons/Disables";
 import GridContratoCompraeVenda from "../../../components/MainMenu/ContratoCompraeVenda/GridContratoCompraeVenda";
-import { initialValuesLancamentoContabilAll } from "../../../util/MainMenu/LancamentoContabil/constants";
 import { getCurrentDate, isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
