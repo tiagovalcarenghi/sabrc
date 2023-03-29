@@ -8,6 +8,7 @@ import {
 import { AuthProvider, AuthContext } from "./contexts/auth";
 import AppMenu from "./pages/AppNavBar/AppMenu";
 import LoginPage from "./pages/LoginPage";
+import AreHome from "./pages/MainMenu/Are/AreHome";
 import CentrodeCustoCad from "./pages/MainMenu/ContasContabeis/CentrodeCusto/CentrodeCustoCad";
 import CentrodeCustoHome from "./pages/MainMenu/ContasContabeis/CentrodeCusto/CentrodeCustoHome";
 import ContasCad from "./pages/MainMenu/ContasContabeis/Contas/ContasCad";
@@ -321,6 +322,17 @@ const AppRoutes = () => {
             element={
               <Private>
                 <RelatoriosContabeisHome />
+              </Private>
+            }
+          />
+
+
+          <Route
+            exact
+            path="/operacoes/are"
+            element={
+              <Private>
+                <AreHome />
               </Private>
             }
           />

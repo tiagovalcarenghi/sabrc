@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroCentrodeCusto from "../../../../components/MainMenu/ContasContabeis/CentrodeCusto/CadastroCentrodeCusto";
 import { initialValuesCentrodeCusto } from "../../../../util/MainMenu/ContasContabeis/CentrodeCusto/contants";
+import { isEligible } from "../../../../util/utils";
 
 import AppMenu from "../../../AppNavBar/AppMenu";
 
@@ -36,7 +37,7 @@ const CentrodeCustoCad = () => {
         }
 
         var getId = JSON.parse(localStorage.getItem("centrodecusto_db"));
-        cc.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+        cc.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         cc.cdcentrodeCusto = cc.id;
         const newcentrodeCusto = getId === null ? [cc] : [...JSON.parse(localStorage.getItem("centrodecusto_db")), cc];
         localStorage.setItem("centrodecusto_db", JSON.stringify(newcentrodeCusto));

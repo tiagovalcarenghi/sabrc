@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroContas from "../../../../components/MainMenu/ContasContabeis/Contas/CadastroContas";
 import { initialValuesContasContabeis } from "../../../../util/MainMenu/ContasContabeis/Contas/contants";
+import { isEligible } from "../../../../util/utils";
 import AppMenu from "../../../AppNavBar/AppMenu";
 
 
@@ -35,7 +36,7 @@ const ContasCad = () => {
         }
 
         var getId = JSON.parse(localStorage.getItem("contascontabeis_db"));
-        cc.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+        cc.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         cc.cdContaContabil = cc.id;
         const newContaContabil = getId === null ? [cc] : [...JSON.parse(localStorage.getItem("contascontabeis_db")), cc];
         localStorage.setItem("contascontabeis_db", JSON.stringify(newContaContabil));

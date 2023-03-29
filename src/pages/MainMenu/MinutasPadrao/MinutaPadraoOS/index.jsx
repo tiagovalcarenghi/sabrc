@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { verificaDisableEdit } from "../../../../components/commons/Disables";
 import CadastroMinutasOS from "../../../../components/MainMenu/MinutasPadrao/CadastroMinutasOS";
 import { initialValuesMinutasPadraoOS } from "../../../../util/MainMenu/MinutasPadrao/ContratoOS/constants";
+import { isEligible } from "../../../../util/utils";
 import AppMenu from "../../../AppNavBar/AppMenu";
 
 
@@ -23,7 +24,7 @@ const MinutaPadraoOSHome = () => {
 
     const salvarMinutasPadraoOS = (mpOS) => {
         var getId = JSON.parse(localStorage.getItem("minutaspadraoos_db"));
-        mpOS.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+        mpOS.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         mpOS.cdMinutaPadraoContratoOS = mpOS.id;
         const newMinutaPadraoOS = getId === null ? [mpOS] : [...JSON.parse(localStorage.getItem("minutaspadraoos_db")), mpOS];
         localStorage.setItem("minutaspadraoos_db", JSON.stringify(newMinutaPadraoOS));

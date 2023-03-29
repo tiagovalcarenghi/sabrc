@@ -143,7 +143,7 @@ const LancamentoBancosCad = () => {
         data.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         data.cdCentrodeCusto = '';
         data.descCentrodeCusto = '';
-        data.cdConta = 123654; //pegar o valor fixo da conta BANCO
+        data.cdConta = 5; //pegar o valor fixo da conta BANCO
         data.descConta = 'Banco';
         data.cdContaComplementar = '';
         data.descContaComplementar = '';

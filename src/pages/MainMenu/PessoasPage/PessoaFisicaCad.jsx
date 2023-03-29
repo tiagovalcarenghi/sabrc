@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import CadastroPF from "../../../components/MainMenu/PessoasPage/CadastroPessoaFisica";
 import { initialNomes } from "../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { initialValuesPF } from "../../../util/MainMenu/PessoasPage/constants";
+import { isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 const PessoaFisiscaCad = () => {
@@ -36,7 +37,7 @@ const PessoaFisiscaCad = () => {
     }
 
     var getId = JSON.parse(localStorage.getItem("pessoafisica_db"));
-    pf.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    pf.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
     pf.cdPessoaFisica = pf.id;
     const newPessoaFisica = getId === null ? [pf] : [...JSON.parse(localStorage.getItem("pessoafisica_db")), pf];
     localStorage.setItem("pessoafisica_db", JSON.stringify(newPessoaFisica));
@@ -47,7 +48,7 @@ const PessoaFisiscaCad = () => {
   const insertcadNomes = (pf) => {
     var newNomeCad = initialNomes;
     var getId = JSON.parse(localStorage.getItem("nomes_db"));
-    newNomeCad.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    newNomeCad.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
     newNomeCad.cdNomes = newNomeCad.id;
     newNomeCad.nome = pf.nomeCompleto;
     newNomeCad.cdTipoNome = 1;

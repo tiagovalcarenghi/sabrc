@@ -55,20 +55,28 @@ export const initialValuesLancamentoContabilOperacao = {
 
 export const initialValuesLancamentoContasResultado = {
     id: '',
+    cdLancamentoContabil: '',
+    ordemLancamento: '',
     cdConta: '',
     descConta: '',
     cdCentrodeCusto: '',
     descCentrodeCusto: '',
-    valorTotalCredito: '',
-    valorTotalDebito: '',
+    valorCredito: '',
+    valorDebito: '',
+    dataSelecionada: '',
+    isValid: ''
 }
 
 export const initialValuesLancamentoContasPatrimoniais = {
     id: '',
+    cdLancamentoContabil: '',
+    ordemLancamento: '',
     cdConta: '',
     descConta: '',
     cdContaComplementar: '',
     descContaComplementar: '',
-    valorTotalCredito: '',
-    valorTotalDebito: '',
+    valorCredito: '',
+    valorDebito: '',
+    dataSelecionada: '',
+    isValid: ''
 }

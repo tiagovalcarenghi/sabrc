@@ -5,6 +5,7 @@ export const initialValuesContasComplementares = {
     cdTipoContaComplementar: '',
     cdCadastro: '',
     isBanco: '',
+    isFixed: ''
 }
 
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { verificaDisableDelete, verificaDisableValida } from "../../../components/commons/Disables";
 import GridContratoCompraeVenda from "../../../components/MainMenu/ContratoCompraeVenda/GridContratoCompraeVenda";
-import { initialValuesLancamentoContabilAll } from "../../../util/MainMenu/LancamentoContabil/constants";
 import { getCurrentDate, isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
@@ -102,7 +101,7 @@ const ContratoCompraeVendaHome = () => {
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = 1;
         lancamento.descLancamento = "Negocio realizado contrato número " + data.cdContratoCompraeVenda;
-        lancamento.cdConta = 100; //buscar cdconta fixada da conta 'Creditos a Realizar'
+        lancamento.cdConta = 1; //buscar cdconta fixada da conta 'Creditos a Realizar'
         lancamento.descConta = 'Creditos a Realizar';
         lancamento.cdContaComplementar = data.cdEndereco;
         lancamento.descContaComplementar = data.enderecoCompleto;
@@ -136,7 +135,7 @@ const ContratoCompraeVendaHome = () => {
                 lancamento.cdLancamentoContabil = getIdCdLancamento;
                 lancamento.ordemLancamento = getOrdem;
                 lancamento.descLancamento = "Negocio realizado contrato número " + item.cdContratoCompraeVenda;
-                lancamento.cdConta = 101; //buscar cdconta fixada da conta 'Comissão'
+                lancamento.cdConta = 2; //buscar cdconta fixada da conta 'Comissão'
                 lancamento.descConta = 'Comissão';
                 lancamento.cdContaComplementar = item.cdPessoaFisica;
                 lancamento.descContaComplementar = item.nomeCompleto;
@@ -166,9 +165,9 @@ const ContratoCompraeVendaHome = () => {
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = getOrdem;
         lancamento.descLancamento = "Negocio realizado contrato número " + data.cdContratoCompraeVenda;
-        lancamento.cdConta = 102; //buscar cdconta fixada da conta 'Receita Operacional'
+        lancamento.cdConta = 3; //buscar cdconta fixada da conta 'Receita Operacional'
         lancamento.descConta = 'Receita Operacional';
-        lancamento.cdCentrodeCusto = 555; //buscar centro de custo fixo 'Intermediação'
+        lancamento.cdCentrodeCusto = 1; //buscar centro de custo fixo 'Intermediação'
         lancamento.descCentrodeCusto = 'Intermediação';
         lancamento.valorCredito = data.honorarioImobiliaria;
         lancamento.valorDebito = 0;

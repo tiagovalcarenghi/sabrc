@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import CadastroPJ from "../../../components/MainMenu/PessoasPage/CadastroPessoaJuridica";
 import { initialNomes } from "../../../util/MainMenu/ContasContabeis/ContasComplementares/contants";
 import { initialValuesPJ, initialValuesRL } from "../../../util/MainMenu/PessoasPage/constants";
+import { isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 const PessoaJuridicaCad = () => {
@@ -52,7 +53,7 @@ const PessoaJuridicaCad = () => {
     }
 
     var getId = JSON.parse(localStorage.getItem("pessoajuridica_db"));
-    pj.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    pj.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
     pj.cdPessoaJuridica = pj.id;
     const newPessoaJuridica = getId === null ? [pj] : [...JSON.parse(localStorage.getItem("pessoajuridica_db")), pj];
     localStorage.setItem("pessoajuridica_db", JSON.stringify(newPessoaJuridica));
@@ -63,7 +64,7 @@ const PessoaJuridicaCad = () => {
   const insertcadNomes = (pj) => {
     var newNomeCad = initialNomes;
     var getId = JSON.parse(localStorage.getItem("nomes_db"));
-    newNomeCad.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    newNomeCad.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
     newNomeCad.cdNomes = newNomeCad.id;
     newNomeCad.nome = pj.nomeEmpresarial;
     newNomeCad.cdTipoNome = 2;
@@ -106,7 +107,7 @@ const PessoaJuridicaCad = () => {
     var getId = JSON.parse(localStorage.getItem("representanteslegais_db"));
 
     if (idPJ) {
-      RepLegal.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+      RepLegal.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
       RepLegal.cdPessoaJuridica = idPJ;
       RepLegal.cdPessoaFisica = data.cdPessoaFisica;
       RepLegal.nomeRepresentante = data.nomeCompleto;
@@ -118,7 +119,7 @@ const PessoaJuridicaCad = () => {
 
 
 
-    RepLegal.id = getId === null ? 1 : getId[getId.length - 1].id + 1;
+    RepLegal.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
     var getId2 = JSON.parse(localStorage.getItem("pessoajuridica_db"));
     RepLegal.cdPessoaJuridica = getId2 === null ? 1 : getId2[getId2.length - 1].id + 1;
     RepLegal.cdPessoaFisica = data.cdPessoaFisica;
