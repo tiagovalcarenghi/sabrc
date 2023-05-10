@@ -59,7 +59,6 @@ const CadastroContasComplementares = (props) => {
 
     const handleChangeCheck = (event) => {
         setChecked(event.target.checked);
-
     };
 
 
