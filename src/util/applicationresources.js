@@ -2,6 +2,7 @@ export const msgAtencao = "Atenção!";
 export const msgUsuarioInvalido = "Usuário não cadastrado.";
 export const msgUsuarioIncorreto = "E-mail ou senha incorretos.";
 export const msgErroValidateEmail = "E-mail Inválido.";
+export const msgErroValidateDocumento = "Documento Inválido.";
 export const msgErroCadastroEmail = "E-mail já cadastrado.";
 export const msgSuccessExcludeUser = "O usuário foi excluído.";
 export const msgExcludeUserError = "O sistema deve ter ao menos 1(um) adminstrador cadastrado.";

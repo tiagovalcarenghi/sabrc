@@ -6,21 +6,16 @@ export const initialValuesPF = {
   cdEstadoCivil: '',
   profissao: '',
   nacionalidade: '',
-  ci: '',
+  rg: '',
   cnh: '',
-  docExtra: '',
   cpf: '',
   telefone: '',
   telefoneAdicional: '',
   email: '',
+  isAgenteDeNegocio: '',
+  cdEndereco: '',
   enderecoCompleto: '',
-  logradouro: '',
-  cep: '',
-  bairro: '',
-  numero: '',
-  complemento: '',
-  localidade: '',
-  uf: '',
+
 }
 
 
@@ -30,6 +25,8 @@ export const estadoCivilOptions = [
   { value: 3, label: "Divorciado(a)" },
   { value: 4, label: "Viúvo(a)" },
   { value: 5, label: "Separado(a)" },
+  { value: 6, label: "Unido Estavelmente" },
+  { value: 7, label: "Separado Judicialmente" },
 ];
 
 

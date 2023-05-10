@@ -1,7 +1,10 @@
 import {
   Breadcrumbs,
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
+  FormHelperText,
   Grid,
   InputLabel,
   MenuItem,
@@ -15,6 +18,7 @@ import {
   msgAtencao,
   msgCadPessoaSuccess,
   msgCadSuccess,
+  msgErroValidateDocumento,
   msgErroValidateEmail,
 } from "../../../../util/applicationresources";
 import Swal from "sweetalert2";
@@ -24,6 +28,12 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
 import { confirmaEmail } from "../../../commons/ConfirmaEmail";
+import { useState } from "react";
+import { isEligible } from "../../../../util/utils";
+import { cpf } from 'cpf-cnpj-validator';
+import InputMask from 'react-input-mask';
+
+
 
 
 const CadastroPF = (props) => {
@@ -34,32 +44,116 @@ const CadastroPF = (props) => {
     enableReinitialize: true,
     initialValues: pessoafisica || initialValuesPF,
     onSubmit: (values) => {
-      if (!confirmaEmail(values.email)) {
-        Swal.fire({
-          icon: "error",
-          title: msgAtencao,
-          text: msgErroValidateEmail,
-        });
 
+      values.cpf = cpfValue.replace(/[^a-zA-Z0-9]/g, '');
+      values.cnh = cnhValue;
+      values.rg = rgValue;
+      values.telefone = telefoneValue;
+      values.telefoneAdicional = telefoneAdicionalValue;
+
+
+      if (!cpf.isValid(cpfValue)) {
+        setCpfError('CPF inválido!');
       } else {
-        Swal.fire({
-          icon: "success",
-          title: msgCadSuccess,
-          text: msgCadPessoaSuccess,
-        });
+        setCpfError('');
 
-        var numeroadress = isBlank(values.numero) ? "" : ", " + values.numero;
-        values.enderecoCompleto = values.logradouro + numeroadress;
-        salvar(values);
-        formik.resetForm();
-        navigate("/cadastro/pessoas");
+        if (!confirmaEmail(values.email)) {
+          Swal.fire({
+            icon: "error",
+            title: msgAtencao,
+            text: msgErroValidateEmail,
+          });
+
+        } else if ((mostraCnh && !isEligible(values.cnh)) || (mostraRg && !isEligible(values.rg))) {
+          Swal.fire({
+            icon: "error",
+            title: msgAtencao,
+            text: msgErroValidateDocumento,
+          });
+
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: msgCadSuccess,
+            text: msgCadPessoaSuccess,
+          });
+
+          values.isAgenteDeNegocio = checked;
+
+          salvar(values);
+          formik.resetForm();
+
+          navigate("/cadastro/pessoas");
+        }
       }
     },
   });
 
-  function isBlank(str) {
-    return (!str || /^\s*$/.test(str));
+  const [checked, setChecked] = useState(false);
+
+  const handleChangeCheck = (event) => {
+    setChecked(event.target.checked);
+  };
+
+
+
+  const [tipoDoc, setTipoDoc] = useState(0);
+  const [mostraRg, setMostraRg] = useState(true);
+  const [mostraCnh, setMostraCnh] = useState(false);
+
+  const handleDocumento = (event) => {
+    setTipoDoc(event.target.value);
+
+    if (event.target.value === 1) {
+      setMostraRg(true);
+      setMostraCnh(false);
+    } else {
+      setMostraRg(false);
+      setMostraCnh(true);
+    }
+  };
+
+  const [cpfValue, setCpfValue] = useState(pessoafisica.cpf);
+  const [cpfError, setCpfError] = useState('');
+
+  function handleCpfChange(event) {
+    const value = event.target.value;
+    setCpfValue(value);
   }
+
+
+  const [cnhValue, setCnhValue] = useState('');
+  function handleInputChangeCnh(event) {
+    const value = event.target.value.replace(/[^0-9]/g, '');
+    setCnhValue(value);
+    // use o valor "value" como desejar...
+  }
+
+
+  const [rgValue, setRgValue] = useState('');
+  function handleInputChangeRg(event) {
+    const value = event.target.value.replace(/[^0-9]/g, '');
+    setRgValue(value);
+    // use o valor "value" como desejar...
+  }
+
+
+  const [telefoneValue, setTelefoneValue] = useState('');
+
+  function handleTelefoneChange(event) {
+    const value = event.target.value;
+    setTelefoneValue(value);
+  }
+
+
+  const [telefoneAdicionalValue, setTelefoneAdicionalValue] = useState('');
+
+  function handleTelefoneAdicionalChange(event) {
+    const value = event.target.value;
+    setTelefoneAdicionalValue(value);
+  }
+
+
 
 
 
@@ -145,6 +239,7 @@ const CadastroPF = (props) => {
               label="Profissão"
               value={formik.values.profissao}
               onChange={formik.handleChange}
+              required
             />
           </Grid>
 
@@ -160,55 +255,6 @@ const CadastroPF = (props) => {
             />
           </Grid>
 
-          <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="ci"
-              label="RG"
-              value={formik.values.ci}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-
-        </Grid>
-
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-
-          <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="cnh"
-              label="CNH"
-              value={formik.values.cnh}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-
-          <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="docExtra"
-              label="Documento Extra"
-              value={formik.values.docExtra}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-
-          <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="cpf"
-              label="CPF"
-              value={formik.values.cpf}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
 
 
         </Grid>
@@ -216,138 +262,149 @@ const CadastroPF = (props) => {
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
           <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="telefone"
-              label="Telefone Principal"
-              value={formik.values.telefone}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
-
-          <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="telefoneAdicional"
-              label="Telefone Principal"
-              value={formik.values.telefoneAdicional}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-
-        </Grid>
-
-
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-          <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="logradouro"
-              label="Logradouro"
-              value={formik.values.logradouro}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="cep"
-              label="CEP"
-              value={formik.values.cep}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="bairro"
-              label="Bairro"
-              value={formik.values.bairro}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="numero"
-              label="Número"
-              value={formik.values.numero}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="complemento"
-              label="Complemento"
-              value={formik.values.complemento}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-
-        </Grid>
-
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="localidade"
-              label="Cidade"
-              value={formik.values.localidade}
-              onChange={formik.handleChange}
-              required
-            />
-
-          </Grid>
-
-          <Grid item xs={2}>
             <FormControl fullWidth size="small">
-              <InputLabel id="demo-controlled-open-select-label">Estado</InputLabel>
+              <InputLabel id="tipodcl">Tipo de Documento:</InputLabel>
               <Select
-                fullWidth
-                size="small"
-                name="uf"
-                label="Estado"
-                labelId="select-label-id"
-                id="select-label-id"
-                value={formik.values.uf}
-                onChange={formik.handleChange}
-                required
+                labelId="tipodcl"
+                id="tipodct"
+                value={tipoDoc}
+                label="Tipo de Documento:"
+                onChange={handleDocumento}
 
               >
-                {ufOptions.map((e) => (
-                  <MenuItem
-                    key={e.uf}
-                    value={e.uf}
-                  >
-                    {e.nome}
-                  </MenuItem>
-                ))}
+                <MenuItem value={1}>RG</MenuItem>
+                <MenuItem value={2}>CNH</MenuItem>
               </Select>
             </FormControl>
+
+          </Grid>
+
+
+          {mostraCnh ? (
+            <Grid item xs={4}>
+              <TextField
+                size="small"
+                fullWidth
+                name="cnh"
+                label="CNH"
+                value={cnhValue}
+                onChange={handleInputChangeCnh}
+                inputProps={{ inputMode: 'numeric' }}
+                disabled={!mostraCnh}
+              />
+            </Grid>
+          ) : (
+            // Componente oculto
+            null
+          )}
+
+
+          {mostraRg ? (
+            <Grid item xs={4}>
+              <TextField
+                size="small"
+                fullWidth
+                name="rg"
+                label="RG"
+                value={rgValue}
+                onChange={handleInputChangeRg}
+                inputProps={{ inputMode: 'numeric' }}
+                disabled={!mostraRg}
+              />
+            </Grid>
+          ) : (
+            // Componente oculto
+            null
+          )}
+
+
+
+        </Grid>
+
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+          <Grid item xs={4}>
+            <InputMask
+              id="cpf" type="text"
+              value={cpfValue}
+              mask="999.999.999-99"
+              onChange={handleCpfChange}
+            >
+
+              {(inputProps) => <TextField
+                name="cpf"
+                size="small"
+                fullWidth
+                label="CPF"
+                required
+                {...inputProps}
+              />}
+
+            </InputMask>
+            {cpfError && <FormHelperText error>{cpfError}</FormHelperText>}
+          </Grid>
+
+          <Grid item xs={4}>
+
+            <InputMask
+              id="telefone" type="text"
+              value={telefoneValue}
+              mask="(99) 999999999"
+              onChange={handleTelefoneChange}
+            >
+
+              {(inputProps) => <TextField
+                name="telefone"
+                size="small"
+                fullWidth
+                label="Telefone Principal"
+                required
+                {...inputProps}
+              />}
+
+            </InputMask>
+
+
+
+          </Grid>
+
+          <Grid item xs={4}>
+            <InputMask
+              id="telefoneAdicional" type="text"
+              value={telefoneAdicionalValue}
+              mask="(99) 999999999"
+              onChange={handleTelefoneAdicionalChange}
+            >
+
+              {(inputProps) => <TextField
+                name="telefoneAdicional"
+                size="small"
+                fullWidth
+                label="Telefone Adicional"
+                {...inputProps}
+              />}
+
+            </InputMask>
+          </Grid>
+
+        </Grid>
+
+
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
+          {/* //SELECT ENDEREÇO COMPLETO */}
+
+          <Grid item xs={2}>
+
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Agente de Negócio"
+              size="small"
+              type="text"
+              checked={checked}
+              value={checked}
+              onChange={handleChangeCheck}
+            />
 
           </Grid>
 
@@ -396,7 +453,7 @@ const CadastroPF = (props) => {
           </Grid>
         </Grid>
       </Grid>
-    </form>
+    </form >
   );
 };
 
