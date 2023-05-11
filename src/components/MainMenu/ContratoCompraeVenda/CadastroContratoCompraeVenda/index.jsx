@@ -121,7 +121,6 @@ const CadastroContratoCompraeVenda = (props) => {
                 values.cdEndereco = isEligible(filterEndereco.cdNomes) ? filterEndereco.cdNomes : null;
                 values.enderecoCompleto = isEligible(filterEndereco.nome) ? filterEndereco.nome : '';
                 values.detalhamentoImovel = isEligible(values.detalhamentoImovel) ? values.detalhamentoImovel : '';
-                values.formaPagto = isEligible(values.formaPagto) ? values.formaPagto : '';
                 values.condicoes = isEligible(values.condicoes) ? values.condicoes : '';
                 values.formaPagtoHonorarios = isEligible(values.formaPagtoHonorarios) ? values.formaPagtoHonorarios : '';
                 values.regularidadeImovel = isEligible(values.regularidadeImovel) ? values.regularidadeImovel : '';
@@ -316,8 +315,9 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
+
+
                 <Chip label="PROMINENTE VENDEDOR" />
-                <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -465,8 +465,9 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
+
+
                 <Chip label="DETALHES IMÓVEL" />
-                <Divider />
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -528,18 +529,6 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-                    <Grid item xs={6}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="formaPagto"
-                            label="Forma de Pagamento"
-                            value={formik.values.formaPagto}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-
 
                     <Grid item xs={6}>
                         <TextField
@@ -556,8 +545,10 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
+
+
                 <Chip label="HONORÁRIOS" />
-                <Divider />
+
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -738,10 +729,9 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 </Grid>
 
+
+
                 <Chip label="REGULARIDADE" />
-
-                <Divider />
-
 
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -829,8 +819,6 @@ const CadastroContratoCompraeVenda = (props) => {
 
 
                 <Chip label="MINUTA" />
-
-                <Divider />
 
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>

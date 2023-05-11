@@ -26,9 +26,8 @@ import { estadoCivilOptions, initialValuesPF } from "../../../../util/MainMenu/P
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
 import { confirmaEmail } from "../../../commons/ConfirmaEmail";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { isEligible } from "../../../../util/utils";
 import { cpf } from 'cpf-cnpj-validator';
 import InputMask from 'react-input-mask';
@@ -39,6 +38,22 @@ import InputMask from 'react-input-mask';
 const CadastroPF = (props) => {
   const { pessoafisica, salvar, limpar } = props;
   const navigate = useNavigate();
+
+
+
+  useEffect(() => {
+
+    if (pessoafisica) {
+      setCpfValue(pessoafisica.cpf)
+      setCnhValue(pessoafisica.cnh)
+      setChecked(pessoafisica.isAgenteDeNegocio)
+      setRgValue(pessoafisica.rg)
+      setTelefoneValue(pessoafisica.telefone)
+      setTelefoneAdicionalValue(pessoafisica.telefoneAdicional)
+    }
+
+  }, [pessoafisica]);
+
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -113,7 +128,7 @@ const CadastroPF = (props) => {
     }
   };
 
-  const [cpfValue, setCpfValue] = useState(pessoafisica.cpf);
+  const [cpfValue, setCpfValue] = useState('');
   const [cpfError, setCpfError] = useState('');
 
   function handleCpfChange(event) {

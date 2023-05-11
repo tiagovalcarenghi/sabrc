@@ -8,7 +8,8 @@ import {
   MenuItem,
   TableHead,
   Breadcrumbs,
-  Typography
+  Typography,
+  FormHelperText
 } from "@mui/material";
 import { useFormik } from "formik";
 import {
@@ -30,12 +31,14 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
 import { confirmaEmail } from "../../../commons/ConfirmaEmail";
+import { cnpj } from 'cpf-cnpj-validator';
+import InputMask from 'react-input-mask';
 
 
 const CadastroPJ = (props) => {
@@ -46,30 +49,56 @@ const CadastroPJ = (props) => {
     navigate("/cadastro/pessoas", { state: { value: 1 } });
   };
 
+
+  useEffect(() => {
+
+    if (pessoajuridica) {
+      setCnpjValue(pessoajuridica.cnpj)
+    }
+
+  }, [pessoajuridica]);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: pessoajuridica || initialValuesPJ,
     onSubmit: (values) => {
-      if (!confirmaEmail(values.emailContato)) {
-        Swal.fire({
-          icon: "error",
-          title: msgAtencao,
-          text: msgErroValidateEmail,
-        });
+
+      values.cnpj = cnpjValue.replace(/[^a-zA-Z0-9]/g, '');
+
+      if (!cnpj.isValid(cnpjValue)) {
+        setCnpjError('CNPJ inválido!');
       } else {
-        Swal.fire({
-          icon: "success",
-          title: msgCadSuccess,
-          text: msgCadPessoaSuccess,
-        });
-        values.enderecoCompleto = values.logradouro + values.numero;
-        salvar(values);
-        formik.resetForm();
-        navigate("/cadastro/pessoas", { state: { value: 1 } });
+        setCnpjError('');
+
+        if (!confirmaEmail(values.emailContato)) {
+          Swal.fire({
+            icon: "error",
+            title: msgAtencao,
+            text: msgErroValidateEmail,
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: msgCadSuccess,
+            text: msgCadPessoaSuccess,
+          });
+          values.enderecoCompleto = values.logradouro + values.numero;
+          salvar(values);
+          formik.resetForm();
+          navigate("/cadastro/pessoas", { state: { value: 1 } });
+        }
       }
     },
   });
 
+
+  const [cnpjValue, setCnpjValue] = useState('');
+  const [cnpjError, setCnpjError] = useState('');
+
+  function handleCnpjChange(event) {
+    const value = event.target.value;
+    setCnpjValue(value);
+  }
 
 
   const handleExcluirRL = (rl) => {
@@ -77,11 +106,12 @@ const CadastroPJ = (props) => {
   };
 
   const addRepresentanteLegal = () => {
+
     if (selectRepresentanteLegal.id !== undefined) {
       if (pessoajuridica) {
-        addrl(selectRepresentanteLegal, pessoajuridica.id);
+        addrl(selectRepresentanteLegal, pessoajuridica.id, representanteslegais);
       } else {
-        addrl(selectRepresentanteLegal, null);
+        addrl(selectRepresentanteLegal, null, representanteslegais);
       }
     }
 
@@ -142,15 +172,24 @@ const CadastroPJ = (props) => {
           </Grid>
 
           <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="cnpj"
-              label="CNPJ"
-              value={formik.values.cnpj}
-              onChange={formik.handleChange}
-              required
-            />
+            <InputMask
+              id="cnpj" type="text"
+              value={cnpjValue}
+              mask="99.999.999/9999-99"
+              onChange={handleCnpjChange}
+            >
+
+              {(inputProps) => <TextField
+                name="cnpj"
+                size="small"
+                fullWidth
+                label="CNPJ"
+                required
+                {...inputProps}
+              />}
+
+            </InputMask>
+            {cnpjError && <FormHelperText error>{cnpjError}</FormHelperText>}
           </Grid>
 
         </Grid>
@@ -158,99 +197,13 @@ const CadastroPJ = (props) => {
 
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-          <Grid item xs={4}>
-            <TextField
-              size="small"
-              fullWidth
-              name="logradouro"
-              label="Logradouro"
-              value={formik.values.logradouro}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="cep"
-              label="CEP"
-              value={formik.values.cep}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="bairro"
-              label="Bairro"
-              value={formik.values.bairro}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="numero"
-              label="Número"
-              value={formik.values.numero}
-              onChange={formik.handleChange}
-              required
-            />
-          </Grid>
-
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="complemento"
-              label="Complemento"
-              value={formik.values.complemento}
-              onChange={formik.handleChange}
-            />
-          </Grid>
+          {/* COLOCAR O SELECT ENDEREÇO AQUI. */}
 
         </Grid>
 
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
 
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="localidade"
-              label="Localidade"
-              value={formik.values.localidade}
-              onChange={formik.handleChange}
-              required
-            />
-
-          </Grid>
-
-          <Grid item xs={2}>
-            <TextField
-              size="small"
-              fullWidth
-              name="uf"
-              label="UF"
-              value={formik.values.uf}
-              onChange={formik.handleChange}
-              required
-            />
-
-          </Grid>
 
           <Grid item xs={4}>
 
