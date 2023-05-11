@@ -9,7 +9,6 @@ export const initialContratosdeCompraeVendaBase = {
     enderecoCompleto: '',
     detalhamentoImovel: '',
     valorNegocio: '',
-    formaPagto: '',
     condicoes: '',
     honorarioImobiliaria: '',
     cdHonorariosCorretorParceiro: '',
