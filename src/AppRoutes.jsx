@@ -37,6 +37,7 @@ import RelatoriosContabeisHome from "./pages/MainMenu/RelatoriosContabeis/Relato
 import PerfilPage from "./pages/PerfilPage";
 import UsuarioCad from "./pages/UsuariosPage/UsuarioCad";
 import UsuariosHome from "./pages/UsuariosPage/UsuariosHome";
+import BalanceteHome from "./pages/MainMenu/Balancete/BalanceteHome";
 
 const AppRoutes = () => {
   const Private = ({ children }) => {
@@ -333,6 +334,17 @@ const AppRoutes = () => {
             element={
               <Private>
                 <AreHome />
+              </Private>
+            }
+          />
+
+
+          <Route
+            exact
+            path="/relatorios/balancete"
+            element={
+              <Private>
+                <BalanceteHome />
               </Private>
             }
           />

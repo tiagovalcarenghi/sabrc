@@ -1,4 +1,3 @@
 export const initialValuesAre = {
-    mes: '',
-    ano: '',
+    mes_e_ano: '',
 }
