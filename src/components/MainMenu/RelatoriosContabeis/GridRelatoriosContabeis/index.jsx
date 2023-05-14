@@ -29,6 +29,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import ptBR from 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import BackupTableIcon from '@mui/icons-material/BackupTable';
 
 
 
@@ -344,18 +347,83 @@ const GridRelatoriosContabeis = (props) => {
                             </IconButton>
                         </Grid>
 
+
+
                         <Grid item xs={2}>
-                            <Button
-                                color="info"
-                                variant="outlined"
-                                onClick={() => {
-                                    //IMPRIMIR RELATIOR
-                                }}
-                                startIcon={<AddBoxRoundedIcon />}
-                            >
-                                GERAR RELATÓRIO
-                            </Button>
+
+
+
+                            <Grid item>
+                                <Button
+                                    color="warning"
+                                    variant="outlined"
+                                    type="submit"
+                                    onClick={() => {
+                                        Swal.fire({
+                                            icon: "info",
+                                            title: "ATENÇÃO",
+                                            text: "RELATORIOS CONTÁBEIS serãop gerados pelo banco de dados portanto a geração dos lançamentos não entrará no front-end",
+                                        });
+                                    }}
+                                    startIcon={<AppRegistrationIcon />}
+                                >
+                                    BUSCAR DADOS
+                                </Button>
+                            </Grid>
+
                         </Grid>
+
+
+                        <Grid item xs={2}>
+
+
+
+                            <Grid item>
+                                <Button
+                                    color="error"
+                                    variant="outlined"
+                                    onClick={() => {
+                                        Swal.fire({
+                                            icon: "info",
+                                            title: "ATENÇÃO",
+                                            text: "RELATORIOS CONTÁBEIS serãop gerados pelo banco de dados portanto a geração dos lançamentos não entrará no front-end",
+                                        });
+                                    }}
+                                    startIcon={<PictureAsPdfIcon />}
+                                >
+                                    EXPORTAR PDF
+                                </Button>
+                            </Grid>
+
+
+
+                        </Grid>
+
+                        <Grid item xs={2}>
+
+
+                            <Grid item>
+                                <Button
+                                    color="success"
+                                    variant="outlined"
+                                    onClick={() => {
+                                        Swal.fire({
+                                            icon: "info",
+                                            title: "ATENÇÃO",
+                                            text: "RELATORIOS CONTÁBEIS serãop gerados pelo banco de dados portanto a geração dos lançamentos não entrará no front-end",
+                                        });
+                                    }}
+                                    startIcon={<BackupTableIcon />}
+                                >
+                                    EXPORTAR XLS
+                                </Button>
+
+
+                            </Grid>
+
+                        </Grid>
+
+
                     </Grid>
 
 

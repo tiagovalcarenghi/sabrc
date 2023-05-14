@@ -10,6 +10,7 @@ import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../../util/applicat
 import { useState } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { isEligible } from "../../../../../util/utils";
 
 const CadastroContasComplementares = (props) => {
     const { contacomplementar, salvar, nomes_db } = props;
@@ -20,7 +21,16 @@ const CadastroContasComplementares = (props) => {
         initialValues: contacomplementar || initialValuesContasComplementares,
         onSubmit: (values) => {
 
-            if (selectContaComplementar) {
+            if (!isEligible(selectContaComplementar.id)) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "ERRO",
+                    text: "Erro ao cadastrar Conta Complementar. Verifique.",
+                });
+
+
+            } else {
 
                 Swal.fire({
                     icon: "success",
