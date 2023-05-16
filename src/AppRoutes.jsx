@@ -38,6 +38,7 @@ import PerfilPage from "./pages/PerfilPage";
 import UsuarioCad from "./pages/UsuariosPage/UsuarioCad";
 import UsuariosHome from "./pages/UsuariosPage/UsuariosHome";
 import BalanceteHome from "./pages/MainMenu/Balancete/BalanceteHome";
+import DreHome from "./pages/MainMenu/Dre/DreHome";
 
 const AppRoutes = () => {
   const Private = ({ children }) => {
@@ -349,6 +350,15 @@ const AppRoutes = () => {
             }
           />
 
+          <Route
+            exact
+            path="/relatorios/dre"
+            element={
+              <Private>
+                <DreHome />
+              </Private>
+            }
+          />
 
         </Routes>
       </AuthProvider>

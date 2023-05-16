@@ -8,11 +8,9 @@ import {
     TableHead
 } from "@mui/material";
 import { useFormik } from "formik";
-import SaveIcon from "@mui/icons-material/Save";
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Swal from "sweetalert2";
-import { initialValuesBalancete } from "../../../../util/MainMenu/Balancete/constants";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -25,16 +23,17 @@ import { useState } from "react";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
+import { initialValuesDre } from "../../../../util/MainMenu/Dre/constants";
 
-const GeraBalancete = (props) => {
+const GridDre = (props) => {
 
 
-    const { balanceteall } = props;
+    const { dreall } = props;
 
 
     //----------PAGINATION START--------////
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -49,19 +48,19 @@ const GeraBalancete = (props) => {
 
 
     const verificaNulo = () => {
-        return !!balanceteall ? balanceteall.length : 0;
+        return !!dreall ? dreall.length : 0;
     };
 
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: initialValuesBalancete,
+        initialValues: initialValuesDre,
         onSubmit: (values) => {
 
             Swal.fire({
                 icon: "info",
                 title: "ATENÇÃO",
-                text: "BALANCETE será gerado pelo banco de dados portanto a geração dos lançamentos não entrará no front-end",
+                text: "DRE será gerado pelo banco de dados portanto a geração dos lançamentos não entrará no front-end",
             });
 
         }
@@ -72,8 +71,8 @@ const GeraBalancete = (props) => {
         <form onSubmit={formik.handleSubmit}>
 
             <Breadcrumbs aria-label="breadcrumb">
-                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Balancete</Typography>
-                <Typography color="text.primary">Gerar</Typography>
+                <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">DRE</Typography>
+                <Typography color="text.primary">Relatório</Typography>
             </Breadcrumbs>
 
 
@@ -98,15 +97,36 @@ const GeraBalancete = (props) => {
                     <Grid item xs={3}>
 
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-controlled-open-select-label">Selecione o Mês/Ano</InputLabel>
+                            <InputLabel id="demo-controlled-open-select-label">Selecione o Mês/Ano Inicial</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="mes"
+                                name="mes_e_ano_inicio"
                                 label="Selecione o Mês/Ano"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={formik.values.mes}
+                                value={formik.values.mes_e_ano_inicio}
+                                onChange={formik.handleChange}
+                            >
+                                <MenuItem value={'01/2023'}>Janeiro/2023</MenuItem>
+                                <MenuItem value={'02/2023'}>Fevereiro/2023</MenuItem>
+                                <MenuItem value={'03/2023'}>Março/2023</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={3}>
+
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="demo-controlled-open-select-label">Selecione o Mês/Ano Final</InputLabel>
+                            <Select
+                                fullWidth
+                                size="small"
+                                name="mes_e_ano_fim"
+                                label="Selecione o Mês/Ano"
+                                labelId="select-label-id"
+                                id="select-label-id"
+                                value={formik.values.mes_e_ano_fim}
                                 onChange={formik.handleChange}
                             >
                                 <MenuItem value={'01/2023'}>Janeiro/2023</MenuItem>
@@ -129,7 +149,7 @@ const GeraBalancete = (props) => {
                                 type="submit"
                                 startIcon={<AppRegistrationIcon />}
                             >
-                                GERAR BALANCETE
+                                GERAR DRE
                             </Button>
                         </Grid>
 
@@ -186,39 +206,27 @@ const GeraBalancete = (props) => {
                     >
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell align="left">Conta Patrimonial</StyledTableCell>
-                                <StyledTableCell align="center">Saldo Anterior</StyledTableCell>
-                                <StyledTableCell align="center">Crédito</StyledTableCell>
-                                <StyledTableCell align="center">Débito</StyledTableCell>
-                                <StyledTableCell align="center">Saldo Atual</StyledTableCell>
+                                <StyledTableCell align="left">Conta Resultado</StyledTableCell>
+                                <StyledTableCell align="center">Saldo Exercício</StyledTableCell>
                             </TableRow>
                         </TableHead>
 
                         <>
-                            {balanceteall && balanceteall.length > 0 && (
+                            {dreall && dreall.length > 0 && (
                                 <TableBody>
                                     {(rowsPerPage > 0
-                                        ? balanceteall.slice(
+                                        ? dreall.slice(
                                             page * rowsPerPage,
                                             page * rowsPerPage + rowsPerPage
                                         )
-                                        : balanceteall
-                                    ).map((balancete) => (
-                                        <StyledTableRow key={balancete.id}>
-                                            <StyledTableCell align="left" width="40%">
-                                                {balancete.desContaContabil}
+                                        : dreall
+                                    ).map((DRE) => (
+                                        <StyledTableRow key={DRE.id}>
+                                            <StyledTableCell align="left" width="60%">
+                                                {DRE.desContaContabil}
                                             </StyledTableCell>
-                                            <StyledTableCell align="center" width="10%">
-                                                {balancete.saldoAnterior}
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center" width="10%">
-                                                {balancete.credito}
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center" width="10%">
-                                                {balancete.debito}
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center" width="10%">
-                                                {balancete.saldoAtual}
+                                            <StyledTableCell align="center" width="20%">
+                                                {DRE.saldoExercicio}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -229,8 +237,8 @@ const GeraBalancete = (props) => {
                         <TableFooter>
                             <TableRow>
                                 <TablePagination
-                                    rowsPerPageOptions={[5, 10, 25]}
-                                    colSpan={5}
+                                    rowsPerPageOptions={[10, 25, 50]}
+                                    colSpan={2}
                                     count={verificaNulo()}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
@@ -253,4 +261,4 @@ const GeraBalancete = (props) => {
     );
 };
 
-export default GeraBalancete;
+export default GridDre;

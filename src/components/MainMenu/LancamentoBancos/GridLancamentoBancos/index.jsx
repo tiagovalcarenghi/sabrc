@@ -90,7 +90,7 @@ const GridLancamentoBancos = (props) => {
 
     //----------PAGINATION START--------////
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -469,8 +469,8 @@ const GridLancamentoBancos = (props) => {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        rowsPerPageOptions={[5, 10, 25]}
-                                        colSpan={5}
+                                        rowsPerPageOptions={[10, 25, 50]}
+                                        colSpan={10}
                                         count={verificaNulo()}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
