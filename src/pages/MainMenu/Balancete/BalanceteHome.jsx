@@ -1,4 +1,4 @@
-import GeraBalancete from "../../../components/MainMenu/Balancete/GeraBalancete";
+import GridBalancete from "../../../components/MainMenu/Balancete/GridBalancete";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 
@@ -7,7 +7,7 @@ const BalanceteHome = () => {
     return (
         <>
             <AppMenu>
-                <GeraBalancete
+                <GridBalancete
                 />
             </AppMenu>
         </>

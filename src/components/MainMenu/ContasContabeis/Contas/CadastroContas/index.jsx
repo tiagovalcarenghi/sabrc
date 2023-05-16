@@ -7,35 +7,75 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { initialValuesContasContabeis, tipoContaContabilOptions, tipoSaldoOptions } from "../../../../../util/MainMenu/ContasContabeis/Contas/contants";
 import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../../util/applicationresources";
+import { useEffect, useState } from "react";
+import { isEligible } from "../../../../../util/utils";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 
 
 const CadastroContas = (props) => {
     const { contacontabil, salvar, limpar } = props;
     const navigate = useNavigate();
 
+    useEffect(() => {
+
+        if (contacontabil) {
+            setSaldo(contacontabil.saldo);
+            setCdTipoConta(contacontabil.cdTipoConta)
+            setCdTipoSaldo(contacontabil.cdTipoSaldo)
+        }
+
+    }, [contacontabil]);
+
+
+    const [disableContaResultado, setDisableContaResultado] = useState(false);
+    const [cdTipoConta, setCdTipoConta] = useState('');
+    const [saldo, setSaldo] = useState(0);
+    const [cdTipoSaldo, setCdTipoSaldo] = useState('');
+
+
+
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: contacontabil || initialValuesContasContabeis,
         onSubmit: (values) => {
-            Swal.fire({
-                icon: "success",
-                title: msgCadSuccess,
-                text: msgCadPessoaSuccess,
-            });
+
+            if (!disableContaResultado && (!isEligible(saldo) || !isEligible(cdTipoSaldo))) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro",
+                    text: "Campo(s) SALDO e/ou TIPO SALDO está(ão) nulo(s).",
+                });
+
+            } else {
 
 
-            let itemsTipoConta = tipoContaContabilOptions;
-            itemsTipoConta = itemsTipoConta?.filter((item) => item.cdTipoConta === values.cdTipoConta);
-            values.descTipoConta = itemsTipoConta[0].descTipoConta;
 
-            let itemsTipoSaldo = tipoSaldoOptions;
-            itemsTipoSaldo = itemsTipoSaldo?.filter((item) => item.cdTipoSaldo === values.cdTipoSaldo);
-            values.descTipoSaldo = itemsTipoSaldo[0].descTipoSaldo;
+                Swal.fire({
+                    icon: "success",
+                    title: msgCadSuccess,
+                    text: msgCadPessoaSuccess,
+                });
+
+                values.cdTipoConta = cdTipoConta;
+                values.saldo = saldo;
+                values.cdTipoSaldo = cdTipoSaldo;
 
 
-            salvar(values);
-            formik.resetForm();
-            navigate("/cadastro/contascontabeis/contas");
+                let itemsTipoConta = tipoContaContabilOptions;
+                itemsTipoConta = itemsTipoConta?.filter((item) => item.cdTipoConta === values.cdTipoConta);
+                values.descTipoConta = itemsTipoConta[0].descTipoConta;
+
+                let itemsTipoSaldo = tipoSaldoOptions;
+                itemsTipoSaldo = itemsTipoSaldo?.filter((item) => item.cdTipoSaldo === values.cdTipoSaldo);
+                values.descTipoSaldo = itemsTipoSaldo[0].descTipoSaldo;
+
+
+                salvar(values);
+                formik.resetForm();
+                navigate("/cadastro/contascontabeis/contas");
+
+            }
 
         },
     });
@@ -81,9 +121,20 @@ const CadastroContas = (props) => {
                                 label="Tipo Conta"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={formik.values.cdTipoConta}
-                                onChange={formik.handleChange}
                                 required
+                                value={cdTipoConta}
+                                onChange={(e) => {
+                                    setCdTipoConta(e.target.value);
+
+                                    if (cdTipoConta === 1) {
+                                        setDisableContaResultado(true);
+                                        setSaldo(0);
+                                        setCdTipoSaldo(3);
+                                    } else {
+                                        setDisableContaResultado(false);
+                                    }
+                                }}
+
 
                             >
                                 {tipoContaContabilOptions.map((tc) => (
@@ -104,14 +155,19 @@ const CadastroContas = (props) => {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={4}>
-                        <TextField
+                        <CurrencyTextField
+                            disabled={disableContaResultado}
                             size="small"
+                            variant="outlined"
                             fullWidth
                             name="saldo"
                             label="Saldo"
-                            value={formik.values.saldo}
-                            onChange={formik.handleChange}
-                            required
+                            value={saldo}
+                            currencySymbol="R$"
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            outputFormat="string"
+                            onChange={(event, value) => setSaldo(value)}
                         />
                     </Grid>
 
@@ -125,9 +181,10 @@ const CadastroContas = (props) => {
                                 label="Tipo Saldo"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={formik.values.cdTipoSaldo}
-                                onChange={formik.handleChange}
-                                required
+                                value={cdTipoSaldo}
+                                onChange={(e) => { setCdTipoSaldo(e.target.value) }}
+
+                                disabled={disableContaResultado}
 
                             >
                                 {tipoSaldoOptions.map((ts) => (

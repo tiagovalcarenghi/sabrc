@@ -72,6 +72,7 @@ const GeraAre = () => {
                                 onChange={formik.handleChange}
                             >
                                 <MenuItem value={'04/20203'}>Abril/2023</MenuItem>
+                                <MenuItem value={'05/20203'}>Maio/2023</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>

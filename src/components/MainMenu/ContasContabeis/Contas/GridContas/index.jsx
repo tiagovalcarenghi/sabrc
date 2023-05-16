@@ -68,7 +68,7 @@ const GridContas = (props) => {
 
     //----------PAGINATION START--------////
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     // Avoid a layout jump when reaching the last page with empty rows.
     // const emptyRows =
@@ -304,7 +304,7 @@ const GridContas = (props) => {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        rowsPerPageOptions={[5, 10, 25]}
+                                        rowsPerPageOptions={[10, 25, 50]}
                                         colSpan={5}
                                         count={verificaNulo()}
                                         rowsPerPage={rowsPerPage}

@@ -9,7 +9,6 @@ import {
     TableHead,
     Breadcrumbs,
     Typography,
-    Divider,
     Chip,
     RadioGroup,
     FormControlLabel,
@@ -29,7 +28,7 @@ import Paper from "@mui/material/Paper";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IconButton from "@mui/material/IconButton";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { msgAtencao, msgCadSuccess, msgExcludeComprador, msgExcludeCompradorSuccess, msgExcludeHonorario, msgExcludeHonorarioSuccess, msgExcludeVendedor, msgExcludeVendedorSuccess, msgInsertContratoCompraeVendaSuccess, msgLancamentoError, msgSaveContratoCompraeVendaError } from "../../../../util/applicationresources";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { isEligible } from "../../../../util/utils";
@@ -40,6 +39,17 @@ import { initialContratosdeLocacaoBase } from "../../../../util/MainMenu/Contrat
 const CadastroContratoLocacao = (props) => {
 
     const { contratolocacaocad, locadoreprocurador, addlocadoreprocurador, deletelocadoreprocurador, locatarioeprocurador, addlocatarioeprocurador, deletelocatarioeprocurador, taxaintermediacaocorretores, addtaxaintermediacao, deletetaxaintermediacao, locadorlocatarionomes, procuradornomes, endereco, salvar, limpar } = props;
+
+
+    useEffect(() => {
+
+        if (contratolocacaocad) {
+            setValorLocacao(contratolocacaocad.valordaLocacao);
+            setTaxaIntermediacaoBomlar(contratolocacaocad.taxaIntermediacaoBomlar);
+            setTaxaIntermediacaoTotal(contratolocacaocad.taxaIntermediacaoTotal);
+        }
+
+    }, [contratolocacaocad]);
 
     const [filterLocador, setFilterLocador] = useState({});
     const [filterLocadorProcurador, setFilterLocadorProcurador] = useState({});;
@@ -90,6 +100,14 @@ const CadastroContratoLocacao = (props) => {
         setDisableMinuta(event.target.value === 'edit' ? false : true);
 
     };
+
+    const ref = useRef(null);
+
+    useEffect(() => {
+        if (radioMinuta === 'edit') {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    }, [radioMinuta]);
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -299,7 +317,7 @@ const CadastroContratoLocacao = (props) => {
                 </Grid>
 
                 <Chip label="LOCATÁRIO" />
-                <Divider />
+
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -448,7 +466,7 @@ const CadastroContratoLocacao = (props) => {
                 </Grid>
 
                 <Chip label="DETALHES DETALHES" />
-                <Divider />
+
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -515,7 +533,7 @@ const CadastroContratoLocacao = (props) => {
 
 
                 <Chip label="RATEIO DE HONORÁRIOS" />
-                <Divider />
+
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
@@ -691,7 +709,7 @@ const CadastroContratoLocacao = (props) => {
 
                 <Chip label="MINUTA" />
 
-                <Divider />
+
 
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -712,23 +730,29 @@ const CadastroContratoLocacao = (props) => {
                 </Grid>
 
 
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}  >
-                    <Grid item xs={12}  >
-                        <TextField
-                            rows={12}
-                            multiline
-                            size="small"
-                            fullWidth
-                            name="textoMinuta"
-                            label="Texto Minuta Contrato"
-                            value={formik.values.textoMinuta}
-                            disabled={disableMinuta}
-                            onChange={formik.handleChange}
-                            InputLabelProps={{ shrink: true }}
-                        />
+                {radioMinuta === 'edit' ? (
+                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} ref={ref} >
+                        <Grid item xs={12}  >
+                            <TextField
+                                rows={12}
+                                multiline
+                                size="small"
+                                fullWidth
+                                name="textoMinuta"
+                                label="Texto Minuta Contrato"
+                                value={formik.values.textoMinuta}
+                                disabled={disableMinuta}
+                                onChange={formik.handleChange}
+                                InputLabelProps={{ shrink: true }}
+                            />
+                        </Grid>
+
                     </Grid>
 
-                </Grid>
+                ) : (
+                    // Componente oculto
+                    null
+                )}
 
 
 

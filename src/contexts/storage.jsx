@@ -54,9 +54,9 @@ export const createContasContabeis = [
     desContaContabil: 'Comissão',
     cdTipoConta: 1,
     descTipoConta: 'Patrimonial',
-    saldo: 0,
-    cdTipoSaldo: 3,
-    descTipoSaldo: 'Zero',
+    saldo: 5000.35,
+    cdTipoSaldo: 2,
+    descTipoSaldo: 'Débito',
     isFixed: true
   },
   {
@@ -65,9 +65,9 @@ export const createContasContabeis = [
     desContaContabil: 'Receita Operacional',
     cdTipoConta: 2,
     descTipoConta: 'Resultado',
-    saldo: 890.10,
-    cdTipoSaldo: 2,
-    descTipoSaldo: 'Débito',
+    saldo: 0.00,
+    cdTipoSaldo: 3,
+    descTipoSaldo: 'Zero',
     isFixed: true
   },
   {

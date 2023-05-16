@@ -70,7 +70,7 @@ const GridPessoaFisica = (props) => {
 
   //----------PAGINATION START--------////
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   // const emptyRows =
@@ -262,8 +262,8 @@ const GridPessoaFisica = (props) => {
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    colSpan={5}
+                    rowsPerPageOptions={[10, 25, 50]}
+                    colSpan={4}
                     count={verificaNulo()}
                     rowsPerPage={rowsPerPage}
                     page={page}
