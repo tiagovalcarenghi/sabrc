@@ -251,6 +251,7 @@ const CadastroLancamentoBancos = (props) => {
                                 onChange={(e) => setFilterCdCentrodeCusto(e.target.value)}
 
                             >
+                                <MenuItem value={null}>SELECIONAR</MenuItem>
                                 {centrosdecusto.map((cdc) => (
                                     <MenuItem
                                         key={cdc.id}
@@ -280,6 +281,7 @@ const CadastroLancamentoBancos = (props) => {
 
 
                             >
+                                <MenuItem value={null}>SELECIONAR</MenuItem>
                                 {contas.map((cc) => (
                                     <MenuItem
                                         key={cc.id}
@@ -309,6 +311,7 @@ const CadastroLancamentoBancos = (props) => {
                                 onChange={(e) => setFilterCdContaComplementar(e.target.value)}
 
                             >
+                                <MenuItem value={null}>SELECIONAR</MenuItem>
                                 {contascomplementares.map((cco) => (
                                     <MenuItem
                                         key={cco.id}
