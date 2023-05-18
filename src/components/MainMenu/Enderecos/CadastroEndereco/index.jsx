@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, Grid, TextField, Typography, MenuItem, Select, FormControl, InputLabel, } from "@mui/material";
+import { Breadcrumbs, Button, Grid, TextField, Typography, MenuItem, Select, FormControl, InputLabel, Modal, Box } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -7,11 +7,120 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { initialValuesEnderecos, ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
 import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../util/applicationresources";
+import InputMask from 'react-input-mask';
+import { useState } from "react";
+import axios from "axios";
+import { isEligible } from "../../../../util/utils";
+import { CommonLoading } from 'react-loadingg';
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 const CadastroEndereco = (props) => {
     const { endereco, salvar, limpar } = props;
     const navigate = useNavigate();
+
+
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+
+
+    const [disableLogradouro, setDisableLogradouro] = useState(true);
+    const [disableCep, setDisableCep] = useState(false);
+
+    const [cepValue, setCepValue] = useState('');
+    const [tipo, setTipo] = useState('');
+    const [logradouro, setLogradouro] = useState('');
+    const [bairro, setBairro] = useState('');
+    const [localidade, setLocalidade] = useState('');
+    const [uf, setUf] = useState('');
+
+
+    function handleCepChange(event) {
+        const value = event.target.value;
+        setCepValue(value);
+    }
+
+    const refreshCep = () => {
+        setCepValue('');
+        setDisableCep(false);
+    }
+
+
+
+    const buscaCep = () => {
+
+        setLoading(true);
+        setOpen(true);
+
+
+        axios.get(`https://viacep.com.br/ws/${cepValue}/json/`)
+            .then(response => {
+
+                if (response.data.erro === true) {
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "ERRO",
+                        text: "Digite um CEP válido",
+                    });
+
+                } else {
+
+
+
+
+                    if (!isEligible(response.data.logradouro)) {
+
+                        Swal.fire({
+                            icon: "info",
+                            title: "Atenção",
+                            text: "Endereço não encontrado, favor digitar manualmente.",
+                        });
+
+                        setDisableLogradouro(false);
+                    } else {
+                        setDisableLogradouro(true);
+                        //95590000
+                        //59015450
+                        setTipo(response.data.logradouro.split(" ")[0]);
+                        const logra = response.data.logradouro.split(" ");
+                        setLogradouro(logra.slice(1).join(" "));
+                        setBairro(response.data.bairro);
+
+                    }
+
+                    setLocalidade(response.data.localidade);
+                    setUf(response.data.uf);
+
+
+                }
+                setLoading(false);
+                setOpen(false);
+                setDisableCep(true);
+
+
+            })
+            .catch(error => {
+                console.log(error);
+                setLoading(false);
+                setOpen(false);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "ERRO",
+                    text: "Digite um CEP válido",
+                });
+            });
+
+
+
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+        setLoading(false);
+    };
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -38,6 +147,40 @@ const CadastroEndereco = (props) => {
             </Breadcrumbs>
 
 
+            <Modal open={open}
+                onClose={handleClose}
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        // bgcolor: 'background.paper',
+                        // boxShadow: 24,
+                        // p: 4,
+                        width: '250px',
+                        height: '200px'
+                    }}
+                >
+
+
+                    <Button sx={{ marginLeft: '35%' }} onClick={handleClose}>
+                        Fechar
+                    </Button>
+
+                    {loading ? (
+                        <CommonLoading size={30} color="#000000" />
+                    ) : (
+                        <>
+                        </>
+                    )}
+                </Box>
+
+
+
+            </Modal>
+
             <Grid
                 style={{
                     display: "grid",
@@ -48,28 +191,88 @@ const CadastroEndereco = (props) => {
             >
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-                    <Grid item xs={4}>
-                        <TextField
-                            size="small"
-                            fullWidth
-                            name="logradouro"
-                            label="Logradouro"
-                            value={formik.values.logradouro}
-                            onChange={formik.handleChange}
-                            required
-                        />
+
+                    <Grid item xs={2}>
+                        <InputMask
+                            id="cep" type="text"
+                            value={cepValue}
+                            mask="99999-999"
+                            onChange={handleCepChange}
+                            disabled={disableCep}
+                        >
+
+                            {(inputProps) => <TextField
+                                name="cep"
+                                size="small"
+                                fullWidth
+                                label="CEP"
+                                required
+
+                                {...inputProps}
+
+                            />}
+
+                        </InputMask>
+
+
                     </Grid>
 
+
+
+                    <Grid item xs={2}>
+
+                        <Button
+                            size="medium"
+                            color="info"
+                            variant="outlined"
+                            onClick={(e) => {
+                                buscaCep();
+                            }}
+                            startIcon={<SearchIcon />}
+                        >
+                            BUSCAR CEP
+                        </Button>
+
+                        <IconButton
+                            color="secondary"
+                            variant="outlined"
+                            onClick={() => {
+                                refreshCep();
+                            }}
+                        >
+                            <RefreshIcon></RefreshIcon>
+                        </IconButton>
+
+                    </Grid>
+
+                </Grid>
+
+
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
                     <Grid item xs={2}>
                         <TextField
                             size="small"
                             fullWidth
-                            name="cep"
-                            label="CEP"
-                            value={formik.values.cep}
-                            onChange={formik.handleChange}
+                            name="tipo"
+                            label="Tipo Endereço"
+                            value={tipo}
+                            onChange={(e) => setTipo(e.target.value)}
                             required
+                            disabled={disableLogradouro}
+                        />
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="logradouro"
+                            label="Logradouro"
+                            value={logradouro}
+                            onChange={(e) => setLogradouro(e.target.value)}
+                            required
+                            disabled={disableLogradouro}
                         />
                     </Grid>
 
@@ -80,9 +283,11 @@ const CadastroEndereco = (props) => {
                             fullWidth
                             name="bairro"
                             label="Bairro"
-                            value={formik.values.bairro}
-                            onChange={formik.handleChange}
+                            value={bairro}
+                            onChange={(e) => setBairro(e.target.value)}
                             required
+                            disabled={disableLogradouro}
+
                         />
                     </Grid>
 
@@ -121,9 +326,10 @@ const CadastroEndereco = (props) => {
                             fullWidth
                             name="localidade"
                             label="Cidade"
-                            value={formik.values.localidade}
-                            onChange={formik.handleChange}
+                            value={localidade}
+                            onChange={(e) => setLocalidade(e.target.value)}
                             required
+                            disabled
                         />
 
                     </Grid>
@@ -138,9 +344,9 @@ const CadastroEndereco = (props) => {
                                 label="Estado"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={formik.values.uf}
-                                onChange={formik.handleChange}
-                                required
+                                value={uf}
+                                onChange={(e) => setUf(e.target.value)}
+                                disabled
 
                             >
                                 {ufOptions.map((e) => (
@@ -155,7 +361,10 @@ const CadastroEndereco = (props) => {
                         </FormControl>
                     </Grid>
 
+
+
                 </Grid>
+
 
 
                 <Grid container spacing={2} justifyContent="flex-start">
@@ -198,7 +407,9 @@ const CadastroEndereco = (props) => {
                     </Grid>
                 </Grid>
             </Grid>
-        </form>
+
+
+        </form >
     );
 };
 
