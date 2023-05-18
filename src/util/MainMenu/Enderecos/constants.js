@@ -2,6 +2,7 @@ export const initialValuesEnderecos = {
     id: '',
     cdEndereco: '',
     enderecoCompleto: '',
+    tipo: '',
     logradouro: '',
     cep: '',
     bairro: '',
