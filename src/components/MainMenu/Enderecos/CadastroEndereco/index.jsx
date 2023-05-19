@@ -34,6 +34,16 @@ const CadastroEndereco = (props) => {
     const [bairro, setBairro] = useState('');
     const [localidade, setLocalidade] = useState('');
     const [uf, setUf] = useState('');
+    const [numero, setNumero] = useState('');
+
+
+    function handleInputChangeNumero(event) {
+        const value = event.target.value.replace(/[^0-9]/g, '');
+        setNumero(value);
+        // use o valor "value" como desejar...
+    }
+
+
 
 
     function handleCepChange(event) {
@@ -126,6 +136,20 @@ const CadastroEndereco = (props) => {
         enableReinitialize: true,
         initialValues: endereco || initialValuesEnderecos,
         onSubmit: (values) => {
+
+
+            values.tipo = tipo;
+            values.logradouro = logradouro;
+            values.cep = cepValue;
+            values.bairro = bairro;
+            values.localidade = localidade;
+            values.uf = uf;
+            values.numero = numero;
+            values.enderecoCompleto = tipo + ' ' + logradouro + validaNumero(numero) + validaComplemento(values.complemento);
+
+
+
+
             Swal.fire({
                 icon: "success",
                 title: msgCadSuccess,
@@ -138,6 +162,15 @@ const CadastroEndereco = (props) => {
 
         },
     });
+
+
+    const validaNumero = (numero) => {
+        return isEligible(numero) ? ', ' + numero : '';
+    }
+
+    const validaComplemento = (complemento) => {
+        return isEligible(complemento) ? ' - ' + complemento : '';
+    }
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -292,14 +325,16 @@ const CadastroEndereco = (props) => {
                     </Grid>
 
 
+
                     <Grid item xs={2}>
                         <TextField
                             size="small"
                             fullWidth
-                            name="numero"
+                            name="rg"
                             label="Número"
-                            value={formik.values.numero}
-                            onChange={formik.handleChange}
+                            value={numero}
+                            onChange={handleInputChangeNumero}
+                            inputProps={{ inputMode: 'numeric' }}
                         />
                     </Grid>
 

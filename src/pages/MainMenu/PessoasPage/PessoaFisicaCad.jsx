@@ -9,9 +9,12 @@ import AppMenu from "../../AppNavBar/AppMenu";
 const PessoaFisiscaCad = () => {
   const [pessoaFisicaEmEdicao, setPessoaFisicaEmEdicao] = useState(initialValuesPF);
   const location = useLocation();
+  const [enderecoDb, setEnderecoDb] = useState([]);
 
   useEffect(() => {
     console.log(location.state);
+
+    carregarEndereco();
 
     if (!location.state.id) {
       setPessoaFisicaEmEdicao(initialValuesPF);
@@ -19,6 +22,10 @@ const PessoaFisiscaCad = () => {
     }
     carregarPessoaFisica(location.state.id);
   }, [location.state]);
+
+  const carregarEndereco = async () => {
+    setEnderecoDb(JSON.parse(localStorage.getItem("enderecos_db")));
+  }
 
   const carregarPessoaFisica = async (id) => {
     const pessoaFisicaStorage = JSON.parse(localStorage.getItem("pessoafisica_db"));
@@ -80,6 +87,7 @@ const PessoaFisiscaCad = () => {
         pessoafisica={pessoaFisicaEmEdicao}
         salvar={salvarPessoaFisica}
         limpar={limparPessoaFisiscaEmEdicao}
+        enderecodb={enderecoDb}
       />
     </AppMenu>
   );
