@@ -10,10 +10,13 @@ const PessoaJuridicaCad = () => {
   const [pessoaJuridicaEmEdicao, setPessoaJuridicaEmEdicao] = useState(initialValuesPJ);
   const [representanteLegalEmEdicao, setrepresentanteLegalEmEdicao] = useState(initialValuesRL);
   const [pessoaFisicaDb, setpessoaFisicaDb] = useState([]);
+  const [enderecoDb, setEnderecoDb] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
     console.log(location.state);
+
+    carregarEndereco();
 
     if (!location.state) {
       setPessoaJuridicaEmEdicao(initialValuesPJ);
@@ -24,6 +27,10 @@ const PessoaJuridicaCad = () => {
     carregaRepresentantesLegais(location.state.id);
     carregarPessoaFisicaOptions();
   }, [location.state]);
+
+  const carregarEndereco = async () => {
+    setEnderecoDb(JSON.parse(localStorage.getItem("enderecos_db")));
+  }
 
   const carregarPessoaJuridica = async (id) => {
     const pessoaJuridicaStorage = JSON.parse(localStorage.getItem("pessoajuridica_db"));
@@ -118,7 +125,6 @@ const PessoaJuridicaCad = () => {
     }
 
 
-
     RepLegal.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
     var getId2 = JSON.parse(localStorage.getItem("pessoajuridica_db"));
     RepLegal.cdPessoaJuridica = getId2 === null ? 1 : getId2[getId2.length - 1].id + 1;
@@ -139,6 +145,7 @@ const PessoaJuridicaCad = () => {
         deleterl={deleteRepresentanteLegal}
         addrl={addRepresentanteLegal}
         representanteslegaisoptions={pessoaFisicaDb}
+        enderecodb={enderecoDb}
       />
     </AppMenu>
   );

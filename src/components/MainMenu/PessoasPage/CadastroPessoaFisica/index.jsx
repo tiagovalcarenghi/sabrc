@@ -36,7 +36,7 @@ import InputMask from 'react-input-mask';
 
 
 const CadastroPF = (props) => {
-  const { pessoafisica, salvar, limpar } = props;
+  const { pessoafisica, salvar, limpar, enderecodb } = props;
   const navigate = useNavigate();
 
 
@@ -50,59 +50,10 @@ const CadastroPF = (props) => {
       setRgValue(pessoafisica.rg)
       setTelefoneValue(pessoafisica.telefone)
       setTelefoneAdicionalValue(pessoafisica.telefoneAdicional)
+      setCdEndereco(pessoafisica.cdEndereco)
     }
 
   }, [pessoafisica]);
-
-
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: pessoafisica || initialValuesPF,
-    onSubmit: (values) => {
-
-      values.cpf = cpfValue.replace(/[^a-zA-Z0-9]/g, '');
-      values.cnh = cnhValue;
-      values.rg = rgValue;
-      values.telefone = telefoneValue;
-      values.telefoneAdicional = telefoneAdicionalValue;
-
-
-      if (!cpf.isValid(cpfValue)) {
-        setCpfError('CPF inválido!');
-      } else {
-        setCpfError('');
-
-        if (!confirmaEmail(values.email)) {
-          Swal.fire({
-            icon: "error",
-            title: msgAtencao,
-            text: msgErroValidateEmail,
-          });
-
-        } else if ((mostraCnh && !isEligible(values.cnh)) || (mostraRg && !isEligible(values.rg))) {
-          Swal.fire({
-            icon: "error",
-            title: msgAtencao,
-            text: msgErroValidateDocumento,
-          });
-
-        } else {
-          Swal.fire({
-            icon: "success",
-            title: msgCadSuccess,
-            text: msgCadPessoaSuccess,
-          });
-
-          values.isAgenteDeNegocio = checked;
-
-          salvar(values);
-          formik.resetForm();
-
-          navigate("/cadastro/pessoas");
-        }
-      }
-    },
-  });
 
   const [checked, setChecked] = useState(false);
 
@@ -168,7 +119,64 @@ const CadastroPF = (props) => {
     setTelefoneAdicionalValue(value);
   }
 
+  const [cdEndereco, setCdEndereco] = useState('');
 
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: pessoafisica || initialValuesPF,
+    onSubmit: (values) => {
+
+      values.cpf = cpfValue.replace(/[^a-zA-Z0-9]/g, '');
+      values.cnh = cnhValue;
+      values.rg = rgValue;
+      values.telefone = telefoneValue;
+      values.telefoneAdicional = telefoneAdicionalValue;
+
+
+      let itemsEndereco = enderecodb;
+      itemsEndereco = itemsEndereco?.filter((item) => item.cdEndereco === cdEndereco);
+      values.enderecoCompleto = itemsEndereco[0].enderecoCompleto;
+      values.cdEndereco = cdEndereco;
+
+
+      if (!cpf.isValid(cpfValue)) {
+        setCpfError('CPF inválido!');
+      } else {
+        setCpfError('');
+
+        if (!confirmaEmail(values.email)) {
+          Swal.fire({
+            icon: "error",
+            title: msgAtencao,
+            text: msgErroValidateEmail,
+          });
+
+        } else if ((mostraCnh && !isEligible(values.cnh)) || (mostraRg && !isEligible(values.rg))) {
+          Swal.fire({
+            icon: "error",
+            title: msgAtencao,
+            text: msgErroValidateDocumento,
+          });
+
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: msgCadSuccess,
+            text: msgCadPessoaSuccess,
+          });
+
+          values.isAgenteDeNegocio = checked;
+
+          salvar(values);
+          formik.resetForm();
+
+          navigate("/cadastro/pessoas");
+        }
+      }
+    },
+  });
 
 
 
@@ -407,7 +415,35 @@ const CadastroPF = (props) => {
 
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-          {/* //SELECT ENDEREÇO COMPLETO */}
+          <Grid item xs={4}>
+            <FormControl fullWidth size="small">
+              <InputLabel id="demo-controlled-open-select-label">Endereço</InputLabel>
+              <Select
+                fullWidth
+                size="small"
+                name="endereco"
+                label="Endereço"
+                labelId="select-label-id"
+                id="select-label-id"
+                required
+                value={cdEndereco}
+                onChange={(e) => setCdEndereco(e.target.value)}
+
+              >
+                {enderecodb.map((e) => (
+                  <MenuItem
+                    key={e.id}
+                    value={e.cdEndereco}
+
+                  >
+                    {e.enderecoCompleto}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+
 
           <Grid item xs={2}>
 

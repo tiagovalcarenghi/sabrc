@@ -48,12 +48,11 @@ const EnderecoCad = () => {
 
     const insertcadNomes = (cc) => {
 
-        var numeroadress = isBlank(cc.numero) ? "" : ", " + cc.numero;
         var newNomeCad = initialNomes;
         var getId = JSON.parse(localStorage.getItem("nomes_db"));
         newNomeCad.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
         newNomeCad.cdNomes = newNomeCad.id;
-        newNomeCad.nome = cc.logradouro + numeroadress;
+        newNomeCad.nome = cc.enderecoCompleto;
         newNomeCad.cdTipoNome = 3;
         newNomeCad.cdCadastroNomes = cc.cdEndereco;
         const newNome = getId === null ? [newNomeCad] : [...JSON.parse(localStorage.getItem("nomes_db")), newNomeCad];

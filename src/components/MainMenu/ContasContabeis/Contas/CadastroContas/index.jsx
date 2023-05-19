@@ -63,7 +63,7 @@ const CadastroContas = (props) => {
 
 
                 let itemsTipoConta = tipoContaContabilOptions;
-                itemsTipoConta = itemsTipoConta?.filter((item) => item.cdTipoConta === values.cdTipoConta);
+                itemsTipoConta = itemsTipoConta?.filter((item) => item.cdTipoConta === cdTipoConta);
                 values.descTipoConta = itemsTipoConta[0].descTipoConta;
 
                 let itemsTipoSaldo = tipoSaldoOptions;
@@ -126,7 +126,7 @@ const CadastroContas = (props) => {
                                 onChange={(e) => {
                                     setCdTipoConta(e.target.value);
 
-                                    if (cdTipoConta === 1) {
+                                    if (e.target.value !== 1) {
                                         setDisableContaResultado(true);
                                         setSaldo(0);
                                         setCdTipoSaldo(3);

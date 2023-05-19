@@ -42,7 +42,7 @@ import InputMask from 'react-input-mask';
 
 
 const CadastroPJ = (props) => {
-  const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl, representanteslegaisoptions } = props;
+  const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl, representanteslegaisoptions, enderecodb } = props;
   const navigate = useNavigate();
 
   const navigateToComponent = () => {
@@ -54,42 +54,11 @@ const CadastroPJ = (props) => {
 
     if (pessoajuridica) {
       setCnpjValue(pessoajuridica.cnpj)
+      setCdEndereco(pessoajuridica.cdEndereco)
     }
 
   }, [pessoajuridica]);
 
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: pessoajuridica || initialValuesPJ,
-    onSubmit: (values) => {
-
-      values.cnpj = cnpjValue.replace(/[^a-zA-Z0-9]/g, '');
-
-      if (!cnpj.isValid(cnpjValue)) {
-        setCnpjError('CNPJ inválido!');
-      } else {
-        setCnpjError('');
-
-        if (!confirmaEmail(values.emailContato)) {
-          Swal.fire({
-            icon: "error",
-            title: msgAtencao,
-            text: msgErroValidateEmail,
-          });
-        } else {
-          Swal.fire({
-            icon: "success",
-            title: msgCadSuccess,
-            text: msgCadPessoaSuccess,
-          });
-          values.enderecoCompleto = values.logradouro + values.numero;
-          salvar(values);
-          formik.resetForm();
-          navigate("/cadastro/pessoas", { state: { value: 1 } });
-        }
-      }
-    },
-  });
 
 
   const [cnpjValue, setCnpjValue] = useState('');
@@ -127,6 +96,49 @@ const CadastroPJ = (props) => {
     } = event;
     setSelectRepresentanteLegal(value);
   };
+
+
+  const [cdEndereco, setCdEndereco] = useState('');
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: pessoajuridica || initialValuesPJ,
+    onSubmit: (values) => {
+
+      values.cnpj = cnpjValue.replace(/[^a-zA-Z0-9]/g, '');
+      let itemsEndereco = enderecodb;
+      itemsEndereco = itemsEndereco?.filter((item) => item.cdEndereco === cdEndereco);
+      values.enderecoCompleto = itemsEndereco[0].enderecoCompleto;
+      values.cdEndereco = cdEndereco;
+
+
+      if (!cnpj.isValid(cnpjValue)) {
+        setCnpjError('CNPJ inválido!');
+      } else {
+        setCnpjError('');
+
+        if (!confirmaEmail(values.emailContato)) {
+          Swal.fire({
+            icon: "error",
+            title: msgAtencao,
+            text: msgErroValidateEmail,
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: msgCadSuccess,
+            text: msgCadPessoaSuccess,
+          });
+          values.enderecoCompleto = values.logradouro + values.numero;
+          salvar(values);
+          formik.resetForm();
+          navigate("/cadastro/pessoas", { state: { value: 1 } });
+        }
+      }
+    },
+  });
+
 
 
   return (
@@ -197,7 +209,33 @@ const CadastroPJ = (props) => {
 
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
-          {/* COLOCAR O SELECT ENDEREÇO AQUI. */}
+          <Grid item xs={4}>
+            <FormControl fullWidth size="small">
+              <InputLabel id="demo-controlled-open-select-label">Endereço</InputLabel>
+              <Select
+                fullWidth
+                size="small"
+                name="endereco"
+                label="Endereço"
+                labelId="select-label-id"
+                id="select-label-id"
+                required
+                value={cdEndereco}
+                onChange={(e) => setCdEndereco(e.target.value)}
+
+              >
+                {enderecodb.map((e) => (
+                  <MenuItem
+                    key={e.id}
+                    value={e.cdEndereco}
+
+                  >
+                    {e.enderecoCompleto}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
 
         </Grid>
 
