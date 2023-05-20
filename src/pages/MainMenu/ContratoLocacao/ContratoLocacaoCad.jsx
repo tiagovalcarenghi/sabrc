@@ -12,8 +12,9 @@ const ContratoLocacaoCad = () => {
     const [locatarioProcuradorEmEdicao, setLocatarioProcuradorEmEdicao] = useState(initialLocatarioProcuradorOperacao);
     const [taxaIntermediacaoCorretoresEmEdicao, setTaxaIntermediacaoCorretoresEmEdicao] = useState(initialTaxaIntermediacaoCorretoresOperacoes);
     const [locadorLocatarioNomes, setLocadorLocatarioNomes] = useState([]);
+    const [corretorNomes, setCorretorNomes] = useState([]);
     const [pessoaFisica, setPessoaFisica] = useState([]);
-    const [enderecoNomes, setEnderecoNomes] = useState([]);
+    const [enderecoDb, setEnderecoDb] = useState([]);
     const location = useLocation();
     let cdLocadorProcuradorSave = null;
     let cdLocatarioProcuradorSave = null;
@@ -22,6 +23,7 @@ const ContratoLocacaoCad = () => {
 
     useEffect(() => {
 
+        carregarEndereco();
 
         if (!location.state.id) {
             limparContratoLocacao();
@@ -30,6 +32,11 @@ const ContratoLocacaoCad = () => {
         }
         carregarContratoCompraeVenda(location.state.id);
     }, [location.state.id]);
+
+    const carregarEndereco = async () => {
+        setEnderecoDb(JSON.parse(localStorage.getItem("enderecos_db")));
+    }
+
 
     const carregarContratoCompraeVenda = async (id) => {
 
@@ -63,11 +70,12 @@ const ContratoLocacaoCad = () => {
         const selectComp = nomesStorage?.filter((cc) => cc.cdTipoNome === 1 || cc.cdTipoNome === 2);
         setLocadorLocatarioNomes(selectComp);
 
+        const selectCorretores = nomesStorage?.filter((cc) => cc.isAgenteDeNegocio === true);
+        setCorretorNomes(selectCorretores);
+
         const sectPf = nomesStorage?.filter((cc) => cc.cdTipoNome === 1);
         setPessoaFisica(sectPf);
 
-        const selctAdress = nomesStorage?.filter((cc) => cc.cdTipoNome === 3);
-        setEnderecoNomes(selctAdress);
 
     }
 
@@ -569,8 +577,8 @@ const ContratoLocacaoCad = () => {
         localStorage.setItem("taxaintermediacaooperacao_db", JSON.stringify([]));
 
         setLocadorLocatarioNomes([]);
+        setCorretorNomes([]);
         setPessoaFisica([]);
-        setEnderecoNomes([]);
 
         carregarNomes();
 
@@ -594,8 +602,9 @@ const ContratoLocacaoCad = () => {
                 deletetaxaintermediacao={deleteTaxaIntermediacao}
 
                 locadorlocatarionomes={locadorLocatarioNomes}
+                corretorenomes={corretorNomes}
                 procuradornomes={pessoaFisica}
-                endereco={enderecoNomes}
+                enderecodb={enderecoDb}
 
                 salvar={salvarContratoLocacao}
                 limpar={limparContratoLocacao}

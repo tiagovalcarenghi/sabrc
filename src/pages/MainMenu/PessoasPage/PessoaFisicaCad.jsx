@@ -60,6 +60,7 @@ const PessoaFisiscaCad = () => {
     newNomeCad.nome = pf.nomeCompleto;
     newNomeCad.cdTipoNome = 1;
     newNomeCad.cdCadastroNomes = pf.cdPessoaFisica;
+    newNomeCad.isAgenteDeNegocio = pf.isAgenteDeNegocio;
     const newNome = getId === null ? [newNomeCad] : [...JSON.parse(localStorage.getItem("nomes_db")), newNomeCad];
     localStorage.setItem("nomes_db", JSON.stringify(newNome));
 

@@ -22,6 +22,9 @@ const CadastroContas = (props) => {
             setSaldo(contacontabil.saldo);
             setCdTipoConta(contacontabil.cdTipoConta)
             setCdTipoSaldo(contacontabil.cdTipoSaldo)
+            if (contacontabil.cdTipoConta === 2) {
+                setDisableContaResultado(true);
+            }
         }
 
     }, [contacontabil]);

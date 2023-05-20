@@ -26,7 +26,7 @@ const ContasComplementaresCad = () => {
     const salvarContaComplementar = (cc) => {
         var getId = JSON.parse(localStorage.getItem("contascomplementares_db"));
         cc.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
-        cc.cdContaContabil = cc.id;
+        cc.cdContaComplementar = cc.id;
         const newContaContabil = getId === null ? [cc] : [...JSON.parse(localStorage.getItem("contascomplementares_db")), cc];
         localStorage.setItem("contascomplementares_db", JSON.stringify(newContaContabil));
         setContaComplementarEmEdicao(initialValuesContasComplementares);

@@ -43,18 +43,22 @@ import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
 
 const CadastroContratoCompraeVenda = (props) => {
 
-    const { contratocompraevendacad, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, endereco, salvar, limpar } = props;
+    const { contratocompraevendacad, compradoreprocurador, addcompradoreprocurador, deletecompradoreprocurador, vendedoreprocurador, addvendedoreprocurador, deletevendedoreprocurador, honorarioscorretorparceiro, addhonorarios, deletehonorarios, compradorvendedornomes, procuradornomes, enderecodb, salvar, limpar, corretorenomes } = props;
 
 
     useEffect(() => {
 
         if (contratocompraevendacad) {
 
-            setPrazoRegularizacao(isEligible(contratocompraevendacad.prazoRegularizacao) ? dayjs(contratocompraevendacad.prazoRegularizacao) : dayjs());
+            const dateString = contratocompraevendacad.prazoRegularizacao;
+            const convertedDate = dayjs(dateString, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+            setPrazoRegularizacao(isEligible(contratocompraevendacad.prazoRegularizacao) ? convertedDate : dayjs());
             setValorNegocio(contratocompraevendacad.valorNegocio);
             setHonorariosImobiliaria(contratocompraevendacad.honorarioImobiliaria);
             setPosseDefinitiva(contratocompraevendacad.posseDefinitiva);
             setPrazoObtencaoFinanciamento(contratocompraevendacad.prazoObtencaoFinanciamento);
+            setCdEndereco(contratocompraevendacad.cdEndereco)
         }
 
     }, [contratocompraevendacad]);
@@ -64,7 +68,7 @@ const CadastroContratoCompraeVenda = (props) => {
     const [filterCompradorProcurador, setFilterCompradorProcurador] = useState({});;
     const [filterVendedor, setFilterVendedor] = useState({});;
     const [filterVendedorProcurador, setFilterVendedorProcurador] = useState({});
-    const [filterEndereco, setEndereco] = useState({});
+    const [cdEndereco, setCdEndereco] = useState('');
     const [filterCorretorParceiro, setFilterCorretorParceiro] = useState({});
     const [honorariosCorretorParceiro, setHonorariosCorretorParceiro] = useState(0);
     const [radioMinuta, setRadioMinutaValue] = useState('padrao');
@@ -153,11 +157,14 @@ const CadastroContratoCompraeVenda = (props) => {
                     text: msgInsertContratoCompraeVendaSuccess,
                 });
 
+                let itemsEndereco = enderecodb;
+                itemsEndereco = itemsEndereco?.filter((item) => item.cdEndereco === cdEndereco);
+                values.enderecoCompleto = itemsEndereco[0].enderecoCompleto;
+                values.cdEndereco = cdEndereco;
+
                 values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
                 values.valorNegocio = isEligible(valorNegocio) ? valorNegocio : 0;
                 values.honorarioImobiliaria = isEligible(honorariosImobiliaria) ? honorariosImobiliaria : 0;
-                values.cdEndereco = isEligible(filterEndereco.cdNomes) ? filterEndereco.cdNomes : null;
-                values.enderecoCompleto = isEligible(filterEndereco.nome) ? filterEndereco.nome : '';
                 values.detalhamentoImovel = isEligible(values.detalhamentoImovel) ? values.detalhamentoImovel : '';
                 values.condicoes = isEligible(values.condicoes) ? values.condicoes : '';
                 values.formaPagtoHonorarios = isEligible(values.formaPagtoHonorarios) ? values.formaPagtoHonorarios : '';
@@ -227,6 +234,7 @@ const CadastroContratoCompraeVenda = (props) => {
                                 onChange={(e) => setFilterComprador(e.target.value)}
                             >
 
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
                                 {compradorvendedornomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
@@ -256,6 +264,7 @@ const CadastroContratoCompraeVenda = (props) => {
                                 value={filterCompradorProcurador}
                                 onChange={(e) => setFilterCompradorProcurador(e.target.value)}
                             >
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
                                 {procuradornomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
@@ -377,6 +386,7 @@ const CadastroContratoCompraeVenda = (props) => {
                                 onChange={(e) => setFilterVendedor(e.target.value)}
                             >
 
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
                                 {compradorvendedornomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
@@ -406,6 +416,7 @@ const CadastroContratoCompraeVenda = (props) => {
                                 value={filterVendedorProcurador}
                                 onChange={(e) => setFilterVendedorProcurador(e.target.value)}
                             >
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
                                 {procuradornomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
@@ -512,26 +523,29 @@ const CadastroContratoCompraeVenda = (props) => {
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
+
                     <Grid item xs={6}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-controlled-open-select-label">Endereço</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="filterEndereco"
+                                name="cdEndereco"
                                 label="Endereço"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterEndereco}
-                                onChange={(e) => setEndereco(e.target.value)}
+                                required
+                                value={cdEndereco}
+                                onChange={(e) => setCdEndereco(e.target.value)}
+
                             >
-                                {endereco.map((nome) => (
+                                {enderecodb.map((e) => (
                                     <MenuItem
-                                        key={nome.id}
-                                        value={nome}
+                                        key={e.id}
+                                        value={e.cdEndereco}
 
                                     >
-                                        {nome.nome}
+                                        {e.enderecoCompleto}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -619,7 +633,8 @@ const CadastroContratoCompraeVenda = (props) => {
                                 value={filterCorretorParceiro}
                                 onChange={(e) => setFilterCorretorParceiro(e.target.value)}
                             >
-                                {procuradornomes.map((nome) => (
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
+                                {corretorenomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
                                         value={nome}
@@ -952,7 +967,7 @@ const CadastroContratoCompraeVenda = (props) => {
                                 setFilterCompradorProcurador({});;
                                 setFilterVendedor({});;
                                 setFilterVendedorProcurador({});
-                                setEndereco({});
+                                setCdEndereco('');
                                 setFilterCorretorParceiro({});
                                 setHonorariosCorretorParceiro(0);
                                 setRadioMinutaValue('padrao');

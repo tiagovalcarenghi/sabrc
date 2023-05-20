@@ -13,8 +13,9 @@ const ContratoCompraeVendaCad = () => {
     const [vendedorProcuradorEmEdicao, setVendedorProcuradorEmEdicao] = useState(initialVendedorProcuradorOperacao);
     const [honorariosCorretorParceiroEmEdicao, setHonorariosCorretorParceiroEmEdicao] = useState(initialHonorariosCorretorParceiroOperacoes);
     const [compradorVendedorNomes, setCompradorVendedorNomes] = useState([]);
+    const [corretorNomes, setCorretorNomes] = useState([]);
     const [pessoaFisica, setPessoaFisica] = useState([]);
-    const [enderecoNomes, setEnderecoNomes] = useState([]);
+    const [enderecoDb, setEnderecoDb] = useState([]);
     const location = useLocation();
     let cdCompradorProcuradorSave = null;
     let cdCVendedorProcuradorSave = null;
@@ -22,8 +23,10 @@ const ContratoCompraeVendaCad = () => {
     let totalHonorariosSave = 0;
     let valorTextoMinuta = '';
 
+
     useEffect(() => {
 
+        carregarEndereco();
 
         if (!location.state.id) {
             limparContratoCompraeVenda();
@@ -32,6 +35,10 @@ const ContratoCompraeVendaCad = () => {
         }
         carregarContratoCompraeVenda(location.state.id);
     }, [location.state.id]);
+
+    const carregarEndereco = async () => {
+        setEnderecoDb(JSON.parse(localStorage.getItem("enderecos_db")));
+    }
 
     const carregarContratoCompraeVenda = async (id) => {
 
@@ -65,11 +72,12 @@ const ContratoCompraeVendaCad = () => {
         const selectComp = nomesStorage?.filter((cc) => cc.cdTipoNome === 1 || cc.cdTipoNome === 2);
         setCompradorVendedorNomes(selectComp);
 
+        const selectCorretores = nomesStorage?.filter((cc) => cc.isAgenteDeNegocio === true);
+        setCorretorNomes(selectCorretores);
+
         const sectPf = nomesStorage?.filter((cc) => cc.cdTipoNome === 1);
         setPessoaFisica(sectPf);
 
-        const selctAdress = nomesStorage?.filter((cc) => cc.cdTipoNome === 3);
-        setEnderecoNomes(selctAdress);
 
     }
 
@@ -574,8 +582,8 @@ const ContratoCompraeVendaCad = () => {
         localStorage.setItem("honorarioscorretorparceirooperacao_db", JSON.stringify([]));
 
         setCompradorVendedorNomes([]);
+        setCorretorNomes([]);
         setPessoaFisica([]);
-        setEnderecoNomes([]);
 
         carregarNomes();
 
@@ -599,8 +607,9 @@ const ContratoCompraeVendaCad = () => {
                 deletehonorarios={deleteHonorarios}
 
                 compradorvendedornomes={compradorVendedorNomes}
+                corretorenomes={corretorNomes}
                 procuradornomes={pessoaFisica}
-                endereco={enderecoNomes}
+                enderecodb={enderecoDb}
 
                 salvar={salvarContratoCompraeVenda}
                 limpar={limparContratoCompraeVenda}
