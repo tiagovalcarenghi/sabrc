@@ -31,6 +31,8 @@ export function isEligible(value) {
 
 export function verificaContas(cdTipo, contaComp, centrodeCusto) {
 
+    console.log('tipo conta-> ' + cdTipo + ' conta comp-> ' + contaComp + ' centro de custo-> ' + centrodeCusto);
+
     if (cdTipo === 1 && isEligible(contaComp) && !isEligible(centrodeCusto)) {
         return true;
     } else if (cdTipo === 2 && !isEligible(contaComp) && isEligible(centrodeCusto)) {

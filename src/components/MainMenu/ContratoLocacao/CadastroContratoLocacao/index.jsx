@@ -38,7 +38,7 @@ import { initialContratosdeLocacaoBase } from "../../../../util/MainMenu/Contrat
 
 const CadastroContratoLocacao = (props) => {
 
-    const { contratolocacaocad, locadoreprocurador, addlocadoreprocurador, deletelocadoreprocurador, locatarioeprocurador, addlocatarioeprocurador, deletelocatarioeprocurador, taxaintermediacaocorretores, addtaxaintermediacao, deletetaxaintermediacao, locadorlocatarionomes, procuradornomes, endereco, salvar, limpar } = props;
+    const { contratolocacaocad, locadoreprocurador, addlocadoreprocurador, deletelocadoreprocurador, locatarioeprocurador, addlocatarioeprocurador, deletelocatarioeprocurador, taxaintermediacaocorretores, addtaxaintermediacao, deletetaxaintermediacao, locadorlocatarionomes, procuradornomes, enderecodb, salvar, limpar, corretorenomes } = props;
 
 
     useEffect(() => {
@@ -47,6 +47,7 @@ const CadastroContratoLocacao = (props) => {
             setValorLocacao(contratolocacaocad.valordaLocacao);
             setTaxaIntermediacaoBomlar(contratolocacaocad.taxaIntermediacaoBomlar);
             setTaxaIntermediacaoTotal(contratolocacaocad.taxaIntermediacaoTotal);
+            setCdEndereco(contratolocacaocad.cdEndereco);
         }
 
     }, [contratolocacaocad]);
@@ -55,7 +56,7 @@ const CadastroContratoLocacao = (props) => {
     const [filterLocadorProcurador, setFilterLocadorProcurador] = useState({});;
     const [filterLocatario, setFilterLocatario] = useState({});;
     const [filterLocatarioProcurador, setFilterLocatarioProcurador] = useState({});
-    const [filterEndereco, setEndereco] = useState({});
+    const [cdEndereco, setCdEndereco] = useState('');
     const [filterCorretor, setFilterCorretor] = useState({});
     const [taxaIntermediacaoCorretor, setTaxaIntermediacaoCorretor] = useState(0);
     const [radioMinuta, setRadioMinutaValue] = useState('padrao');
@@ -115,7 +116,7 @@ const CadastroContratoLocacao = (props) => {
         onSubmit: (values) => {
 
 
-            if (!Object.values(values).every(x => x === null || x === '')) {
+            if (valordaLocacao != 0) {
 
                 Swal.fire({
                     icon: "success",
@@ -123,10 +124,14 @@ const CadastroContratoLocacao = (props) => {
                     text: msgInsertContratoCompraeVendaSuccess,
                 });
 
+
+                let itemsEndereco = enderecodb;
+                itemsEndereco = itemsEndereco?.filter((item) => item.cdEndereco === cdEndereco);
+                values.enderecoCompleto = itemsEndereco[0].enderecoCompleto;
+                values.cdEndereco = cdEndereco;
+
                 values.valordaLocacao = isEligible(valordaLocacao) ? valordaLocacao : 0;
                 values.taxaIntermediacaoBomlar = isEligible(taxaIntermediacaoBomlar) ? taxaIntermediacaoBomlar : 0;
-                values.cdEndereco = isEligible(filterEndereco.cdNomes) ? filterEndereco.cdNomes : null;
-                values.enderecoCompleto = isEligible(filterEndereco.nome) ? filterEndereco.nome : '';
                 values.taxaIntermediacaoTotal = isEligible(taxaIntermediacaoTotal) ? taxaIntermediacaoTotal : 0;
                 values.textoMinuta = isEligible(values.textoMinuta) ? values.textoMinuta : '';
                 values.tipoMinuta = radioMinuta;
@@ -186,7 +191,7 @@ const CadastroContratoLocacao = (props) => {
                                 value={filterLocador}
                                 onChange={(e) => setFilterLocador(e.target.value)}
                             >
-
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
                                 {locadorlocatarionomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
@@ -216,6 +221,7 @@ const CadastroContratoLocacao = (props) => {
                                 value={filterLocadorProcurador}
                                 onChange={(e) => setFilterLocadorProcurador(e.target.value)}
                             >
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
                                 {procuradornomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
@@ -336,6 +342,7 @@ const CadastroContratoLocacao = (props) => {
                                 onChange={(e) => setFilterLocatario(e.target.value)}
                             >
 
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
                                 {locadorlocatarionomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
@@ -365,6 +372,7 @@ const CadastroContratoLocacao = (props) => {
                                 value={filterLocatarioProcurador}
                                 onChange={(e) => setFilterLocatarioProcurador(e.target.value)}
                             >
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
                                 {procuradornomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
@@ -469,27 +477,28 @@ const CadastroContratoLocacao = (props) => {
 
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
                     <Grid item xs={4}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-controlled-open-select-label">Endereço</InputLabel>
                             <Select
                                 fullWidth
                                 size="small"
-                                name="filterEndereco"
+                                name="cdEndereco"
                                 label="Endereço"
                                 labelId="select-label-id"
                                 id="select-label-id"
-                                value={filterEndereco}
-                                onChange={(e) => setEndereco(e.target.value)}
+                                required
+                                value={cdEndereco}
+                                onChange={(e) => setCdEndereco(e.target.value)}
+
                             >
-                                {endereco.map((nome) => (
+                                {enderecodb.map((e) => (
                                     <MenuItem
-                                        key={nome.id}
-                                        value={nome}
+                                        key={e.id}
+                                        value={e.cdEndereco}
 
                                     >
-                                        {nome.nome}
+                                        {e.enderecoCompleto}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -551,7 +560,8 @@ const CadastroContratoLocacao = (props) => {
                                 value={filterCorretor}
                                 onChange={(e) => setFilterCorretor(e.target.value)}
                             >
-                                {procuradornomes.map((nome) => (
+                                <MenuItem value={{}}>SELECIONAR</MenuItem>
+                                {corretorenomes.map((nome) => (
                                     <MenuItem
                                         key={nome.id}
                                         value={nome}
@@ -783,7 +793,7 @@ const CadastroContratoLocacao = (props) => {
                                 setFilterLocadorProcurador({});;
                                 setFilterLocatario({});;
                                 setFilterLocatarioProcurador({});
-                                setEndereco({});
+                                setCdEndereco('');
                                 setFilterCorretor({});
                                 setTaxaIntermediacaoCorretor(0);
                                 setRadioMinutaValue('padrao');

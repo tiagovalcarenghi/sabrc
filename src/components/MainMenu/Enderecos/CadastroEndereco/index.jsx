@@ -8,7 +8,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { initialValuesEnderecos, ufOptions } from "../../../../util/MainMenu/Enderecos/constants";
 import { msgCadPessoaSuccess, msgCadSuccess } from "../../../../util/applicationresources";
 import InputMask from 'react-input-mask';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { isEligible } from "../../../../util/utils";
 import { CommonLoading } from 'react-loadingg';
@@ -19,6 +19,21 @@ import SearchIcon from "@mui/icons-material/Search";
 const CadastroEndereco = (props) => {
     const { endereco, salvar, limpar } = props;
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+
+        if (endereco) {
+            setCepValue(endereco.cep)
+            setTipo(endereco.tipo)
+            setLogradouro(endereco.logradouro)
+            setBairro(endereco.bairro)
+            setLocalidade(endereco.localidade)
+            setUf(endereco.uf)
+            setNumero(endereco.numero)
+        }
+
+    }, [endereco]);
 
 
     const [loading, setLoading] = useState(false);
@@ -58,10 +73,17 @@ const CadastroEndereco = (props) => {
 
 
 
+
     const buscaCep = () => {
 
         setLoading(true);
         setOpen(true);
+
+        axios.defaults.headers.common['Authorization'] = 'Bearer your_token';
+        axios.defaults.headers.common['Content-Type'] = 'application/json';
+        axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+
+
 
 
         axios.get(`https://viacep.com.br/ws/${cepValue}/json/`)
@@ -137,6 +159,8 @@ const CadastroEndereco = (props) => {
         initialValues: endereco || initialValuesEnderecos,
         onSubmit: (values) => {
 
+
+            console.log("id:" + values.id);
 
             values.tipo = tipo;
             values.logradouro = logradouro;

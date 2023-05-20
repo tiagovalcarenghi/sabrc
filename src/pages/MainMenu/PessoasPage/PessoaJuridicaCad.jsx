@@ -18,11 +18,14 @@ const PessoaJuridicaCad = () => {
 
     carregarEndereco();
 
-    if (!location.state) {
+    if (!location.state.id) {
+      console.log("NOVO");
       setPessoaJuridicaEmEdicao(initialValuesPJ);
-      setrepresentanteLegalEmEdicao(initialValuesRL);
+      setrepresentanteLegalEmEdicao({});
+      carregarPessoaFisicaOptions();
       return;
     }
+    console.log("EDITAR");
     carregarPessoaJuridica(location.state.id);
     carregaRepresentantesLegais(location.state.id);
     carregarPessoaFisicaOptions();
@@ -39,6 +42,7 @@ const PessoaJuridicaCad = () => {
   };
 
   const carregaRepresentantesLegais = async (id) => {
+    console.log(id)
     const pessoaRepresentantesLegaisStorage = JSON.parse(localStorage.getItem("representanteslegais_db"));
     const selectRepresentantesLegais = pessoaRepresentantesLegaisStorage?.filter((rl) => rl.cdPessoaJuridica === id);
     setrepresentanteLegalEmEdicao(selectRepresentantesLegais);
