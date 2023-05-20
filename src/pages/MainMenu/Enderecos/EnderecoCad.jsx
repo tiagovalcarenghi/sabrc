@@ -15,7 +15,7 @@ const EnderecoCad = () => {
         console.log(location.state);
 
         if (!location.state.id) {
-            setEnderecoEmEdicao(initialValuesEnderecos);
+            setEnderecoEmEdicao({});
             return;
         }
         carregarEndereco(location.state.id);
