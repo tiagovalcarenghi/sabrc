@@ -177,6 +177,7 @@ const GridUsuarios = (props) => {
                                     onChange={(e) => setFilterTipoUser(e.target.value)}
 
                                 >
+                                    <MenuItem value={""}>SELECIONAR</MenuItem>
                                     {userOptions.map((e) => (
                                         <MenuItem
                                             key={e.id}

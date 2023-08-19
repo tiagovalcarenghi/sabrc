@@ -38,7 +38,7 @@ import { initialContratosdeLocacaoBase } from "../../../../util/MainMenu/Contrat
 
 const CadastroContratoLocacao = (props) => {
 
-    const { contratolocacaocad, locadoreprocurador, addlocadoreprocurador, deletelocadoreprocurador, locatarioeprocurador, addlocatarioeprocurador, deletelocatarioeprocurador, taxaintermediacaocorretores, addtaxaintermediacao, deletetaxaintermediacao, locadorlocatarionomes, procuradornomes, enderecodb, salvar, limpar, corretorenomes } = props;
+    const { contratolocacaocad, locadoreprocurador, addlocadoreprocurador, deletelocadoreprocurador, locatarioeprocurador, addlocatarioeprocurador, deletelocatarioeprocurador, taxaintermediacaocorretores, addtaxaintermediacao, deletetaxaintermediacao, locadorlocatarionomes, procuradornomes, enderecodb, salvar, limpar, corretorenomes, rateioTotal } = props;
 
 
     useEffect(() => {
@@ -77,6 +77,7 @@ const CadastroContratoLocacao = (props) => {
 
     const handleExcluirTaxaIntermediacaoCorretor = (co) => {
         deletetaxaintermediacao(co);
+        atualizaTaxaIntermediacaoBomlar();
     };
 
 
@@ -92,15 +93,20 @@ const CadastroContratoLocacao = (props) => {
     const addTaxaIntermediacaoCorretor = () => {
         setTaxaIntermediacaoCorretor(isEligible(taxaIntermediacaoCorretor) ? Number(taxaIntermediacaoCorretor) : Number(0));
         addtaxaintermediacao(filterCorretor, taxaIntermediacaoCorretor);
+        atualizaTaxaIntermediacaoBomlar();   
     };
 
 
     const handleChangeRadioMinuta = (event) => {
-
         setRadioMinutaValue(event.target.value);
         setDisableMinuta(event.target.value === 'edit' ? false : true);
-
     };
+
+    const atualizaTaxaIntermediacaoBomlar = () => {
+
+        setTaxaIntermediacaoBomlar(Number(taxaIntermediacaoTotal) - Number(rateioTotal));
+ 
+    }
 
     const ref = useRef(null);
 
@@ -534,7 +540,10 @@ const CadastroContratoLocacao = (props) => {
                             decimalCharacter=","
                             digitGroupSeparator="."
                             outputFormat="string"
-                            onChange={(event, value) => setTaxaIntermediacaoTotal(value)}
+                            onChange={(event, value) => {
+                                setTaxaIntermediacaoTotal(value)
+                                atualizaTaxaIntermediacaoBomlar();   
+                            }}
                         />
                     </Grid>
                 </Grid>
@@ -697,9 +706,9 @@ const CadastroContratoLocacao = (props) => {
                             currencySymbol="R$"
                             decimalCharacter=","
                             digitGroupSeparator="."
-                            outputFormat="string"
+                            outputFormat="string"                            
                             value={taxaIntermediacaoBomlar}
-                            onChange={(event, value) => setTaxaIntermediacaoBomlar(value)}
+                            disabled={true}                            
                         />
                     </Grid>
 
@@ -799,6 +808,7 @@ const CadastroContratoLocacao = (props) => {
                                 setRadioMinutaValue('padrao');
                                 setValorLocacao(0);
                                 setTaxaIntermediacaoBomlar(0);
+                                setTaxaIntermediacaoTotal(0);
 
                                 limpar();
 

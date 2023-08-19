@@ -87,7 +87,7 @@ const EditaPerfil = (props) => {
 
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography sx={{ textDecoration: 'underline' }} color="text.secondary">Perfil</Typography>
-                <Typography color="text.primary">Editar</Typography>
+                <Typography color="text.primary">Alterar Senha</Typography>
             </Breadcrumbs>
 
 

@@ -12,6 +12,12 @@ export const appMenuItems = [
     Icon: AppRegistrationIcon,
     items: [
       {
+        name: "Endereços",
+        sx: { pl: 4 },
+        Icon: BadgeIcon,
+        link: `/cadastro/enderecos`,
+      },
+      {
         name: "Pessoas",
         sx: { pl: 4 },
         Icon: BadgeIcon,
@@ -66,13 +72,7 @@ export const appMenuItems = [
             Icon: CreateNewFolderIcon,
           },
         ],
-      },
-      {
-        name: "Endereços",
-        sx: { pl: 4 },
-        Icon: BadgeIcon,
-        link: `/cadastro/enderecos`,
-      },
+      }     
     ],
   },
   {
