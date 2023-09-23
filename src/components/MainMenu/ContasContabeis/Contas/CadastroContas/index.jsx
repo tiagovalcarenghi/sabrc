@@ -92,7 +92,7 @@ const CadastroContas = (props) => {
                 });
 
                 values.cdTipoConta = cdTipoConta;
-                values.saldo = saldo;
+                values.saldo = Number(saldo);
                 values.cdTipoSaldo = cdTipoSaldo;
 
 

@@ -147,8 +147,8 @@ const LancamentoBancosCad = () => {
         data.descConta = 'Banco';
         data.cdContaComplementar = '';
         data.descContaComplementar = '';
-        data.valorCredito = vb;
-        data.valorDebito = vc;
+        data.valorCredito = Number(vb);
+        data.valorDebito = Number(vc);
 
         const newLancamento = !isEligible(getId) || !isEligible(getId.length) ? [data] : [...JSON.parse(localStorage.getItem("lancamentosbancooperacao_db")), data];
         localStorage.setItem("lancamentosbancooperacao_db", JSON.stringify(newLancamento));

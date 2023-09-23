@@ -31,6 +31,7 @@ import ptBR from 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
 import { validaExclusao } from "../../../commons/ValidaExclusao";
+import { formatCurrency } from "../../../commons/FormatoMonetarioBr";
 
 
 const GridLancamentoContabil = (props) => {
@@ -90,14 +91,14 @@ const GridLancamentoContabil = (props) => {
 
     //----------PAGINATION START--------////
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 25));
         setPage(0);
     };
     //----------PAGINATION END--------////
@@ -418,10 +419,10 @@ const GridLancamentoContabil = (props) => {
                                                     {lancamentocontabil.descContaComplementar}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center" width="5%">
-                                                    {lancamentocontabil.valorCredito}
+                                                    {formatCurrency(lancamentocontabil.valorCredito)}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center" width="5%">
-                                                    {lancamentocontabil.valorDebito}
+                                                    {formatCurrency(lancamentocontabil.valorDebito)}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center" width="10%">
                                                     {lancamentocontabil.dataSelecionada}
@@ -468,7 +469,7 @@ const GridLancamentoContabil = (props) => {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        rowsPerPageOptions={[10, 25, 50]}
+                                        rowsPerPageOptions={[25, 50, 100]}
                                         colSpan={10}
                                         count={verificaNulo()}
                                         rowsPerPage={rowsPerPage}

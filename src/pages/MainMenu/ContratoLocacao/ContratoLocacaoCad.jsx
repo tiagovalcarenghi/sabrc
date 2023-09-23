@@ -80,8 +80,6 @@ const ContratoLocacaoCad = () => {
 
     }
 
-    const run = (value = []) => ({ type: run, value: value });
-
 
     const carregarLocadoreseProcuradores = async (selectContrato) => {
         const locadoreProcuradorStorage = JSON.parse(localStorage.getItem("locadorprocurador_db"));
@@ -272,9 +270,10 @@ const ContratoLocacaoCad = () => {
 
         const newTaxaIntermediacaoCorretor = !isEligible(getId) || !isEligible(getId.length) ? [newDataCP] : [...JSON.parse(localStorage.getItem("taxaintermediacaooperacao_db")), newDataCP];
         localStorage.setItem("taxaintermediacaooperacao_db", JSON.stringify(newTaxaIntermediacaoCorretor));
+        setRateioTotal(Number(rateioTotal) + Number(honorario));
         carregarTaxaIntermediacaoCorretorOperacao();
 
-        setRateioTotal(rateioTotal + Number(honorario));
+        
 
 
     };
@@ -285,10 +284,11 @@ const ContratoLocacaoCad = () => {
         items = items.filter((item) => item.id !== data.id);
         localStorage.setItem("taxaintermediacaooperacao_db", JSON.stringify(items));
         if (items.length === 0) {
-            localStorage.removeItem("taxaintermediacaooperacao_db");
+            localStorage.removeItem("taxaintermediacaooperacao_db");            
         }
+        setRateioTotal(Number(rateioTotal) - Number(data.valorTaxaIntermediacao));
         carregarTaxaIntermediacaoCorretorOperacao();
-        setRateioTotal(rateioTotal - Number(data.valorTaxaIntermediacao));
+        
     };
 
 

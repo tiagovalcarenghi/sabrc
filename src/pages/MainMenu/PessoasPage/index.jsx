@@ -51,7 +51,6 @@ const PessoasPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log(location.state);
     if (!location.state || !location) {
       setValue(0);
       return;

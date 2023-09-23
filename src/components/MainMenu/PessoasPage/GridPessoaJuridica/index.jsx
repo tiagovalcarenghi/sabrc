@@ -67,7 +67,7 @@ const GridPessoaJuridica = (props) => {
 
   //----------PAGINATION START--------////
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   // const emptyRows =
@@ -80,7 +80,7 @@ const GridPessoaJuridica = (props) => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 25));
     setPage(0);
   };
   //----------PAGINATION END--------////
@@ -246,7 +246,7 @@ const GridPessoaJuridica = (props) => {
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[10, 25, 50]}
+                    rowsPerPageOptions={[25, 50, 100]}
                     colSpan={3}
                     count={verificaNulo()}
                     rowsPerPage={rowsPerPage}

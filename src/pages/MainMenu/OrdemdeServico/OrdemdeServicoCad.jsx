@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CadastroOrdemdeServico from "../../../components/MainMenu/OrdemdeServico/CadastroOrdemdeServico";
-import { initialContratanteOperacao } from "../../../util/MainMenu/OS/constants";
 import { getCurrentDate, isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
 
 
 const OrdemdeServicoCad = () => {
-    const [contratantesEmEdicao, setContratantesEmEdicao] = useState(initialContratanteOperacao);
     const [contratanteNomes, setContratanteNomes] = useState([]);
     const [enderecoNomes, setEnderecoNomes] = useState([]);
     const location = useLocation();
@@ -40,39 +38,6 @@ const OrdemdeServicoCad = () => {
     const run = (value = []) => ({ type: run, value: value });
 
 
-    const addContratante = (contratante) => {
-
-        var newDataCeP = initialContratanteOperacao;
-
-        var getId = JSON.parse(localStorage.getItem("contratanteoperacao_db"));
-
-        newDataCeP.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
-        newDataCeP.cdNomeContratante = contratante.cdNomes;
-        newDataCeP.nomeContratante = contratante.nome;
-        newDataCeP.cdTipoNomeContratante = contratante.cdTipoNome;
-
-        const newContratante = !isEligible(getId) || !isEligible(getId.length) ? [newDataCeP] : [...JSON.parse(localStorage.getItem("contratanteoperacao_db")), newDataCeP];
-        localStorage.setItem("contratanteoperacao_db", JSON.stringify(newContratante));
-        carregarContratantesOperacao();
-    };
-
-    const deleteContratante = (data) => {
-
-        let items = JSON.parse(localStorage.getItem("contratanteoperacao_db"));
-        items = items.filter((item) => item.id !== data.id);
-        localStorage.setItem("contratanteoperacao_db", JSON.stringify(items));
-        if (items.length === 0) {
-            localStorage.removeItem("contratanteoperacao_db");
-        }
-        carregarContratantesOperacao();
-    };
-
-    const carregarContratantesOperacao = async () => {
-        const contratantesop = JSON.parse(localStorage.getItem("contratanteoperacao_db"));
-        setContratantesEmEdicao(contratantesop);
-    };
-
-
     const salvarOrdemdeServico = (os) => {
 
         const userStorage = JSON.parse(localStorage.getItem("user_storage"));
@@ -80,9 +45,8 @@ const OrdemdeServicoCad = () => {
         getId = !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
 
 
-        const contratanteOperacao = JSON.parse(localStorage.getItem("contratante_db"));
-        if (contratanteOperacao) {
-            saveContratantes(getId, contratanteOperacao, null);
+        if (os) {
+            saveContratantes(getId, os);
         }
 
 
@@ -123,7 +87,7 @@ const OrdemdeServicoCad = () => {
         lancamento.descCentrodeCusto = "Ordem de Serviço"; //verificar centro de custo fixo nome 'Ordem de Serviço'
         lancamento.cdConta = 3; // //buscar cdconta fixada da conta 'Receita Operacional'
         lancamento.descConta = 'Receita Operacional'; //buscar cdconta fixada da conta 'Receita Operacional'
-        lancamento.valorCredito = os.valorServico;
+        lancamento.valorCredito = Number(os.valorServico);
         lancamento.valorDebito = 0;
         lancamento.isValido = true;
         lancamento.status = 'VALIDO';
@@ -140,8 +104,8 @@ const OrdemdeServicoCad = () => {
         lancamento.cdLancamentoContabil = getIdCdLancamento;
         lancamento.ordemLancamento = 2;
         lancamento.descLancamento = "Geração de Ordem de Serviço Número - " + os.cdOrdemdeServico;
-        lancamento.cdConta = 4 // //buscar cdconta fixada da conta 'Cliente'
-        lancamento.descConta = 'Cliente'; //buscar cdconta fixada da conta 'Cliente'
+        lancamento.cdConta = os.cdContratante
+        lancamento.descConta = os.nomeContratante;
         lancamento.cdContaComplementar = os.cdEndereco;
         lancamento.descContaComplementar = os.enderecoCompleto;
         lancamento.valorCredito = 0;
@@ -178,21 +142,17 @@ const OrdemdeServicoCad = () => {
 
         if (isEligible(contratanteOperacao)) {
 
-            contratanteOperacao.map((item) => {
+            getId = !isEligible(getId) ? 1 : getId + 1;
 
-                getId = !isEligible(getId) ? 1 : getId + 1;
+            newContratante.id = getId;
+            newContratante.cdOrdemdeServico = cdOS;
+            newContratante.cdContratante = cdContratanteSave;
+            newContratante.cdNomeContratante = contratanteOperacao.cdContratante;
+            newContratante.nomeContratante = contratanteOperacao.nomeContratante;
+            newContratante.cdTipoNomeContratante = contratanteOperacao.cdTipoNomeContratante;
 
-                newContratante.id = getId;
-                newContratante.cdOrdemdeServico = cdOS;
-                newContratante.cdContratante = cdContratanteSave;
-                newContratante.cdNomeContratante = item.cdNomeContratante;
-                newContratante.nomeContratante = item.nomeContratante;
-                newContratante.cdTipoNomeContratante = item.cdTipoNomeContratante;
-
-                listContratantes.push(newContratante);
-                newContratante = {};
-
-            });
+            listContratantes.push(newContratante);
+            newContratante = {};
 
             const verifica = JSON.parse(localStorage.getItem("contratante_db"));
             const nlc = !isEligible(verifica.length) ? listContratantes : verifica.concat(listContratantes);
@@ -205,10 +165,6 @@ const OrdemdeServicoCad = () => {
 
     const limparOS = () => {
 
-        setContratantesEmEdicao(initialContratanteOperacao);
-        localStorage.setItem("contratanteoperacao_db", JSON.stringify([]));
-
-        setContratanteNomes([]);
         setEnderecoNomes([]);
 
         carregarNomes();
@@ -218,10 +174,6 @@ const OrdemdeServicoCad = () => {
     return (
         <AppMenu>
             <CadastroOrdemdeServico
-
-                contratantes={contratantesEmEdicao}
-                addcontratante={addContratante}
-                deletecontratante={deleteContratante}
 
                 contratantenomes={contratanteNomes}
                 endereco={enderecoNomes}

@@ -26,6 +26,7 @@ import {
 import { msgAtencao, msgExcludeConta, msgExcludeContaError, msgSuccessExcludeConta } from "../../../../../util/applicationresources";
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../../commons/GridCommons";
 import { validaExclusao } from "../../../../commons/ValidaExclusao";
+import { formatCurrency } from "../../../../commons/FormatoMonetarioBr";
 
 
 const GridContas = (props) => {
@@ -68,7 +69,7 @@ const GridContas = (props) => {
 
     //----------PAGINATION START--------////
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     // Avoid a layout jump when reaching the last page with empty rows.
     // const emptyRows =
@@ -81,7 +82,7 @@ const GridContas = (props) => {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 25));
         setPage(0);
     };
     //----------PAGINATION END--------////
@@ -251,7 +252,7 @@ const GridContas = (props) => {
                                                     {contacontabil.descTipoConta}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center" width="22%">
-                                                    {contacontabil.saldo}
+                                                    {formatCurrency(contacontabil.saldo)}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center" width="15%">
                                                     {contacontabil.descTipoSaldo}
@@ -304,7 +305,7 @@ const GridContas = (props) => {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        rowsPerPageOptions={[10, 25, 50]}
+                                        rowsPerPageOptions={[25, 50, 100]}
                                         colSpan={5}
                                         count={verificaNulo()}
                                         rowsPerPage={rowsPerPage}

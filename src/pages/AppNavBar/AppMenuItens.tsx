@@ -1,4 +1,4 @@
-import IconBarChart from "@material-ui/icons/BarChart";
+import IconBarChart from "@mui/icons-material/BarChart";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import BadgeIcon from "@mui/icons-material/Badge";

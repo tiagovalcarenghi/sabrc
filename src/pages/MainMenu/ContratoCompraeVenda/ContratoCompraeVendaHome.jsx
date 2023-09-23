@@ -139,7 +139,7 @@ const ContratoCompraeVendaHome = () => {
                 lancamento.descConta = 'Comissão';
                 lancamento.cdContaComplementar = item.cdPessoaFisica;
                 lancamento.descContaComplementar = item.nomeCompleto;
-                lancamento.valorCredito = item.valorHonorario;
+                lancamento.valorCredito = Number(item.valorHonorario);
                 lancamento.valorDebito = 0;
                 lancamento.isValido = true;
                 lancamento.status = 'VALIDO';
@@ -169,7 +169,7 @@ const ContratoCompraeVendaHome = () => {
         lancamento.descConta = 'Receita Operacional';
         lancamento.cdCentrodeCusto = 1; //buscar centro de custo fixo 'Intermediação'
         lancamento.descCentrodeCusto = 'Intermediação';
-        lancamento.valorCredito = data.honorarioImobiliaria;
+        lancamento.valorCredito = Number(data.honorarioImobiliaria);
         lancamento.valorDebito = 0;
         lancamento.isValido = true;
         lancamento.status = 'VALIDO';

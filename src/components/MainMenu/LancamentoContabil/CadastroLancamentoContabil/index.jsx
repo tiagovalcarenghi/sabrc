@@ -35,6 +35,7 @@ import ptBR from 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
+import { formatCurrency } from "../../../commons/FormatoMonetarioBr";
 
 
 const CadastroLancamentoContabil = (props) => {
@@ -132,8 +133,8 @@ const CadastroLancamentoContabil = (props) => {
         newl.descConta = filterCdConta.desContaContabil;
         newl.cdContaComplementar = filterCdContaComplementar.cdContaComplementar;
         newl.descContaComplementar = filterCdContaComplementar.desccContaComplementar;
-        newl.valorCredito = valorCredito;
-        newl.valorDebito = valorDebito;
+        newl.valorCredito = Number(valorCredito);
+        newl.valorDebito = Number(valorDebito);
 
         addlancamento(newl);
 

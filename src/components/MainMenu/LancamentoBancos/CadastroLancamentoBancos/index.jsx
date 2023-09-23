@@ -132,8 +132,8 @@ const CadastroLancamentoBancos = (props) => {
         newl.descConta = filterCdConta.desContaContabil;
         newl.cdContaComplementar = filterCdContaComplementar.cdContaComplementar;
         newl.descContaComplementar = filterCdContaComplementar.desccContaComplementar;
-        newl.valorCredito = valorCredito;
-        newl.valorDebito = valorDebito;
+        newl.valorCredito = Number(valorCredito);
+        newl.valorDebito = Number(valorDebito);
 
         addlancamento(newl);
 

@@ -77,7 +77,6 @@ const CadastroContratoLocacao = (props) => {
 
     const handleExcluirTaxaIntermediacaoCorretor = (co) => {
         deletetaxaintermediacao(co);
-        atualizaTaxaIntermediacaoBomlar();
     };
 
 
@@ -93,7 +92,6 @@ const CadastroContratoLocacao = (props) => {
     const addTaxaIntermediacaoCorretor = () => {
         setTaxaIntermediacaoCorretor(isEligible(taxaIntermediacaoCorretor) ? Number(taxaIntermediacaoCorretor) : Number(0));
         addtaxaintermediacao(filterCorretor, taxaIntermediacaoCorretor);
-        atualizaTaxaIntermediacaoBomlar();   
     };
 
 
@@ -103,9 +101,7 @@ const CadastroContratoLocacao = (props) => {
     };
 
     const atualizaTaxaIntermediacaoBomlar = () => {
-
         setTaxaIntermediacaoBomlar(Number(taxaIntermediacaoTotal) - Number(rateioTotal));
- 
     }
 
     const ref = useRef(null);
@@ -122,7 +118,7 @@ const CadastroContratoLocacao = (props) => {
         onSubmit: (values) => {
 
 
-            if (valordaLocacao != 0) {
+            if (valordaLocacao !== 0) {
 
                 Swal.fire({
                     icon: "success",
@@ -130,15 +126,17 @@ const CadastroContratoLocacao = (props) => {
                     text: msgInsertContratoCompraeVendaSuccess,
                 });
 
-
+                atualizaTaxaIntermediacaoBomlar();
+                
                 let itemsEndereco = enderecodb;
                 itemsEndereco = itemsEndereco?.filter((item) => item.cdEndereco === cdEndereco);
                 values.enderecoCompleto = itemsEndereco[0].enderecoCompleto;
                 values.cdEndereco = cdEndereco;
 
-                values.valordaLocacao = isEligible(valordaLocacao) ? valordaLocacao : 0;
-                values.taxaIntermediacaoBomlar = isEligible(taxaIntermediacaoBomlar) ? taxaIntermediacaoBomlar : 0;
-                values.taxaIntermediacaoTotal = isEligible(taxaIntermediacaoTotal) ? taxaIntermediacaoTotal : 0;
+                values.valordaLocacao = isEligible(valordaLocacao) ? Number(valordaLocacao) : 0;
+                
+                values.taxaIntermediacaoBomlar = isEligible(taxaIntermediacaoBomlar) ? Number(taxaIntermediacaoBomlar) : 0;
+                values.taxaIntermediacaoTotal = isEligible(taxaIntermediacaoTotal) ? Number(taxaIntermediacaoTotal) : 0;
                 values.textoMinuta = isEligible(values.textoMinuta) ? values.textoMinuta : '';
                 values.tipoMinuta = radioMinuta;
 
@@ -542,7 +540,6 @@ const CadastroContratoLocacao = (props) => {
                             outputFormat="string"
                             onChange={(event, value) => {
                                 setTaxaIntermediacaoTotal(value)
-                                atualizaTaxaIntermediacaoBomlar();   
                             }}
                         />
                     </Grid>
@@ -706,12 +703,24 @@ const CadastroContratoLocacao = (props) => {
                             currencySymbol="R$"
                             decimalCharacter=","
                             digitGroupSeparator="."
-                            outputFormat="string"                            
+                            outputFormat="string"
                             value={taxaIntermediacaoBomlar}
-                            disabled={true}                            
+                            disabled={true}
                         />
                     </Grid>
 
+                    <Grid  xs={1}>
+
+                        <IconButton
+                            color="info"
+                            variant="outlined"
+                            onClick={() => {
+                                atualizaTaxaIntermediacaoBomlar();
+                            }}
+                        >
+                             <RefreshIcon></RefreshIcon>
+                        </IconButton>
+                    </Grid>
 
 
                 </Grid>

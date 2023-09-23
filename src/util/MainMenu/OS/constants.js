@@ -24,9 +24,3 @@ export const initialContratanteBase = {
 
 }
 
-export const initialContratanteOperacao = {
-    id: '',
-    cdNomeContratante: '',
-    nomeContratante: '',
-    cdTipoNomeContratante: '',
-}

@@ -11,50 +11,29 @@ import {
     Typography,
     Divider,
     Chip,
-    RadioGroup,
-    FormControlLabel,
-    Radio
 } from "@mui/material";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import SaveIcon from "@mui/icons-material/Save";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import IconButton from "@mui/material/IconButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { msgAtencao, msgCadSuccess, msgExcludeContratante, msgExcludeContratanteSuccess, msgInsertOSSucesso, msgLancamentoError, msgSaveOSError } from "../../../../util/applicationresources";
+import { msgCadSuccess, msgInsertOSSucesso, msgLancamentoError, msgSaveOSError } from "../../../../util/applicationresources";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { isEligible } from "../../../../util/utils";
-import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
 import { initialOrdemdeServicoBase } from "../../../../util/MainMenu/OS/constants";
 
 
 const CadastroOrdemdeServico = (props) => {
 
-    const { contratantes, addcontratante, deletecontratante, contratantenomes, endereco, salvar, limpar } = props;
+    const { contratantenomes, endereco, salvar, limpar } = props;
     const [filterContratante, setFilterContratante] = useState({});
     const [filterEndereco, setEndereco] = useState({});
     const [valorServico, setValorServico] = useState(0);
 
 
     const navigate = useNavigate();
-
-    const handleExcluirContratante = (cp) => {
-        deletecontratante(cp);
-    };
-
-    const addContratante = () => {
-        addcontratante(filterContratante);
-    };
-
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -73,6 +52,8 @@ const CadastroOrdemdeServico = (props) => {
                 values.cdEndereco = isEligible(filterEndereco.cdNomes) ? filterEndereco.cdNomes : null;
                 values.enderecoCompleto = isEligible(filterEndereco.nome) ? filterEndereco.nome : '';
                 values.valorServico = isEligible(valorServico) ? Number(valorServico) : Number(0);
+                values.cdContratante = isEligible(filterContratante.id) ? filterContratante.id : null;
+                values.nomeContratante = isEligible(filterContratante.nome) ? filterContratante.nome : null;
 
                 salvar(values);
                 formik.resetForm();
@@ -145,86 +126,11 @@ const CadastroOrdemdeServico = (props) => {
                         </FormControl>
                     </Grid>
 
-
-                    <Grid item xs={3}>
-
-                        <Button
-                            fullWidth
-                            color="info"
-                            variant="outlined"
-                            onClick={() => {
-                                addContratante();
-                            }}
-                            startIcon={<AddBoxRoundedIcon />}
-                        >
-                            Adicionar Contratante
-                        </Button>
-
-
-                    </Grid>
+                    
 
                 </Grid>
 
 
-
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                    <Grid item xs={12}>
-
-
-                        <TableContainer component={Paper}>
-                            <Table
-                                sx={{ minWidth: 500 }}
-                                size="small"
-                                aria-label="custom pagination table"
-                            >
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell align="left">Contratante</StyledTableCell>
-                                        <StyledTableCell align="center" colSpan={2}></StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-
-                                <>
-                                    {contratantes && contratantes.length > 0 && (
-                                        <TableBody>
-                                            {contratantes.map((c) => (
-                                                <StyledTableRow key={c.id}>
-                                                    <StyledTableCell align="left" width="80%">
-                                                        {c.nomeContratante}
-                                                    </StyledTableCell>
-
-                                                    <StyledTableCell width="5%" align="center">
-                                                        <IconButton
-                                                            color="error"
-                                                            onClick={() => {
-                                                                Swal.fire({
-                                                                    title: msgExcludeContratante,
-                                                                    icon: "warning",
-                                                                    showCancelButton: true,
-                                                                    confirmButtonColor: "#3085d6",
-                                                                    cancelButtonColor: "#d33",
-                                                                    confirmButtonText: "Sim",
-                                                                    cancelButtonText: "Não",
-                                                                }).then((result) => {
-                                                                    if (result.isConfirmed) {
-                                                                        Swal.fire(msgAtencao, msgExcludeContratanteSuccess);
-                                                                        handleExcluirContratante(c);
-                                                                    }
-                                                                });
-                                                            }}
-                                                        >
-                                                            <DeleteRoundedIcon></DeleteRoundedIcon>
-                                                        </IconButton>
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                            ))}
-                                        </TableBody>
-                                    )}
-                                </></Table></TableContainer>
-                    </Grid>
-
-                </Grid>
 
 
                 <Chip label="DETALHES" />
