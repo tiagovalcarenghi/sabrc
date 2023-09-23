@@ -31,10 +31,41 @@ const CadastroContas = (props) => {
 
 
     const [disableContaResultado, setDisableContaResultado] = useState(false);
+    const [disableSaldo, setDisableSaldo] = useState(false);
     const [cdTipoConta, setCdTipoConta] = useState('');
     const [saldo, setSaldo] = useState(0);
     const [cdTipoSaldo, setCdTipoSaldo] = useState('');
 
+
+    const validaTipoConta = (e) => {
+        if (e !== 1) {            
+            setDisableContaResultado(true);
+            setDisableSaldo(true);
+            setSaldo(0);
+            setCdTipoSaldo(3);
+
+        } else {
+            if(cdTipoSaldo === 3){
+                setDisableContaResultado(false);                
+                setDisableSaldo(true); 
+            }else{
+                setDisableContaResultado(false);
+                setDisableSaldo(false); 
+            }               
+
+        }
+    }
+
+    const validaTipoSaldo = (e) => {
+        if (e === 3) {
+            setDisableContaResultado(false);
+            setDisableSaldo(true); 
+            setSaldo(0);
+        } else {
+            setDisableContaResultado(false);
+            setDisableSaldo(false); 
+        }
+    }
 
 
     const formik = useFormik({
@@ -61,7 +92,7 @@ const CadastroContas = (props) => {
                 });
 
                 values.cdTipoConta = cdTipoConta;
-                values.saldo = saldo;
+                values.saldo = Number(saldo);
                 values.cdTipoSaldo = cdTipoSaldo;
 
 
@@ -82,6 +113,9 @@ const CadastroContas = (props) => {
 
         },
     });
+
+
+    
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -128,14 +162,7 @@ const CadastroContas = (props) => {
                                 value={cdTipoConta}
                                 onChange={(e) => {
                                     setCdTipoConta(e.target.value);
-
-                                    if (e.target.value !== 1) {
-                                        setDisableContaResultado(true);
-                                        setSaldo(0);
-                                        setCdTipoSaldo(3);
-                                    } else {
-                                        setDisableContaResultado(false);
-                                    }
+                                    validaTipoConta(e.target.value);
                                 }}
 
 
@@ -159,7 +186,7 @@ const CadastroContas = (props) => {
 
                     <Grid item xs={4}>
                         <CurrencyTextField
-                            disabled={disableContaResultado}
+                            disabled={disableSaldo}
                             size="small"
                             variant="outlined"
                             fullWidth
@@ -185,7 +212,11 @@ const CadastroContas = (props) => {
                                 labelId="select-label-id"
                                 id="select-label-id"
                                 value={cdTipoSaldo}
-                                onChange={(e) => { setCdTipoSaldo(e.target.value) }}
+                                onChange={(e) => { 
+                                    setCdTipoSaldo(e.target.value) 
+                                    validaTipoSaldo(e.target.value);                               
+                                
+                                }}
 
                                 disabled={disableContaResultado}
 

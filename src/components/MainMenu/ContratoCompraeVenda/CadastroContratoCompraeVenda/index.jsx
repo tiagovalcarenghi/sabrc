@@ -163,8 +163,8 @@ const CadastroContratoCompraeVenda = (props) => {
                 values.cdEndereco = cdEndereco;
 
                 values.prazoRegularizacao = getDateFormat(prazoRegularizacao);
-                values.valorNegocio = isEligible(valorNegocio) ? valorNegocio : 0;
-                values.honorarioImobiliaria = isEligible(honorariosImobiliaria) ? honorariosImobiliaria : 0;
+                values.valorNegocio = isEligible(valorNegocio) ? Number(valorNegocio) : 0;
+                values.honorarioImobiliaria = isEligible(honorariosImobiliaria) ? Number(honorariosImobiliaria) : 0;
                 values.detalhamentoImovel = isEligible(values.detalhamentoImovel) ? values.detalhamentoImovel : '';
                 values.condicoes = isEligible(values.condicoes) ? values.condicoes : '';
                 values.formaPagtoHonorarios = isEligible(values.formaPagtoHonorarios) ? values.formaPagtoHonorarios : '';

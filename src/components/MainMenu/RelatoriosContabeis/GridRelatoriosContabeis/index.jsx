@@ -13,7 +13,6 @@ import {
     MenuItem,
 } from "@mui/material";
 import Swal from "sweetalert2";
-import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -28,8 +27,12 @@ import dayjs from 'dayjs';
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import BackupTableIcon from '@mui/icons-material/BackupTable';
-
+import TableViewIcon from '@mui/icons-material/TableView';
+import { formatCurrency } from "../../../commons/FormatoMonetarioBr";
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import autoTable from 'jspdf-autotable';
 
 
 const GridRelatoriosContabeis = (props) => {
@@ -44,6 +47,7 @@ const GridRelatoriosContabeis = (props) => {
     const [filterDataInicial, setFilterDataInicial] = useState(dayjs());
     const [filterDataFinal, setFilterDataFinal] = useState(dayjs());
     const [checked, setChecked] = useState(false);
+    const idTable = document.getElementById('myTable');
 
 
 
@@ -79,14 +83,14 @@ const GridRelatoriosContabeis = (props) => {
 
     //----------PAGINATION START--------////
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 25));
         setPage(0);
     };
     //----------PAGINATION END--------////
@@ -308,124 +312,136 @@ const GridRelatoriosContabeis = (props) => {
                         </Grid>
 
 
-
-
                     </Grid>
 
                     <Grid
                         container
                         rowSpacing={1}
+                        spacing={2}
                         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                         sx={{
                             margin: "0px 0px 10px 0px",
                         }}
                     >
 
-
-                        <Grid item xs={2}>
-                            <IconButton
-                                color="info"
+                        <Grid item>
+                            <Button
+                                color="warning"
                                 variant="outlined"
+                                type="submit"
                                 onClick={() => {
                                     handleFilter();
                                 }}
+                                startIcon={<AppRegistrationIcon />}
                             >
-                                <SearchIcon></SearchIcon>
-                            </IconButton>
+                                Buscar
+                            </Button>
+                        </Grid>
 
+                        <Grid item>
+                            <Button
+                                color="info"
+                                variant="outlined"
+                                type="submit"
+                                onClick={() => {
+                                    handleFilter();
+                                }}
+                                startIcon={<RefreshIcon />}
+                            >
+                                Limpar
+                            </Button>
+                        </Grid>
+
+
+
+
+                        <Grid item>
                             <IconButton
-                                color="secondary"
+                                color="error"
                                 variant="outlined"
                                 onClick={() => {
-                                    handleFilter(1);
+                                    
+                                            // var doc = new jsPDF('p', 'pt');
+                                            // var res = doc.autoTableHtmlToJson(idTable);
+                                            // doc.autoTable(res.columns, res.data);
+                                            // doc.save("table.pdf");
+
+                                            const unit = 'pt';
+                                            const size = 'A4'; // Use A4 or any other size you need
+                                            const orientation = 'landscape'; // 'portrait' or 'landscape'
+                                            const marginLeft = 20;
+                                            const doc = new jsPDF(orientation, unit, size);
+                                            const title = '';
+                                        
+                                            const headers = [];
+                                            const data = [];
+                                        
+                                            // Extract header data
+                                            idTable.querySelectorAll('thead th').forEach((th) => {
+                                              headers.push(th.innerText);
+                                            });
+                                        
+                                            // Extract table data
+                                            idTable.querySelectorAll('tbody tr').forEach((row) => {
+                                              const rowData = [];
+                                              row.querySelectorAll('td').forEach((td) => {
+                                                rowData.push(td.innerText);
+                                              });
+                                              data.push(rowData);
+                                            });
+                                        
+                                            doc.text(title, marginLeft, 40);
+                                            doc.autoTable({
+                                              startY: 50,
+                                              head: [headers],
+                                              body: data,
+                                              columnStyles: {
+                                                // Use your logic to set the column widths based on the table structure.
+                                                // For simplicity, we'll set all columns to a fixed width of 100 for this example.
+                                                0: { columnWidth: 70 },
+                                                1: { columnWidth: 200 },
+                                                2: { columnWidth: 80 },
+                                                3: { columnWidth: 100 },
+                                                4: { columnWidth: 80 },
+                                                5: { columnWidth: 70 },
+                                                6: { columnWidth: 70 },
+                                                7: { columnWidth: 60 },
+                                                8: { columnWidth: 50 },
+                                                // Add more column styles as needed
+                                              },
+                                            });
+                                        
+                                            doc.save('dados.pdf');
+                                    
+                                }}
+
+                            >
+                                <PictureAsPdfIcon />
+                            </IconButton>
+
+
+                        </Grid>
+
+
+
+                        <Grid item>
+                            <IconButton
+                                color="success"
+                                variant="outlined"
+                                onClick={() => {
+                                    const workBook = XLSX.utils.table_to_book(idTable);
+                                    XLSX.writeFile(workBook, 'RelatorioContábil.xlsx');
                                 }}
                             >
-                                <RefreshIcon></RefreshIcon>
+                                <TableViewIcon />
                             </IconButton>
                         </Grid>
-
-
-
-                        <Grid item xs={2}>
-
-
-
-                            <Grid item>
-                                <Button
-                                    color="warning"
-                                    variant="outlined"
-                                    type="submit"
-                                    onClick={() => {
-                                        Swal.fire({
-                                            icon: "info",
-                                            title: "ATENÇÃO",
-                                            text: "RELATORIOS CONTÁBEIS serãop gerados pelo banco de dados portanto a geração dos lançamentos não entrará no front-end",
-                                        });
-                                    }}
-                                    startIcon={<AppRegistrationIcon />}
-                                >
-                                    BUSCAR DADOS
-                                </Button>
-                            </Grid>
-
-                        </Grid>
-
-
-                        <Grid item xs={2}>
-
-
-
-                            <Grid item>
-                                <Button
-                                    color="error"
-                                    variant="outlined"
-                                    onClick={() => {
-                                        Swal.fire({
-                                            icon: "info",
-                                            title: "ATENÇÃO",
-                                            text: "RELATORIOS CONTÁBEIS serãop gerados pelo banco de dados portanto a geração dos lançamentos não entrará no front-end",
-                                        });
-                                    }}
-                                    startIcon={<PictureAsPdfIcon />}
-                                >
-                                    EXPORTAR PDF
-                                </Button>
-                            </Grid>
-
-
-
-                        </Grid>
-
-                        <Grid item xs={2}>
-
-
-                            <Grid item>
-                                <Button
-                                    color="success"
-                                    variant="outlined"
-                                    onClick={() => {
-                                        Swal.fire({
-                                            icon: "info",
-                                            title: "ATENÇÃO",
-                                            text: "RELATORIOS CONTÁBEIS serãop gerados pelo banco de dados portanto a geração dos lançamentos não entrará no front-end",
-                                        });
-                                    }}
-                                    startIcon={<BackupTableIcon />}
-                                >
-                                    EXPORTAR XLS
-                                </Button>
-
-
-                            </Grid>
-
-                        </Grid>
-
 
                     </Grid>
 
 
                     <TableContainer component={Paper}>
-                        <Table
+                        <Table id="myTable"
                             sx={{ minWidth: 500 }}
                             size="small"
                             aria-label="custom pagination table"
@@ -471,10 +487,10 @@ const GridRelatoriosContabeis = (props) => {
                                                     {lancamentocontabil.descContaComplementar}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center" width="6%">
-                                                    {lancamentocontabil.valorCredito}
+                                                    {formatCurrency(lancamentocontabil.valorCredito)}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center" width="6%">
-                                                    {lancamentocontabil.valorDebito}
+                                                    {formatCurrency(lancamentocontabil.valorDebito)}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center" width="10%">
                                                     {lancamentocontabil.dataSelecionada}
@@ -491,7 +507,7 @@ const GridRelatoriosContabeis = (props) => {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        rowsPerPageOptions={[10, 25, 50]}
+                                        rowsPerPageOptions={[25, 50, 100]}
                                         colSpan={9}
                                         count={verificaNulo()}
                                         rowsPerPage={rowsPerPage}

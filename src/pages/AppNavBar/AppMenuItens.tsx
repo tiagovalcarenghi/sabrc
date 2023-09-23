@@ -1,4 +1,4 @@
-import IconBarChart from "@material-ui/icons/BarChart";
+import IconBarChart from "@mui/icons-material/BarChart";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import BadgeIcon from "@mui/icons-material/Badge";
@@ -11,6 +11,12 @@ export const appMenuItems = [
     name: "Cadastro",
     Icon: AppRegistrationIcon,
     items: [
+      {
+        name: "Endereços",
+        sx: { pl: 4 },
+        Icon: BadgeIcon,
+        link: `/cadastro/enderecos`,
+      },
       {
         name: "Pessoas",
         sx: { pl: 4 },
@@ -66,13 +72,7 @@ export const appMenuItems = [
             Icon: CreateNewFolderIcon,
           },
         ],
-      },
-      {
-        name: "Endereços",
-        sx: { pl: 4 },
-        Icon: BadgeIcon,
-        link: `/cadastro/enderecos`,
-      },
+      }     
     ],
   },
   {

@@ -107,7 +107,7 @@ const ContratoLocacaoHome = () => {
         lancamento.descCentrodeCusto = 'Locação'; //Locação
         lancamento.cdConta = 3; //buscar cdconta fixada da conta 'Receita Operacional'
         lancamento.descConta = 'Receita Operacional';
-        lancamento.valorCredito = data.taxaIntermediacaoBomlar;
+        lancamento.valorCredito = Number(data.taxaIntermediacaoBomlar);
         lancamento.valorDebito = 0;
         lancamento.isValido = true;
         lancamento.status = 'VALIDO';
@@ -141,7 +141,7 @@ const ContratoLocacaoHome = () => {
                 lancamento.descConta = 'Comissão';
                 lancamento.cdContaComplementar = item.cdPessoaFisica;
                 lancamento.descContaComplementar = item.nomeCompleto;
-                lancamento.valorCredito = item.valorTaxaIntermediacao;
+                lancamento.valorCredito = Number(item.valorTaxaIntermediacao);
                 lancamento.valorDebito = 0;
                 lancamento.isValido = true;
                 lancamento.status = 'VALIDO';

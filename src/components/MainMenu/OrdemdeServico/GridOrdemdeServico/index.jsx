@@ -60,14 +60,14 @@ const GridOrdemdeServico = (props) => {
 
     //----------PAGINATION START--------////
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 25));
         setPage(0);
     };
     //----------PAGINATION END--------////
@@ -229,7 +229,7 @@ const GridOrdemdeServico = (props) => {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        rowsPerPageOptions={[10, 25, 50]}
+                                        rowsPerPageOptions={[25, 50, 100]}
                                         colSpan={3}
                                         count={verificaNulo()}
                                         rowsPerPage={rowsPerPage}

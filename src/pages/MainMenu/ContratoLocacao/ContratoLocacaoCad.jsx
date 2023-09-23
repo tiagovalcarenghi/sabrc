@@ -20,6 +20,7 @@ const ContratoLocacaoCad = () => {
     let cdLocatarioProcuradorSave = null;
     let cdTaxaIntermediacaoCorretoresSave = null;
     let valorTextoMinuta = '';
+    const [rateioTotal, setRateioTotal] = useState(0);
 
     useEffect(() => {
 
@@ -30,7 +31,7 @@ const ContratoLocacaoCad = () => {
             carregarNomes();
             return;
         }
-        carregarContratoCompraeVenda(location.state.id);
+        carregarContratoLocacao(location.state.id);
     }, [location.state.id]);
 
     const carregarEndereco = async () => {
@@ -38,7 +39,7 @@ const ContratoLocacaoCad = () => {
     }
 
 
-    const carregarContratoCompraeVenda = async (id) => {
+    const carregarContratoLocacao = async (id) => {
 
         limparContratoLocacao();
 
@@ -78,8 +79,6 @@ const ContratoLocacaoCad = () => {
 
 
     }
-
-    const run = (value = []) => ({ type: run, value: value });
 
 
     const carregarLocadoreseProcuradores = async (selectContrato) => {
@@ -271,7 +270,10 @@ const ContratoLocacaoCad = () => {
 
         const newTaxaIntermediacaoCorretor = !isEligible(getId) || !isEligible(getId.length) ? [newDataCP] : [...JSON.parse(localStorage.getItem("taxaintermediacaooperacao_db")), newDataCP];
         localStorage.setItem("taxaintermediacaooperacao_db", JSON.stringify(newTaxaIntermediacaoCorretor));
+        setRateioTotal(Number(rateioTotal) + Number(honorario));
         carregarTaxaIntermediacaoCorretorOperacao();
+
+        
 
 
     };
@@ -282,9 +284,11 @@ const ContratoLocacaoCad = () => {
         items = items.filter((item) => item.id !== data.id);
         localStorage.setItem("taxaintermediacaooperacao_db", JSON.stringify(items));
         if (items.length === 0) {
-            localStorage.removeItem("taxaintermediacaooperacao_db");
+            localStorage.removeItem("taxaintermediacaooperacao_db");            
         }
+        setRateioTotal(Number(rateioTotal) - Number(data.valorTaxaIntermediacao));
         carregarTaxaIntermediacaoCorretorOperacao();
+        
     };
 
 
@@ -600,6 +604,7 @@ const ContratoLocacaoCad = () => {
                 taxaintermediacaocorretores={taxaIntermediacaoCorretoresEmEdicao}
                 addtaxaintermediacao={addTaxaIntermediacao}
                 deletetaxaintermediacao={deleteTaxaIntermediacao}
+                rateioTotal={rateioTotal}
 
                 locadorlocatarionomes={locadorLocatarioNomes}
                 corretorenomes={corretorNomes}

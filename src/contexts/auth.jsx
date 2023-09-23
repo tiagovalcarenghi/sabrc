@@ -95,8 +95,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("lancamentosbancobase_db", JSON.stringify(createLancamentosBancoBase));
     localStorage.setItem("lancamentosbancooperacao_db", JSON.stringify(createLancamentosBancoOperacao));
     localStorage.setItem("ordemdeservico_db", JSON.stringify(createOrdemdeServico));
-    localStorage.setItem("contratante_db", JSON.stringify(createContratanteBase));
-    localStorage.setItem("contratanteoperacao_db", JSON.stringify(createContratanteOperacao));
+    localStorage.setItem("contratante_db", JSON.stringify(createContratanteBase));    
     localStorage.setItem("contratolocacaobase_db", JSON.stringify(createContratosLocacaoBase));
     localStorage.setItem("locadorprocurador_db", JSON.stringify(createLocadorProcuradorBase));
     localStorage.setItem("locadorprocuradoroperacao_db", JSON.stringify(createLocadorProcuradorOperacao));

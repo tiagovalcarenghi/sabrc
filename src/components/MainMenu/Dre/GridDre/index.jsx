@@ -33,14 +33,14 @@ const GridDre = (props) => {
 
     //----------PAGINATION START--------////
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value, 25));
         setPage(0);
     };
     //----------PAGINATION END--------////
@@ -102,7 +102,7 @@ const GridDre = (props) => {
                                 fullWidth
                                 size="small"
                                 name="mes_e_ano_inicio"
-                                label="Selecione o Mês/Ano"
+                                label="Selecione o Mês/Ano Inicial"
                                 labelId="select-label-id"
                                 id="select-label-id"
                                 value={formik.values.mes_e_ano_inicio}
@@ -123,7 +123,7 @@ const GridDre = (props) => {
                                 fullWidth
                                 size="small"
                                 name="mes_e_ano_fim"
-                                label="Selecione o Mês/Ano"
+                                label="Selecione o Mês/Ano Final"
                                 labelId="select-label-id"
                                 id="select-label-id"
                                 value={formik.values.mes_e_ano_fim}
@@ -237,7 +237,7 @@ const GridDre = (props) => {
                         <TableFooter>
                             <TableRow>
                                 <TablePagination
-                                    rowsPerPageOptions={[10, 25, 50]}
+                                    rowsPerPageOptions={[25, 50, 100]}
                                     colSpan={2}
                                     count={verificaNulo()}
                                     rowsPerPage={rowsPerPage}

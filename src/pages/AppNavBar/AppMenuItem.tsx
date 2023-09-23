@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import IconExpandLess from "@material-ui/icons/ExpandLess";
-import IconExpandMore from "@material-ui/icons/ExpandMore";
+import IconExpandLess from "@mui/icons-material/ExpandLess";
+import IconExpandMore from "@mui/icons-material/ExpandMore";
 import AppMenuItemComponent from "./AppMenuItemComponent";
 import {
   Collapse,
