@@ -18,6 +18,7 @@ import {
   msgAtencao,
   msgCadPessoaSuccess,
   msgCadSuccess,
+  msgErroCpfCnpjRepetido,
   msgErroValidateDocumento,
   msgErroValidateEmail,
 } from "../../../../util/applicationresources";
@@ -122,6 +123,11 @@ const CadastroPF = (props) => {
   const [cdEndereco, setCdEndereco] = useState('');
 
 
+  const validaCpfRepetido = (cpfValue) => {
+    const pessoaFisicaStorage = JSON.parse(localStorage.getItem("pessoafisica_db"));
+    const selectPessoaFisica = pessoaFisicaStorage?.filter((pf) => pf.cpf === cpfValue);
+    return selectPessoaFisica[0] && !isEligible(pessoafisica.id);
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -160,7 +166,14 @@ const CadastroPF = (props) => {
             text: msgErroValidateDocumento,
           });
 
-        } else {
+        } else if (validaCpfRepetido(values.cpf)) {
+          Swal.fire({
+            icon: "error",
+            title: msgAtencao,
+            text: msgErroCpfCnpjRepetido,
+          });
+        }
+         else {
           Swal.fire({
             icon: "success",
             title: msgCadSuccess,

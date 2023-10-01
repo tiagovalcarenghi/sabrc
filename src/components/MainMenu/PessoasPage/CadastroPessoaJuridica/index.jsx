@@ -16,6 +16,7 @@ import {
   msgAtencao,
   msgCadPessoaSuccess,
   msgCadSuccess,
+  msgErroCpfCnpjRepetido,
   msgErroValidateEmail,
   msgExcludeRepresentanteLegal,
   msgSuccessExcludeRepresentanteLegal
@@ -39,14 +40,18 @@ import { StyledTableCell, StyledTableRow } from "../../../commons/GridCommons";
 import { confirmaEmail } from "../../../commons/ConfirmaEmail";
 import { cnpj } from 'cpf-cnpj-validator';
 import InputMask from 'react-input-mask';
+import { isEligible } from "../../../../util/utils";
 
 
 const CadastroPJ = (props) => {
   const { pessoajuridica, representanteslegais, salvar, limpar, deleterl, addrl, representanteslegaisoptions, enderecodb } = props;
   const navigate = useNavigate();
 
-  const navigateToComponent = () => {
-    navigate("/cadastro/pessoas", { state: { value: 1 } });
+  const navigateToComponent = (e) => {
+    e.preventDefault();
+    formik.resetForm();
+    limpar();
+    navigate("/cadastro/pessoas", { state: { value: 1 } });    
   };
 
 
@@ -100,6 +105,11 @@ const CadastroPJ = (props) => {
 
   const [cdEndereco, setCdEndereco] = useState('');
 
+  const validaCnpjRepetido = (cnpjValue) => {
+    const pessoaJuridicaStorage = JSON.parse(localStorage.getItem("pessoajuridica_db"));
+    const selectPessoaJuridica = pessoaJuridicaStorage?.filter((pj) => pj.cnpj === cnpjValue);
+    return selectPessoaJuridica[0] && !isEligible(pessoajuridica.id);
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -124,7 +134,15 @@ const CadastroPJ = (props) => {
             title: msgAtencao,
             text: msgErroValidateEmail,
           });
-        } else {
+          
+        } else if (validaCnpjRepetido(values.cnpj)) {
+          Swal.fire({
+            icon: "error",
+            title: msgAtencao,
+            text: msgErroCpfCnpjRepetido,
+          });
+        }
+         else {
           Swal.fire({
             icon: "success",
             title: msgCadSuccess,
@@ -393,8 +411,8 @@ const CadastroPJ = (props) => {
             <Button
               color="primary"
               variant="outlined"
-              onClick={() => {
-                navigateToComponent();
+              onClick={(e) => {
+                navigateToComponent(e);
               }}
               startIcon={<ArrowBackIcon />}
             >

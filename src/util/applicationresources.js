@@ -68,3 +68,4 @@ export const msgExcludeContratante = "Tem certeza que deseja remover este contra
 export const msgExcludeContratanteSuccess = "Contratante removido com sucesso.";
 export const msgInsertOSSucesso = "Ordem de serviço salva com sucesso.";
 export const msgSaveOSError = "Verique os campos da ordem de serviço.";
+export const msgErroCpfCnpjRepetido = "Este cpf/cnpj já está cadastrado na base de dados.";

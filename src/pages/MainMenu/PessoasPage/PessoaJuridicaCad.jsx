@@ -60,6 +60,7 @@ const PessoaJuridicaCad = () => {
       localStorage.setItem("pessoajuridica_db", JSON.stringify(updatePessoaJuridica));
       setPessoaJuridicaEmEdicao(initialValuesPJ);
       editCadNomes(pj);
+      saveIdRepresentantesLegais(pj.id);
       return;
     }
 
@@ -70,7 +71,32 @@ const PessoaJuridicaCad = () => {
     localStorage.setItem("pessoajuridica_db", JSON.stringify(newPessoaJuridica));
     setPessoaJuridicaEmEdicao(initialValuesPJ);
     insertcadNomes(pj);
+    saveIdRepresentantesLegais(pj.id);
   };
+
+  const saveIdRepresentantesLegais = async (id) => {
+    
+    const pessoaRepresentantesLegaisStorage = JSON.parse(localStorage.getItem("representanteslegais_db"));    
+    if (pessoaRepresentantesLegaisStorage) {
+      try {
+        const rlArray = pessoaRepresentantesLegaisStorage;
+    
+        const updatedRlArray = rlArray.map((item) => {
+          if (!isEligible(item.cdPessoaJuridica)) {
+            item.cdPessoaJuridica = id; 
+          }
+          return item;
+        });
+    
+        localStorage.setItem("representanteslegais_db", JSON.stringify(updatedRlArray));
+      } catch (error) {
+        console.error("Erro ao processar dados do localStorage:", error);
+      }
+    } else {
+      console.log("Nenhum valor encontrado no localStorage com a chave 'RL'.");
+    }
+
+  }
 
   const insertcadNomes = (pj) => {
     var newNomeCad = initialNomes;
@@ -99,7 +125,26 @@ const PessoaJuridicaCad = () => {
   const limparPessoaJuridicaEmEdicao = () => {
     setPessoaJuridicaEmEdicao(initialValuesPJ);
     setrepresentanteLegalEmEdicao(initialValuesRL);
+    removeIdRepresentanteLegal();
   };
+
+
+  const removeIdRepresentanteLegal = async () => {
+    
+    const pessoaRepresentantesLegaisStorage = JSON.parse(localStorage.getItem("representanteslegais_db"));    
+    if (pessoaRepresentantesLegaisStorage) {
+      try {
+        const rlArray = pessoaRepresentantesLegaisStorage;    
+        const updatedRlArray = rlArray.filter((item) => item.cdPessoaJuridica !== "");    
+        localStorage.setItem("representanteslegais_db", JSON.stringify(updatedRlArray));
+      } catch (error) {
+        console.error("Erro ao processar dados do localStorage:", error);
+      }
+    } else {
+      console.log("Nenhum valor encontrado no localStorage com a chave 'RL'.");
+    }
+
+  }
 
   const deleteRepresentanteLegal = (data) => {
     let items = JSON.parse(localStorage.getItem("representanteslegais_db"));
@@ -131,7 +176,9 @@ const PessoaJuridicaCad = () => {
 
     RepLegal.id = !isEligible(getId) || !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
     var getId2 = JSON.parse(localStorage.getItem("pessoajuridica_db"));
-    RepLegal.cdPessoaJuridica = getId2 === null ? 1 : getId2[getId2.length - 1].id + 1;
+    // console.log("getId",getId2.length);
+    // console.log("getId2[getId2.length - 1].id + 1",getId2[getId2.length - 1].id + 1);
+    RepLegal.cdPessoaJuridica = !isEligible(getId2) || !isEligible(getId2.length) ? 1 : getId2[getId2.length - 1].id + 1;
     RepLegal.cdPessoaFisica = data.cdPessoaFisica;
     RepLegal.nomeRepresentante = data.nomeCompleto;
     const newRepresentanteLegal2 = getId === null ? [RepLegal] : [...JSON.parse(localStorage.getItem("representanteslegais_db")), RepLegal];
