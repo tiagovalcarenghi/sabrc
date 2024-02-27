@@ -50,6 +50,7 @@ export const msgExcludeContrato = "Tem certeza que deseja remover este contrato?
 export const msgExcludeContratoSuccess = "Contrato excluído com sucesso.";
 export const msgExcludeContratoError = "Erro ao excluir contrato. Verifique.";
 export const msgValidaContrato = "Tem certeza que deseja validar este contrato?";
+export const msgValidaOS = "Tem certeza que deseja validar esta Ordem de Serviço?";
 export const msgValidaContratoSuccess = "Contrato validado com sucesso.";
 export const msgValidaContratoError = "Erro ao validar contrato. Verifique.";
 export const msgExcludeComprador = "Tem certeza que deseja remover este comprador e procurador?";

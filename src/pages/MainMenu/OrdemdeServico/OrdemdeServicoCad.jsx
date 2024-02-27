@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom";
 import CadastroOrdemdeServico from "../../../components/MainMenu/OrdemdeServico/CadastroOrdemdeServico";
 import { getCurrentDate, isEligible } from "../../../util/utils";
 import AppMenu from "../../AppNavBar/AppMenu";
+import { initialOrdemdeServicoBase } from "../../../util/MainMenu/OS/constants";
 
 
 const OrdemdeServicoCad = () => {
+    const [ordemDeServicoEmEdicao, setOrdeDeServicoEmEdicao] = useState(initialOrdemdeServicoBase);
     const [contratanteNomes, setContratanteNomes] = useState([]);
     const [enderecoNomes, setEnderecoNomes] = useState([]);
     const location = useLocation();
@@ -20,8 +22,20 @@ const OrdemdeServicoCad = () => {
             carregarNomes();
             return;
         }
-
+        carregarOrdemDeServico(location.state.id);
     }, [location.state.id]);
+
+
+    const carregarOrdemDeServico = async (id) => {
+
+        limparOS();
+
+        const ordemDeServicoStorage = JSON.parse(localStorage.getItem("ordemdeservico_db"));
+        const selectOrdemDeServico = ordemDeServicoStorage?.filter((cc) => cc.id === id);
+        setOrdeDeServicoEmEdicao(selectOrdemDeServico[0]);
+
+        carregarNomes();
+    };
 
     const carregarNomes = async () => {
 
@@ -40,89 +54,38 @@ const OrdemdeServicoCad = () => {
 
     const salvarOrdemdeServico = (os) => {
 
+        if (os.id) {
+            var updateOS = JSON.parse(localStorage.getItem("ordemdeservico_db"));
+            updateOS[updateOS.findIndex((x) => x.id === os.id)] = os;
+            localStorage.setItem("ordemdeservico_db", JSON.stringify(updateOS));
+            return;
+        }
+
+
         const userStorage = JSON.parse(localStorage.getItem("user_storage"));
         var getId = JSON.parse(localStorage.getItem("ordemdeservico_db"));
         getId = !isEligible(getId.length) ? 1 : getId[getId.length - 1].id + 1;
 
-
-        if (os) {
-            saveContratantes(getId, os);
-        }
-
-
-        //lançamento all
-        var getIdLancamentoAll = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
-        var getIdCdLancamento = !isEligible(getIdLancamentoAll) || !isEligible(getIdLancamentoAll.length) ? 1 : getIdLancamentoAll[getIdLancamentoAll.length - 1].cdLancamentoContabil + 1;
-        getIdLancamentoAll = !isEligible(getIdLancamentoAll.length) ? 1 : getIdLancamentoAll.length + 1;
+        
+        saveContratantes(getId, os);
 
 
         os.id = getId;
         os.cdOrdemdeServico = getId;
         os.cdContratante = cdContratanteSave;
         os.isValido = true;
-        os.status = 'VALIDO';
+        os.status = 'RASCUNHO';
         os.dataAdd = getCurrentDate();
         os.usuarioAdd = userStorage.id;
-        os.cdLancamentoContabil = getIdCdLancamento;
 
         const newOS = getId === null ? [os] : [...JSON.parse(localStorage.getItem("ordemdeservico_db")), os];
         localStorage.setItem("ordemdeservico_db", JSON.stringify(newOS));
-
-        insertLancamentoContabilGeral(os, getIdLancamentoAll, getIdCdLancamento);
+       
 
     };
 
 
-    const insertLancamentoContabilGeral = (os, getId, getIdCdLancamento) => {
-
-        let lancamento = {};
-        let listaOs = [];
-
-        //lançamento ordem de serviço
-        lancamento.id = getId;
-        lancamento.cdLancamentoContabil = getIdCdLancamento;
-        lancamento.ordemLancamento = 1;
-        lancamento.descLancamento = "Geração de Ordem de Serviço Número - " + os.cdOrdemdeServico;
-        lancamento.cdCentrodeCusto = 3; //verificar cd centro de custo fixo nome 'Ordem de Serviço'
-        lancamento.descCentrodeCusto = "Ordem de Serviço"; //verificar centro de custo fixo nome 'Ordem de Serviço'
-        lancamento.cdConta = 3; // //buscar cdconta fixada da conta 'Receita Operacional'
-        lancamento.descConta = 'Receita Operacional'; //buscar cdconta fixada da conta 'Receita Operacional'
-        lancamento.valorCredito = Number(os.valorServico);
-        lancamento.valorDebito = 0;
-        lancamento.isValido = true;
-        lancamento.status = 'VALIDO';
-        lancamento.dataLancamento = getCurrentDate();
-        lancamento.dataSelecionada = getCurrentDate();
-        lancamento.usuarioLancamento = userStorage.id;
-
-        listaOs.push(lancamento);
-
-        lancamento = {};
-
-        //lançamento endereço
-        lancamento.id = getId + 1;
-        lancamento.cdLancamentoContabil = getIdCdLancamento;
-        lancamento.ordemLancamento = 2;
-        lancamento.descLancamento = "Geração de Ordem de Serviço Número - " + os.cdOrdemdeServico;
-        lancamento.cdConta = os.cdContratante
-        lancamento.descConta = os.nomeContratante;
-        lancamento.cdContaComplementar = os.cdEndereco;
-        lancamento.descContaComplementar = os.enderecoCompleto;
-        lancamento.valorCredito = 0;
-        lancamento.valorDebito = os.valorServico;
-        lancamento.isValido = true;
-        lancamento.status = 'VALIDO';
-        lancamento.dataLancamento = getCurrentDate();
-        lancamento.dataSelecionada = getCurrentDate();
-        lancamento.usuarioLancamento = userStorage.id;
-
-        listaOs.push(lancamento);
-
-
-        const verifica = JSON.parse(localStorage.getItem("lancamentoscontabeisall_db"));
-        const nlc = !isEligible(verifica.length) ? listaOs : verifica.concat(listaOs);
-        localStorage.setItem("lancamentoscontabeisall_db", JSON.stringify(nlc));
-    }
+    
 
     const saveContratantes = (cdOS, contratanteOperacao) => {
 
@@ -174,6 +137,8 @@ const OrdemdeServicoCad = () => {
     return (
         <AppMenu>
             <CadastroOrdemdeServico
+
+                ordemdeservico={ordemDeServicoEmEdicao}
 
                 contratantenomes={contratanteNomes}
                 endereco={enderecoNomes}
