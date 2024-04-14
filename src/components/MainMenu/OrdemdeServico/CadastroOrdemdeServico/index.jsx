@@ -27,7 +27,7 @@ import { initialOrdemdeServicoBase } from "../../../../util/MainMenu/OS/constant
 
 const CadastroOrdemdeServico = (props) => {
 
-    const { contratantenomes, endereco, salvar, limpar } = props;
+    const { ordemdeservico, contratantenomes, endereco, salvar, limpar } = props;
     const [filterContratante, setFilterContratante] = useState({});
     const [filterEndereco, setEndereco] = useState({});
     const [valorServico, setValorServico] = useState(0);
@@ -37,7 +37,7 @@ const CadastroOrdemdeServico = (props) => {
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: initialOrdemdeServicoBase,
+        initialValues: ordemdeservico || initialOrdemdeServicoBase,
         onSubmit: (values) => {
 
 

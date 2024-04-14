@@ -16,15 +16,17 @@ import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import EditIcon from '@mui/icons-material/Edit';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { StyledTableCell, StyledTableRow, TablePaginationActions } from "../../../commons/GridCommons";
 import { validaExclusao } from "../../../commons/ValidaExclusao";
-import { msgAtencao, msgExcludeOS, msgExcludeOSError, msgExcludeOSSuccess } from "../../../../util/applicationresources";
+import { msgAtencao, msgExcludeOS, msgExcludeOSError, msgExcludeOSSuccess, msgValidaContratoError, msgValidaContratoSuccess, msgValidaOS } from "../../../../util/applicationresources";
 
 
 const GridOrdemdeServico = (props) => {
-    const { ordemdeservico_db, deletaordemdeservico, filter, disableDelete } = props;
+    const { ordemdeservico_db, deletaordemdeservico, validaordemdeservico, filter, disableDelete, disableEdit, disableValida } = props;
 
     const [filterOrdemdeServico, setFilterOrdemdeServico] = useState("");
     const [filterEndereco, setFilterEndereco] = useState("");
@@ -32,6 +34,10 @@ const GridOrdemdeServico = (props) => {
 
     const handleExcluir = (os) => {
         deletaordemdeservico(os);
+    };
+    
+    const handleValidar = (os) => {
+        validaordemdeservico(os);
     };
 
     const navigate = useNavigate();
@@ -190,6 +196,48 @@ const GridOrdemdeServico = (props) => {
                                                 </StyledTableCell>
                                                 <StyledTableCell align="left" width="70%">
                                                     {os.enderecoCompleto}
+                                                </StyledTableCell>
+
+                                                <StyledTableCell width="5%" align="center">
+                                                    <IconButton
+                                                        disabled={disableValida || !os.isValido || os.status !== "RASCUNHO"}
+                                                        color="success"
+                                                        onClick={() => {
+                                                            Swal.fire({
+                                                                title: msgValidaOS,
+                                                                icon: "warning",
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: "#3085d6",
+                                                                cancelButtonColor: "#d33",
+                                                                confirmButtonText: "Sim",
+                                                                cancelButtonText: "Não",
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    if (!validaExclusao()) {
+                                                                        Swal.fire(msgAtencao, msgValidaContratoError);
+                                                                    } else {
+                                                                        Swal.fire(msgAtencao, msgValidaContratoSuccess);
+                                                                        handleValidar(os);
+                                                                    }
+                                                                }
+                                                            });
+                                                        }}
+                                                    >
+                                                        <FactCheckIcon></FactCheckIcon>
+                                                    </IconButton>
+                                                </StyledTableCell>
+
+
+                                                <StyledTableCell width="5%" align="center">
+                                                    <IconButton
+                                                        disabled={disableEdit || !os.isValido || os.status !== "RASCUNHO"}
+                                                        color="primary"
+                                                        onClick={() => {
+                                                            navigateToComponent(os.id);
+                                                        }}
+                                                    >
+                                                        <EditIcon></EditIcon>
+                                                    </IconButton>
                                                 </StyledTableCell>
 
                                                 <StyledTableCell width="5%" align="center">
