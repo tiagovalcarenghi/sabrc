@@ -6,7 +6,7 @@ import AppMenu from "../../AppNavBar/AppMenu";
 
 
 const OrdemdeServicoHome = () => {
-
+    
     const [disableDelete, setDisableDelete] = useState(true);
     const [disableEdit, setDisableEdit] = useState(true);
     const [disableValida, setDisableValida] = useState(true);
